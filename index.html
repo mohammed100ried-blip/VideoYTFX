@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VideoYTFX - Advanced video downloader for Windows">
+  <title>VideoYTFX | Download</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --bg: #020617;
+      --card: rgba(15, 23, 42, .82);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --blue: #38bdf8;
+      --button: #0284c7;
+      --button-hover: #0369a1;
+      --border: rgba(148, 163, 184, .16);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 50% 0%, #0c4a6e 0, transparent 38%),
+        linear-gradient(145deg, #020617, #0f172a 55%, #020617);
+    }
+
+    .card {
+      width: min(680px, 100%);
+      padding: 56px 34px;
+      text-align: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.45);
+      backdrop-filter: blur(14px);
+    }
+
+    .logo {
+      width: 92px;
+      height: 92px;
+      margin: 0 auto 22px;
+      display: grid;
+      place-items: center;
+      font-size: 48px;
+      border-radius: 24px;
+      background: rgba(56, 189, 248, .10);
+      border: 1px solid rgba(56, 189, 248, .25);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--blue);
+      font-size: clamp(38px, 8vw, 58px);
+      letter-spacing: -2px;
+    }
+
+    .tagline {
+      max-width: 540px;
+      margin: 16px auto 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-width: 260px;
+      margin-top: 32px;
+      padding: 17px 30px;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 700;
+      border-radius: 14px;
+      background: var(--button);
+      box-shadow: 0 10px 30px rgba(2, 132, 199, .25);
+      transition: transform .18s, background .18s, box-shadow .18s;
+    }
+
+    .download:hover {
+      background: var(--button-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 35px rgba(2, 132, 199, .35);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 38px;
+    }
+
+    .feature {
+      padding: 16px 10px;
+      color: #cbd5e1;
+      font-size: 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(2, 6, 23, .35);
+    }
+
+    .feature strong {
+      display: block;
+      margin-bottom: 5px;
+      color: white;
+    }
+
+    footer {
+      margin-top: 30px;
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    @media (max-width: 560px) {
+      .card { padding: 42px 20px; }
+      .features { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <div class="logo">🎬</div>
+
+    <h1>VideoYTFX</h1>
+
+    <p class="tagline">
+      Advanced video downloader for Windows.
+      Download video and audio in high quality with a simple interface.
+    </p>
+
+    <!-- Put VideoYTFX.exe in the same folder as this index.html -->
+    <a class="download" href="VideoYTFX.exe" download>
+      <span>⬇</span>
+      Download VideoYTFX
+    </a>
+
+    <section class="features">
+      <div class="feature">
+        <strong>⚡ Fast</strong>
+        Simple and quick
+      </div>
+      <div class="feature">
+        <strong>🎥 HD</strong>
+        Multiple qualities
+      </div>
+      <div class="feature">
+        <strong>🎵 Audio</strong>
+        MP3 support
+      </div>
+    </section>
+
+    <footer>
+      VideoYTFX • Windows Application
+    </footer>
+  </main>
+</body>
+</html>
