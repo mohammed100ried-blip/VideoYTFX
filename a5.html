@@ -21,7 +21,6 @@
             --primary: #3b82f6;
             --primary2: #60a5fa;
 
-            --user: #2563eb;
             --ai: rgba(30, 41, 59, 0.9);
         }
 
@@ -66,24 +65,21 @@
         body.light {
             --bg: #f8fafc;
             --bg2: #e2e8f0;
-
-            --card: rgba(255, 255, 255, 0.88);
+            --card: rgba(255, 255, 255, 0.92);
             --border: rgba(15, 23, 42, 0.1);
-
             --text: #0f172a;
             --muted: #64748b;
-
             --ai: rgba(226, 232, 240, 0.9);
         }
 
         button,
-        textarea {
+        textarea,
+        input,
+        select {
             font-family: inherit;
         }
 
-        /* =========================
-           HEADER
-        ========================= */
+        /* HEADER */
 
         header {
             height: 75px;
@@ -100,23 +96,23 @@
             background:
                 rgba(7, 11, 20, 0.65);
 
-            backdrop-filter: blur(18px);
+            backdrop-filter:
+                blur(18px);
 
             position: sticky;
             top: 0;
 
-            z-index: 10;
+            z-index: 20;
         }
 
         body.light header {
             background:
-                rgba(248, 250, 252, 0.75);
+                rgba(248, 250, 252, 0.78);
         }
 
         .brand {
             display: flex;
             align-items: center;
-
             gap: 12px;
         }
 
@@ -139,7 +135,7 @@
 
             color: white;
 
-            font-size: 20px;
+            font-size: 19px;
             font-weight: bold;
 
             box-shadow:
@@ -170,11 +166,13 @@
             width: 40px;
             height: 40px;
 
-            border: 1px solid var(--border);
+            border:
+                1px solid var(--border);
 
             border-radius: 11px;
 
-            background: var(--card);
+            background:
+                var(--card);
 
             color: var(--text);
 
@@ -188,15 +186,14 @@
         }
 
         .icon-btn:hover {
-            transform: translateY(-2px);
+            transform:
+                translateY(-2px);
 
             background:
                 rgba(59, 130, 246, 0.12);
         }
 
-        /* =========================
-           CHAT
-        ========================= */
+        /* CHAT */
 
         .chat {
             height:
@@ -278,9 +275,7 @@
             font-size: 16px;
         }
 
-        /* =========================
-           MESSAGE
-        ========================= */
+        /* MESSAGES */
 
         .message {
             display: flex;
@@ -297,12 +292,14 @@
 
             from {
                 opacity: 0;
-                transform: translateY(8px);
+                transform:
+                    translateY(8px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform:
+                    translateY(0);
             }
 
         }
@@ -332,7 +329,7 @@
 
             color: white;
 
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
         }
 
@@ -341,14 +338,14 @@
         }
 
         .bubble {
-            max-width: 75%;
+            max-width: 78%;
 
             padding:
                 13px 16px;
 
             border-radius: 17px;
 
-            line-height: 1.6;
+            line-height: 1.65;
 
             white-space: pre-wrap;
 
@@ -378,9 +375,7 @@
             border-top-right-radius: 5px;
         }
 
-        /* =========================
-           INPUT
-        ========================= */
+        /* INPUT */
 
         .input-area {
             padding:
@@ -467,7 +462,8 @@
         }
 
         .send-btn:hover {
-            transform: translateY(-2px);
+            transform:
+                translateY(-2px);
         }
 
         .send-btn:disabled {
@@ -485,9 +481,7 @@
             margin-top: 9px;
         }
 
-        /* =========================
-           TYPING
-        ========================= */
+        /* TYPING */
 
         .typing {
             display: flex;
@@ -511,11 +505,13 @@
         }
 
         .typing span:nth-child(2) {
-            animation-delay: 0.15s;
+            animation-delay:
+                0.15s;
         }
 
         .typing span:nth-child(3) {
-            animation-delay: 0.3s;
+            animation-delay:
+                0.3s;
         }
 
         @keyframes typing {
@@ -524,19 +520,167 @@
             60%,
             100% {
                 opacity: 0.3;
-                transform: translateY(0);
+                transform:
+                    translateY(0);
             }
 
             30% {
                 opacity: 1;
-                transform: translateY(-3px);
+                transform:
+                    translateY(-3px);
             }
 
         }
 
-        /* =========================
-           MOBILE
-        ========================= */
+        /* SETTINGS */
+
+        .modal {
+            position: fixed;
+
+            inset: 0;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                rgba(0, 0, 0, 0.65);
+
+            backdrop-filter:
+                blur(8px);
+
+            z-index: 100;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .settings {
+            width: 100%;
+            max-width: 500px;
+
+            padding: 25px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 22px;
+
+            background:
+                var(--card);
+
+            box-shadow:
+                0 25px 80px
+                rgba(0, 0, 0, 0.45);
+        }
+
+        .settings h2 {
+            margin-bottom: 8px;
+        }
+
+        .settings-description {
+            color: var(--muted);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            margin-bottom: 20px;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        .field label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+
+            padding: 12px 13px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 11px;
+
+            outline: none;
+
+            background:
+                rgba(0, 0, 0, 0.15);
+
+            color: var(--text);
+
+            font-size: 14px;
+        }
+
+        body.light .field input,
+        body.light .field select {
+            background:
+                rgba(255, 255, 255, 0.7);
+        }
+
+        .settings-buttons {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+        .settings-btn {
+            flex: 1;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .save-btn {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary2)
+                );
+
+            color: white;
+        }
+
+        .cancel-btn {
+            background:
+                rgba(148, 163, 184, 0.15);
+
+            color: var(--text);
+        }
+
+        .error {
+            color: #f87171;
+
+            font-size: 13px;
+
+            margin-top: 8px;
+        }
+
+        /* MOBILE */
 
         @media (max-width: 600px) {
 
@@ -577,9 +721,7 @@
 
 <body>
 
-    <!-- =========================
-         HEADER
-    ========================== -->
+    <!-- HEADER -->
 
     <header>
 
@@ -612,7 +754,7 @@
                 id="languageBtn"
                 title="Language"
             >
-                🌐
+                🇦🇪
             </button>
 
             <button
@@ -622,6 +764,14 @@
                 title="Theme"
             >
                 ☀️
+            </button>
+
+            <button
+                class="icon-btn"
+                onclick="openSettings()"
+                title="AI Settings"
+            >
+                ⚙️
             </button>
 
             <button
@@ -637,9 +787,7 @@
     </header>
 
 
-    <!-- =========================
-         CHAT
-    ========================== -->
+    <!-- CHAT -->
 
     <main class="chat">
 
@@ -675,9 +823,7 @@
         </div>
 
 
-        <!-- =========================
-             INPUT
-        ========================== -->
+        <!-- INPUT -->
 
         <div class="input-area">
 
@@ -712,10 +858,126 @@
     </main>
 
 
+    <!-- SETTINGS MODAL -->
+
+    <div
+        class="modal"
+        id="settingsModal"
+    >
+
+        <div class="settings">
+
+            <h2>
+                A5 AI Settings
+            </h2>
+
+            <p class="settings-description">
+                Enter your API key and choose the model
+                A5 should use. The key is saved only in
+                this browser.
+            </p>
+
+
+            <div class="field">
+
+                <label>
+                    API Key
+                </label>
+
+                <input
+                    type="password"
+                    id="apiKey"
+                    placeholder="Paste your API key here"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Model
+                </label>
+
+                <select id="model">
+
+                    <option value="openrouter/free">
+                        OpenRouter Free
+                    </option>
+
+                    <option value="openai/gpt-chat-latest">
+                        GPT Chat Latest
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div
+                class="error"
+                id="settingsError"
+            ></div>
+
+
+            <div class="settings-buttons">
+
+                <button
+                    class="settings-btn cancel-btn"
+                    onclick="closeSettings()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    class="settings-btn save-btn"
+                    onclick="saveSettings()"
+                >
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
     <script>
 
         /* =========================
-           LANGUAGE DATA
+           A5 CONFIG
+        ========================== */
+
+        const API_URL =
+            "https://openrouter.ai/api/v1/chat/completions";
+
+        const SITE_URL =
+            "https://mohammed100ried-blip.github.io/VideoYTFX/a5.html";
+
+        const SITE_NAME =
+            "A5 AI";
+
+
+        /*
+         * The API key is intentionally NOT
+         * hard-coded into this file.
+         */
+
+        let apiKey =
+            localStorage.getItem(
+                "a5-api-key"
+            ) || "";
+
+        let selectedModel =
+            localStorage.getItem(
+                "a5-model"
+            ) || "openrouter/free";
+
+
+        /* =========================
+           LANGUAGE
         ========================== */
 
         const translations = {
@@ -737,11 +999,23 @@
                 hint:
                     "Press Enter to send • Shift + Enter for a new line",
 
-                aiGreeting:
-                    "Hello! I am A5 AI. How can I help you today?",
-
                 empty:
-                    "Please write a message first."
+                    "Please write a message first.",
+
+                noKey:
+                    "Please open ⚙️ Settings and add your API key first.",
+
+                thinking:
+                    "A5 is thinking...",
+
+                error:
+                    "Something went wrong while contacting the AI.",
+
+                networkError:
+                    "Could not connect to the AI service.",
+
+                settingsSaved:
+                    "Settings saved successfully."
 
             },
 
@@ -762,24 +1036,33 @@
                 hint:
                     "اضغط Enter للإرسال • Shift + Enter لسطر جديد",
 
-                aiGreeting:
-                    "مرحبًا! أنا A5 AI. كيف يمكنني مساعدتك اليوم؟",
-
                 empty:
-                    "اكتب رسالة أولاً."
+                    "اكتب رسالة أولاً.",
+
+                noKey:
+                    "افتح ⚙️ الإعدادات وأضف مفتاح API أولاً.",
+
+                thinking:
+                    "A5 يفكر...",
+
+                error:
+                    "حدث خطأ أثناء الاتصال بالذكاء الاصطناعي.",
+
+                networkError:
+                    "تعذر الاتصال بخدمة الذكاء الاصطناعي.",
+
+                settingsSaved:
+                    "تم حفظ الإعدادات بنجاح."
 
             }
 
         };
 
 
-        /* =========================
-           LANGUAGE
-        ========================== */
-
         let language =
-            localStorage.getItem("a5-language")
-            || "en";
+            localStorage.getItem(
+                "a5-language"
+            ) || "en";
 
 
         function updateLanguage() {
@@ -850,8 +1133,9 @@
         ========================== */
 
         let theme =
-            localStorage.getItem("a5-theme")
-            || "dark";
+            localStorage.getItem(
+                "a5-theme"
+            ) || "dark";
 
 
         function updateTheme() {
@@ -864,7 +1148,8 @@
 
                 document.getElementById(
                     "themeBtn"
-                ).textContent = "🌙";
+                ).textContent =
+                    "🌙";
 
             } else {
 
@@ -874,7 +1159,8 @@
 
                 document.getElementById(
                     "themeBtn"
-                ).textContent = "☀️";
+                ).textContent =
+                    "☀️";
             }
 
             localStorage.setItem(
@@ -896,7 +1182,7 @@
 
 
         /* =========================
-           ADD MESSAGE
+           MESSAGE
         ========================== */
 
         function addMessage(
@@ -1056,10 +1342,191 @@
 
 
         /* =========================
+           CONVERSATION MEMORY
+        ========================== */
+
+        let conversation = [];
+
+
+        /*
+         * A5 personality/instructions.
+         */
+
+        const SYSTEM_PROMPT = `
+You are A5 AI, an intelligent and helpful assistant.
+
+Your job is to:
+- Answer clearly and accurately.
+- Be helpful and respectful.
+- Understand Arabic and English.
+- Reply in the language used by the user.
+- Explain difficult topics simply.
+- Help with programming and websites.
+- Do not claim to be human.
+- Do not invent facts when you are uncertain.
+`.trim();
+
+
+        /* =========================
+           SEND TO AI
+        ========================== */
+
+        async function askAI(userText) {
+
+            if (!apiKey) {
+
+                const t =
+                    translations[language];
+
+                addMessage(
+                    t.noKey,
+                    "ai"
+                );
+
+                openSettings();
+
+                return;
+            }
+
+
+            conversation.push({
+
+                role: "user",
+
+                content:
+                    userText
+
+            });
+
+
+            const messages = [
+
+                {
+                    role: "system",
+                    content:
+                        SYSTEM_PROMPT
+                },
+
+                ...conversation
+
+            ];
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${apiKey}`,
+
+                                "HTTP-Referer":
+                                    SITE_URL,
+
+                                "X-Title":
+                                    SITE_NAME
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    model:
+                                        selectedModel,
+
+                                    messages:
+                                        messages,
+
+                                    temperature:
+                                        0.7
+
+                                })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "AI API error:",
+                        data
+                    );
+
+                    throw new Error(
+                        data?.error?.message
+                        ||
+                        "API request failed"
+                    );
+                }
+
+
+                const answer =
+                    data?.choices?.[0]?.message?.content;
+
+
+                if (!answer) {
+
+                    throw new Error(
+                        "No response returned"
+                    );
+                }
+
+
+                conversation.push({
+
+                    role: "assistant",
+
+                    content:
+                        answer
+
+                });
+
+
+                addMessage(
+                    answer,
+                    "ai"
+                );
+
+
+                saveConversation();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                const t =
+                    translations[language];
+
+                addMessage(
+                    `${t.error}\n\n${error.message}`,
+                    "ai"
+                );
+
+            }
+
+        }
+
+
+        /* =========================
            SEND MESSAGE
         ========================== */
 
-        function sendMessage() {
+        async function sendMessage() {
 
             const input =
                 document.getElementById(
@@ -1094,44 +1561,38 @@
                 "user"
             );
 
+
             input.value = "";
 
             input.style.height =
                 "45px";
 
-            sendBtn.disabled = true;
+            sendBtn.disabled =
+                true;
 
             showTyping();
 
 
-            /*
-             * مؤقتًا هذا رد تجريبي.
-             *
-             * في المرحلة التالية سنستبدله
-             * بطلب API حقيقي للذكاء الاصطناعي.
-             */
+            try {
 
-            setTimeout(() => {
+                await askAI(text);
+
+            } finally {
 
                 removeTyping();
-
-                const t =
-                    translations[language];
-
-                addMessage(
-                    t.aiGreeting,
-                    "ai"
-                );
 
                 sendBtn.disabled =
                     false;
 
-            }, 900);
+                input.focus();
+
+            }
+
         }
 
 
         /* =========================
-           ENTER KEY
+           ENTER
         ========================== */
 
         function handleKey(event) {
@@ -1145,12 +1606,14 @@
                 event.preventDefault();
 
                 sendMessage();
+
             }
+
         }
 
 
         /* =========================
-           AUTO RESIZE
+           TEXTAREA RESIZE
         ========================== */
 
         const textarea =
@@ -1177,15 +1640,200 @@
 
 
         /* =========================
+           SETTINGS
+        ========================== */
+
+        function openSettings() {
+
+            document.getElementById(
+                "apiKey"
+            ).value =
+                apiKey;
+
+            document.getElementById(
+                "model"
+            ).value =
+                selectedModel;
+
+            document.getElementById(
+                "settingsError"
+            ).textContent =
+                "";
+
+            document.getElementById(
+                "settingsModal"
+            ).classList.add(
+                "show"
+            );
+        }
+
+
+        function closeSettings() {
+
+            document.getElementById(
+                "settingsModal"
+            ).classList.remove(
+                "show"
+            );
+        }
+
+
+        function saveSettings() {
+
+            const key =
+                document.getElementById(
+                    "apiKey"
+                ).value.trim();
+
+            const model =
+                document.getElementById(
+                    "model"
+                ).value;
+
+
+            if (!key) {
+
+                document.getElementById(
+                    "settingsError"
+                ).textContent =
+                    translations[
+                        language
+                    ].noKey;
+
+                return;
+            }
+
+
+            apiKey =
+                key;
+
+            selectedModel =
+                model;
+
+
+            localStorage.setItem(
+                "a5-api-key",
+                apiKey
+            );
+
+            localStorage.setItem(
+                "a5-model",
+                selectedModel
+            );
+
+
+            closeSettings();
+        }
+
+
+        /* =========================
+           SAVE CHAT
+        ========================== */
+
+        function saveConversation() {
+
+            try {
+
+                localStorage.setItem(
+                    "a5-conversation",
+                    JSON.stringify(
+                        conversation
+                    )
+                );
+
+            } catch (error) {
+
+                console.warn(
+                    "Could not save conversation."
+                );
+
+            }
+
+        }
+
+
+        function loadConversation() {
+
+            try {
+
+                const saved =
+                    localStorage.getItem(
+                        "a5-conversation"
+                    );
+
+
+                if (!saved) {
+                    return;
+                }
+
+
+                conversation =
+                    JSON.parse(
+                        saved
+                    );
+
+
+                for (
+                    const message
+                    of conversation
+                ) {
+
+                    if (
+                        message.role ===
+                        "user"
+                    ) {
+
+                        addMessage(
+                            message.content,
+                            "user"
+                        );
+
+                    }
+
+                    if (
+                        message.role ===
+                        "assistant"
+                    ) {
+
+                        addMessage(
+                            message.content,
+                            "ai"
+                        );
+
+                    }
+
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    "Could not load conversation."
+                );
+
+                conversation = [];
+            }
+
+        }
+
+
+        /* =========================
            CLEAR CHAT
         ========================== */
 
         function clearChat() {
 
+            conversation = [];
+
+            localStorage.removeItem(
+                "a5-conversation"
+            );
+
+
             const messages =
                 document.getElementById(
                     "messages"
                 );
+
 
             messages.innerHTML = `
 
@@ -1205,8 +1853,8 @@
                         </h2>
 
                         <p id="welcomeDescription">
-                            I am A5, your intelligent AI assistant.
-                            Ask me anything.
+                            I am A5, your intelligent AI
+                            assistant. Ask me anything.
                         </p>
 
                     </div>
@@ -1215,8 +1863,32 @@
 
             `;
 
+
             updateLanguage();
         }
+
+
+        /* =========================
+           CLOSE MODAL ON BACKDROP
+        ========================== */
+
+        document.getElementById(
+            "settingsModal"
+        ).addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    this
+                ) {
+
+                    closeSettings();
+
+                }
+
+            }
+        );
 
 
         /* =========================
@@ -1226,6 +1898,8 @@
         updateLanguage();
 
         updateTheme();
+
+        loadConversation();
 
     </script>
 
