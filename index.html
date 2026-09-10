@@ -4,24 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>VideoYTFX - Video Downloader</title>
+    <title>VideoYTFX</title>
 
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background:
-                radial-gradient(circle at top, #18243d 0%, #0b1020 45%, #070b14 100%);
-            color: white;
             min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #080d18;
+            color: white;
+
             display: flex;
             justify-content: center;
             align-items: center;
+
             padding: 30px;
         }
 
@@ -34,29 +35,34 @@
         .logo {
             width: 90px;
             height: 90px;
+
             margin: 0 auto 25px;
-            border-radius: 24px;
-            background: linear-gradient(135deg, #1677ff, #0052cc);
+
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 42px;
+            align-items: center;
+
+            background: #1677ff;
+            border-radius: 22px;
+
+            font-size: 45px;
             font-weight: bold;
-            box-shadow: 0 15px 40px rgba(0, 102, 255, 0.3);
+
+            box-shadow: 0 15px 40px rgba(22, 119, 255, 0.3);
         }
 
         h1 {
             font-size: 52px;
             margin-bottom: 15px;
-            letter-spacing: -2px;
         }
 
         .description {
-            color: #aeb9cc;
-            font-size: 19px;
-            line-height: 1.6;
             max-width: 650px;
             margin: 0 auto 35px;
+
+            color: #aeb9cc;
+            font-size: 18px;
+            line-height: 1.6;
         }
 
         .download {
@@ -65,50 +71,54 @@
             justify-content: center;
             gap: 12px;
 
+            padding: 17px 32px;
+
             background: #1677ff;
             color: white;
+
             text-decoration: none;
 
-            padding: 17px 32px;
             border-radius: 12px;
 
             font-size: 18px;
             font-weight: bold;
 
-            box-shadow: 0 12px 30px rgba(22, 119, 255, 0.3);
-
-            transition: 0.25s ease;
+            transition: 0.2s;
         }
 
         .download:hover {
-            background: #0b66e8;
+            background: #0d65dc;
             transform: translateY(-3px);
-            box-shadow: 0 18px 35px rgba(22, 119, 255, 0.4);
         }
 
-        .download span {
+        .download-icon {
             font-size: 23px;
         }
 
         .version {
             margin-top: 15px;
-            color: #78869c;
+
+            color: #718096;
             font-size: 14px;
         }
 
         .features {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
+
             gap: 18px;
+
             margin-top: 60px;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.045);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 18px;
             padding: 28px 20px;
-            backdrop-filter: blur(10px);
+
+            background: #101827;
+
+            border: 1px solid #1d293d;
+
+            border-radius: 18px;
         }
 
         .icon {
@@ -117,8 +127,8 @@
         }
 
         .card h3 {
-            font-size: 19px;
             margin-bottom: 8px;
+            font-size: 19px;
         }
 
         .card p {
@@ -129,6 +139,7 @@
 
         footer {
             margin-top: 55px;
+
             color: #66748b;
             font-size: 13px;
         }
@@ -144,10 +155,6 @@
 
             .features {
                 grid-template-columns: 1fr;
-            }
-
-            body {
-                padding: 20px;
             }
         }
     </style>
@@ -168,12 +175,11 @@
             Download videos quickly and easily with VideoYTFX.
         </p>
 
-        <!-- Download button -->
         <a
             class="download"
             href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe"
         >
-            <span>⬇</span>
+            <span class="download-icon">⬇</span>
             Download VideoYTFX
         </a>
 
@@ -185,25 +191,34 @@
 
             <div class="card">
                 <div class="icon">⚡</div>
+
                 <h3>Fast</h3>
+
                 <p>
-                    Download videos quickly with an easy-to-use desktop application.
+                    Download videos quickly with an easy-to-use
+                    desktop application.
                 </p>
             </div>
 
             <div class="card">
                 <div class="icon">🎬</div>
+
                 <h3>HD Quality</h3>
+
                 <p>
-                    Supports high-quality video downloads when available.
+                    Supports high-quality video downloads
+                    when available.
                 </p>
             </div>
 
             <div class="card">
                 <div class="icon">🎵</div>
+
                 <h3>Audio</h3>
+
                 <p>
-                    Download supported media as audio when available.
+                    Download supported media as audio
+                    when available.
                 </p>
             </div>
 
