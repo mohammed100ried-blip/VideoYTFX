@@ -15,8 +15,16 @@
 
         body {
             min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background: #080d18;
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #18243d 0%,
+                    #0b1020 45%,
+                    #070b14 100%
+                );
+
             color: white;
 
             display: flex;
@@ -32,48 +40,67 @@
             text-align: center;
         }
 
+        /* Logo */
         .logo {
-            width: 90px;
-            height: 90px;
+            width: 92px;
+            height: 92px;
 
-            margin: 0 auto 25px;
+            margin: 0 auto 22px;
 
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
 
-            background: #1677ff;
-            border-radius: 22px;
-
-            font-size: 45px;
+            font-size: 48px;
             font-weight: bold;
 
-            box-shadow: 0 15px 40px rgba(22, 119, 255, 0.3);
+            border-radius: 24px;
+
+            background: #1677ff;
+
+            box-shadow:
+                0 15px 40px rgba(0, 102, 255, 0.3);
         }
 
+        /* Main title */
         h1 {
-            font-size: 52px;
+            margin: 0;
+
+            color: white;
+
+            font-size: clamp(38px, 8vw, 58px);
+
+            letter-spacing: -2px;
+
             margin-bottom: 15px;
         }
 
+        /* Description */
         .description {
             max-width: 650px;
+
             margin: 0 auto 35px;
 
             color: #aeb9cc;
+
             font-size: 18px;
+
             line-height: 1.6;
         }
 
+        /* Download button */
         .download {
             display: inline-flex;
+
             align-items: center;
             justify-content: center;
+
             gap: 12px;
 
             padding: 17px 32px;
 
             background: #1677ff;
+
             color: white;
 
             text-decoration: none;
@@ -81,70 +108,106 @@
             border-radius: 12px;
 
             font-size: 18px;
+
             font-weight: bold;
 
-            transition: 0.2s;
+            box-shadow:
+                0 12px 30px rgba(22, 119, 255, 0.3);
+
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                box-shadow 0.25s ease;
         }
 
         .download:hover {
             background: #0d65dc;
+
             transform: translateY(-3px);
+
+            box-shadow:
+                0 18px 35px rgba(22, 119, 255, 0.4);
+        }
+
+        .download:active {
+            transform: translateY(0);
         }
 
         .download-icon {
             font-size: 23px;
         }
 
+        /* Version */
         .version {
             margin-top: 15px;
 
             color: #718096;
+
             font-size: 14px;
         }
 
+        /* Features */
         .features {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+
+            grid-template-columns:
+                repeat(3, 1fr);
 
             gap: 18px;
 
             margin-top: 60px;
         }
 
+        /* Feature card */
         .card {
             padding: 28px 20px;
 
-            background: #101827;
+            background: rgba(255, 255, 255, 0.045);
 
-            border: 1px solid #1d293d;
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
 
             border-radius: 18px;
+
+            backdrop-filter: blur(10px);
         }
 
         .icon {
             font-size: 32px;
+
             margin-bottom: 14px;
         }
 
         .card h3 {
-            margin-bottom: 8px;
             font-size: 19px;
+
+            margin-bottom: 8px;
         }
 
         .card p {
             color: #929eb2;
+
             font-size: 14px;
+
             line-height: 1.5;
         }
 
+        /* Footer */
         footer {
             margin-top: 55px;
 
             color: #66748b;
+
             font-size: 13px;
         }
 
+        /* Mobile */
         @media (max-width: 700px) {
+
+            body {
+                padding: 20px;
+            }
+
             h1 {
                 font-size: 40px;
             }
@@ -156,74 +219,166 @@
             .features {
                 grid-template-columns: 1fr;
             }
+
+            .download {
+                width: 100%;
+                max-width: 330px;
+            }
         }
     </style>
 </head>
 
 <body>
 
+    <!--
+        Remove tracking parameters from the address bar.
+
+        Example:
+        ?utm_source=chatgpt.com
+
+        will automatically become:
+        /
+    -->
+    <script>
+        (function () {
+            const url = new URL(window.location.href);
+
+            const trackingParameters = [
+                "utm_source",
+                "utm_medium",
+                "utm_campaign",
+                "utm_term",
+                "utm_content"
+            ];
+
+            let changed = false;
+
+            trackingParameters.forEach(function (parameter) {
+                if (url.searchParams.has(parameter)) {
+                    url.searchParams.delete(parameter);
+                    changed = true;
+                }
+            });
+
+            if (changed) {
+                const cleanUrl =
+                    url.pathname +
+                    (url.search ? url.search : "") +
+                    (url.hash ? url.hash : "");
+
+                window.history.replaceState(
+                    {},
+                    document.title,
+                    cleanUrl
+                );
+            }
+        })();
+    </script>
+
+
     <div class="container">
 
+        <!-- Logo -->
         <div class="logo">
             V
         </div>
 
-        <h1>VideoYTFX</h1>
 
+        <!-- Title -->
+        <h1>
+            VideoYTFX
+        </h1>
+
+
+        <!-- Description -->
         <p class="description">
             Advanced video downloader for Windows.
             Download videos quickly and easily with VideoYTFX.
         </p>
 
+
+        <!-- Download -->
         <a
             class="download"
             href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe"
         >
-            <span class="download-icon">⬇</span>
+            <span class="download-icon">
+                ⬇
+            </span>
+
             Download VideoYTFX
         </a>
 
+
+        <!-- Version -->
         <div class="version">
             Latest Windows Version
         </div>
 
+
+        <!-- Features -->
         <div class="features">
 
+            <!-- Fast -->
             <div class="card">
-                <div class="icon">⚡</div>
 
-                <h3>Fast</h3>
+                <div class="icon">
+                    ⚡
+                </div>
+
+                <h3>
+                    Fast
+                </h3>
 
                 <p>
-                    Download videos quickly with an easy-to-use
-                    desktop application.
+                    Download videos quickly with an
+                    easy-to-use desktop application.
                 </p>
+
             </div>
 
-            <div class="card">
-                <div class="icon">🎬</div>
 
-                <h3>HD Quality</h3>
+            <!-- HD -->
+            <div class="card">
+
+                <div class="icon">
+                    🎬
+                </div>
+
+                <h3>
+                    HD Quality
+                </h3>
 
                 <p>
-                    Supports high-quality video downloads
-                    when available.
+                    Supports high-quality video
+                    downloads when available.
                 </p>
+
             </div>
 
-            <div class="card">
-                <div class="icon">🎵</div>
 
-                <h3>Audio</h3>
+            <!-- Audio -->
+            <div class="card">
+
+                <div class="icon">
+                    🎵
+                </div>
+
+                <h3>
+                    Audio
+                </h3>
 
                 <p>
-                    Download supported media as audio
-                    when available.
+                    Download supported media as
+                    audio when available.
                 </p>
+
             </div>
 
         </div>
 
+
+        <!-- Footer -->
         <footer>
             © 2026 VideoYTFX. All rights reserved.
         </footer>
