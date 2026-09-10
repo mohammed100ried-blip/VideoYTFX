@@ -1,170 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="VideoYTFX - Advanced video downloader for Windows">
-  <title>VideoYTFX | Download</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * { box-sizing: border-box; }
+    <title>VideoYTFX - Video Downloader</title>
 
-    :root {
-      --bg: #020617;
-      --card: rgba(15, 23, 42, .82);
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --blue: #38bdf8;
-      --button: #0284c7;
-      --button-hover: #0369a1;
-      --border: rgba(148, 163, 184, .16);
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      color: var(--text);
-      font-family: Inter, Arial, sans-serif;
-      background:
-        radial-gradient(circle at 50% 0%, #0c4a6e 0, transparent 38%),
-        linear-gradient(145deg, #020617, #0f172a 55%, #020617);
-    }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top, #18243d 0%, #0b1020 45%, #070b14 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
 
-    .card {
-      width: min(680px, 100%);
-      padding: 56px 34px;
-      text-align: center;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      box-shadow: 0 30px 80px rgba(0,0,0,.45);
-      backdrop-filter: blur(14px);
-    }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
 
-    .logo {
-      width: 92px;
-      height: 92px;
-      margin: 0 auto 22px;
-      display: grid;
-      place-items: center;
-      font-size: 48px;
-      border-radius: 24px;
-      background: rgba(56, 189, 248, .10);
-      border: 1px solid rgba(56, 189, 248, .25);
-    }
+        .logo {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 25px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #1677ff, #0052cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: bold;
+            box-shadow: 0 15px 40px rgba(0, 102, 255, 0.3);
+        }
 
-    h1 {
-      margin: 0;
-      color: var(--blue);
-      font-size: clamp(38px, 8vw, 58px);
-      letter-spacing: -2px;
-    }
+        h1 {
+            font-size: 52px;
+            margin-bottom: 15px;
+            letter-spacing: -2px;
+        }
 
-    .tagline {
-      max-width: 540px;
-      margin: 16px auto 0;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.7;
-    }
+        .description {
+            color: #aeb9cc;
+            font-size: 19px;
+            line-height: 1.6;
+            max-width: 650px;
+            margin: 0 auto 35px;
+        }
 
-    .download {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-width: 260px;
-      margin-top: 32px;
-      padding: 17px 30px;
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-      font-weight: 700;
-      border-radius: 14px;
-      background: var(--button);
-      box-shadow: 0 10px 30px rgba(2, 132, 199, .25);
-      transition: transform .18s, background .18s, box-shadow .18s;
-    }
+        .download {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
 
-    .download:hover {
-      background: var(--button-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 14px 35px rgba(2, 132, 199, .35);
-    }
+            background: #1677ff;
+            color: white;
+            text-decoration: none;
 
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 38px;
-    }
+            padding: 17px 32px;
+            border-radius: 12px;
 
-    .feature {
-      padding: 16px 10px;
-      color: #cbd5e1;
-      font-size: 14px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: rgba(2, 6, 23, .35);
-    }
+            font-size: 18px;
+            font-weight: bold;
 
-    .feature strong {
-      display: block;
-      margin-bottom: 5px;
-      color: white;
-    }
+            box-shadow: 0 12px 30px rgba(22, 119, 255, 0.3);
 
-    footer {
-      margin-top: 30px;
-      color: #64748b;
-      font-size: 12px;
-    }
+            transition: 0.25s ease;
+        }
 
-    @media (max-width: 560px) {
-      .card { padding: 42px 20px; }
-      .features { grid-template-columns: 1fr; }
-    }
-  </style>
+        .download:hover {
+            background: #0b66e8;
+            transform: translateY(-3px);
+            box-shadow: 0 18px 35px rgba(22, 119, 255, 0.4);
+        }
+
+        .download span {
+            font-size: 23px;
+        }
+
+        .version {
+            margin-top: 15px;
+            color: #78869c;
+            font-size: 14px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 60px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 28px 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .icon {
+            font-size: 32px;
+            margin-bottom: 14px;
+        }
+
+        .card h3 {
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #929eb2;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        footer {
+            margin-top: 55px;
+            color: #66748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            h1 {
+                font-size: 40px;
+            }
+
+            .description {
+                font-size: 16px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <main class="card">
-    <div class="logo">🎬</div>
 
-    <h1>VideoYTFX</h1>
+    <div class="container">
 
-    <p class="tagline">
-      Advanced video downloader for Windows.
-      Download video and audio in high quality with a simple interface.
-    </p>
+        <div class="logo">
+            V
+        </div>
 
-    <!-- Put VideoYTFX.exe in the same folder as this index.html -->
-   <a class="download" href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
-      <span>⬇</span>
-      Download VideoYTFX
-    </a>
+        <h1>VideoYTFX</h1>
 
-    <section class="features">
-      <div class="feature">
-        <strong>⚡ Fast</strong>
-        Simple and quick
-      </div>
-      <div class="feature">
-        <strong>🎥 HD</strong>
-        Multiple qualities
-      </div>
-      <div class="feature">
-        <strong>🎵 Audio</strong>
-        MP3 support
-      </div>
-    </section>
+        <p class="description">
+            Advanced video downloader for Windows.
+            Download videos quickly and easily with VideoYTFX.
+        </p>
 
-    <footer>
-      VideoYTFX • Windows Application
-    </footer>
-  </main>
+        <!-- Download button -->
+        <a
+            class="download"
+            href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe"
+        >
+            <span>⬇</span>
+            Download VideoYTFX
+        </a>
+
+        <div class="version">
+            Latest Windows Version
+        </div>
+
+        <div class="features">
+
+            <div class="card">
+                <div class="icon">⚡</div>
+                <h3>Fast</h3>
+                <p>
+                    Download videos quickly with an easy-to-use desktop application.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🎬</div>
+                <h3>HD Quality</h3>
+                <p>
+                    Supports high-quality video downloads when available.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🎵</div>
+                <h3>Audio</h3>
+                <p>
+                    Download supported media as audio when available.
+                </p>
+            </div>
+
+        </div>
+
+        <footer>
+            © 2026 VideoYTFX. All rights reserved.
+        </footer>
+
+    </div>
+
 </body>
 </html>
