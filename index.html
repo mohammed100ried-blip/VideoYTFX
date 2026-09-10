@@ -8,32 +8,42 @@
     <title>VideoYTFX</title>
 
     <style>
+        /* =========================
+           VARIABLES
+        ========================= */
 
         :root {
-            --bg: #070b14;
-            --bg2: #0b1020;
-            --card: rgba(255,255,255,0.045);
-            --card-hover: rgba(255,255,255,0.08);
+            --background: #070b14;
+            --background-secondary: #0d1424;
+            --card: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.09);
             --text: #ffffff;
             --muted: #aeb9cc;
-            --border: rgba(255,255,255,0.09);
+            --border: rgba(255, 255, 255, 0.10);
             --primary: #1677ff;
             --primary-hover: #0d65dc;
-            --footer: #66748b;
+            --footer: #718096;
+            --shadow: rgba(0, 0, 0, 0.25);
         }
 
         body.light {
-            --bg: #f4f7fb;
-            --bg2: #ffffff;
-            --card: rgba(255,255,255,0.9);
+            --background: #f4f7fb;
+            --background-secondary: #ffffff;
+            --card: rgba(255, 255, 255, 0.85);
             --card-hover: #ffffff;
             --text: #111827;
             --muted: #5f6b7a;
-            --border: rgba(20,30,50,0.10);
+            --border: rgba(20, 30, 50, 0.10);
             --primary: #1677ff;
             --primary-hover: #0d65dc;
             --footer: #66748b;
+            --shadow: rgba(20, 30, 50, 0.10);
         }
+
+
+        /* =========================
+           RESET
+        ========================= */
 
         * {
             box-sizing: border-box;
@@ -41,32 +51,45 @@
             padding: 0;
         }
 
+
+        /* =========================
+           BODY
+        ========================= */
+
         body {
             min-height: 100vh;
-            font-family: Arial, Helvetica, sans-serif;
+            padding: 24px;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: var(--text);
 
             background:
                 radial-gradient(
                     circle at top,
                     #18243d 0%,
-                    var(--bg2) 45%,
-                    var(--bg) 100%
+                    var(--background-secondary) 42%,
+                    var(--background) 100%
                 );
-
-            color: var(--text);
-            padding: 25px;
 
             transition:
                 background 0.3s ease,
                 color 0.3s ease;
         }
 
-        /* NAVBAR */
+
+        /* =========================
+           NAVBAR
+        ========================= */
 
         .navbar {
             width: 100%;
             max-width: 1100px;
-            margin: 0 auto 50px;
+
+            margin: 0 auto 70px;
 
             display: flex;
             align-items: center;
@@ -78,10 +101,11 @@
         .brand {
             display: flex;
             align-items: center;
+
             gap: 10px;
 
             font-size: 21px;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .brand-logo {
@@ -95,10 +119,13 @@
             border-radius: 12px;
 
             background: var(--primary);
-            color: white;
+            color: #ffffff;
 
             font-size: 22px;
-            font-weight: bold;
+            font-weight: 700;
+
+            box-shadow:
+                0 8px 25px rgba(22, 119, 255, 0.25);
         }
 
         .settings {
@@ -106,7 +133,7 @@
             gap: 8px;
         }
 
-        .setting-btn {
+        .setting-button {
             border: 1px solid var(--border);
 
             background: var(--card);
@@ -120,65 +147,85 @@
 
             font-size: 14px;
 
-            transition: 0.2s;
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
         }
 
-        .setting-btn:hover {
+        .setting-button:hover {
+            transform: translateY(-2px);
+
             border-color: var(--primary);
-            transform: translateY(-1px);
+
+            background: var(--card-hover);
         }
 
-        /* MAIN */
+
+        /* =========================
+           CONTAINER
+        ========================= */
 
         .container {
             width: 100%;
             max-width: 1000px;
 
-            margin: auto;
+            margin: 0 auto;
 
             text-align: center;
         }
 
-        /* LOGO */
 
-        .logo {
-            width: 92px;
-            height: 92px;
+        /* =========================
+           MAIN LOGO
+        ========================= */
 
-            margin: 0 auto 22px;
+        .main-logo {
+            width: 96px;
+            height: 96px;
+
+            margin: 0 auto 24px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            font-size: 48px;
-            font-weight: bold;
-
-            border-radius: 24px;
+            border-radius: 25px;
 
             background: var(--primary);
-            color: white;
+            color: #ffffff;
+
+            font-size: 50px;
+            font-weight: 700;
 
             box-shadow:
-                0 15px 40px rgba(0,102,255,0.3);
+                0 18px 45px rgba(22, 119, 255, 0.30);
         }
 
-        /* TITLE */
 
-        h1 {
-            font-size: clamp(38px, 8vw, 60px);
+        /* =========================
+           TITLE
+        ========================= */
+
+        .title {
+            margin-bottom: 16px;
+
+            font-size: clamp(40px, 8vw, 64px);
+
+            line-height: 1;
 
             letter-spacing: -2px;
-
-            margin-bottom: 15px;
         }
 
-        /* DESCRIPTION */
+
+        /* =========================
+           DESCRIPTION
+        ========================= */
 
         .description {
             max-width: 650px;
 
-            margin: 0 auto 40px;
+            margin: 0 auto 38px;
 
             color: var(--muted);
 
@@ -187,92 +234,109 @@
             line-height: 1.6;
         }
 
-        /* DOWNLOAD PROGRAM */
 
-        .download {
+        /* =========================
+           DOWNLOAD BUTTON
+        ========================= */
+
+        .download-button {
             display: inline-flex;
-
             align-items: center;
             justify-content: center;
 
             gap: 12px;
 
-            padding: 17px 32px;
+            min-height: 58px;
 
-            background: var(--primary);
-
-            color: white;
-
-            text-decoration: none;
+            padding: 0 30px;
 
             border-radius: 12px;
 
+            background: var(--primary);
+            color: #ffffff;
+
+            text-decoration: none;
+
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 700;
 
             box-shadow:
-                0 12px 30px rgba(22,119,255,0.3);
+                0 12px 30px rgba(22, 119, 255, 0.30);
 
-            transition: 0.25s;
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                box-shadow 0.25s ease;
         }
 
-        .download:hover {
-            background: var(--primary-hover);
-
+        .download-button:hover {
             transform: translateY(-3px);
 
+            background: var(--primary-hover);
+
             box-shadow:
-                0 18px 35px rgba(22,119,255,0.4);
+                0 18px 35px rgba(22, 119, 255, 0.40);
         }
 
         .download-icon {
             font-size: 23px;
         }
 
-        /* VERSION */
+
+        /* =========================
+           VERSION
+        ========================= */
 
         .version {
-            margin-top: 15px;
+            margin-top: 14px;
 
             color: var(--footer);
 
             font-size: 14px;
         }
 
-        /* MAIN MENU */
+
+        /* =========================
+           SITE MENU
+        ========================= */
 
         .menu {
             display: grid;
 
             grid-template-columns:
-                repeat(2, 1fr);
+                repeat(2, minmax(0, 1fr));
 
             gap: 20px;
 
-            margin-top: 55px;
+            margin-top: 60px;
         }
 
         .menu-card {
             display: block;
 
-            text-align: left;
-
             padding: 30px;
 
-            background: var(--card);
-
-            border:
-                1px solid var(--border);
+            border: 1px solid var(--border);
 
             border-radius: 20px;
 
+            background: var(--card);
+
             color: var(--text);
 
+            text-align: start;
             text-decoration: none;
 
             backdrop-filter: blur(12px);
 
-            transition: 0.25s;
+            box-shadow:
+                0 10px 30px var(--shadow);
+
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
         }
 
         .menu-card:hover {
@@ -283,22 +347,22 @@
             border-color: var(--primary);
 
             box-shadow:
-                0 18px 40px rgba(0,0,0,0.18);
+                0 18px 40px var(--shadow);
         }
 
         .menu-icon {
-            font-size: 38px;
-
             margin-bottom: 15px;
+
+            font-size: 38px;
         }
 
-        .menu-card h2 {
-            font-size: 22px;
-
+        .menu-title {
             margin-bottom: 9px;
+
+            font-size: 22px;
         }
 
-        .menu-card p {
+        .menu-description {
             color: var(--muted);
 
             font-size: 15px;
@@ -306,53 +370,57 @@
             line-height: 1.5;
         }
 
-        /* FEATURES */
+
+        /* =========================
+           FEATURES
+        ========================= */
 
         .features {
             display: grid;
 
             grid-template-columns:
-                repeat(3, 1fr);
+                repeat(3, minmax(0, 1fr));
 
             gap: 18px;
 
-            margin-top: 25px;
+            margin-top: 24px;
         }
 
-        .card {
+        .feature-card {
             padding: 28px 20px;
 
-            background: var(--card);
-
-            border:
-                1px solid var(--border);
+            border: 1px solid var(--border);
 
             border-radius: 18px;
 
+            background: var(--card);
+
             backdrop-filter: blur(10px);
 
-            transition: 0.25s;
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease;
         }
 
-        .card:hover {
+        .feature-card:hover {
             transform: translateY(-3px);
 
             background: var(--card-hover);
         }
 
-        .icon {
-            font-size: 32px;
-
+        .feature-icon {
             margin-bottom: 14px;
+
+            font-size: 32px;
         }
 
-        .card h3 {
-            font-size: 19px;
-
+        .feature-title {
             margin-bottom: 8px;
+
+            font-size: 19px;
         }
 
-        .card p {
+        .feature-description {
             color: var(--muted);
 
             font-size: 14px;
@@ -360,46 +428,65 @@
             line-height: 1.5;
         }
 
-        /* FOOTER */
 
-        footer {
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
             margin-top: 55px;
+
+            padding-bottom: 15px;
 
             color: var(--footer);
 
             font-size: 13px;
         }
 
-        /* MOBILE */
+
+        /* =========================
+           MOBILE
+        ========================= */
 
         @media (max-width: 700px) {
 
             body {
-                padding: 20px;
+                padding: 18px;
             }
 
             .navbar {
+                flex-direction: column;
                 align-items: flex-start;
 
-                flex-direction: column;
-
-                margin-bottom: 35px;
+                margin-bottom: 45px;
             }
 
             .settings {
                 width: 100%;
             }
 
-            .setting-btn {
+            .setting-button {
                 flex: 1;
             }
 
-            h1 {
-                font-size: 40px;
+            .main-logo {
+                width: 82px;
+                height: 82px;
+
+                font-size: 42px;
+            }
+
+            .title {
+                font-size: 42px;
             }
 
             .description {
                 font-size: 16px;
+            }
+
+            .download-button {
+                width: 100%;
+                max-width: 340px;
             }
 
             .menu {
@@ -409,20 +496,16 @@
             .features {
                 grid-template-columns: 1fr;
             }
-
-            .download {
-                width: 100%;
-                max-width: 330px;
-            }
         }
-
     </style>
-
 </head>
+
 
 <body>
 
-    <!-- NAVBAR -->
+    <!-- =========================
+         NAVBAR
+    ========================== -->
 
     <nav class="navbar">
 
@@ -438,29 +521,24 @@
 
         </div>
 
+
         <div class="settings">
 
             <button
-                class="setting-btn"
-                onclick="changeLanguage()"
+                type="button"
+                class="setting-button"
+                id="languageButton"
             >
-                🌐
-                <span id="languageButton">
-                    English
-                </span>
+                🌐 English
             </button>
 
-            <button
-                class="setting-btn"
-                onclick="toggleTheme()"
-            >
-                <span id="themeIcon">
-                    🌙
-                </span>
 
-                <span id="themeText">
-                    Dark
-                </span>
+            <button
+                type="button"
+                class="setting-button"
+                id="themeButton"
+            >
+                🌙 Dark
             </button>
 
         </div>
@@ -468,17 +546,24 @@
     </nav>
 
 
-    <!-- MAIN -->
+    <!-- =========================
+         MAIN
+    ========================== -->
 
-    <div class="container">
+    <main class="container">
 
-        <div class="logo">
+        <div class="main-logo">
             V
         </div>
 
-        <h1 id="title">
+
+        <h1
+            class="title"
+            id="title"
+        >
             VideoYTFX
         </h1>
+
 
         <p
             class="description"
@@ -492,7 +577,7 @@
         <!-- WINDOWS DOWNLOAD -->
 
         <a
-            class="download"
+            class="download-button"
             href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe"
         >
 
@@ -507,20 +592,19 @@
         </a>
 
 
-        <div
+        <p
             class="version"
             id="version"
         >
             Latest Windows Version
-        </div>
+        </p>
 
 
-        <!-- SITE SECTIONS -->
+        <!-- =========================
+             SITE SECTIONS
+        ========================== -->
 
-        <div class="menu">
-
-
-            <!-- DOWNLOADS -->
+        <section class="menu">
 
             <a
                 href="downloads.html"
@@ -531,19 +615,23 @@
                     📥
                 </div>
 
-                <h2 id="downloadsTitle">
+                <h2
+                    class="menu-title"
+                    id="downloadsTitle"
+                >
                     Downloads
                 </h2>
 
-                <p id="downloadsText">
+                <p
+                    class="menu-description"
+                    id="downloadsDescription"
+                >
                     Download VideoYTFX for Windows
                     and get the latest version.
                 </p>
 
             </a>
 
-
-            <!-- YOUTUBE -->
 
             <a
                 href="youtube.html"
@@ -554,319 +642,330 @@
                     ▶️
                 </div>
 
-                <h2 id="youtubeTitle">
+                <h2
+                    class="menu-title"
+                    id="youtubeTitle"
+                >
                     YouTube Downloader
                 </h2>
 
-                <p id="youtubeText">
+                <p
+                    class="menu-description"
+                    id="youtubeDescription"
+                >
                     Download YouTube videos and
                     audio with an easy interface.
                 </p>
 
             </a>
 
-        </div>
+        </section>
 
 
-        <!-- FEATURES -->
+        <!-- =========================
+             FEATURES
+        ========================== -->
 
-        <div class="features">
+        <section class="features">
 
+            <article class="feature-card">
 
-            <div class="card">
-
-                <div class="icon">
+                <div class="feature-icon">
                     ⚡
                 </div>
 
-                <h3 id="fastTitle">
+                <h3
+                    class="feature-title"
+                    id="fastTitle"
+                >
                     Fast
                 </h3>
 
-                <p id="fastText">
+                <p
+                    class="feature-description"
+                    id="fastDescription"
+                >
                     Download videos quickly with an
                     easy-to-use desktop application.
                 </p>
 
-            </div>
+            </article>
 
 
-            <div class="card">
+            <article class="feature-card">
 
-                <div class="icon">
+                <div class="feature-icon">
                     🎬
                 </div>
 
-                <h3 id="hdTitle">
+                <h3
+                    class="feature-title"
+                    id="qualityTitle"
+                >
                     HD Quality
                 </h3>
 
-                <p id="hdText">
+                <p
+                    class="feature-description"
+                    id="qualityDescription"
+                >
                     Supports high-quality video
                     downloads when available.
                 </p>
 
-            </div>
+            </article>
 
 
-            <div class="card">
+            <article class="feature-card">
 
-                <div class="icon">
+                <div class="feature-icon">
                     🎵
                 </div>
 
-                <h3 id="audioTitle">
+                <h3
+                    class="feature-title"
+                    id="audioTitle"
+                >
                     Audio
                 </h3>
 
-                <p id="audioText">
+                <p
+                    class="feature-description"
+                    id="audioDescription"
+                >
                     Download supported media as
                     audio when available.
                 </p>
 
-            </div>
+            </article>
 
-        </div>
+        </section>
 
 
-        <footer id="footer">
+        <!-- FOOTER -->
+
+        <footer
+            class="footer"
+            id="footer"
+        >
             © 2026 VideoYTFX. All rights reserved.
         </footer>
 
-    </div>
+    </main>
 
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
 
     <script>
 
+        const translations = {
+
+            en: {
+                language: "English",
+
+                themeDark: "Dark",
+                themeLight: "Light",
+
+                description:
+                    "Advanced video downloader for Windows. Download videos quickly and easily with VideoYTFX.",
+
+                download:
+                    "Download VideoYTFX",
+
+                version:
+                    "Latest Windows Version",
+
+                downloadsTitle:
+                    "Downloads",
+
+                downloadsDescription:
+                    "Download VideoYTFX for Windows and get the latest version.",
+
+                youtubeTitle:
+                    "YouTube Downloader",
+
+                youtubeDescription:
+                    "Download YouTube videos and audio with an easy interface.",
+
+                fastTitle:
+                    "Fast",
+
+                fastDescription:
+                    "Download videos quickly with an easy-to-use desktop application.",
+
+                qualityTitle:
+                    "HD Quality",
+
+                qualityDescription:
+                    "Supports high-quality video downloads when available.",
+
+                audioTitle:
+                    "Audio",
+
+                audioDescription:
+                    "Download supported media as audio when available.",
+
+                footer:
+                    "© 2026 VideoYTFX. All rights reserved."
+            },
+
+
+            ar: {
+                language: "العربية",
+
+                themeDark: "مظلم",
+                themeLight: "مضيء",
+
+                description:
+                    "برنامج متقدم لتحميل الفيديوهات على Windows. حمّل الفيديوهات بسرعة وسهولة باستخدام VideoYTFX.",
+
+                download:
+                    "تحميل VideoYTFX",
+
+                version:
+                    "أحدث إصدار لنظام Windows",
+
+                downloadsTitle:
+                    "التحميلات",
+
+                downloadsDescription:
+                    "حمّل برنامج VideoYTFX لنظام Windows واحصل على أحدث إصدار.",
+
+                youtubeTitle:
+                    "محمل YouTube",
+
+                youtubeDescription:
+                    "تحميل فيديوهات وصوتيات YouTube من خلال واجهة سهلة الاستخدام.",
+
+                fastTitle:
+                    "سريع",
+
+                fastDescription:
+                    "حمّل الفيديوهات بسرعة من خلال برنامج سطح مكتب سهل الاستخدام.",
+
+                qualityTitle:
+                    "جودة عالية",
+
+                qualityDescription:
+                    "يدعم تحميل الفيديوهات بجودة عالية عند توفرها.",
+
+                audioTitle:
+                    "الصوت",
+
+                audioDescription:
+                    "حمّل الوسائط المدعومة كملفات صوتية عند توفرها.",
+
+                footer:
+                    "© 2026 VideoYTFX. جميع الحقوق محفوظة."
+            }
+
+        };
+
+
         /* =========================
-           LANGUAGE
-        ========================= */
+           STATE
+        ========================== */
 
-        let arabic =
-            localStorage.getItem("language") === "ar";
+        let language =
+            localStorage.getItem("language") || "en";
 
+        let theme =
+            localStorage.getItem("theme") || "dark";
+
+
+        /* =========================
+           UPDATE LANGUAGE
+        ========================== */
 
         function updateLanguage() {
 
-            document.documentElement.lang =
-                arabic ? "ar" : "en";
+            const text = translations[language];
+
+            document.documentElement.lang = language;
 
             document.documentElement.dir =
-                arabic ? "rtl" : "ltr";
+                language === "ar" ? "rtl" : "ltr";
 
 
-            if (arabic) {
+            document.getElementById("languageButton").textContent =
+                "🌐 " + text.language;
 
-                document.getElementById(
-                    "languageButton"
-                ).textContent = "العربية";
 
+            document.getElementById("description").textContent =
+                text.description;
 
-                document.getElementById(
-                    "description"
-                ).textContent =
-                    "برنامج متقدم لتحميل الفيديوهات على Windows. حمّل الفيديوهات بسرعة وسهولة باستخدام VideoYTFX.";
 
+            document.getElementById("downloadText").textContent =
+                text.download;
 
-                document.getElementById(
-                    "downloadText"
-                ).textContent =
-                    "تحميل VideoYTFX";
 
+            document.getElementById("version").textContent =
+                text.version;
 
-                document.getElementById(
-                    "version"
-                ).textContent =
-                    "أحدث إصدار لنظام Windows";
 
+            document.getElementById("downloadsTitle").textContent =
+                text.downloadsTitle;
 
-                document.getElementById(
-                    "downloadsTitle"
-                ).textContent =
-                    "التحميلات";
 
+            document.getElementById("downloadsDescription").textContent =
+                text.downloadsDescription;
 
-                document.getElementById(
-                    "downloadsText"
-                ).textContent =
-                    "تحميل برنامج VideoYTFX لنظام Windows والحصول على أحدث إصدار.";
 
+            document.getElementById("youtubeTitle").textContent =
+                text.youtubeTitle;
 
-                document.getElementById(
-                    "youtubeTitle"
-                ).textContent =
-                    "محمل YouTube";
 
+            document.getElementById("youtubeDescription").textContent =
+                text.youtubeDescription;
 
-                document.getElementById(
-                    "youtubeText"
-                ).textContent =
-                    "تحميل فيديوهات وصوتيات YouTube من خلال واجهة سهلة الاستخدام.";
 
+            document.getElementById("fastTitle").textContent =
+                text.fastTitle;
 
-                document.getElementById(
-                    "fastTitle"
-                ).textContent =
-                    "سريع";
 
+            document.getElementById("fastDescription").textContent =
+                text.fastDescription;
 
-                document.getElementById(
-                    "fastText"
-                ).textContent =
-                    "حمّل الفيديوهات بسرعة من خلال برنامج سطح مكتب سهل الاستخدام.";
 
+            document.getElementById("qualityTitle").textContent =
+                text.qualityTitle;
 
-                document.getElementById(
-                    "hdTitle"
-                ).textContent =
-                    "جودة عالية";
 
+            document.getElementById("qualityDescription").textContent =
+                text.qualityDescription;
 
-                document.getElementById(
-                    "hdText"
-                ).textContent =
-                    "يدعم تحميل الفيديوهات بجودة عالية عند توفرها.";
 
+            document.getElementById("audioTitle").textContent =
+                text.audioTitle;
 
-                document.getElementById(
-                    "audioTitle"
-                ).textContent =
-                    "الصوت";
 
+            document.getElementById("audioDescription").textContent =
+                text.audioDescription;
 
-                document.getElementById(
-                    "audioText"
-                ).textContent =
-                    "حمّل الوسائط المدعومة كملفات صوتية عند توفرها.";
 
+            document.getElementById("footer").textContent =
+                text.footer;
 
-                document.getElementById(
-                    "footer"
-                ).textContent =
-                    "© 2026 VideoYTFX. جميع الحقوق محفوظة.";
 
-
-                document.getElementById(
-                    "themeText"
-                ).textContent =
-                    document.body.classList.contains("light")
-                        ? "مضيء"
-                        : "مظلم";
-
-            }
-
-
-            else {
-
-                document.getElementById(
-                    "languageButton"
-                ).textContent =
-                    "English";
-
-
-                document.getElementById(
-                    "description"
-                ).textContent =
-                    "Advanced video downloader for Windows. Download videos quickly and easily with VideoYTFX.";
-
-
-                document.getElementById(
-                    "downloadText"
-                ).textContent =
-                    "Download VideoYTFX";
-
-
-                document.getElementById(
-                    "version"
-                ).textContent =
-                    "Latest Windows Version";
-
-
-                document.getElementById(
-                    "downloadsTitle"
-                ).textContent =
-                    "Downloads";
-
-
-                document.getElementById(
-                    "downloadsText"
-                ).textContent =
-                    "Download VideoYTFX for Windows and get the latest version.";
-
-
-                document.getElementById(
-                    "youtubeTitle"
-                ).textContent =
-                    "YouTube Downloader";
-
-
-                document.getElementById(
-                    "youtubeText"
-                ).textContent =
-                    "Download YouTube videos and audio with an easy interface.";
-
-
-                document.getElementById(
-                    "fastTitle"
-                ).textContent =
-                    "Fast";
-
-
-                document.getElementById(
-                    "fastText"
-                ).textContent =
-                    "Download videos quickly with an easy-to-use desktop application.";
-
-
-                document.getElementById(
-                    "hdTitle"
-                ).textContent =
-                    "HD Quality";
-
-
-                document.getElementById(
-                    "hdText"
-                ).textContent =
-                    "Supports high-quality video downloads when available.";
-
-
-                document.getElementById(
-                    "audioTitle"
-                ).textContent =
-                    "Audio";
-
-
-                document.getElementById(
-                    "audioText"
-                ).textContent =
-                    "Download supported media as audio when available.";
-
-
-                document.getElementById(
-                    "footer"
-                ).textContent =
-                    "© 2026 VideoYTFX. All rights reserved.";
-
-
-                document.getElementById(
-                    "themeText"
-                ).textContent =
-                    document.body.classList.contains("light")
-                        ? "Light"
-                        : "Dark";
-
-            }
+            updateThemeButton();
 
         }
 
 
+        /* =========================
+           CHANGE LANGUAGE
+        ========================== */
+
         function changeLanguage() {
 
-            arabic = !arabic;
+            language =
+                language === "en" ? "ar" : "en";
 
             localStorage.setItem(
                 "language",
-                arabic ? "ar" : "en"
+                language
             );
 
             updateLanguage();
@@ -875,39 +974,59 @@
 
 
         /* =========================
-           THEME
-        ========================= */
+           UPDATE THEME
+        ========================== */
 
-        let lightMode =
-            localStorage.getItem("theme") === "light";
+        function updateThemeButton() {
+
+            const text = translations[language];
+
+            const button =
+                document.getElementById("themeButton");
+
+
+            if (theme === "light") {
+
+                button.textContent =
+                    "☀️ " + text.themeLight;
+
+            } else {
+
+                button.textContent =
+                    "🌙 " + text.themeDark;
+
+            }
+
+        }
 
 
         function updateTheme() {
 
             document.body.classList.toggle(
                 "light",
-                lightMode
+                theme === "light"
             );
 
-
-            document.getElementById(
-                "themeIcon"
-            ).textContent =
-                lightMode ? "☀️" : "🌙";
-
-
-            updateLanguage();
+            updateThemeButton();
 
         }
 
 
+        /* =========================
+           CHANGE THEME
+        ========================== */
+
         function toggleTheme() {
 
-            lightMode = !lightMode;
+            theme =
+                theme === "dark"
+                    ? "light"
+                    : "dark";
+
 
             localStorage.setItem(
                 "theme",
-                lightMode ? "light" : "dark"
+                theme
             );
 
             updateTheme();
@@ -915,9 +1034,33 @@
         }
 
 
-        /* START */
+        /* =========================
+           BUTTON EVENTS
+        ========================== */
+
+        document
+            .getElementById("languageButton")
+            .addEventListener(
+                "click",
+                changeLanguage
+            );
+
+
+        document
+            .getElementById("themeButton")
+            .addEventListener(
+                "click",
+                toggleTheme
+            );
+
+
+        /* =========================
+           START
+        ========================== */
 
         updateTheme();
+
+        updateLanguage();
 
     </script>
 
