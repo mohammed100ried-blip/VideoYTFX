@@ -2,7 +2,6 @@
 <html lang="en" dir="ltr">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -14,23 +13,19 @@
             --bg: #070b14;
             --bg2: #0b1020;
             --card: rgba(255,255,255,0.045);
-            --card-hover: rgba(255,255,255,0.075);
+            --card-hover: rgba(255,255,255,0.08);
             --text: #ffffff;
             --muted: #aeb9cc;
-            --border: rgba(255,255,255,0.08);
+            --border: rgba(255,255,255,0.09);
             --primary: #1677ff;
             --primary-hover: #0d65dc;
             --footer: #66748b;
         }
 
-
-        /* LIGHT MODE */
-
         body.light {
-
             --bg: #f4f7fb;
             --bg2: #ffffff;
-            --card: rgba(255,255,255,0.85);
+            --card: rgba(255,255,255,0.9);
             --card-hover: #ffffff;
             --text: #111827;
             --muted: #5f6b7a;
@@ -40,25 +35,17 @@
             --footer: #66748b;
         }
 
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-
         body {
-
             min-height: 100vh;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
 
             background:
-
                 radial-gradient(
                     circle at top,
                     #18243d 0%,
@@ -67,86 +54,62 @@
                 );
 
             color: var(--text);
+            padding: 25px;
 
             transition:
                 background 0.3s ease,
                 color 0.3s ease;
-
-            padding: 25px;
         }
-
 
         /* NAVBAR */
 
         .navbar {
-
             width: 100%;
             max-width: 1100px;
-
-            margin: 0 auto 45px;
+            margin: 0 auto 50px;
 
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
 
             gap: 20px;
         }
 
-
         .brand {
-
             display: flex;
-
             align-items: center;
-
             gap: 10px;
 
             font-size: 21px;
-
             font-weight: bold;
         }
 
-
         .brand-logo {
-
             width: 42px;
             height: 42px;
 
             display: flex;
-
             align-items: center;
             justify-content: center;
 
             border-radius: 12px;
 
             background: var(--primary);
-
             color: white;
 
             font-size: 22px;
-
             font-weight: bold;
         }
 
-
         .settings {
-
             display: flex;
-
             gap: 8px;
-
-            flex-wrap: wrap;
         }
 
-
         .setting-btn {
-
             border: 1px solid var(--border);
 
             background: var(--card);
-
             color: var(--text);
 
             padding: 10px 14px;
@@ -160,21 +123,15 @@
             transition: 0.2s;
         }
 
-
         .setting-btn:hover {
-
             border-color: var(--primary);
-
             transform: translateY(-1px);
         }
-
 
         /* MAIN */
 
         .container {
-
             width: 100%;
-
             max-width: 1000px;
 
             margin: auto;
@@ -182,53 +139,43 @@
             text-align: center;
         }
 
-
         /* LOGO */
 
         .logo {
-
             width: 92px;
             height: 92px;
 
             margin: 0 auto 22px;
 
             display: flex;
-
             align-items: center;
             justify-content: center;
 
             font-size: 48px;
-
             font-weight: bold;
 
             border-radius: 24px;
 
             background: var(--primary);
-
             color: white;
 
             box-shadow:
                 0 15px 40px rgba(0,102,255,0.3);
         }
 
-
         /* TITLE */
 
         h1 {
-
-            font-size:
-                clamp(38px, 8vw, 60px);
+            font-size: clamp(38px, 8vw, 60px);
 
             letter-spacing: -2px;
 
             margin-bottom: 15px;
         }
 
-
         /* DESCRIPTION */
 
         .description {
-
             max-width: 650px;
 
             margin: 0 auto 40px;
@@ -240,15 +187,12 @@
             line-height: 1.6;
         }
 
-
-        /* MAIN BUTTON */
+        /* DOWNLOAD PROGRAM */
 
         .download {
-
             display: inline-flex;
 
             align-items: center;
-
             justify-content: center;
 
             gap: 12px;
@@ -264,7 +208,6 @@
             border-radius: 12px;
 
             font-size: 18px;
-
             font-weight: bold;
 
             box-shadow:
@@ -273,9 +216,7 @@
             transition: 0.25s;
         }
 
-
         .download:hover {
-
             background: var(--primary-hover);
 
             transform: translateY(-3px);
@@ -284,15 +225,13 @@
                 0 18px 35px rgba(22,119,255,0.4);
         }
 
-
         .download-icon {
-
             font-size: 23px;
         }
 
+        /* VERSION */
 
         .version {
-
             margin-top: 15px;
 
             color: var(--footer);
@@ -300,11 +239,9 @@
             font-size: 14px;
         }
 
-
-        /* MENU */
+        /* MAIN MENU */
 
         .menu {
-
             display: grid;
 
             grid-template-columns:
@@ -315,12 +252,8 @@
             margin-top: 55px;
         }
 
-
         .menu-card {
-
             display: block;
-
-            text-decoration: none;
 
             text-align: left;
 
@@ -328,20 +261,21 @@
 
             background: var(--card);
 
-            border: 1px solid var(--border);
+            border:
+                1px solid var(--border);
 
             border-radius: 20px;
 
             color: var(--text);
+
+            text-decoration: none;
 
             backdrop-filter: blur(12px);
 
             transition: 0.25s;
         }
 
-
         .menu-card:hover {
-
             transform: translateY(-5px);
 
             background: var(--card-hover);
@@ -352,25 +286,19 @@
                 0 18px 40px rgba(0,0,0,0.18);
         }
 
-
         .menu-icon {
-
             font-size: 38px;
 
             margin-bottom: 15px;
         }
 
-
         .menu-card h2 {
-
             font-size: 22px;
 
             margin-bottom: 9px;
         }
 
-
         .menu-card p {
-
             color: var(--muted);
 
             font-size: 15px;
@@ -378,11 +306,9 @@
             line-height: 1.5;
         }
 
-
         /* FEATURES */
 
         .features {
-
             display: grid;
 
             grid-template-columns:
@@ -393,9 +319,7 @@
             margin-top: 25px;
         }
 
-
         .card {
-
             padding: 28px 20px;
 
             background: var(--card);
@@ -410,33 +334,25 @@
             transition: 0.25s;
         }
 
-
         .card:hover {
-
             transform: translateY(-3px);
 
             background: var(--card-hover);
         }
 
-
         .icon {
-
             font-size: 32px;
 
             margin-bottom: 14px;
         }
 
-
         .card h3 {
-
             font-size: 19px;
 
             margin-bottom: 8px;
         }
 
-
         .card p {
-
             color: var(--muted);
 
             font-size: 14px;
@@ -444,18 +360,15 @@
             line-height: 1.5;
         }
 
-
         /* FOOTER */
 
         footer {
-
             margin-top: 55px;
 
             color: var(--footer);
 
             font-size: 13px;
         }
-
 
         /* MOBILE */
 
@@ -465,9 +378,7 @@
                 padding: 20px;
             }
 
-
             .navbar {
-
                 align-items: flex-start;
 
                 flex-direction: column;
@@ -475,59 +386,41 @@
                 margin-bottom: 35px;
             }
 
-
             .settings {
-
                 width: 100%;
             }
 
-
             .setting-btn {
-
                 flex: 1;
             }
 
-
             h1 {
-
                 font-size: 40px;
             }
 
-
             .description {
-
                 font-size: 16px;
             }
 
-
             .menu {
-
                 grid-template-columns: 1fr;
             }
-
 
             .features {
-
                 grid-template-columns: 1fr;
             }
 
-
             .download {
-
                 width: 100%;
-
                 max-width: 330px;
             }
-
         }
 
     </style>
 
 </head>
 
-
 <body>
-
 
     <!-- NAVBAR -->
 
@@ -545,7 +438,6 @@
 
         </div>
 
-
         <div class="settings">
 
             <button
@@ -557,7 +449,6 @@
                     English
                 </span>
             </button>
-
 
             <button
                 class="setting-btn"
@@ -577,27 +468,17 @@
     </nav>
 
 
-
     <!-- MAIN -->
 
     <div class="container">
-
-
-        <!-- LOGO -->
 
         <div class="logo">
             V
         </div>
 
-
-        <!-- TITLE -->
-
         <h1 id="title">
             VideoYTFX
         </h1>
-
-
-        <!-- DESCRIPTION -->
 
         <p
             class="description"
@@ -608,7 +489,7 @@
         </p>
 
 
-        <!-- DOWNLOAD PROGRAM -->
+        <!-- WINDOWS DOWNLOAD -->
 
         <a
             class="download"
@@ -626,8 +507,6 @@
         </a>
 
 
-        <!-- VERSION -->
-
         <div
             class="version"
             id="version"
@@ -636,8 +515,7 @@
         </div>
 
 
-
-        <!-- MAIN MENU -->
+        <!-- SITE SECTIONS -->
 
         <div class="menu">
 
@@ -665,7 +543,6 @@
             </a>
 
 
-
             <!-- YOUTUBE -->
 
             <a
@@ -688,17 +565,13 @@
 
             </a>
 
-
         </div>
-
 
 
         <!-- FEATURES -->
 
         <div class="features">
 
-
-            <!-- FAST -->
 
             <div class="card">
 
@@ -718,9 +591,6 @@
             </div>
 
 
-
-            <!-- HD -->
-
             <div class="card">
 
                 <div class="icon">
@@ -739,9 +609,6 @@
             </div>
 
 
-
-            <!-- AUDIO -->
-
             <div class="card">
 
                 <div class="icon">
@@ -759,33 +626,21 @@
 
             </div>
 
-
         </div>
 
 
-
-        <!-- FOOTER -->
-
         <footer id="footer">
-
-            © 2026 VideoYTFX.
-            All rights reserved.
-
+            © 2026 VideoYTFX. All rights reserved.
         </footer>
-
 
     </div>
 
 
-
-    <!-- JAVASCRIPT -->
-
     <script>
 
-
-        /* ==========================
+        /* =========================
            LANGUAGE
-        ========================== */
+        ========================= */
 
         let arabic =
             localStorage.getItem("language") === "ar";
@@ -793,24 +648,18 @@
 
         function updateLanguage() {
 
+            document.documentElement.lang =
+                arabic ? "ar" : "en";
+
+            document.documentElement.dir =
+                arabic ? "rtl" : "ltr";
+
 
             if (arabic) {
-
-
-                document.documentElement.lang = "ar";
-
-                document.documentElement.dir = "rtl";
-
 
                 document.getElementById(
                     "languageButton"
                 ).textContent = "العربية";
-
-
-                document.getElementById(
-                    "title"
-                ).textContent =
-                    "VideoYTFX";
 
 
                 document.getElementById(
@@ -909,22 +758,10 @@
 
             else {
 
-
-                document.documentElement.lang = "en";
-
-                document.documentElement.dir = "ltr";
-
-
                 document.getElementById(
                     "languageButton"
                 ).textContent =
                     "English";
-
-
-                document.getElementById(
-                    "title"
-                ).textContent =
-                    "VideoYTFX";
 
 
                 document.getElementById(
@@ -1037,17 +874,15 @@
         }
 
 
-
-        /* ==========================
+        /* =========================
            THEME
-        ========================== */
+        ========================= */
 
         let lightMode =
             localStorage.getItem("theme") === "light";
 
 
         function updateTheme() {
-
 
             document.body.classList.toggle(
                 "light",
@@ -1080,15 +915,11 @@
         }
 
 
-
-        /* ==========================
-           START
-        ========================== */
+        /* START */
 
         updateTheme();
 
     </script>
-
 
 </body>
 
