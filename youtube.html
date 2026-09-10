@@ -19,6 +19,7 @@
             --primary: #1877f2;
             --primary-hover: #2685ff;
             --danger: #ff4d5a;
+            --success: #20c997;
             --shadow: rgba(0, 0, 0, 0.35);
         }
 
@@ -47,24 +48,43 @@
 
         body {
             font-family: Arial, Helvetica, sans-serif;
+
             background:
-                radial-gradient(circle at 50% -10%, rgba(24, 119, 242, 0.20), transparent 35%),
+                radial-gradient(
+                    circle at 50% -10%,
+                    rgba(24, 119, 242, 0.20),
+                    transparent 35%
+                ),
                 var(--bg);
+
             color: var(--text);
+
             min-height: 100vh;
-            transition: background 0.3s, color 0.3s;
+
+            transition:
+                background 0.3s,
+                color 0.3s;
         }
 
-        /* NAVBAR */
+        /* =========================
+           NAVBAR
+        ========================= */
 
         nav {
             width: 100%;
+
             padding: 18px 30px;
+
             border-bottom: 1px solid var(--border);
+
             background: rgba(7, 11, 20, 0.55);
+
             backdrop-filter: blur(15px);
+
             position: sticky;
+
             top: 0;
+
             z-index: 100;
         }
 
@@ -74,45 +94,69 @@
 
         .nav-inner {
             max-width: 1100px;
+
             margin: auto;
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
             gap: 20px;
         }
 
         .brand {
             display: flex;
+
             align-items: center;
+
             gap: 10px;
+
             font-size: 21px;
+
             font-weight: bold;
         }
 
         .brand-icon {
             width: 38px;
+
             height: 38px;
+
             border-radius: 11px;
+
             background: var(--primary);
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             font-weight: bold;
         }
 
         .settings {
             display: flex;
+
             gap: 8px;
+
             flex-wrap: wrap;
         }
 
         .setting-btn {
             border: 1px solid var(--border);
+
             background: var(--card);
+
             color: var(--text);
+
             padding: 9px 13px;
+
             border-radius: 10px;
+
             cursor: pointer;
+
             transition: 0.2s;
         }
 
@@ -120,12 +164,17 @@
             border-color: var(--primary);
         }
 
-        /* MAIN */
+        /* =========================
+           MAIN
+        ========================= */
 
         .container {
             width: 100%;
+
             max-width: 950px;
+
             margin: auto;
+
             padding: 70px 20px;
         }
 
@@ -133,187 +182,361 @@
             text-align: center;
         }
 
+        /* =========================
+           YOUTUBE ICON
+        ========================= */
+
         .youtube-icon {
             width: 86px;
+
             height: 60px;
+
             margin: 0 auto 25px;
+
             border-radius: 18px;
+
             background: #ff0000;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
-            box-shadow: 0 15px 45px rgba(255, 0, 0, 0.25);
+
+            box-shadow:
+                0 15px 45px rgba(255, 0, 0, 0.25);
         }
 
         .youtube-icon::after {
             content: "";
+
             width: 0;
+
             height: 0;
+
             border-top: 11px solid transparent;
+
             border-bottom: 11px solid transparent;
+
             border-left: 17px solid white;
+
             margin-left: 4px;
         }
 
+        /* =========================
+           TITLE
+        ========================= */
+
         h1 {
             font-size: clamp(34px, 6vw, 58px);
+
             margin-bottom: 14px;
+
             letter-spacing: -1px;
         }
 
         .hero-text {
             color: var(--muted);
+
             max-width: 650px;
+
             margin: auto;
+
             line-height: 1.7;
+
             font-size: 17px;
         }
 
-        /* DOWNLOAD CARD */
+        /* =========================
+           DOWNLOAD CARD
+        ========================= */
 
         .download-card {
             margin-top: 45px;
+
             padding: 30px;
+
             background: var(--card);
+
             border: 1px solid var(--border);
+
             border-radius: 24px;
-            box-shadow: 0 25px 70px var(--shadow);
+
+            box-shadow:
+                0 25px 70px var(--shadow);
+
             backdrop-filter: blur(15px);
         }
 
         .url-label {
             display: block;
+
             margin-bottom: 10px;
+
             font-weight: bold;
         }
 
         .url-row {
             display: flex;
+
             gap: 10px;
         }
 
         .url-input {
             flex: 1;
+
             min-width: 0;
+
             padding: 16px;
+
             border-radius: 13px;
+
             border: 1px solid var(--border);
+
             background: var(--input);
+
             color: var(--text);
+
             font-size: 16px;
+
             outline: none;
+
             transition: 0.2s;
         }
 
         .url-input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.12);
+
+            box-shadow:
+                0 0 0 3px rgba(24, 119, 242, 0.12);
         }
 
         .paste-btn {
             padding: 0 20px;
+
             border: 1px solid var(--border);
+
             border-radius: 13px;
+
             background: var(--card2);
+
             color: var(--text);
+
             cursor: pointer;
+
             font-weight: bold;
+
+            transition: 0.2s;
         }
 
         .paste-btn:hover {
             border-color: var(--primary);
         }
 
-        /* OPTIONS */
+        /* =========================
+           OPTIONS
+        ========================= */
 
         .options {
             display: grid;
+
             grid-template-columns: 1fr 1fr;
+
             gap: 15px;
+
             margin-top: 20px;
         }
 
         .option-box {
             border: 1px solid var(--border);
+
             background: var(--card2);
+
             border-radius: 15px;
+
             padding: 18px;
         }
 
         .option-box label {
             display: block;
+
             margin-bottom: 9px;
+
             color: var(--muted);
+
             font-size: 14px;
         }
 
         select {
             width: 100%;
+
             padding: 13px;
+
             border-radius: 10px;
+
             border: 1px solid var(--border);
+
             background: var(--input);
+
             color: var(--text);
+
             outline: none;
+
             font-size: 15px;
         }
 
-        /* DOWNLOAD BUTTON */
+        /* =========================
+           DOWNLOAD BUTTON
+        ========================= */
 
         .download-btn {
             width: 100%;
+
             margin-top: 20px;
+
             padding: 17px;
+
             border: none;
+
             border-radius: 13px;
+
             background: var(--primary);
+
             color: white;
+
             font-size: 17px;
+
             font-weight: bold;
+
             cursor: pointer;
+
             transition: 0.2s;
         }
 
         .download-btn:hover {
             background: var(--primary-hover);
+
             transform: translateY(-1px);
         }
 
-        /* STATUS */
+        .download-btn:disabled {
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
 
         .status {
             display: none;
+
             margin-top: 20px;
+
             padding: 15px;
+
             border-radius: 12px;
+
             background: var(--input);
+
             color: var(--muted);
+
             text-align: center;
+
+            line-height: 1.6;
         }
 
         .status.show {
             display: block;
         }
 
-        /* FEATURES */
+        .status.error {
+            color: var(--danger);
+        }
+
+        .status.success {
+            color: var(--success);
+        }
+
+        /* =========================
+           PROGRESS
+        ========================= */
+
+        .progress-container {
+            display: none;
+
+            margin-top: 15px;
+        }
+
+        .progress-container.show {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+
+            height: 8px;
+
+            background: var(--border);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 0%;
+
+            height: 100%;
+
+            background: var(--primary);
+
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            margin-top: 8px;
+
+            text-align: center;
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           FEATURES
+        ========================= */
 
         .features {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
             gap: 15px;
+
             margin-top: 25px;
         }
 
         .feature {
             padding: 22px;
+
             text-align: center;
+
             border: 1px solid var(--border);
+
             background: var(--card);
+
             border-radius: 17px;
         }
 
         .feature-icon {
             font-size: 27px;
+
             margin-bottom: 10px;
         }
 
@@ -323,31 +546,53 @@
 
         .feature p {
             color: var(--muted);
+
             font-size: 14px;
+
             line-height: 1.5;
         }
 
+        /* =========================
+           BACK
+        ========================= */
+
         .back {
             display: block;
+
             width: fit-content;
+
             margin: 35px auto 0;
+
             color: var(--muted);
+
             text-decoration: none;
+
+            transition: 0.2s;
         }
 
         .back:hover {
             color: var(--text);
         }
 
+        /* =========================
+           FOOTER
+        ========================= */
+
         footer {
             text-align: center;
+
             color: var(--muted);
+
             padding: 25px;
+
             border-top: 1px solid var(--border);
+
             font-size: 13px;
         }
 
-        /* MOBILE */
+        /* =========================
+           MOBILE
+        ========================= */
 
         @media (max-width: 700px) {
 
@@ -357,6 +602,7 @@
 
             .nav-inner {
                 align-items: flex-start;
+
                 flex-direction: column;
             }
 
@@ -393,354 +639,694 @@
             }
         }
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- NAVBAR -->
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
 
     <nav>
+
         <div class="nav-inner">
 
+
             <div class="brand">
-                <div class="brand-icon">V</div>
-                <span>VideoYTFX</span>
+
+                <div class="brand-icon">
+                    V
+                </div>
+
+                <span>
+                    VideoYTFX
+                </span>
+
             </div>
+
 
             <div class="settings">
 
-                <button class="setting-btn" onclick="changeLanguage()">
-                    🌐 <span id="languageButton">English</span>
+
+                <button
+                    class="setting-btn"
+                    onclick="changeLanguage()">
+
+                    🌐
+
+                    <span id="languageButton">
+                        English
+                    </span>
+
                 </button>
 
-                <button class="setting-btn" onclick="toggleTheme()">
-                    <span id="themeIcon">🌙</span>
-                    <span id="themeText">Dark</span>
+
+                <button
+                    class="setting-btn"
+                    onclick="toggleTheme()">
+
+                    <span id="themeIcon">
+                        🌙
+                    </span>
+
+                    <span id="themeText">
+                        Dark
+                    </span>
+
                 </button>
+
 
             </div>
 
+
         </div>
+
     </nav>
 
 
-    <!-- MAIN -->
+    <!-- =========================
+         MAIN
+    ========================= -->
 
     <main class="container">
 
+
+        <!-- HERO -->
+
         <section class="hero">
 
+
             <div class="youtube-icon"></div>
+
 
             <h1 id="title">
                 YouTube Downloader
             </h1>
 
-            <p class="hero-text" id="description">
-                Download YouTube videos and audio with a simple,
-                fast and modern interface.
+
+            <p
+                class="hero-text"
+                id="description">
+
+                Download YouTube videos and audio
+                with a simple, fast and modern interface.
+
             </p>
+
 
         </section>
 
 
-        <!-- DOWNLOAD BOX -->
+        <!-- =========================
+             DOWNLOAD CARD
+        ========================= -->
 
         <section class="download-card">
 
-            <label class="url-label" id="urlLabel">
+
+            <label
+                class="url-label"
+                id="urlLabel">
+
                 YouTube URL
+
             </label>
 
+
             <div class="url-row">
+
 
                 <input
                     id="url"
                     class="url-input"
                     type="text"
+                    autocomplete="off"
                     placeholder="Paste YouTube link here..."
                 >
 
-                <button class="paste-btn" onclick="pasteURL()" id="pasteButton">
+
+                <button
+                    class="paste-btn"
+                    onclick="pasteURL()"
+                    id="pasteButton">
+
                     Paste
+
                 </button>
+
 
             </div>
 
 
+            <!-- OPTIONS -->
+
             <div class="options">
 
+
+                <!-- DOWNLOAD TYPE -->
+
                 <div class="option-box">
+
 
                     <label id="typeLabel">
                         Download type
                     </label>
 
+
                     <select id="type">
-                        <option value="video" id="videoOption">
+
+
+                        <option
+                            value="video"
+                            id="videoOption">
+
                             🎥 Video
+
                         </option>
 
-                        <option value="audio" id="audioOption">
+
+                        <option
+                            value="audio"
+                            id="audioOption">
+
                             🎵 Audio
+
                         </option>
+
+
                     </select>
+
 
                 </div>
 
 
+                <!-- QUALITY -->
+
                 <div class="option-box">
+
 
                     <label id="qualityLabel">
                         Quality
                     </label>
 
+
                     <select id="quality">
 
-                        <option>Best Quality</option>
-                        <option>1080p</option>
-                        <option>720p</option>
-                        <option>480p</option>
-                        <option>360p</option>
+
+                        <option value="best">
+                            Best Quality
+                        </option>
+
+
+                        <option value="1080">
+                            1080p
+                        </option>
+
+
+                        <option value="720">
+                            720p
+                        </option>
+
+
+                        <option value="480">
+                            480p
+                        </option>
+
+
+                        <option value="360">
+                            360p
+                        </option>
+
 
                     </select>
 
+
                 </div>
+
 
             </div>
 
 
-            <button class="download-btn" onclick="startDownload()" id="downloadButton">
+            <!-- DOWNLOAD BUTTON -->
+
+            <button
+                class="download-btn"
+                onclick="startDownload()"
+                id="downloadButton">
+
                 ⬇️ Download
+
             </button>
 
 
-            <div class="status" id="status"></div>
+            <!-- STATUS -->
+
+            <div
+                class="status"
+                id="status">
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div
+                class="progress-container"
+                id="progressContainer">
+
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress"
+                        id="progress">
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="progress-text"
+                    id="progressText">
+
+                    0%
+
+                </div>
+
+
+            </div>
+
 
         </section>
 
 
-        <!-- FEATURES -->
+        <!-- =========================
+             FEATURES
+        ========================= -->
 
         <section class="features">
 
+
             <div class="feature">
 
-                <div class="feature-icon">⚡</div>
+
+                <div class="feature-icon">
+                    ⚡
+                </div>
+
 
                 <h3 id="fastTitle">
                     Fast
                 </h3>
 
+
                 <p id="fastText">
                     Simple and fast downloading interface.
                 </p>
+
 
             </div>
 
 
             <div class="feature">
 
-                <div class="feature-icon">🎬</div>
+
+                <div class="feature-icon">
+                    🎬
+                </div>
+
 
                 <h3 id="qualityTitle">
                     High Quality
                 </h3>
 
+
                 <p id="qualityText">
                     Choose the quality that fits your needs.
                 </p>
+
 
             </div>
 
 
             <div class="feature">
 
-                <div class="feature-icon">🎵</div>
+
+                <div class="feature-icon">
+                    🎵
+                </div>
+
 
                 <h3 id="audioTitle">
                     Audio
                 </h3>
 
+
                 <p id="audioText">
                     Download audio when you need it.
                 </p>
 
+
             </div>
+
 
         </section>
 
 
-        <a href="index.html" class="back" id="backButton">
+        <!-- BACK -->
+
+        <a
+            href="index.html"
+            class="back"
+            id="backButton">
+
             ← Back to Home
+
         </a>
+
 
     </main>
 
 
+    <!-- FOOTER -->
+
     <footer>
+
         © 2026 VideoYTFX
+
     </footer>
 
 
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
     <script>
+
 
         /* =========================
            LANGUAGE
         ========================= */
 
-        let arabic = localStorage.getItem("language") === "ar";
+        let arabic =
+            localStorage.getItem("language") === "ar";
+
 
         function updateLanguage() {
 
-            const html = document.documentElement;
+
+            const html =
+                document.documentElement;
+
 
             if (arabic) {
 
+
                 html.lang = "ar";
+
                 html.dir = "rtl";
 
-                document.getElementById("languageButton").textContent = "العربية";
 
-                document.getElementById("themeText").textContent =
+                document.getElementById(
+                    "languageButton"
+                ).textContent =
+                    "العربية";
+
+
+                document.getElementById(
+                    "themeText"
+                ).textContent =
+
                     document.body.classList.contains("light")
+
                         ? "مضيء"
+
                         : "مظلم";
 
-                document.getElementById("title").textContent =
+
+                document.getElementById(
+                    "title"
+                ).textContent =
                     "تحميل فيديوهات YouTube";
 
-                document.getElementById("description").textContent =
+
+                document.getElementById(
+                    "description"
+                ).textContent =
                     "قم بتحميل فيديوهات YouTube والصوت بسهولة من خلال واجهة سريعة وعصرية.";
 
-                document.getElementById("urlLabel").textContent =
+
+                document.getElementById(
+                    "urlLabel"
+                ).textContent =
                     "رابط YouTube";
 
-                document.getElementById("url").placeholder =
+
+                document.getElementById(
+                    "url"
+                ).placeholder =
                     "ضع رابط YouTube هنا...";
 
-                document.getElementById("pasteButton").textContent =
+
+                document.getElementById(
+                    "pasteButton"
+                ).textContent =
                     "لصق";
 
-                document.getElementById("typeLabel").textContent =
+
+                document.getElementById(
+                    "typeLabel"
+                ).textContent =
                     "نوع التحميل";
 
-                document.getElementById("videoOption").textContent =
+
+                document.getElementById(
+                    "videoOption"
+                ).textContent =
                     "🎥 فيديو";
 
-                document.getElementById("audioOption").textContent =
+
+                document.getElementById(
+                    "audioOption"
+                ).textContent =
                     "🎵 صوت";
 
-                document.getElementById("qualityLabel").textContent =
+
+                document.getElementById(
+                    "qualityLabel"
+                ).textContent =
                     "الجودة";
 
-                document.getElementById("quality").options[0].text =
+
+                document.getElementById(
+                    "quality"
+                ).options[0].text =
                     "أفضل جودة";
 
-                document.getElementById("downloadButton").textContent =
+
+                document.getElementById(
+                    "downloadButton"
+                ).textContent =
                     "⬇️ تحميل";
 
-                document.getElementById("fastTitle").textContent =
+
+                document.getElementById(
+                    "fastTitle"
+                ).textContent =
                     "سريع";
 
-                document.getElementById("fastText").textContent =
+
+                document.getElementById(
+                    "fastText"
+                ).textContent =
                     "واجهة بسيطة وسريعة للتحميل.";
 
-                document.getElementById("qualityTitle").textContent =
+
+                document.getElementById(
+                    "qualityTitle"
+                ).textContent =
                     "جودة عالية";
 
-                document.getElementById("qualityText").textContent =
+
+                document.getElementById(
+                    "qualityText"
+                ).textContent =
                     "اختر الجودة التي تناسبك.";
 
-                document.getElementById("audioTitle").textContent =
+
+                document.getElementById(
+                    "audioTitle"
+                ).textContent =
                     "صوت";
 
-                document.getElementById("audioText").textContent =
+
+                document.getElementById(
+                    "audioText"
+                ).textContent =
                     "تحميل الصوت عندما تحتاج إليه.";
 
-                document.getElementById("backButton").textContent =
+
+                document.getElementById(
+                    "backButton"
+                ).textContent =
                     "→ العودة للرئيسية";
+
 
             } else {
 
+
                 html.lang = "en";
+
                 html.dir = "ltr";
 
-                document.getElementById("languageButton").textContent =
+
+                document.getElementById(
+                    "languageButton"
+                ).textContent =
                     "English";
 
-                document.getElementById("themeText").textContent =
+
+                document.getElementById(
+                    "themeText"
+                ).textContent =
+
                     document.body.classList.contains("light")
+
                         ? "Light"
+
                         : "Dark";
 
-                document.getElementById("title").textContent =
+
+                document.getElementById(
+                    "title"
+                ).textContent =
                     "YouTube Downloader";
 
-                document.getElementById("description").textContent =
+
+                document.getElementById(
+                    "description"
+                ).textContent =
                     "Download YouTube videos and audio with a simple, fast and modern interface.";
 
-                document.getElementById("urlLabel").textContent =
+
+                document.getElementById(
+                    "urlLabel"
+                ).textContent =
                     "YouTube URL";
 
-                document.getElementById("url").placeholder =
+
+                document.getElementById(
+                    "url"
+                ).placeholder =
                     "Paste YouTube link here...";
 
-                document.getElementById("pasteButton").textContent =
+
+                document.getElementById(
+                    "pasteButton"
+                ).textContent =
                     "Paste";
 
-                document.getElementById("typeLabel").textContent =
+
+                document.getElementById(
+                    "typeLabel"
+                ).textContent =
                     "Download type";
 
-                document.getElementById("videoOption").textContent =
+
+                document.getElementById(
+                    "videoOption"
+                ).textContent =
                     "🎥 Video";
 
-                document.getElementById("audioOption").textContent =
+
+                document.getElementById(
+                    "audioOption"
+                ).textContent =
                     "🎵 Audio";
 
-                document.getElementById("qualityLabel").textContent =
+
+                document.getElementById(
+                    "qualityLabel"
+                ).textContent =
                     "Quality";
 
-                document.getElementById("quality").options[0].text =
+
+                document.getElementById(
+                    "quality"
+                ).options[0].text =
                     "Best Quality";
 
-                document.getElementById("downloadButton").textContent =
+
+                document.getElementById(
+                    "downloadButton"
+                ).textContent =
                     "⬇️ Download";
 
-                document.getElementById("fastTitle").textContent =
+
+                document.getElementById(
+                    "fastTitle"
+                ).textContent =
                     "Fast";
 
-                document.getElementById("fastText").textContent =
+
+                document.getElementById(
+                    "fastText"
+                ).textContent =
                     "Simple and fast downloading interface.";
 
-                document.getElementById("qualityTitle").textContent =
+
+                document.getElementById(
+                    "qualityTitle"
+                ).textContent =
                     "High Quality";
 
-                document.getElementById("qualityText").textContent =
+
+                document.getElementById(
+                    "qualityText"
+                ).textContent =
                     "Choose the quality that fits your needs.";
 
-                document.getElementById("audioTitle").textContent =
+
+                document.getElementById(
+                    "audioTitle"
+                ).textContent =
                     "Audio";
 
-                document.getElementById("audioText").textContent =
+
+                document.getElementById(
+                    "audioText"
+                ).textContent =
                     "Download audio when you need it.";
 
-                document.getElementById("backButton").textContent =
+
+                document.getElementById(
+                    "backButton"
+                ).textContent =
                     "← Back to Home";
+
             }
+
         }
 
 
         function changeLanguage() {
 
+
             arabic = !arabic;
+
 
             localStorage.setItem(
                 "language",
-                arabic ? "ar" : "en"
+                arabic
+                    ? "ar"
+                    : "en"
             );
 
+
             updateLanguage();
+
         }
 
 
@@ -748,16 +1334,24 @@
            THEME
         ========================= */
 
-        let lightMode = localStorage.getItem("theme") === "light";
+        let lightMode =
+            localStorage.getItem("theme") === "light";
+
 
         function updateTheme() {
 
-            const icon = document.getElementById("themeIcon");
+
+            const icon =
+                document.getElementById(
+                    "themeIcon"
+                );
+
 
             document.body.classList.toggle(
                 "light",
                 lightMode
             );
+
 
             if (lightMode) {
 
@@ -766,22 +1360,32 @@
             } else {
 
                 icon.textContent = "🌙";
+
             }
 
+
             updateLanguage();
+
         }
 
 
         function toggleTheme() {
 
-            lightMode = !lightMode;
+
+            lightMode =
+                !lightMode;
+
 
             localStorage.setItem(
                 "theme",
-                lightMode ? "light" : "dark"
+                lightMode
+                    ? "light"
+                    : "dark"
             );
 
+
             updateTheme();
+
         }
 
 
@@ -791,20 +1395,121 @@
 
         async function pasteURL() {
 
+
             try {
 
-                const text = await navigator.clipboard.readText();
 
-                document.getElementById("url").value = text;
+                const text =
+                    await navigator.clipboard.readText();
 
-            } catch {
+
+                document.getElementById(
+                    "url"
+                ).value =
+                    text;
+
+
+            }
+
+            catch {
+
 
                 showStatus(
+
                     arabic
+
                         ? "لا يمكن الوصول إلى الحافظة."
-                        : "Clipboard access is not available."
+
+                        : "Clipboard access is not available.",
+
+                    "error"
+
                 );
+
             }
+
+        }
+
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        function showStatus(
+            message,
+            type = ""
+        ) {
+
+
+            const status =
+                document.getElementById(
+                    "status"
+                );
+
+
+            status.textContent =
+                message;
+
+
+            status.className =
+                "status show " + type;
+
+        }
+
+
+        /* =========================
+           PROGRESS
+        ========================= */
+
+        function setProgress(
+            value
+        ) {
+
+
+            const container =
+                document.getElementById(
+                    "progressContainer"
+                );
+
+
+            const progress =
+                document.getElementById(
+                    "progress"
+                );
+
+
+            const text =
+                document.getElementById(
+                    "progressText"
+                );
+
+
+            container.classList.add(
+                "show"
+            );
+
+
+            progress.style.width =
+                value + "%";
+
+
+            text.textContent =
+                Math.round(value) + "%";
+
+        }
+
+
+        function hideProgress() {
+
+
+            document
+                .getElementById(
+                    "progressContainer"
+                )
+                .classList.remove(
+                    "show"
+                );
+
         }
 
 
@@ -812,37 +1517,298 @@
            DOWNLOAD
         ========================= */
 
-        function startDownload() {
+        async function startDownload() {
 
-            const url = document.getElementById("url").value.trim();
+
+            const url =
+                document
+                    .getElementById(
+                        "url"
+                    )
+                    .value
+                    .trim();
+
+
+            const type =
+                document
+                    .getElementById(
+                        "type"
+                    )
+                    .value;
+
+
+            const quality =
+                document
+                    .getElementById(
+                        "quality"
+                    )
+                    .value;
+
+
+            const button =
+                document.getElementById(
+                    "downloadButton"
+                );
+
+
+            /* CHECK URL */
 
             if (!url) {
 
+
                 showStatus(
+
                     arabic
+
                         ? "يرجى إدخال رابط YouTube أولًا."
-                        : "Please enter a YouTube URL first."
+
+                        : "Please enter a YouTube URL first.",
+
+                    "error"
+
                 );
 
+
                 return;
+
             }
 
-            showStatus(
+
+            /* CHECK YOUTUBE URL */
+
+            if (
+                !url.includes("youtube.com") &&
+                !url.includes("youtu.be")
+            ) {
+
+
+                showStatus(
+
+                    arabic
+
+                        ? "يرجى إدخال رابط YouTube صحيح."
+
+                        : "Please enter a valid YouTube URL.",
+
+                    "error"
+
+                );
+
+
+                return;
+
+            }
+
+
+            /* DISABLE BUTTON */
+
+            button.disabled =
+                true;
+
+
+            button.textContent =
+
                 arabic
-                    ? "سيتم ربط التحميل الحقيقي بالسيرفر لاحقًا."
-                    : "The real downloader backend will be connected later."
+
+                    ? "⏳ جاري التحميل..."
+
+                    : "⏳ Downloading...";
+
+
+            setProgress(5);
+
+
+            showStatus(
+
+                arabic
+
+                    ? "جاري الاتصال بالسيرفر..."
+
+                    : "Connecting to downloader server..."
+
             );
-        }
 
 
-        function showStatus(message) {
+            try {
 
-            const status =
-                document.getElementById("status");
 
-            status.textContent = message;
+                /*
+                    إرسال البيانات
+                    إلى Python Backend
+                */
 
-            status.classList.add("show");
+                const response =
+                    await fetch(
+
+                        "http://127.0.0.1:5000/download",
+
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body: JSON.stringify({
+
+                                url: url,
+
+                                type: type,
+
+                                quality: quality
+
+                            })
+
+                        }
+
+                    );
+
+
+                setProgress(30);
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Download server error"
+                    );
+
+                }
+
+
+                /*
+                    استقبال الملف
+                */
+
+                const blob =
+                    await response.blob();
+
+
+                setProgress(80);
+
+
+                /*
+                    إنشاء رابط للملف
+                */
+
+                const downloadURL =
+                    window.URL.createObjectURL(
+                        blob
+                    );
+
+
+                const a =
+                    document.createElement(
+                        "a"
+                    );
+
+
+                a.href =
+                    downloadURL;
+
+
+                /*
+                    اسم الملف
+                */
+
+                if (type === "audio") {
+
+                    a.download =
+                        "VideoYTFX-Audio.mp3";
+
+                } else {
+
+                    a.download =
+                        "VideoYTFX-Video.mp4";
+
+                }
+
+
+                document.body.appendChild(
+                    a
+                );
+
+
+                /*
+                    بدء التنزيل
+                */
+
+                a.click();
+
+
+                a.remove();
+
+
+                window.URL.revokeObjectURL(
+                    downloadURL
+                );
+
+
+                setProgress(100);
+
+
+                showStatus(
+
+                    arabic
+
+                        ? "✅ اكتمل التحميل."
+
+                        : "✅ Download completed.",
+
+                    "success"
+
+                );
+
+
+            }
+
+            catch (error) {
+
+
+                console.error(
+                    error
+                );
+
+
+                hideProgress();
+
+
+                showStatus(
+
+                    arabic
+
+                        ? "❌ حدث خطأ. تأكد من تشغيل السيرفر."
+
+                        : "❌ An error occurred. Make sure the downloader server is running.",
+
+                    "error"
+
+                );
+
+            }
+
+
+            finally {
+
+
+                button.disabled =
+                    false;
+
+
+                button.textContent =
+
+                    arabic
+
+                        ? "⬇️ تحميل"
+
+                        : "⬇️ Download";
+
+            }
+
         }
 
 
@@ -854,5 +1820,7 @@
 
     </script>
 
+
 </body>
+
 </html>
