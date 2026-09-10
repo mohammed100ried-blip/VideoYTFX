@@ -5,1821 +5,1229 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>YouTube Downloader - VideoYTFX</title>
+    <title>A5 AI</title>
 
     <style>
+
         :root {
             --bg: #070b14;
-            --card: rgba(18, 25, 40, 0.88);
-            --card2: #101827;
-            --text: #ffffff;
-            --muted: #9da9bd;
-            --border: #26334d;
-            --input: #0b1220;
-            --primary: #1877f2;
-            --primary-hover: #2685ff;
-            --danger: #ff4d5a;
-            --success: #20c997;
-            --shadow: rgba(0, 0, 0, 0.35);
-        }
+            --bg2: #0b1020;
+            --card: rgba(15, 23, 42, 0.82);
+            --border: rgba(148, 163, 184, 0.18);
 
-        body.light {
-            --bg: #f3f6fb;
-            --card: rgba(255, 255, 255, 0.92);
-            --card2: #ffffff;
-            --text: #111827;
-            --muted: #667085;
-            --border: #dce2ec;
-            --input: #f7f9fc;
-            --primary: #1769e0;
-            --primary-hover: #0f5dcc;
-            --shadow: rgba(30, 50, 80, 0.12);
+            --text: #f8fafc;
+            --muted: #94a3b8;
+
+            --primary: #3b82f6;
+            --primary2: #60a5fa;
+
+            --user: #2563eb;
+            --ai: rgba(30, 41, 59, 0.9);
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
 
             background:
                 radial-gradient(
-                    circle at 50% -10%,
-                    rgba(24, 119, 242, 0.20),
+                    circle at top left,
+                    rgba(37, 99, 235, 0.18),
                     transparent 35%
                 ),
-                var(--bg);
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(59, 130, 246, 0.12),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--bg),
+                    var(--bg2)
+                );
 
             color: var(--text);
 
-            min-height: 100vh;
-
             transition:
-                background 0.3s,
-                color 0.3s;
+                background 0.3s ease,
+                color 0.3s ease;
+        }
+
+        body.light {
+            --bg: #f8fafc;
+            --bg2: #e2e8f0;
+
+            --card: rgba(255, 255, 255, 0.88);
+            --border: rgba(15, 23, 42, 0.1);
+
+            --text: #0f172a;
+            --muted: #64748b;
+
+            --ai: rgba(226, 232, 240, 0.9);
+        }
+
+        button,
+        textarea {
+            font-family: inherit;
         }
 
         /* =========================
-           NAVBAR
+           HEADER
         ========================= */
 
-        nav {
-            width: 100%;
-
-            padding: 18px 30px;
-
-            border-bottom: 1px solid var(--border);
-
-            background: rgba(7, 11, 20, 0.55);
-
-            backdrop-filter: blur(15px);
-
-            position: sticky;
-
-            top: 0;
-
-            z-index: 100;
-        }
-
-        body.light nav {
-            background: rgba(255, 255, 255, 0.75);
-        }
-
-        .nav-inner {
-            max-width: 1100px;
-
-            margin: auto;
+        header {
+            height: 75px;
 
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
 
-            gap: 20px;
+            padding: 0 25px;
+
+            border-bottom:
+                1px solid var(--border);
+
+            background:
+                rgba(7, 11, 20, 0.65);
+
+            backdrop-filter: blur(18px);
+
+            position: sticky;
+            top: 0;
+
+            z-index: 10;
+        }
+
+        body.light header {
+            background:
+                rgba(248, 250, 252, 0.75);
         }
 
         .brand {
             display: flex;
-
             align-items: center;
 
-            gap: 10px;
-
-            font-size: 21px;
-
-            font-weight: bold;
+            gap: 12px;
         }
 
-        .brand-icon {
-            width: 38px;
+        .logo {
+            width: 43px;
+            height: 43px;
 
-            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary2)
+                );
+
+            color: white;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            box-shadow:
+                0 8px 25px
+                rgba(59, 130, 246, 0.3);
+        }
+
+        .brand-text h1 {
+            font-size: 19px;
+        }
+
+        .brand-text span {
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 12px;
+
+            color: var(--muted);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+
+            border: 1px solid var(--border);
 
             border-radius: 11px;
 
-            background: var(--primary);
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-weight: bold;
-        }
-
-        .settings {
-            display: flex;
-
-            gap: 8px;
-
-            flex-wrap: wrap;
-        }
-
-        .setting-btn {
-            border: 1px solid var(--border);
-
             background: var(--card);
 
             color: var(--text);
 
-            padding: 9px 13px;
-
-            border-radius: 10px;
-
             cursor: pointer;
 
-            transition: 0.2s;
+            font-size: 17px;
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease;
         }
 
-        .setting-btn:hover {
-            border-color: var(--primary);
+        .icon-btn:hover {
+            transform: translateY(-2px);
+
+            background:
+                rgba(59, 130, 246, 0.12);
         }
 
         /* =========================
-           MAIN
+           CHAT
         ========================= */
 
-        .container {
-            width: 100%;
+        .chat {
+            height:
+                calc(100vh - 75px);
 
-            max-width: 950px;
+            max-width: 1000px;
 
             margin: auto;
 
-            padding: 70px 20px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .hero {
+        .messages {
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding:
+                35px 25px 25px;
+        }
+
+        .welcome {
+            min-height: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             text-align: center;
         }
 
-        /* =========================
-           YOUTUBE ICON
-        ========================= */
+        .welcome-content {
+            max-width: 650px;
+        }
 
-        .youtube-icon {
-            width: 86px;
+        .welcome-logo {
+            width: 90px;
+            height: 90px;
 
-            height: 60px;
-
-            margin: 0 auto 25px;
-
-            border-radius: 18px;
-
-            background: #ff0000;
+            margin:
+                0 auto 25px;
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
 
+            border-radius: 27px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary2)
+                );
+
+            color: white;
+
+            font-size: 38px;
+            font-weight: bold;
+
             box-shadow:
-                0 15px 45px rgba(255, 0, 0, 0.25);
+                0 20px 45px
+                rgba(59, 130, 246, 0.3);
         }
 
-        .youtube-icon::after {
-            content: "";
+        .welcome h2 {
+            font-size:
+                clamp(30px, 5vw, 48px);
 
-            width: 0;
-
-            height: 0;
-
-            border-top: 11px solid transparent;
-
-            border-bottom: 11px solid transparent;
-
-            border-left: 17px solid white;
-
-            margin-left: 4px;
+            margin-bottom: 12px;
         }
 
-        /* =========================
-           TITLE
-        ========================= */
-
-        h1 {
-            font-size: clamp(34px, 6vw, 58px);
-
-            margin-bottom: 14px;
-
-            letter-spacing: -1px;
-        }
-
-        .hero-text {
+        .welcome p {
             color: var(--muted);
-
-            max-width: 650px;
-
-            margin: auto;
 
             line-height: 1.7;
 
-            font-size: 17px;
+            font-size: 16px;
         }
 
         /* =========================
-           DOWNLOAD CARD
+           MESSAGE
         ========================= */
 
-        .download-card {
-            margin-top: 45px;
-
-            padding: 30px;
-
-            background: var(--card);
-
-            border: 1px solid var(--border);
-
-            border-radius: 24px;
-
-            box-shadow:
-                0 25px 70px var(--shadow);
-
-            backdrop-filter: blur(15px);
-        }
-
-        .url-label {
-            display: block;
-
-            margin-bottom: 10px;
-
-            font-weight: bold;
-        }
-
-        .url-row {
+        .message {
             display: flex;
 
-            gap: 10px;
+            gap: 12px;
+
+            margin-bottom: 24px;
+
+            animation:
+                messageIn 0.25s ease;
         }
 
-        .url-input {
-            flex: 1;
+        @keyframes messageIn {
 
-            min-width: 0;
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
 
-            padding: 16px;
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
 
-            border-radius: 13px;
-
-            border: 1px solid var(--border);
-
-            background: var(--input);
-
-            color: var(--text);
-
-            font-size: 16px;
-
-            outline: none;
-
-            transition: 0.2s;
         }
 
-        .url-input:focus {
-            border-color: var(--primary);
-
-            box-shadow:
-                0 0 0 3px rgba(24, 119, 242, 0.12);
+        .message.user {
+            justify-content: flex-end;
         }
 
-        .paste-btn {
-            padding: 0 20px;
+        .avatar {
+            width: 38px;
+            height: 38px;
 
-            border: 1px solid var(--border);
+            flex-shrink: 0;
 
-            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-            background: var(--card2);
+            border-radius: 11px;
 
-            color: var(--text);
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary2)
+                );
 
-            cursor: pointer;
-
-            font-weight: bold;
-
-            transition: 0.2s;
-        }
-
-        .paste-btn:hover {
-            border-color: var(--primary);
-        }
-
-        /* =========================
-           OPTIONS
-        ========================= */
-
-        .options {
-            display: grid;
-
-            grid-template-columns: 1fr 1fr;
-
-            gap: 15px;
-
-            margin-top: 20px;
-        }
-
-        .option-box {
-            border: 1px solid var(--border);
-
-            background: var(--card2);
-
-            border-radius: 15px;
-
-            padding: 18px;
-        }
-
-        .option-box label {
-            display: block;
-
-            margin-bottom: 9px;
-
-            color: var(--muted);
-
-            font-size: 14px;
-        }
-
-        select {
-            width: 100%;
-
-            padding: 13px;
-
-            border-radius: 10px;
-
-            border: 1px solid var(--border);
-
-            background: var(--input);
-
-            color: var(--text);
-
-            outline: none;
+            color: white;
 
             font-size: 15px;
+            font-weight: bold;
+        }
+
+        .message.user .avatar {
+            order: 2;
+        }
+
+        .bubble {
+            max-width: 75%;
+
+            padding:
+                13px 16px;
+
+            border-radius: 17px;
+
+            line-height: 1.6;
+
+            white-space: pre-wrap;
+
+            word-wrap: break-word;
+        }
+
+        .message.ai .bubble {
+            background:
+                var(--ai);
+
+            border:
+                1px solid var(--border);
+
+            border-top-left-radius: 5px;
+        }
+
+        .message.user .bubble {
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #3b82f6
+                );
+
+            color: white;
+
+            border-top-right-radius: 5px;
         }
 
         /* =========================
-           DOWNLOAD BUTTON
+           INPUT
         ========================= */
 
-        .download-btn {
-            width: 100%;
+        .input-area {
+            padding:
+                15px 20px 25px;
+        }
 
-            margin-top: 20px;
+        .input-box {
+            display: flex;
+            align-items: flex-end;
 
-            padding: 17px;
+            gap: 10px;
+
+            padding: 10px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 18px;
+
+            background:
+                var(--card);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 15px 45px
+                rgba(0, 0, 0, 0.2);
+        }
+
+        textarea {
+            flex: 1;
+
+            min-height: 45px;
+            max-height: 150px;
+
+            resize: none;
+
+            border: none;
+            outline: none;
+
+            background: transparent;
+
+            color: var(--text);
+
+            font-size: 15px;
+
+            line-height: 1.5;
+
+            padding:
+                10px 8px;
+        }
+
+        textarea::placeholder {
+            color: var(--muted);
+        }
+
+        .send-btn {
+            width: 45px;
+            height: 45px;
+
+            flex-shrink: 0;
 
             border: none;
 
             border-radius: 13px;
 
-            background: var(--primary);
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary2)
+                );
 
             color: white;
 
-            font-size: 17px;
-
-            font-weight: bold;
-
             cursor: pointer;
 
-            transition: 0.2s;
+            font-size: 18px;
+
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease;
         }
 
-        .download-btn:hover {
-            background: var(--primary-hover);
-
-            transform: translateY(-1px);
+        .send-btn:hover {
+            transform: translateY(-2px);
         }
 
-        .download-btn:disabled {
-            opacity: 0.6;
-
+        .send-btn:disabled {
+            opacity: 0.5;
             cursor: not-allowed;
-
-            transform: none;
         }
 
-        /* =========================
-           STATUS
-        ========================= */
-
-        .status {
-            display: none;
-
-            margin-top: 20px;
-
-            padding: 15px;
-
-            border-radius: 12px;
-
-            background: var(--input);
-
-            color: var(--muted);
-
-            text-align: center;
-
-            line-height: 1.6;
-        }
-
-        .status.show {
-            display: block;
-        }
-
-        .status.error {
-            color: var(--danger);
-        }
-
-        .status.success {
-            color: var(--success);
-        }
-
-        /* =========================
-           PROGRESS
-        ========================= */
-
-        .progress-container {
-            display: none;
-
-            margin-top: 15px;
-        }
-
-        .progress-container.show {
-            display: block;
-        }
-
-        .progress-bar {
-            width: 100%;
-
-            height: 8px;
-
-            background: var(--border);
-
-            border-radius: 20px;
-
-            overflow: hidden;
-        }
-
-        .progress {
-            width: 0%;
-
-            height: 100%;
-
-            background: var(--primary);
-
-            transition: width 0.3s;
-        }
-
-        .progress-text {
-            margin-top: 8px;
-
+        .hint {
             text-align: center;
 
             color: var(--muted);
 
-            font-size: 13px;
+            font-size: 11px;
+
+            margin-top: 9px;
         }
 
         /* =========================
-           FEATURES
+           TYPING
         ========================= */
 
-        .features {
-            display: grid;
+        .typing {
+            display: flex;
 
-            grid-template-columns:
-                repeat(3, 1fr);
+            align-items: center;
 
-            gap: 15px;
-
-            margin-top: 25px;
+            gap: 5px;
         }
 
-        .feature {
-            padding: 22px;
+        .typing span {
+            width: 6px;
+            height: 6px;
 
-            text-align: center;
+            border-radius: 50%;
 
-            border: 1px solid var(--border);
+            background:
+                var(--muted);
 
-            background: var(--card);
-
-            border-radius: 17px;
+            animation:
+                typing 1.2s infinite;
         }
 
-        .feature-icon {
-            font-size: 27px;
-
-            margin-bottom: 10px;
+        .typing span:nth-child(2) {
+            animation-delay: 0.15s;
         }
 
-        .feature h3 {
-            margin-bottom: 7px;
+        .typing span:nth-child(3) {
+            animation-delay: 0.3s;
         }
 
-        .feature p {
-            color: var(--muted);
+        @keyframes typing {
 
-            font-size: 14px;
+            0%,
+            60%,
+            100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
 
-            line-height: 1.5;
-        }
+            30% {
+                opacity: 1;
+                transform: translateY(-3px);
+            }
 
-        /* =========================
-           BACK
-        ========================= */
-
-        .back {
-            display: block;
-
-            width: fit-content;
-
-            margin: 35px auto 0;
-
-            color: var(--muted);
-
-            text-decoration: none;
-
-            transition: 0.2s;
-        }
-
-        .back:hover {
-            color: var(--text);
-        }
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        footer {
-            text-align: center;
-
-            color: var(--muted);
-
-            padding: 25px;
-
-            border-top: 1px solid var(--border);
-
-            font-size: 13px;
         }
 
         /* =========================
            MOBILE
         ========================= */
 
-        @media (max-width: 700px) {
+        @media (max-width: 600px) {
 
-            nav {
-                padding: 15px;
+            header {
+                padding:
+                    0 15px;
             }
 
-            .nav-inner {
-                align-items: flex-start;
-
-                flex-direction: column;
+            .brand-text h1 {
+                font-size: 17px;
             }
 
-            .settings {
-                width: 100%;
+            .messages {
+                padding:
+                    25px 15px;
             }
 
-            .setting-btn {
-                flex: 1;
+            .bubble {
+                max-width: 85%;
             }
 
-            .container {
-                padding: 45px 15px;
+            .input-area {
+                padding:
+                    10px 12px 15px;
             }
 
-            .download-card {
-                padding: 20px;
+            .welcome-logo {
+                width: 75px;
+                height: 75px;
+
+                font-size: 32px;
             }
 
-            .url-row {
-                flex-direction: column;
-            }
-
-            .paste-btn {
-                padding: 13px;
-            }
-
-            .options {
-                grid-template-columns: 1fr;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
         }
+
     </style>
-
 </head>
-
 
 <body>
 
-
     <!-- =========================
-         NAVBAR
-    ========================= -->
+         HEADER
+    ========================== -->
 
-    <nav>
+    <header>
 
-        <div class="nav-inner">
+        <div class="brand">
 
+            <div class="logo">
+                A5
+            </div>
 
-            <div class="brand">
+            <div class="brand-text">
 
-                <div class="brand-icon">
-                    V
-                </div>
+                <h1>
+                    A5 AI
+                </h1>
 
-                <span>
-                    VideoYTFX
+                <span id="status">
+                    AI Assistant
                 </span>
 
             </div>
 
-
-            <div class="settings">
-
-
-                <button
-                    class="setting-btn"
-                    onclick="changeLanguage()">
-
-                    🌐
-
-                    <span id="languageButton">
-                        English
-                    </span>
-
-                </button>
+        </div>
 
 
-                <button
-                    class="setting-btn"
-                    onclick="toggleTheme()">
+        <div class="header-actions">
 
-                    <span id="themeIcon">
-                        🌙
-                    </span>
+            <button
+                class="icon-btn"
+                onclick="toggleLanguage()"
+                id="languageBtn"
+                title="Language"
+            >
+                🌐
+            </button>
 
-                    <span id="themeText">
-                        Dark
-                    </span>
+            <button
+                class="icon-btn"
+                onclick="toggleTheme()"
+                id="themeBtn"
+                title="Theme"
+            >
+                ☀️
+            </button>
 
-                </button>
-
-
-            </div>
-
+            <button
+                class="icon-btn"
+                onclick="clearChat()"
+                title="Clear chat"
+            >
+                🗑️
+            </button>
 
         </div>
 
-    </nav>
+    </header>
 
 
     <!-- =========================
-         MAIN
-    ========================= -->
-
-    <main class="container">
-
-
-        <!-- HERO -->
-
-        <section class="hero">
-
-
-            <div class="youtube-icon"></div>
-
-
-            <h1 id="title">
-                YouTube Downloader
-            </h1>
-
-
-            <p
-                class="hero-text"
-                id="description">
-
-                Download YouTube videos and audio
-                with a simple, fast and modern interface.
-
-            </p>
-
-
-        </section>
-
-
-        <!-- =========================
-             DOWNLOAD CARD
-        ========================= -->
-
-        <section class="download-card">
-
-
-            <label
-                class="url-label"
-                id="urlLabel">
-
-                YouTube URL
-
-            </label>
-
-
-            <div class="url-row">
-
-
-                <input
-                    id="url"
-                    class="url-input"
-                    type="text"
-                    autocomplete="off"
-                    placeholder="Paste YouTube link here..."
-                >
-
-
-                <button
-                    class="paste-btn"
-                    onclick="pasteURL()"
-                    id="pasteButton">
-
-                    Paste
-
-                </button>
-
-
-            </div>
-
-
-            <!-- OPTIONS -->
-
-            <div class="options">
-
-
-                <!-- DOWNLOAD TYPE -->
-
-                <div class="option-box">
-
-
-                    <label id="typeLabel">
-                        Download type
-                    </label>
-
-
-                    <select id="type">
-
-
-                        <option
-                            value="video"
-                            id="videoOption">
-
-                            🎥 Video
-
-                        </option>
-
-
-                        <option
-                            value="audio"
-                            id="audioOption">
-
-                            🎵 Audio
-
-                        </option>
-
-
-                    </select>
-
-
-                </div>
-
-
-                <!-- QUALITY -->
-
-                <div class="option-box">
-
-
-                    <label id="qualityLabel">
-                        Quality
-                    </label>
-
-
-                    <select id="quality">
-
-
-                        <option value="best">
-                            Best Quality
-                        </option>
-
-
-                        <option value="1080">
-                            1080p
-                        </option>
-
-
-                        <option value="720">
-                            720p
-                        </option>
-
-
-                        <option value="480">
-                            480p
-                        </option>
-
-
-                        <option value="360">
-                            360p
-                        </option>
-
-
-                    </select>
-
-
-                </div>
-
-
-            </div>
-
-
-            <!-- DOWNLOAD BUTTON -->
-
-            <button
-                class="download-btn"
-                onclick="startDownload()"
-                id="downloadButton">
-
-                ⬇️ Download
-
-            </button>
-
-
-            <!-- STATUS -->
+         CHAT
+    ========================== -->
+
+    <main class="chat">
+
+        <div
+            class="messages"
+            id="messages"
+        >
 
             <div
-                class="status"
-                id="status">
-            </div>
+                class="welcome"
+                id="welcome"
+            >
 
+                <div class="welcome-content">
 
-            <!-- PROGRESS -->
-
-            <div
-                class="progress-container"
-                id="progressContainer">
-
-
-                <div class="progress-bar">
-
-                    <div
-                        class="progress"
-                        id="progress">
+                    <div class="welcome-logo">
+                        A5
                     </div>
 
+                    <h2 id="welcomeTitle">
+                        How can I help you?
+                    </h2>
+
+                    <p id="welcomeDescription">
+                        I am A5, your intelligent AI
+                        assistant. Ask me anything.
+                    </p>
+
                 </div>
-
-
-                <div
-                    class="progress-text"
-                    id="progressText">
-
-                    0%
-
-                </div>
-
 
             </div>
 
-
-        </section>
+        </div>
 
 
         <!-- =========================
-             FEATURES
-        ========================= -->
+             INPUT
+        ========================== -->
 
-        <section class="features">
+        <div class="input-area">
 
+            <div class="input-box">
 
-            <div class="feature">
+                <textarea
+                    id="messageInput"
+                    placeholder="Message A5 AI..."
+                    rows="1"
+                    onkeydown="handleKey(event)"
+                ></textarea>
 
-
-                <div class="feature-icon">
-                    ⚡
-                </div>
-
-
-                <h3 id="fastTitle">
-                    Fast
-                </h3>
-
-
-                <p id="fastText">
-                    Simple and fast downloading interface.
-                </p>
-
+                <button
+                    class="send-btn"
+                    id="sendBtn"
+                    onclick="sendMessage()"
+                >
+                    ➤
+                </button>
 
             </div>
 
-
-            <div class="feature">
-
-
-                <div class="feature-icon">
-                    🎬
-                </div>
-
-
-                <h3 id="qualityTitle">
-                    High Quality
-                </h3>
-
-
-                <p id="qualityText">
-                    Choose the quality that fits your needs.
-                </p>
-
-
+            <div
+                class="hint"
+                id="hint"
+            >
+                Press Enter to send • Shift + Enter for a new line
             </div>
 
-
-            <div class="feature">
-
-
-                <div class="feature-icon">
-                    🎵
-                </div>
-
-
-                <h3 id="audioTitle">
-                    Audio
-                </h3>
-
-
-                <p id="audioText">
-                    Download audio when you need it.
-                </p>
-
-
-            </div>
-
-
-        </section>
-
-
-        <!-- BACK -->
-
-        <a
-            href="index.html"
-            class="back"
-            id="backButton">
-
-            ← Back to Home
-
-        </a>
-
+        </div>
 
     </main>
 
 
-    <!-- FOOTER -->
-
-    <footer>
-
-        © 2026 VideoYTFX
-
-    </footer>
-
-
-    <!-- =========================
-         JAVASCRIPT
-    ========================= -->
-
     <script>
+
+        /* =========================
+           LANGUAGE DATA
+        ========================== */
+
+        const translations = {
+
+            en: {
+
+                status:
+                    "AI Assistant",
+
+                welcomeTitle:
+                    "How can I help you?",
+
+                welcomeDescription:
+                    "I am A5, your intelligent AI assistant. Ask me anything.",
+
+                placeholder:
+                    "Message A5 AI...",
+
+                hint:
+                    "Press Enter to send • Shift + Enter for a new line",
+
+                aiGreeting:
+                    "Hello! I am A5 AI. How can I help you today?",
+
+                empty:
+                    "Please write a message first."
+
+            },
+
+            ar: {
+
+                status:
+                    "مساعد ذكاء اصطناعي",
+
+                welcomeTitle:
+                    "كيف يمكنني مساعدتك؟",
+
+                welcomeDescription:
+                    "أنا A5، مساعدك الذكي بالذكاء الاصطناعي. اسألني أي شيء.",
+
+                placeholder:
+                    "اكتب رسالة إلى A5 AI...",
+
+                hint:
+                    "اضغط Enter للإرسال • Shift + Enter لسطر جديد",
+
+                aiGreeting:
+                    "مرحبًا! أنا A5 AI. كيف يمكنني مساعدتك اليوم؟",
+
+                empty:
+                    "اكتب رسالة أولاً."
+
+            }
+
+        };
 
 
         /* =========================
            LANGUAGE
-        ========================= */
+        ========================== */
 
-        let arabic =
-            localStorage.getItem("language") === "ar";
+        let language =
+            localStorage.getItem("a5-language")
+            || "en";
 
 
         function updateLanguage() {
 
-
-            const html =
-                document.documentElement;
-
-
-            if (arabic) {
-
-
-                html.lang = "ar";
-
-                html.dir = "rtl";
-
-
-                document.getElementById(
-                    "languageButton"
-                ).textContent =
-                    "العربية";
-
-
-                document.getElementById(
-                    "themeText"
-                ).textContent =
-
-                    document.body.classList.contains("light")
-
-                        ? "مضيء"
-
-                        : "مظلم";
-
-
-                document.getElementById(
-                    "title"
-                ).textContent =
-                    "تحميل فيديوهات YouTube";
-
-
-                document.getElementById(
-                    "description"
-                ).textContent =
-                    "قم بتحميل فيديوهات YouTube والصوت بسهولة من خلال واجهة سريعة وعصرية.";
-
-
-                document.getElementById(
-                    "urlLabel"
-                ).textContent =
-                    "رابط YouTube";
-
-
-                document.getElementById(
-                    "url"
-                ).placeholder =
-                    "ضع رابط YouTube هنا...";
-
-
-                document.getElementById(
-                    "pasteButton"
-                ).textContent =
-                    "لصق";
-
-
-                document.getElementById(
-                    "typeLabel"
-                ).textContent =
-                    "نوع التحميل";
-
-
-                document.getElementById(
-                    "videoOption"
-                ).textContent =
-                    "🎥 فيديو";
-
-
-                document.getElementById(
-                    "audioOption"
-                ).textContent =
-                    "🎵 صوت";
-
-
-                document.getElementById(
-                    "qualityLabel"
-                ).textContent =
-                    "الجودة";
-
-
-                document.getElementById(
-                    "quality"
-                ).options[0].text =
-                    "أفضل جودة";
-
-
-                document.getElementById(
-                    "downloadButton"
-                ).textContent =
-                    "⬇️ تحميل";
-
-
-                document.getElementById(
-                    "fastTitle"
-                ).textContent =
-                    "سريع";
-
-
-                document.getElementById(
-                    "fastText"
-                ).textContent =
-                    "واجهة بسيطة وسريعة للتحميل.";
-
-
-                document.getElementById(
-                    "qualityTitle"
-                ).textContent =
-                    "جودة عالية";
-
-
-                document.getElementById(
-                    "qualityText"
-                ).textContent =
-                    "اختر الجودة التي تناسبك.";
-
-
-                document.getElementById(
-                    "audioTitle"
-                ).textContent =
-                    "صوت";
-
-
-                document.getElementById(
-                    "audioText"
-                ).textContent =
-                    "تحميل الصوت عندما تحتاج إليه.";
-
-
-                document.getElementById(
-                    "backButton"
-                ).textContent =
-                    "→ العودة للرئيسية";
-
-
-            } else {
-
-
-                html.lang = "en";
-
-                html.dir = "ltr";
-
-
-                document.getElementById(
-                    "languageButton"
-                ).textContent =
-                    "English";
-
-
-                document.getElementById(
-                    "themeText"
-                ).textContent =
-
-                    document.body.classList.contains("light")
-
-                        ? "Light"
-
-                        : "Dark";
-
-
-                document.getElementById(
-                    "title"
-                ).textContent =
-                    "YouTube Downloader";
-
-
-                document.getElementById(
-                    "description"
-                ).textContent =
-                    "Download YouTube videos and audio with a simple, fast and modern interface.";
-
-
-                document.getElementById(
-                    "urlLabel"
-                ).textContent =
-                    "YouTube URL";
-
-
-                document.getElementById(
-                    "url"
-                ).placeholder =
-                    "Paste YouTube link here...";
-
-
-                document.getElementById(
-                    "pasteButton"
-                ).textContent =
-                    "Paste";
-
-
-                document.getElementById(
-                    "typeLabel"
-                ).textContent =
-                    "Download type";
-
-
-                document.getElementById(
-                    "videoOption"
-                ).textContent =
-                    "🎥 Video";
-
-
-                document.getElementById(
-                    "audioOption"
-                ).textContent =
-                    "🎵 Audio";
-
-
-                document.getElementById(
-                    "qualityLabel"
-                ).textContent =
-                    "Quality";
-
-
-                document.getElementById(
-                    "quality"
-                ).options[0].text =
-                    "Best Quality";
-
-
-                document.getElementById(
-                    "downloadButton"
-                ).textContent =
-                    "⬇️ Download";
-
-
-                document.getElementById(
-                    "fastTitle"
-                ).textContent =
-                    "Fast";
-
-
-                document.getElementById(
-                    "fastText"
-                ).textContent =
-                    "Simple and fast downloading interface.";
-
-
-                document.getElementById(
-                    "qualityTitle"
-                ).textContent =
-                    "High Quality";
-
-
-                document.getElementById(
-                    "qualityText"
-                ).textContent =
-                    "Choose the quality that fits your needs.";
-
-
-                document.getElementById(
-                    "audioTitle"
-                ).textContent =
-                    "Audio";
-
-
-                document.getElementById(
-                    "audioText"
-                ).textContent =
-                    "Download audio when you need it.";
-
-
-                document.getElementById(
-                    "backButton"
-                ).textContent =
-                    "← Back to Home";
-
-            }
-
+            const t =
+                translations[language];
+
+            document.documentElement.lang =
+                language;
+
+            document.documentElement.dir =
+                language === "ar"
+                    ? "rtl"
+                    : "ltr";
+
+            document.getElementById(
+                "status"
+            ).textContent =
+                t.status;
+
+            document.getElementById(
+                "welcomeTitle"
+            ).textContent =
+                t.welcomeTitle;
+
+            document.getElementById(
+                "welcomeDescription"
+            ).textContent =
+                t.welcomeDescription;
+
+            document.getElementById(
+                "messageInput"
+            ).placeholder =
+                t.placeholder;
+
+            document.getElementById(
+                "hint"
+            ).textContent =
+                t.hint;
+
+            document.getElementById(
+                "languageBtn"
+            ).textContent =
+                language === "en"
+                    ? "🇦🇪"
+                    : "🇬🇧";
+
+            localStorage.setItem(
+                "a5-language",
+                language
+            );
         }
 
 
-        function changeLanguage() {
+        function toggleLanguage() {
 
-
-            arabic = !arabic;
-
-
-            localStorage.setItem(
-                "language",
-                arabic
+            language =
+                language === "en"
                     ? "ar"
-                    : "en"
-            );
-
+                    : "en";
 
             updateLanguage();
-
         }
 
 
         /* =========================
            THEME
-        ========================= */
+        ========================== */
 
-        let lightMode =
-            localStorage.getItem("theme") === "light";
+        let theme =
+            localStorage.getItem("a5-theme")
+            || "dark";
 
 
         function updateTheme() {
 
+            if (theme === "light") {
 
-            const icon =
-                document.getElementById(
-                    "themeIcon"
+                document.body.classList.add(
+                    "light"
                 );
 
-
-            document.body.classList.toggle(
-                "light",
-                lightMode
-            );
-
-
-            if (lightMode) {
-
-                icon.textContent = "☀️";
+                document.getElementById(
+                    "themeBtn"
+                ).textContent = "🌙";
 
             } else {
 
-                icon.textContent = "🌙";
+                document.body.classList.remove(
+                    "light"
+                );
 
+                document.getElementById(
+                    "themeBtn"
+                ).textContent = "☀️";
             }
 
-
-            updateLanguage();
-
+            localStorage.setItem(
+                "a5-theme",
+                theme
+            );
         }
 
 
         function toggleTheme() {
 
-
-            lightMode =
-                !lightMode;
-
-
-            localStorage.setItem(
-                "theme",
-                lightMode
+            theme =
+                theme === "dark"
                     ? "light"
-                    : "dark"
-            );
-
+                    : "dark";
 
             updateTheme();
-
         }
 
 
         /* =========================
-           PASTE
-        ========================= */
+           ADD MESSAGE
+        ========================== */
 
-        async function pasteURL() {
-
-
-            try {
-
-
-                const text =
-                    await navigator.clipboard.readText();
-
-
-                document.getElementById(
-                    "url"
-                ).value =
-                    text;
-
-
-            }
-
-            catch {
-
-
-                showStatus(
-
-                    arabic
-
-                        ? "لا يمكن الوصول إلى الحافظة."
-
-                        : "Clipboard access is not available.",
-
-                    "error"
-
-                );
-
-            }
-
-        }
-
-
-        /* =========================
-           STATUS
-        ========================= */
-
-        function showStatus(
-            message,
-            type = ""
+        function addMessage(
+            text,
+            type
         ) {
 
-
-            const status =
+            const messages =
                 document.getElementById(
-                    "status"
+                    "messages"
                 );
 
+            const welcome =
+                document.getElementById(
+                    "welcome"
+                );
 
-            status.textContent =
-                message;
+            if (welcome) {
+                welcome.remove();
+            }
+
+            const message =
+                document.createElement(
+                    "div"
+                );
+
+            message.className =
+                `message ${type}`;
 
 
-            status.className =
-                "status show " + type;
+            const avatar =
+                document.createElement(
+                    "div"
+                );
 
+            avatar.className =
+                "avatar";
+
+            avatar.textContent =
+                type === "user"
+                    ? "U"
+                    : "A5";
+
+
+            const bubble =
+                document.createElement(
+                    "div"
+                );
+
+            bubble.className =
+                "bubble";
+
+            bubble.textContent =
+                text;
+
+
+            message.appendChild(
+                avatar
+            );
+
+            message.appendChild(
+                bubble
+            );
+
+            messages.appendChild(
+                message
+            );
+
+            messages.scrollTop =
+                messages.scrollHeight;
+
+            return message;
         }
 
 
         /* =========================
-           PROGRESS
-        ========================= */
+           TYPING
+        ========================== */
 
-        function setProgress(
-            value
-        ) {
+        function showTyping() {
 
-
-            const container =
+            const messages =
                 document.getElementById(
-                    "progressContainer"
+                    "messages"
                 );
 
-
-            const progress =
-                document.getElementById(
-                    "progress"
+            const message =
+                document.createElement(
+                    "div"
                 );
 
+            message.className =
+                "message ai";
+
+            message.id =
+                "typingMessage";
+
+
+            const avatar =
+                document.createElement(
+                    "div"
+                );
+
+            avatar.className =
+                "avatar";
+
+            avatar.textContent =
+                "A5";
+
+
+            const bubble =
+                document.createElement(
+                    "div"
+                );
+
+            bubble.className =
+                "bubble";
+
+
+            bubble.innerHTML = `
+                <div class="typing">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+
+
+            message.appendChild(
+                avatar
+            );
+
+            message.appendChild(
+                bubble
+            );
+
+            messages.appendChild(
+                message
+            );
+
+            messages.scrollTop =
+                messages.scrollHeight;
+        }
+
+
+        function removeTyping() {
+
+            const typing =
+                document.getElementById(
+                    "typingMessage"
+                );
+
+            if (typing) {
+                typing.remove();
+            }
+        }
+
+
+        /* =========================
+           SEND MESSAGE
+        ========================== */
+
+        function sendMessage() {
+
+            const input =
+                document.getElementById(
+                    "messageInput"
+                );
+
+            const sendBtn =
+                document.getElementById(
+                    "sendBtn"
+                );
 
             const text =
-                document.getElementById(
-                    "progressText"
+                input.value.trim();
+
+
+            if (!text) {
+
+                const t =
+                    translations[language];
+
+                addMessage(
+                    t.empty,
+                    "ai"
                 );
 
+                return;
+            }
 
-            container.classList.add(
-                "show"
+
+            addMessage(
+                text,
+                "user"
             );
 
+            input.value = "";
 
-            progress.style.width =
-                value + "%";
+            input.style.height =
+                "45px";
 
+            sendBtn.disabled = true;
 
-            text.textContent =
-                Math.round(value) + "%";
-
-        }
-
-
-        function hideProgress() {
+            showTyping();
 
 
-            document
-                .getElementById(
-                    "progressContainer"
-                )
-                .classList.remove(
-                    "show"
+            /*
+             * مؤقتًا هذا رد تجريبي.
+             *
+             * في المرحلة التالية سنستبدله
+             * بطلب API حقيقي للذكاء الاصطناعي.
+             */
+
+            setTimeout(() => {
+
+                removeTyping();
+
+                const t =
+                    translations[language];
+
+                addMessage(
+                    t.aiGreeting,
+                    "ai"
                 );
 
+                sendBtn.disabled =
+                    false;
+
+            }, 900);
         }
 
 
         /* =========================
-           DOWNLOAD
-        ========================= */
+           ENTER KEY
+        ========================== */
 
-        async function startDownload() {
-
-
-            const url =
-                document
-                    .getElementById(
-                        "url"
-                    )
-                    .value
-                    .trim();
-
-
-            const type =
-                document
-                    .getElementById(
-                        "type"
-                    )
-                    .value;
-
-
-            const quality =
-                document
-                    .getElementById(
-                        "quality"
-                    )
-                    .value;
-
-
-            const button =
-                document.getElementById(
-                    "downloadButton"
-                );
-
-
-            /* CHECK URL */
-
-            if (!url) {
-
-
-                showStatus(
-
-                    arabic
-
-                        ? "يرجى إدخال رابط YouTube أولًا."
-
-                        : "Please enter a YouTube URL first.",
-
-                    "error"
-
-                );
-
-
-                return;
-
-            }
-
-
-            /* CHECK YOUTUBE URL */
+        function handleKey(event) {
 
             if (
-                !url.includes("youtube.com") &&
-                !url.includes("youtu.be")
+                event.key === "Enter"
+                &&
+                !event.shiftKey
             ) {
 
+                event.preventDefault();
 
-                showStatus(
-
-                    arabic
-
-                        ? "يرجى إدخال رابط YouTube صحيح."
-
-                        : "Please enter a valid YouTube URL.",
-
-                    "error"
-
-                );
-
-
-                return;
-
+                sendMessage();
             }
+        }
 
 
-            /* DISABLE BUTTON */
+        /* =========================
+           AUTO RESIZE
+        ========================== */
 
-            button.disabled =
-                true;
-
-
-            button.textContent =
-
-                arabic
-
-                    ? "⏳ جاري التحميل..."
-
-                    : "⏳ Downloading...";
-
-
-            setProgress(5);
-
-
-            showStatus(
-
-                arabic
-
-                    ? "جاري الاتصال بالسيرفر..."
-
-                    : "Connecting to downloader server..."
-
+        const textarea =
+            document.getElementById(
+                "messageInput"
             );
 
 
-            try {
+        textarea.addEventListener(
+            "input",
+            function () {
 
+                this.style.height =
+                    "45px";
 
-                /*
-                    إرسال البيانات
-                    إلى Python Backend
-                */
-
-                const response =
-                    await fetch(
-
-                        "http://127.0.0.1:5000/download",
-
-                        {
-
-                            method: "POST",
-
-                            headers: {
-
-                                "Content-Type":
-                                    "application/json"
-
-                            },
-
-                            body: JSON.stringify({
-
-                                url: url,
-
-                                type: type,
-
-                                quality: quality
-
-                            })
-
-                        }
-
-                    );
-
-
-                setProgress(30);
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Download server error"
-                    );
-
-                }
-
-
-                /*
-                    استقبال الملف
-                */
-
-                const blob =
-                    await response.blob();
-
-
-                setProgress(80);
-
-
-                /*
-                    إنشاء رابط للملف
-                */
-
-                const downloadURL =
-                    window.URL.createObjectURL(
-                        blob
-                    );
-
-
-                const a =
-                    document.createElement(
-                        "a"
-                    );
-
-
-                a.href =
-                    downloadURL;
-
-
-                /*
-                    اسم الملف
-                */
-
-                if (type === "audio") {
-
-                    a.download =
-                        "VideoYTFX-Audio.mp3";
-
-                } else {
-
-                    a.download =
-                        "VideoYTFX-Video.mp4";
-
-                }
-
-
-                document.body.appendChild(
-                    a
-                );
-
-
-                /*
-                    بدء التنزيل
-                */
-
-                a.click();
-
-
-                a.remove();
-
-
-                window.URL.revokeObjectURL(
-                    downloadURL
-                );
-
-
-                setProgress(100);
-
-
-                showStatus(
-
-                    arabic
-
-                        ? "✅ اكتمل التحميل."
-
-                        : "✅ Download completed.",
-
-                    "success"
-
-                );
-
+                this.style.height =
+                    Math.min(
+                        this.scrollHeight,
+                        150
+                    ) + "px";
 
             }
+        );
 
-            catch (error) {
 
+        /* =========================
+           CLEAR CHAT
+        ========================== */
 
-                console.error(
-                    error
+        function clearChat() {
+
+            const messages =
+                document.getElementById(
+                    "messages"
                 );
 
+            messages.innerHTML = `
 
-                hideProgress();
+                <div
+                    class="welcome"
+                    id="welcome"
+                >
 
+                    <div class="welcome-content">
 
-                showStatus(
+                        <div class="welcome-logo">
+                            A5
+                        </div>
 
-                    arabic
+                        <h2 id="welcomeTitle">
+                            How can I help you?
+                        </h2>
 
-                        ? "❌ حدث خطأ. تأكد من تشغيل السيرفر."
+                        <p id="welcomeDescription">
+                            I am A5, your intelligent AI assistant.
+                            Ask me anything.
+                        </p>
 
-                        : "❌ An error occurred. Make sure the downloader server is running.",
+                    </div>
 
-                    "error"
+                </div>
 
-                );
+            `;
 
-            }
-
-
-            finally {
-
-
-                button.disabled =
-                    false;
-
-
-                button.textContent =
-
-                    arabic
-
-                        ? "⬇️ تحميل"
-
-                        : "⬇️ Download";
-
-            }
-
+            updateLanguage();
         }
 
 
         /* =========================
            START
-        ========================= */
+        ========================== */
+
+        updateLanguage();
 
         updateTheme();
 
     </script>
-
 
 </body>
 
