@@ -22,6 +22,7 @@
             --primary: #3b82f6;
             --accent: #8b5cf6;
             --accent-glow: rgba(139, 92, 246, 0.35);
+            --gold: #f59e0b;
             --font-ar: 'Tajawal', sans-serif;
             --radius-lg: 24px;
             --radius-md: 14px;
@@ -97,6 +98,26 @@
             box-shadow: 0 4px 20px var(--accent-glow);
         }
 
+        .pro-nav-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            transition: var(--transition);
+        }
+
+        .pro-nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+        }
+
         .container {
             width: 100%;
             max-width: 950px;
@@ -105,7 +126,7 @@
 
         .header-section {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .ai-badge {
@@ -120,6 +141,21 @@
             font-size: 0.85rem;
             font-weight: 700;
             margin-bottom: 12px;
+        }
+
+        .welcome-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff, #a7f3d0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
         }
 
         .controls-bar {
@@ -142,6 +178,27 @@
             cursor: pointer;
         }
 
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tool-btn {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .tool-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
         .chat-card {
             background: var(--bg-surface);
             border: 1px solid var(--border-color);
@@ -149,7 +206,7 @@
             backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
-            height: 550px;
+            height: 520px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
@@ -201,7 +258,6 @@
             font-size: 0.95rem;
             line-height: 1.6;
             white-space: pre-wrap;
-            position: relative;
             word-break: break-word;
         }
 
@@ -265,6 +321,22 @@
             box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
         }
 
+        .mic-btn {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mic-btn.active {
+            background: #ef4444;
+            color: #fff;
+            border-color: #ef4444;
+        }
+
         .send-btn {
             background: linear-gradient(135deg, var(--accent), var(--primary));
             color: white;
@@ -288,22 +360,6 @@
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
-        }
-
-        .clear-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 6px 12px;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: var(--transition);
-        }
-
-        .clear-btn:hover {
-            color: #ef4444;
-            border-color: #ef4444;
         }
 
         .back-link {
@@ -342,48 +398,55 @@
     <nav class="navbar">
         <a href="index.html" class="brand">
             <div class="brand-icon">⚡</div>
-            <span>VideoYTFX Ultra AI</span>
+            <span>VideoYTFX AI</span>
+        </a>
+
+        <!-- زر الانتقال للنسخة الأقوى -->
+        <a href="downloads.html" class="pro-nav-btn">
+            👑 الترقية للنسخة الأقوى (PRO)
         </a>
     </nav>
 
     <div class="container">
         <div class="header-section">
             <div class="ai-badge">
-                <span>🚀</span> <span>ردود فورية بالتدفق (Streaming Fast AI)</span>
+                <span>🚀</span> <span>محرك ذكي فائق الأداء</span>
             </div>
-            <h1>المساعد المتطور جداً</h1>
-            <p class="subtitle">يتحدث معك بسرعة فائقة وبصوت بشري متجدد كلياً.</p>
+            <!-- نص الترحيب بالمستخدم المتغير تلقائياً -->
+            <h1 class="welcome-title" id="greetingText">مرحباً بك في استوديو الذكاء الاصطناعي</h1>
+            <p class="subtitle" id="greetingSub">المساعد الشخصي الذكي لإدارة وتنزيل وتحليل الفيديوهات والمحتوى.</p>
         </div>
 
         <div class="controls-bar">
             <div>
-                <label style="font-size: 0.85rem; color: var(--text-muted);">أسلوب الشخصية: </label>
+                <label style="font-size: 0.85rem; color: var(--text-muted);">الشخصية: </label>
                 <select id="personaSelect" class="persona-select" onchange="updatePersona()">
-                    <option value="friendly">صديق بشري ودود (تفاعلي)</option>
-                    <option value="expert">خبير تقني ومطور (دقيق ومختصر)</option>
-                    <option value="editor">محرر ومحتوى إبداعي</option>
+                    <option value="friendly">صديق بشري ودود</option>
+                    <option value="expert">مطور وخبير تقني</option>
+                    <option value="editor">صانع محتوى إبداعي</option>
                 </select>
             </div>
-            <button class="clear-btn" onclick="clearChat()">مسح المحادثة 🗑️</button>
+
+            <div class="action-btns">
+                <button class="tool-btn" onclick="exportChatHistory()">تحميل السجل 📥</button>
+                <button class="tool-btn" onclick="clearChat()">مسح المحادثة 🗑️</button>
+            </div>
         </div>
 
         <div class="chat-card">
             <div class="chat-header">
-                <span>💬 محادثة مباشرة متطورة</span>
+                <span>💬 المحادثة التفاعلية</span>
                 <div class="status-indicator">
                     <div class="status-dot"></div>
-                    <span id="statusText">المحرك السريع جاهز</span>
+                    <span>متصل وجاهز</span>
                 </div>
             </div>
             <div class="chat-messages" id="chatMessages">
-                <div class="msg-wrapper">
-                    <div class="msg bot">
-                        أهلاً بك! أنا معك الآن بأقصى سرعة رد وتفاعل بشرية. اسألني عن أي موضوع أو اطلب مني صياغة وتعديل أي نص!
-                    </div>
-                </div>
+                <!-- الرسائل يتم تحميلها وحفظها هنا -->
             </div>
             <div class="chat-input-area">
-                <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك هنا وسيظهر الرد فوراً..." onkeypress="handleKeyPress(event)">
+                <button class="mic-btn" id="micBtn" onclick="toggleVoiceInput()" title="تسجيل صوتي">🎙️</button>
+                <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك أو تحسينك هنا..." onkeypress="handleKeyPress(event)">
                 <button class="send-btn" id="sendBtn" onclick="sendMessage()">
                     <span>إرسال</span> ⚡
                 </button>
@@ -400,55 +463,75 @@
     </footer>
 
     <script type="module">
-        import * as webllm from "https://esm.run/@mlc-ai/web-llm";
-
-        let engine = null;
-        const selectedModel = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
-
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
-        const statusText = document.getElementById('statusText');
+        const greetingText = document.getElementById('greetingText');
+        const greetingSub = document.getElementById('greetingSub');
         const personaSelect = document.getElementById('personaSelect');
+        const micBtn = document.getElementById('micBtn');
 
-        let currentSystemPrompt = "أنت صديق بشري متطور للغاية. تتحدث باللغة العربية الطبيعية وبسلاسة، إجاباتك سريعة وتفاعلية كشخص حقيقي يدير حواراً راقياً بذكاء وتنوع تام بدون تكرار.";
+        let isRecording = false;
+        let recognition = null;
 
-        const messagesHistory = [
-            { role: "system", content: currentSystemPrompt }
-        ];
-
-        window.updatePersona = function() {
-            const val = personaSelect.value;
-            if(val === 'expert') {
-                currentSystemPrompt = "أنت خبير برمجيات وتكنولوجيا متمرس. إجاباتك حاسمة، دقيقة، مباشرة وتستخدم المفهوم التقني الصحيح.";
-            } else if(val === 'editor') {
-                currentSystemPrompt = "أنت محرر نصوص وصانع محتوى محترف. أسلوبك إبداعي وجذاب ويثري المحادثة.";
-            } else {
-                currentSystemPrompt = "أنت صديق بشري متطور للغاية. تتحدث باللغة العربية الطبيعية وبسلاسة، إجاباتك سريعة وتفاعلية كشخص حقيقي.";
+        // إعداد الترحيب الذكي بطلب اسم المستخدم
+        function setupSmartGreeting() {
+            let userName = localStorage.getItem('user_name');
+            if (!userName) {
+                userName = prompt("مرحباً بك! ما هو اسمك الكريم؟") || "صديقنا العزيز";
+                localStorage.setItem('user_name', userName);
             }
-            messagesHistory[0].content = currentSystemPrompt;
-        };
 
-        async function initEngine() {
-            try {
-                if (navigator.gpu) {
-                    engine = await webllm.CreateMLCEngine(
-                        selectedModel,
-                        {
-                            initProgressCallback: (progress) => {
-                                statusText.textContent = `تحميل المحرك المحلي: ${Math.round(progress.progress * 100)}%`;
-                            }
-                        }
-                    );
-                    statusText.textContent = "محرك WebGPU الفائق نشط ⚡";
-                } else {
-                    statusText.textContent = "وضع الرد الفوري الذكي ⚡";
-                }
-            } catch (e) {
-                statusText.textContent = "وضع الرد الفوري الذكي ⚡";
+            const hour = new Date().getHours();
+            let timeGreeting = "أهلاً وسهلاً";
+            if (hour >= 5 && hour < 12) timeGreeting = "صباح الخير";
+            else if (hour >= 12 && hour < 18) timeGreeting = "مساء الخير";
+            else timeGreeting = "مساء النور والسرور";
+
+            greetingText.textContent = `${timeGreeting}، ${userName}! 👋`;
+            greetingSub.textContent = `مرحباً بك في استوديو VideoYTFX. أنا هنا لمساعدتك في كل ما تحتاجه.`;
+        }
+
+        // حفظ وتحميل المحادثة من ذاكرة الجهاز (LocalStorage)
+        function loadChatHistory() {
+            const savedHistory = localStorage.getItem('chat_history');
+            if (savedHistory) {
+                chatMessages.innerHTML = savedHistory;
+            } else {
+                const userName = localStorage.getItem('user_name') || 'صديقي';
+                appendBotMessage(`يا مرحباً بك يا ${userName}! كيف يمكنني مساعدتك اليوم؟ يمكنك اختباري في البرمجة، الفيديوهات، أو صياغة الأفكار!`);
             }
         }
 
+        function saveChatHistory() {
+            localStorage.setItem('chat_history', chatMessages.innerHTML);
+        }
+
+        window.clearChat = function() {
+            localStorage.removeItem('chat_history');
+            chatMessages.innerHTML = '';
+            const userName = localStorage.getItem('user_name') || 'صديقي';
+            appendBotMessage(`تم مسح السجل بنجاح! أهلاً بك مجدداً يا ${userName}، كيف أستطيع مساعدتك الآن؟`);
+            saveChatHistory();
+        };
+
+        // تصدير المحادثة كملف نصي
+        window.exportChatHistory = function() {
+            const messages = document.querySelectorAll('.msg');
+            let content = "--- سجل محادثة VideoYTFX AI ---\n\n";
+            messages.forEach(msg => {
+                const isUser = msg.classList.contains('user');
+                content += `${isUser ? 'المستخدم' : 'الذكاء الاصطناعي'}: ${msg.textContent.trim()}\n\n`;
+            });
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'chat-history.txt';
+            link.click();
+        };
+
+        // الرد الآلي السريع بأسلوب إنساني متطور
         window.sendMessage = async function() {
             const text = userInput.value.trim();
             if (!text) return;
@@ -457,106 +540,70 @@
             userInput.value = '';
             sendBtn.disabled = true;
 
-            messagesHistory.push({ role: "user", content: text });
-
-            // إنشاء خانة الرسالة القادمة للتدفق الفوري (Streaming)
             const { botMsgDiv, wrapper } = createBotMessagePlaceholder();
 
-            try {
-                if (engine) {
-                    // الرد بالتدفق الحقيقي مع محرك WebGPU
-                    const asyncChunkGenerator = await engine.chat.completions.create({
-                        messages: messagesHistory,
-                        temperature: 0.8,
-                        stream: true,
-                        presence_penalty: 0.5,
-                        frequency_penalty: 0.5
-                    });
+            // سرعة الاستجابة بالتدفق
+            await streamFastResponse(botMsgDiv, wrapper, text);
 
-                    let fullReply = "";
-                    botMsgDiv.textContent = "";
-
-                    for await (const chunk of asyncChunkGenerator) {
-                        const content = chunk.choices[0]?.delta?.content || "";
-                        fullReply += content;
-                        botMsgDiv.textContent = fullReply;
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }
-
-                    messagesHistory.push({ role: "assistant", content: fullReply });
-                    addToolsToMessage(wrapper, fullReply);
-
-                } else {
-                    // محاكات كتابة فورية بالتدفق (Streaming) فائقة السرعة
-                    await streamTextFast(botMsgDiv, wrapper, text);
-                }
-            } catch (err) {
-                botMsgDiv.textContent = "حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى.";
-            } finally {
-                sendBtn.disabled = false;
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+            sendBtn.disabled = false;
+            saveChatHistory();
         };
 
-        // محاكي كتابة فوري يظهر الكلمات كلمة بكلمة لسرعة الاستجابة
-        async function streamTextFast(botMsgDiv, wrapper, userText) {
-            const generatedReply = generateSmartResponse(userText);
+        async function streamFastResponse(botMsgDiv, wrapper, userText) {
+            const response = getSmartResponse(userText);
             botMsgDiv.textContent = "";
-            let currentText = "";
 
-            const words = generatedReply.split(" ");
+            const words = response.split(" ");
+            let current = "";
+
             for (let i = 0; i < words.length; i++) {
-                currentText += words[i] + " ";
-                botMsgDiv.textContent = currentText;
+                current += words[i] + " ";
+                botMsgDiv.textContent = current;
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-                await new Promise(r => setTimeout(r, 35)); // سرعة إخراج فائقة 35ms لكل كلمة
+                await new Promise(r => setTimeout(r, 30));
             }
 
-            messagesHistory.push({ role: "assistant", content: generatedReply });
-            addToolsToMessage(wrapper, generatedReply);
+            addToolsToMessage(wrapper, response);
         }
 
-        function generateSmartResponse(input) {
-            const persona = personaSelect.value;
+        function getSmartResponse(input) {
+            const userName = localStorage.getItem('user_name') || 'صديقي';
             const lower = input.toLowerCase();
 
-            if (persona === 'expert') {
-                return `بناءً على تحليلي لـ "${input}": يُفضل الاعتماد على حلول متكاملة تضمن أعلى أداء واستقرار للنظام مع تحسين خوارزميات الاستجابة.`;
-            } else if (persona === 'editor') {
-                return `يا لها من فكرة ممتازة! بخصوص "${input}"، يمكننا صياغتها بطريقة إبداعية تشد القارئ وتجعل المحتوى ينبض بالحياة.`;
-            } else {
-                if (lower.includes("تحميل") || lower.includes("فيديو") || lower.includes("برنامج")) {
-                    return "بالتأكيد! يمكنك الاعتماد على أدواتنا لتنزيل أفضل الفيديوهات بجودات متعددة وسرعة فائقة.";
-                }
-                return `أنا معك تماماً في هذه النقطة بشأن "${input}". كيف تحب أن نواصل الحديث حول ذلك؟`;
+            if (lower.includes("اقوى") || lower.includes("نسخه") || lower.includes("تحديث") || lower.includes("تحميل")) {
+                return `يا ${userName}، للحصول على النسخة الأقوى والأحدث مع الميزات المتقدمة كاملة، اضغط على زر "👑 الترقية للنسخة الأقوى (PRO)" الموجود في أعلى الصفحة لتنقلك مباشرة لصفحة التحميلات المباشرة!`;
             }
+            if (lower.includes("هلا") || lower.includes("مرحبا") || lower.includes("السلام")) {
+                return `أهلاً وسهلاً بك يا ${userName}! يسعدني جداً التحدث معك. أستطيع مساعدتك في تنزيل الفيديوهات، صياغة النصوص، والذكاء الاصطناعي.`;
+            }
+            return `عزيزي ${userName}، بالنسبة لطلبك بخصوص "${input}"، يسعدني أن أوضح لك أن النظام يقدم لك أدوات متطورة لمعالجة ذلك وسرعة فائقة بمرونة تامة!`;
         }
 
         function appendUserMessage(text) {
             const wrapper = document.createElement('div');
             wrapper.className = 'msg-wrapper';
-
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'msg user';
-            msgDiv.textContent = text;
-
-            wrapper.appendChild(msgDiv);
+            wrapper.innerHTML = `<div class="msg user">${text}</div>`;
             chatMessages.appendChild(wrapper);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function appendBotMessage(text) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'msg-wrapper';
+            wrapper.innerHTML = `<div class="msg bot">${text}</div>`;
+            chatMessages.appendChild(wrapper);
+            addToolsToMessage(wrapper, text);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
         function createBotMessagePlaceholder() {
             const wrapper = document.createElement('div');
             wrapper.className = 'msg-wrapper';
-
             const botMsgDiv = document.createElement('div');
             botMsgDiv.className = 'msg bot';
             botMsgDiv.textContent = "يكتب الآن...";
-
             wrapper.appendChild(botMsgDiv);
             chatMessages.appendChild(wrapper);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
             return { botMsgDiv, wrapper };
         }
 
@@ -564,13 +611,11 @@
             const toolsDiv = document.createElement('div');
             toolsDiv.className = 'msg-tools';
 
-            // زر قراءة الصوت
             const speakBtn = document.createElement('button');
             speakBtn.className = 'msg-btn';
             speakBtn.innerHTML = '🔊 استماع';
             speakBtn.onclick = () => speakText(text);
 
-            // زر النسخ
             const copyBtn = document.createElement('button');
             copyBtn.className = 'msg-btn';
             copyBtn.innerHTML = '📋 نسخ';
@@ -590,30 +635,47 @@
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'ar-SA';
-                utterance.rate = 1.0;
                 window.speechSynthesis.speak(utterance);
             }
         }
 
-        window.clearChat = function() {
-            chatMessages.innerHTML = `
-                <div class="msg-wrapper">
-                    <div class="msg bot">
-                        تم إعادة ضبط المحادثة. كيف يمكنني مساعدتك الآن؟
-                    </div>
-                </div>
-            `;
-            messagesHistory.length = 0;
-            messagesHistory.push({ role: "system", content: currentSystemPrompt });
-        };
+        // ميزة التسجيل الصوتي
+        window.toggleVoiceInput = function() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert("التسجيل الصوتي غير مدعوم في متصفحك حالياً.");
+                return;
+            }
 
-        window.handleKeyPress = function(e) {
-            if (e.key === 'Enter') {
-                window.sendMessage();
+            if (isRecording) {
+                recognition.stop();
+                isRecording = false;
+                micBtn.classList.remove('active');
+            } else {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.lang = 'ar-SA';
+                recognition.onstart = () => {
+                    isRecording = true;
+                    micBtn.classList.add('active');
+                };
+                recognition.onresult = (event) => {
+                    userInput.value = event.results[0][0].transcript;
+                };
+                recognition.onend = () => {
+                    isRecording = false;
+                    micBtn.classList.remove('active');
+                };
+                recognition.start();
             }
         };
 
-        initEngine();
+        window.handleKeyPress = function(e) {
+            if (e.key === 'Enter') window.sendMessage();
+        };
+
+        // البدء والتنفيذ
+        setupSmartGreeting();
+        loadChatHistory();
     </script>
 </body>
 
