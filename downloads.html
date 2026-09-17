@@ -1,164 +1,494 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Downloads - VideoYTFX</title>
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --bg-base: #030712;
+            --bg-surface: rgba(17, 24, 39, 0.7);
+            --bg-surface-hover: rgba(31, 41, 55, 0.85);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(59, 130, 246, 0.5);
+
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.35);
+            --accent: #8b5cf6;
+
+            --font-en: 'Plus Jakarta Sans', sans-serif;
+            --font-ar: 'Tajawal', sans-serif;
+
+            --radius-lg: 24px;
+            --radius-md: 14px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f8fafc;
+            --bg-surface: rgba(255, 255, 255, 0.85);
+            --bg-surface-hover: rgba(241, 245, 249, 1);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --border-hover: rgba(59, 130, 246, 0.4);
+
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+
+            --primary-glow: rgba(59, 130, 246, 0.15);
+        }
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background:
-                radial-gradient(circle at top, #162447, #080b14 55%);
-            color: white;
             min-height: 100vh;
+            font-family: var(--font-en);
+            background-color: var(--bg-base);
+            color: var(--text-main);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            padding: 30px;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
+        html[dir="rtl"] body {
+            font-family: var(--font-ar);
+        }
+
+        /* Ambient Lights */
+        .ambient-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(140px);
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        .glow-1 {
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, var(--primary), transparent 70%);
+        }
+
+        .glow-2 {
+            bottom: -100px;
+            right: -100px;
+            background: radial-gradient(circle, var(--accent), transparent 70%);
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 8%;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            font-weight: 800;
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ui {
+            border: 1px solid var(--border-color);
+            background: var(--bg-surface);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-ui:hover {
+            background: var(--bg-surface-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Container */
         .container {
             width: 100%;
-            max-width: 850px;
+            max-width: 900px;
+            padding: 60px 20px;
             text-align: center;
         }
 
+        .header-section {
+            margin-bottom: 40px;
+        }
+
         .logo {
-            width: 75px;
-            height: 75px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 20px;
-            border-radius: 20px;
-            background: #1877f2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 38px;
-            font-weight: bold;
-            box-shadow: 0 10px 35px rgba(24, 119, 242, 0.35);
+            border-radius: 22px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: grid;
+            place-items: center;
+            font-size: 40px;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 15px 35px var(--primary-glow);
         }
 
         h1 {
-            font-size: 42px;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
             margin-bottom: 10px;
         }
 
         .subtitle {
-            color: #aeb7c7;
-            font-size: 17px;
-            margin-bottom: 40px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        /* Download Options Cards */
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
         }
 
         .download-card {
-            background: rgba(20, 27, 43, 0.9);
-            border: 1px solid #27334d;
-            border-radius: 22px;
-            padding: 35px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: right;
+        }
+
+        html[dir="ltr"] .download-card {
+            text-align: left;
+        }
+
+        .download-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-hover);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .card-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(59, 130, 246, 0.3);
         }
 
         .download-card h2 {
-            font-size: 28px;
-            margin-bottom: 12px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
 
         .download-card p {
-            color: #aeb7c7;
-            line-height: 1.7;
-            margin-bottom: 25px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
         }
 
-        .download {
-            display: inline-block;
-            background: #1877f2;
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
             text-decoration: none;
-            padding: 15px 28px;
-            border-radius: 12px;
-            font-size: 17px;
-            font-weight: bold;
-            transition: 0.2s;
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 10px 25px var(--primary-glow);
+            transition: var(--transition);
         }
 
-        .download:hover {
+        .download-btn:hover {
             transform: translateY(-2px);
-            background: #2685ff;
-            box-shadow: 0 10px 30px rgba(24, 119, 242, 0.3);
+            box-shadow: 0 15px 30px var(--primary-glow);
         }
 
-        .version {
-            margin-top: 18px;
-            color: #7f8ba3;
-            font-size: 14px;
+        .download-btn.secondary {
+            background: var(--bg-surface-hover);
+            border: 1px solid var(--border-color);
+            box-shadow: none;
+            color: var(--text-main);
         }
 
-        .back {
-            display: inline-block;
-            margin-top: 30px;
-            color: #8ea7d8;
+        .download-btn.secondary:hover {
+            border-color: var(--border-hover);
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .version-info {
+            margin-top: 15px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            color: var(--text-muted);
             text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
         }
 
-        .back:hover {
-            color: white;
+        .back-link:hover {
+            color: var(--primary);
+            transform: translateX(-4px);
         }
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 34px;
-            }
+        html[dir="rtl"] .back-link:hover {
+            transform: translateX(4px);
+        }
 
-            .download-card {
-                padding: 25px 20px;
-            }
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 24px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            background: var(--bg-surface);
         }
     </style>
 </head>
 
 <body>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
 
-    <div class="container">
-
-        <div class="logo">V</div>
-
-        <h1>VideoYTFX Downloads</h1>
-
-        <p class="subtitle">
-            Download the official VideoYTFX application for Windows.
-        </p>
-
-        <div class="download-card">
-
-            <h2>VideoYTFX for Windows</h2>
-
-            <p>
-                A powerful video downloader for Windows with support
-                for high-quality video and audio downloads.
-            </p>
-
-            <a
-                class="download"
-                href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
-                Download VideoYTFX
-            </a>
-
-            <div class="version">
-                Latest version • Windows
-            </div>
-
-        </div>
-
-        <a class="back" href="index.html">
-            ← Back to Home
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <div class="brand-icon">V</div>
+            <span>VideoYTFX</span>
         </a>
 
+        <div class="nav-actions">
+            <button class="btn-ui" id="languageBtn" onclick="toggleLanguage()">
+                <span>🌐</span> <span id="langLabel">العربية</span>
+            </button>
+            <button class="btn-ui" id="themeBtn" onclick="toggleTheme()">☀️</button>
+        </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <div class="container">
+        <div class="header-section">
+            <div class="logo">V</div>
+            <h1 data-i18n="pageTitle">VideoYTFX Downloads</h1>
+            <p class="subtitle" data-i18n="pageSubtitle">Choose your preferred format to download VideoYTFX for Windows.</p>
+        </div>
+
+        <div class="download-grid">
+            <!-- EXE Option -->
+            <div class="download-card">
+                <div>
+                    <div class="card-header">
+                        <span class="card-badge">.EXE</span>
+                        <span style="font-size: 1.5rem;">💿</span>
+                    </div>
+                    <h2 data-i18n="exeTitle">Windows Installer</h2>
+                    <p data-i18n="exeDesc">Standard executable file. Recommended for easy setup and direct installation on Windows.</p>
+                </div>
+                <div>
+                    <a class="download-btn" href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
+                        <span>⬇️</span> <span data-i18n="downloadExe">Download .EXE</span>
+                    </a>
+                    <div class="version-info">
+                        <span>📌</span> <span data-i18n="exeInfo">Latest Version • Installer</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ZIP Option -->
+            <div class="download-card">
+                <div>
+                    <div class="card-header">
+                        <span class="card-badge">.ZIP</span>
+                        <span style="font-size: 1.5rem;">📦</span>
+                    </div>
+                    <h2 data-i18n="zipTitle">Portable Package</h2>
+                    <p data-i18n="zipDesc">Compressed archive format. Ideal for portable usage without running an installer package.</p>
+                </div>
+                <div>
+                    <a class="download-btn secondary" href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.zip">
+                        <span>⬇️</span> <span data-i18n="downloadZip">Download .ZIP</span>
+                    </a>
+                    <div class="version-info">
+                        <span>📌</span> <span data-i18n="zipInfo">Latest Version • Archive</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a class="back-link" href="index.html">
+            <span id="backArrow">←</span> <span data-i18n="backHome">Back to Home</span>
+        </a>
     </div>
 
+    <!-- FOOTER -->
+    <footer>
+        <span data-i18n="footerText">© 2026 VideoYTFX. All rights reserved.</span>
+    </footer>
+
+    <!-- JS -->
+    <script>
+        const translations = {
+            en: {
+                pageTitle: "VideoYTFX Downloads",
+                pageSubtitle: "Choose your preferred format to download VideoYTFX for Windows.",
+                exeTitle: "Windows Installer (.EXE)",
+                exeDesc: "Standard executable file. Recommended for easy setup and direct installation on Windows.",
+                downloadExe: "Download EXE",
+                exeInfo: "Latest Version • Installer",
+                zipTitle: "Portable Package (.ZIP)",
+                zipDesc: "Compressed archive format. Ideal for portable usage without running an installer package.",
+                downloadZip: "Download ZIP",
+                zipInfo: "Latest Version • Portable",
+                backHome: "Back to Home",
+                footerText: "© 2026 VideoYTFX. All rights reserved.",
+                langButton: "العربية"
+            },
+            ar: {
+                pageTitle: "تحميلات VideoYTFX",
+                pageSubtitle: "اختر الصيغة المناسبة لتنزيل برنامج VideoYTFX على نظام ويندوز.",
+                exeTitle: "ملف التثبيت (.EXE)",
+                exeDesc: "ملف تثبيت مباشر. المفضل للتثبيت السريع والتلقائي على الكمبيوتر.",
+                downloadExe: "تحميل بصيغة EXE",
+                exeInfo: "أحدث إصدار • مثبت تلقائي",
+                zipTitle: "النسخة المحمولة (.ZIP)",
+                zipDesc: "ملف مضغوط محمول. مثالي للتشغيل المباشر بدون الحاجة للتثبيت.",
+                downloadZip: "تحميل بصيغة ZIP",
+                zipInfo: "أحدث إصدار • ملف مضغوط",
+                backHome: "العودة للرئيسية",
+                footerText: "© 2026 VideoYTFX. جميع الحقوق محفوظة.",
+                langButton: "English"
+            }
+        };
+
+        function setLanguage(lang) {
+            document.querySelectorAll("[data-i18n]").forEach(element => {
+                const key = element.getAttribute("data-i18n");
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            document.getElementById("langLabel").textContent = translations[lang].langButton;
+            document.getElementById("backArrow").textContent = lang === "ar" ? "→" : "←";
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+            localStorage.setItem("app_lang", lang);
+        }
+
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem("app_lang") || "en";
+            setLanguage(currentLang === "en" ? "ar" : "en");
+        }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute("data-theme", theme);
+            document.getElementById("themeBtn").textContent = theme === "light" ? "🌙" : "☀️";
+            localStorage.setItem("app_theme", theme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = localStorage.getItem("app_theme") || "dark";
+            setTheme(currentTheme === "dark" ? "light" : "dark");
+        }
+
+        // Initialize Settings
+        (function init() {
+            const savedLang = localStorage.getItem("app_lang") || "en";
+            const savedTheme = localStorage.getItem("app_theme") || "dark";
+            setLanguage(savedLang);
+            setTheme(savedTheme);
+        })();
+    </script>
 </body>
+
 </html>
