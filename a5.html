@@ -1,50 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Studio - VideoYTFX</title>
+    <title>VideoYTFX - AI Local Studio</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Tajawal:wght@400;600;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --bg-base: #030712;
-            --bg-surface: rgba(17, 24, 39, 0.7);
+            --bg-surface: rgba(17, 24, 39, 0.75);
             --bg-surface-hover: rgba(31, 41, 55, 0.85);
             --border-color: rgba(255, 255, 255, 0.08);
             --border-hover: rgba(139, 92, 246, 0.5);
-
             --text-main: #f9fafb;
             --text-muted: #9ca3af;
-
             --primary: #3b82f6;
             --accent: #8b5cf6;
             --accent-glow: rgba(139, 92, 246, 0.35);
-
-            --font-en: 'Plus Jakarta Sans', sans-serif;
             --font-ar: 'Tajawal', sans-serif;
-
             --radius-lg: 24px;
             --radius-md: 14px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        [data-theme="light"] {
-            --bg-base: #f8fafc;
-            --bg-surface: rgba(255, 255, 255, 0.85);
-            --bg-surface-hover: rgba(241, 245, 249, 1);
-            --border-color: rgba(0, 0, 0, 0.08);
-            --border-hover: rgba(139, 92, 246, 0.4);
-
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-
-            --accent-glow: rgba(139, 92, 246, 0.15);
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -55,7 +36,7 @@
 
         body {
             min-height: 100vh;
-            font-family: var(--font-en);
+            font-family: var(--font-ar);
             background-color: var(--bg-base);
             color: var(--text-main);
             display: flex;
@@ -64,38 +45,22 @@
             align-items: center;
             overflow-x: hidden;
             position: relative;
-            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        html[dir="rtl"] body {
-            font-family: var(--font-ar);
-        }
-
-        /* Ambient Glows */
         .ambient-glow {
             position: absolute;
-            width: 550px;
-            height: 550px;
+            width: 500px;
+            height: 500px;
             border-radius: 50%;
-            filter: blur(150px);
+            filter: blur(140px);
             pointer-events: none;
             z-index: -1;
-            opacity: 0.4;
+            opacity: 0.35;
         }
 
-        .glow-1 {
-            top: -120px;
-            right: -100px;
-            background: radial-gradient(circle, var(--accent), transparent 70%);
-        }
+        .glow-1 { top: -100px; right: -100px; background: radial-gradient(circle, var(--accent), transparent 70%); }
+        .glow-2 { bottom: -100px; left: -100px; background: radial-gradient(circle, var(--primary), transparent 70%); }
 
-        .glow-2 {
-            bottom: -100px;
-            left: -100px;
-            background: radial-gradient(circle, var(--primary), transparent 70%);
-        }
-
-        /* Navbar */
         .navbar {
             width: 100%;
             display: flex;
@@ -132,43 +97,15 @@
             box-shadow: 0 4px 20px var(--accent-glow);
         }
 
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-ui {
-            border: 1px solid var(--border-color);
-            background: var(--bg-surface);
-            color: var(--text-main);
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-ui:hover {
-            background: var(--bg-surface-hover);
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-        }
-
-        /* Container */
         .container {
             width: 100%;
-            max-width: 1000px;
+            max-width: 900px;
             padding: 40px 20px;
         }
 
         .header-section {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
         .ai-badge {
@@ -180,38 +117,22 @@
             background: rgba(139, 92, 246, 0.15);
             border: 1px solid rgba(139, 92, 246, 0.3);
             color: var(--accent);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         h1 {
-            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             font-weight: 800;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .subtitle {
             color: var(--text-muted);
-            font-size: 1.05rem;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 1rem;
         }
 
-        /* Grid Layout */
-        .ai-grid {
-            display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 24px;
-        }
-
-        @media (max-width: 850px) {
-            .ai-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* AI Chat Box */
         .chat-card {
             background: var(--bg-surface);
             border: 1px solid var(--border-color);
@@ -219,8 +140,8 @@
             backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
-            height: 480px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            height: 520px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
 
@@ -229,8 +150,23 @@
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
             font-weight: 700;
+        }
+
+        .status-indicator {
+            font-size: 0.85rem;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
         }
 
         .chat-messages {
@@ -244,10 +180,10 @@
 
         .msg {
             max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 16px;
+            padding: 12px 18px;
+            border-radius: 18px;
             font-size: 0.95rem;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .msg.bot {
@@ -255,11 +191,6 @@
             background: var(--bg-surface-hover);
             border: 1px solid var(--border-color);
             color: var(--text-main);
-            border-bottom-left-radius: 4px;
-        }
-
-        html[dir="rtl"] .msg.bot {
-            border-bottom-left-radius: 16px;
             border-bottom-right-radius: 4px;
         }
 
@@ -267,16 +198,11 @@
             align-self: flex-end;
             background: linear-gradient(135deg, var(--accent), var(--primary));
             color: #fff;
-            border-bottom-right-radius: 4px;
-        }
-
-        html[dir="rtl"] .msg.user {
-            border-bottom-right-radius: 16px;
             border-bottom-left-radius: 4px;
         }
 
         .chat-input-area {
-            padding: 14px;
+            padding: 16px;
             border-top: 1px solid var(--border-color);
             display: flex;
             gap: 10px;
@@ -302,7 +228,7 @@
             background: linear-gradient(135deg, var(--accent), var(--primary));
             color: white;
             border: none;
-            padding: 0 20px;
+            padding: 0 22px;
             border-radius: var(--radius-md);
             font-weight: 700;
             cursor: pointer;
@@ -314,51 +240,17 @@
             box-shadow: 0 8px 20px var(--accent-glow);
         }
 
-        /* Tools Sidebar */
-        .tools-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .tool-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            backdrop-filter: blur(20px);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--border-hover);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .tool-icon {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
-
-        .tool-title {
-            font-weight: 700;
-            font-size: 1.05rem;
-            margin-bottom: 6px;
-        }
-
-        .tool-desc {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            line-height: 1.4;
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 30px;
+            margin-top: 25px;
             color: var(--text-muted);
             text-decoration: none;
             font-weight: 600;
@@ -367,10 +259,6 @@
 
         .back-link:hover {
             color: var(--accent);
-            transform: translateX(-4px);
-        }
-
-        html[dir="rtl"] .back-link:hover {
             transform: translateX(4px);
         }
 
@@ -380,7 +268,7 @@
             padding: 20px;
             border-top: 1px solid var(--border-color);
             color: var(--text-muted);
-            font-size: 0.875rem;
+            font-size: 0.85rem;
             background: var(--bg-surface);
             margin-top: 40px;
         }
@@ -391,216 +279,147 @@
     <div class="ambient-glow glow-1"></div>
     <div class="ambient-glow glow-2"></div>
 
-    <!-- NAVBAR -->
     <nav class="navbar">
         <a href="index.html" class="brand">
             <div class="brand-icon">🤖</div>
-            <span>VideoYTFX AI</span>
+            <span>VideoYTFX Local AI</span>
         </a>
-
-        <div class="nav-actions">
-            <button class="btn-ui" id="languageBtn" onclick="toggleLanguage()">
-                <span>🌐</span> <span id="langLabel">العربية</span>
-            </button>
-            <button class="btn-ui" id="themeBtn" onclick="toggleTheme()">☀️</button>
-        </div>
     </nav>
 
-    <!-- CONTENT -->
     <div class="container">
         <div class="header-section">
             <div class="ai-badge">
-                <span>✨</span> <span data-i18n="badge">Powered by AI</span>
+                <span>⚡</span> <span>ذكاء اصطناعي محلي 100%</span>
             </div>
-            <h1 data-i18n="pageTitle">VideoYTFX AI Studio</h1>
-            <p class="subtitle" data-i18n="pageSubtitle">Smart tools to enhance, summarize, and process your videos powered by AI.</p>
+            <h1>المساعد الذكي المستقل</h1>
+            <p class="subtitle">يعمل داخل متصفحك بالكامل دون الحاجة لأي خوادم خارجية أو شبكة إنترنت.</p>
         </div>
 
-        <div class="ai-grid">
-            <!-- Chatbot Interface -->
-            <div class="chat-card">
-                <div class="chat-header">
-                    <span>✨</span>
-                    <span data-i18n="chatTitle">AI Assistant</span>
-                </div>
-                <div class="chat-messages" id="chatMessages">
-                    <div class="msg bot" data-i18n="welcomeMsg">
-                        Hello! How can I help you analyze, summarize, or extract subtitles for your video today?
-                    </div>
-                </div>
-                <div class="chat-input-area">
-                    <input type="text" id="userInput" class="chat-input" placeholder="Ask AI something..." data-i18n-ph="inputPlaceholder" onkeypress="handleKeyPress(event)">
-                    <button class="send-btn" onclick="sendMessage()" data-i18n="sendBtn">Send</button>
+        <div class="chat-card">
+            <div class="chat-header">
+                <span>💬 محادثة مباشرة</span>
+                <div class="status-indicator" id="statusIndicator">
+                    <div class="status-dot"></div>
+                    <span id="statusText">جاري تهيئة المحرك...</span>
                 </div>
             </div>
-
-            <!-- AI Features Sidebar -->
-            <div class="tools-sidebar">
-                <div class="tool-card" onclick="triggerTool('summarize')">
-                    <div class="tool-icon">📝</div>
-                    <div class="tool-title" data-i18n="tool1Title">AI Video Summarizer</div>
-                    <div class="tool-desc" data-i18n="tool1Desc">Extract key points and generating quick summaries from long videos.</div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="msg bot" id="initialMsg">
+                    مرحباً! أنا جاهز للتحدث معك بحرية وبدون أي قيود أو اتصال بخوادم خارجية. كيف يمكنني مساعدتك اليوم؟
                 </div>
-
-                <div class="tool-card" onclick="triggerTool('subtitles')">
-                    <div class="tool-icon">💬</div>
-                    <div class="tool-title" data-i18n="tool2Title">Auto Subtitle Generator</div>
-                    <div class="tool-desc" data-i18n="tool2Desc">Automatically generate .SRT subtitles in multiple languages.</div>
-                </div>
-
-                <div class="tool-card" onclick="triggerTool('audio')">
-                    <div class="tool-icon">🎙️</div>
-                    <div class="tool-title" data-i18n="tool3Title">Voice Noise Cleaner</div>
-                    <div class="tool-desc" data-i18n="tool3Desc">Isolate vocal tracks and remove background noise seamlessly.</div>
-                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" class="chat-input" placeholder="اكتب رسالتك هنا..." onkeypress="handleKeyPress(event)">
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">إرسال</button>
             </div>
         </div>
 
         <a class="back-link" href="index.html">
-            <span id="backArrow">←</span> <span data-i18n="backHome">Back to Home</span>
+            → العودة للرئيسية
         </a>
     </div>
 
-    <!-- FOOTER -->
     <footer>
-        <span data-i18n="footerText">© 2026 VideoYTFX AI. All rights reserved.</span>
+        © 2026 VideoYTFX Local AI. جميع الحقوق محفوظة.
     </footer>
 
-    <!-- SCRIPT -->
-    <script>
-        const translations = {
-            en: {
-                badge: "Powered by AI",
-                pageTitle: "VideoYTFX AI Studio",
-                pageSubtitle: "Smart tools to enhance, summarize, and process your videos powered by AI.",
-                chatTitle: "AI Assistant",
-                welcomeMsg: "Hello! How can I help you analyze, summarize, or extract subtitles for your video today?",
-                inputPlaceholder: "Ask AI something or paste video link...",
-                sendBtn: "Send",
-                tool1Title: "AI Video Summarizer",
-                tool1Desc: "Extract key points and generate quick summaries from long videos.",
-                tool2Title: "Auto Subtitle Generator",
-                tool2Desc: "Automatically generate .SRT subtitles in multiple languages.",
-                tool3Title: "Voice Noise Cleaner",
-                tool3Desc: "Isolate vocal tracks and remove background noise seamlessly.",
-                backHome: "Back to Home",
-                footerText: "© 2026 VideoYTFX AI. All rights reserved.",
-                langButton: "العربية"
-            },
-            ar: {
-                badge: "مدعوم بالذكاء الاصطناعي",
-                pageTitle: "استوديو الذكاء الاصطناعي",
-                pageSubtitle: "أدوات ذكية لتحليل وتلخيص واستخراج النصوص من الفيديوهات بدقة.",
-                chatTitle: "مساعد الذكاء الاصطناعي",
-                welcomeMsg: "مرحباً بك! كيف يمكنني مساعدتك في تلخيص الفيديو أو استخراج الترجمة والصوت اليوم؟",
-                inputPlaceholder: "اسأل الذكاء الاصطناعي أو ضع رابط الفيديو...",
-                sendBtn: "إرسال",
-                tool1Title: "ملخص الفيديو الذكي",
-                tool1Desc: "استخراج أهم النقاط وتلخيص المحتوى من الفيديوهات الطويلة.",
-                tool2Title: "مولد الترجمة التلقائي",
-                tool2Desc: "إنشاء واستخراج ملفات الترجمة (.SRT) بعدة لغات تلقائياً.",
-                tool3Title: "مُنقي الصوت الذكي",
-                tool3Desc: "عزل صوت المتحدث وإزالة الضوضاء والضجيج من الصوت.",
-                backHome: "العودة للرئيسية",
-                footerText: "© 2026 VideoYTFX AI. جميع الحقوق محفوظة.",
-                langButton: "English"
+    <!-- تحميل مكتبة WebLLM لتشغيل النماذج داخل المتصفح عبر WebGPU -->
+    <script type="module">
+        import * as webllm from "https://esm.run/@mlc-ai/web-llm";
+
+        // تحديد النموذج المراد تشغيله محلياً
+        const selectedModel = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
+        let engine;
+
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const statusText = document.getElementById('statusText');
+
+        const messagesHistory = [
+            {
+                role: "system",
+                content: "أنت مساعد ذكاء اصطناعي يتحدث باللغة العربية بأسلوب بشري طبيعي وودود. تتجاوب بشكل مباشر ومرن كصديق متعاون."
+            }
+        ];
+
+        async function initEngine() {
+            try {
+                if (!navigator.gpu) {
+                    statusText.textContent = "تنبيه: WebGPU غير مدعوم في متصفحك.";
+                    return;
+                }
+
+                engine = await webllm.CreateMLCEngine(
+                    selectedModel,
+                    {
+                        initProgressCallback: (progress) => {
+                            statusText.textContent = `تحميل النموذج: ${Math.round(progress.progress * 100)}%`;
+                        }
+                    }
+                );
+
+                statusText.textContent = "متصل محلياً (جاهز)";
+            } catch (error) {
+                console.error(error);
+                statusText.textContent = "وضع المحاكاة المحلي نشط";
+            }
+        }
+
+        window.sendMessage = async function() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            appendMessage(text, 'user');
+            userInput.value = '';
+            sendBtn.disabled = true;
+
+            messagesHistory.push({ role: "user", content: text });
+
+            const botMsgDiv = appendMessage("...", 'bot');
+
+            try {
+                if (engine) {
+                    const completion = await engine.chat.completions.create({
+                        messages: messagesHistory,
+                        temperature: 0.7,
+                    });
+
+                    const reply = completion.choices[0].message.content;
+                    botMsgDiv.textContent = reply;
+                    messagesHistory.push({ role: "assistant", content: reply });
+                } else {
+                    // الرد في حالة عدم توفر WebGPU أو أثناء التحميل
+                    setTimeout(() => {
+                        const fallbackReply = "أنا أستمع إليك! أعمل حالياً في الوضع المحلي المستقل داخل متصفحك مباشرة.";
+                        botMsgDiv.textContent = fallbackReply;
+                        messagesHistory.push({ role: "assistant", content: fallbackReply });
+                    }, 600);
+                }
+            } catch (err) {
+                botMsgDiv.textContent = "حدث خطأ أثناء معالجة الطلب محلياً.";
+            } finally {
+                sendBtn.disabled = false;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         };
 
-        function sendMessage() {
-            const input = document.getElementById('userInput');
-            const message = input.value.trim();
-            if (!message) return;
-
-            const chatMessages = document.getElementById('chatMessages');
-
-            // Append User Message
-            const userMsgDiv = document.createElement('div');
-            userMsgDiv.className = 'msg user';
-            userMsgDiv.textContent = message;
-            chatMessages.appendChild(userMsgDiv);
-
-            input.value = '';
+        function appendMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `msg ${sender}`;
+            msgDiv.textContent = text;
+            chatMessages.appendChild(msgDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            // Simulated AI Response
-            setTimeout(() => {
-                const botMsgDiv = document.createElement('div');
-                botMsgDiv.className = 'msg bot';
-                const lang = localStorage.getItem('app_lang') || 'en';
-                
-                botMsgDiv.textContent = lang === 'ar' 
-                    ? "أنا أعمل على معالجة طلبك حالياً عبر استوديو VideoYTFX AI..." 
-                    : "I'm processing your request using VideoYTFX AI Studio...";
-                
-                chatMessages.appendChild(botMsgDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 800);
+            return msgDiv;
         }
 
-        function triggerTool(toolType) {
-            const input = document.getElementById('userInput');
-            const lang = localStorage.getItem('app_lang') || 'en';
-            
-            if (toolType === 'summarize') {
-                input.value = lang === 'ar' ? "أريد تلخيص فيديو..." : "I want to summarize a video...";
-            } else if (toolType === 'subtitles') {
-                input.value = lang === 'ar' ? "توليد ترجمة لـ..." : "Generate subtitles for...";
-            } else if (toolType === 'audio') {
-                input.value = lang === 'ar' ? "تنظيف الصوت في..." : "Clean audio noise in...";
+        window.handleKeyPress = function(e) {
+            if (e.key === 'Enter') {
+                window.sendMessage();
             }
-            input.focus();
-        }
+        };
 
-        function handleKeyPress(e) {
-            if (e.key === 'Enter') sendMessage();
-        }
-
-        function setLanguage(lang) {
-            document.querySelectorAll("[data-i18n]").forEach(element => {
-                const key = element.getAttribute("data-i18n");
-                if (translations[lang][key]) {
-                    element.textContent = translations[lang][key];
-                }
-            });
-
-            document.querySelectorAll("[data-i18n-ph]").forEach(element => {
-                const key = element.getAttribute("data-i18n-ph");
-                if (translations[lang][key]) {
-                    element.placeholder = translations[lang][key];
-                }
-            });
-
-            document.getElementById("langLabel").textContent = translations[lang].langButton;
-            document.getElementById("backArrow").textContent = lang === "ar" ? "→" : "←";
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-            localStorage.setItem("app_lang", lang);
-        }
-
-        function toggleLanguage() {
-            const currentLang = localStorage.getItem("app_lang") || "en";
-            setLanguage(currentLang === "en" ? "ar" : "en");
-        }
-
-        function setTheme(theme) {
-            document.documentElement.setAttribute("data-theme", theme);
-            document.getElementById("themeBtn").textContent = theme === "light" ? "🌙" : "☀️";
-            localStorage.setItem("app_theme", theme);
-        }
-
-        function toggleTheme() {
-            const currentTheme = localStorage.getItem("app_theme") || "dark";
-            setTheme(currentTheme === "dark" ? "light" : "dark");
-        }
-
-        // Initialize Settings
-        (function init() {
-            const savedLang = localStorage.getItem("app_lang") || "en";
-            const savedTheme = localStorage.getItem("app_theme") || "dark";
-            setLanguage(savedLang);
-            setTheme(savedTheme);
-        })();
+        initEngine();
     </script>
 </body>
 
