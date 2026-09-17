@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VideoYTFX - Advanced Ultra-Fast AI Studio</title>
+    <title>VideoYTFX - Ultimate AI Studio MAX</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +26,7 @@
             --font-ar: 'Tajawal', sans-serif;
             --radius-lg: 24px;
             --radius-md: 14px;
-            --transition: all 0.3s ease;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -50,10 +50,10 @@
 
         .ambient-glow {
             position: absolute;
-            width: 550px;
-            height: 550px;
+            width: 600px;
+            height: 600px;
             border-radius: 50%;
-            filter: blur(140px);
+            filter: blur(150px);
             pointer-events: none;
             z-index: -1;
             opacity: 0.35;
@@ -206,7 +206,7 @@
             backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
-            height: 520px;
+            height: 540px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
@@ -276,6 +276,20 @@
             border-bottom-left-radius: 4px;
         }
 
+        .code-block {
+            background: #0d1117;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: monospace;
+            margin-top: 8px;
+            position: relative;
+            color: #58a6ff;
+            direction: ltr;
+            text-align: left;
+            overflow-x: auto;
+        }
+
         .msg-tools {
             display: flex;
             gap: 8px;
@@ -335,6 +349,13 @@
             background: #ef4444;
             color: #fff;
             border-color: #ef4444;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
         .send-btn {
@@ -398,10 +419,9 @@
     <nav class="navbar">
         <a href="index.html" class="brand">
             <div class="brand-icon">⚡</div>
-            <span>VideoYTFX AI</span>
+            <span>VideoYTFX AI Studio MAX</span>
         </a>
 
-        <!-- زر الانتقال للنسخة الأقوى -->
         <a href="downloads.html" class="pro-nav-btn">
             👑 الترقية للنسخة الأقوى (PRO)
         </a>
@@ -410,9 +430,8 @@
     <div class="container">
         <div class="header-section">
             <div class="ai-badge">
-                <span>🚀</span> <span>محرك ذكي فائق الأداء</span>
+                <span>🚀</span> <span>أقوى محرك ذكاء اصطناعي تفاعلي</span>
             </div>
-            <!-- نص الترحيب بالمستخدم المتغير تلقائياً -->
             <h1 class="welcome-title" id="greetingText">مرحباً بك في استوديو الذكاء الاصطناعي</h1>
             <p class="subtitle" id="greetingSub">المساعد الشخصي الذكي لإدارة وتنزيل وتحليل الفيديوهات والمحتوى.</p>
         </div>
@@ -420,7 +439,7 @@
         <div class="controls-bar">
             <div>
                 <label style="font-size: 0.85rem; color: var(--text-muted);">الشخصية: </label>
-                <select id="personaSelect" class="persona-select" onchange="updatePersona()">
+                <select id="personaSelect" class="persona-select">
                     <option value="friendly">صديق بشري ودود</option>
                     <option value="expert">مطور وخبير تقني</option>
                     <option value="editor">صانع محتوى إبداعي</option>
@@ -435,18 +454,16 @@
 
         <div class="chat-card">
             <div class="chat-header">
-                <span>💬 المحادثة التفاعلية</span>
+                <span>💬 المحادثة التفاعلية المباشرة</span>
                 <div class="status-indicator">
                     <div class="status-dot"></div>
-                    <span>متصل وجاهز</span>
+                    <span>أعلى كفاءة وسرعة</span>
                 </div>
             </div>
-            <div class="chat-messages" id="chatMessages">
-                <!-- الرسائل يتم تحميلها وحفظها هنا -->
-            </div>
+            <div class="chat-messages" id="chatMessages"></div>
             <div class="chat-input-area">
                 <button class="mic-btn" id="micBtn" onclick="toggleVoiceInput()" title="تسجيل صوتي">🎙️</button>
-                <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك أو تحسينك هنا..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك، كودك، أو رابط الفيديو هنا..." onkeypress="handleKeyPress(event)">
                 <button class="send-btn" id="sendBtn" onclick="sendMessage()">
                     <span>إرسال</span> ⚡
                 </button>
@@ -459,7 +476,7 @@
     </div>
 
     <footer>
-        © 2026 VideoYTFX AI Studio. جميع الحقوق محفوظة.
+        © 2026 VideoYTFX AI Studio MAX. جميع الحقوق محفوظة.
     </footer>
 
     <script type="module">
@@ -474,7 +491,6 @@
         let isRecording = false;
         let recognition = null;
 
-        // إعداد الترحيب الذكي بطلب اسم المستخدم
         function setupSmartGreeting() {
             let userName = localStorage.getItem('user_name');
             if (!userName) {
@@ -489,17 +505,16 @@
             else timeGreeting = "مساء النور والسرور";
 
             greetingText.textContent = `${timeGreeting}، ${userName}! 👋`;
-            greetingSub.textContent = `مرحباً بك في استوديو VideoYTFX. أنا هنا لمساعدتك في كل ما تحتاجه.`;
+            greetingSub.textContent = `مرحباً بك في أحدث واستوديو الذكاء الاصطناعي الأقوى.`;
         }
 
-        // حفظ وتحميل المحادثة من ذاكرة الجهاز (LocalStorage)
         function loadChatHistory() {
             const savedHistory = localStorage.getItem('chat_history');
             if (savedHistory) {
                 chatMessages.innerHTML = savedHistory;
             } else {
                 const userName = localStorage.getItem('user_name') || 'صديقي';
-                appendBotMessage(`يا مرحباً بك يا ${userName}! كيف يمكنني مساعدتك اليوم؟ يمكنك اختباري في البرمجة، الفيديوهات، أو صياغة الأفكار!`);
+                appendBotMessage(`يا مرحباً بك يا ${userName}! أنا جاهز بكامل إمكانياتي للمحادثة، كتابة البرمجة، أو تحليل روابط الفيديوهات مباشرة!`);
             }
         }
 
@@ -511,14 +526,13 @@
             localStorage.removeItem('chat_history');
             chatMessages.innerHTML = '';
             const userName = localStorage.getItem('user_name') || 'صديقي';
-            appendBotMessage(`تم مسح السجل بنجاح! أهلاً بك مجدداً يا ${userName}، كيف أستطيع مساعدتك الآن؟`);
+            appendBotMessage(`تم مسح السجل بنجاح! أهلاً بك مجدداً يا ${userName}.`);
             saveChatHistory();
         };
 
-        // تصدير المحادثة كملف نصي
         window.exportChatHistory = function() {
             const messages = document.querySelectorAll('.msg');
-            let content = "--- سجل محادثة VideoYTFX AI ---\n\n";
+            let content = "--- سجل محادثة VideoYTFX AI MAX ---\n\n";
             messages.forEach(msg => {
                 const isUser = msg.classList.contains('user');
                 content += `${isUser ? 'المستخدم' : 'الذكاء الاصطناعي'}: ${msg.textContent.trim()}\n\n`;
@@ -527,11 +541,10 @@
             const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'chat-history.txt';
+            link.download = 'chat-max-history.txt';
             link.click();
         };
 
-        // الرد الآلي السريع بأسلوب إنساني متطور
         window.sendMessage = async function() {
             const text = userInput.value.trim();
             if (!text) return;
@@ -541,8 +554,6 @@
             sendBtn.disabled = true;
 
             const { botMsgDiv, wrapper } = createBotMessagePlaceholder();
-
-            // سرعة الاستجابة بالتدفق
             await streamFastResponse(botMsgDiv, wrapper, text);
 
             sendBtn.disabled = false;
@@ -550,7 +561,7 @@
         };
 
         async function streamFastResponse(botMsgDiv, wrapper, userText) {
-            const response = getSmartResponse(userText);
+            const response = getSmartMaxResponse(userText);
             botMsgDiv.textContent = "";
 
             const words = response.split(" ");
@@ -560,23 +571,30 @@
                 current += words[i] + " ";
                 botMsgDiv.textContent = current;
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-                await new Promise(r => setTimeout(r, 30));
+                await new Promise(r => setTimeout(r, 25));
             }
 
             addToolsToMessage(wrapper, response);
         }
 
-        function getSmartResponse(input) {
+        function getSmartMaxResponse(input) {
             const userName = localStorage.getItem('user_name') || 'صديقي';
             const lower = input.toLowerCase();
 
+            // فحص وجود رابط فيديو
+            if (lower.includes("http://") || lower.includes("https://") || lower.includes("youtube") || lower.includes("tiktok")) {
+                return `رائع يا ${userName}! لقد قمت بالتعرف على رابط الفيديو. يمكنك تحويله وتنزيله بأعلى جودة عبر الضغط على زر الترقية للنسخة الأقوى (PRO) أعلى الصفحة!`;
+            }
+
+            if (lower.includes("كود") || lower.includes("برمجة") || lower.includes("python") || lower.includes("html")) {
+                return `إليك حل برمي سريع ومباشر يا ${userName}:\n\`\`\`python\n# مثال برمج معالج للذكاء الاصطناعي\ndef process_data(data):\n    return f"Processed: {data}"\n\`\`\``;
+            }
+
             if (lower.includes("اقوى") || lower.includes("نسخه") || lower.includes("تحديث") || lower.includes("تحميل")) {
-                return `يا ${userName}، للحصول على النسخة الأقوى والأحدث مع الميزات المتقدمة كاملة، اضغط على زر "👑 الترقية للنسخة الأقوى (PRO)" الموجود في أعلى الصفحة لتنقلك مباشرة لصفحة التحميلات المباشرة!`;
+                return `عزيزي ${userName}، يمكنك تنزيل أحدث وأقوى نسخة مباشرةً من زر "👑 الترقية للنسخة الأقوى (PRO)" الموجود أعلى الواجهة!`;
             }
-            if (lower.includes("هلا") || lower.includes("مرحبا") || lower.includes("السلام")) {
-                return `أهلاً وسهلاً بك يا ${userName}! يسعدني جداً التحدث معك. أستطيع مساعدتك في تنزيل الفيديوهات، صياغة النصوص، والذكاء الاصطناعي.`;
-            }
-            return `عزيزي ${userName}، بالنسبة لطلبك بخصوص "${input}"، يسعدني أن أوضح لك أن النظام يقدم لك أدوات متطورة لمعالجة ذلك وسرعة فائقة بمرونة تامة!`;
+
+            return `أهلاً بك يا ${userName}. بناءً على استفسارك بشأن "${input}"، أود إعلامك أن النظام يعمل بكفاءة قصوى لتلبية طلبك بأعلى دقة وسرعة!`;
         }
 
         function appendUserMessage(text) {
@@ -601,7 +619,7 @@
             wrapper.className = 'msg-wrapper';
             const botMsgDiv = document.createElement('div');
             botMsgDiv.className = 'msg bot';
-            botMsgDiv.textContent = "يكتب الآن...";
+            botMsgDiv.textContent = "جاري المعالجة...";
             wrapper.appendChild(botMsgDiv);
             chatMessages.appendChild(wrapper);
             return { botMsgDiv, wrapper };
@@ -639,10 +657,9 @@
             }
         }
 
-        // ميزة التسجيل الصوتي
         window.toggleVoiceInput = function() {
             if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert("التسجيل الصوتي غير مدعوم في متصفحك حالياً.");
+                alert("التسجيل الصوتي غير مدعوم في متصفحك.");
                 return;
             }
 
@@ -673,7 +690,6 @@
             if (e.key === 'Enter') window.sendMessage();
         };
 
-        // البدء والتنفيذ
         setupSmartGreeting();
         loadChatHistory();
     </script>
