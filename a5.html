@@ -4,18 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VideoYTFX - Human AI Studio MAX</title>
+    <title>VideoYTFX - Universal AI Studio MAX</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Tajawal:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --bg-base: #030712;
-            --bg-surface: rgba(17, 24, 39, 0.75);
-            --bg-surface-hover: rgba(31, 41, 55, 0.85);
+            --bg-surface: rgba(17, 24, 39, 0.78);
+            --bg-surface-hover: rgba(31, 41, 55, 0.88);
             --border-color: rgba(255, 255, 255, 0.08);
             --border-hover: rgba(139, 92, 246, 0.5);
             --text-main: #f9fafb;
@@ -23,10 +23,23 @@
             --primary: #3b82f6;
             --accent: #8b5cf6;
             --accent-glow: rgba(139, 92, 246, 0.35);
+            --gold: #f59e0b;
             --font-ar: 'Tajawal', sans-serif;
+            --font-code: 'Fira Code', monospace;
             --radius-lg: 24px;
             --radius-md: 14px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f8fafc;
+            --bg-surface: rgba(255, 255, 255, 0.88);
+            --bg-surface-hover: rgba(241, 245, 249, 1);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --border-hover: rgba(139, 92, 246, 0.4);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent-glow: rgba(139, 92, 246, 0.15);
         }
 
         * {
@@ -46,22 +59,25 @@
             align-items: center;
             overflow-x: hidden;
             position: relative;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
+        /* Ambient Glow Effects */
         .ambient-glow {
             position: absolute;
-            width: 600px;
-            height: 600px;
+            width: 650px;
+            height: 650px;
             border-radius: 50%;
-            filter: blur(150px);
+            filter: blur(160px);
             pointer-events: none;
             z-index: -1;
             opacity: 0.35;
         }
 
-        .glow-1 { top: -100px; right: -100px; background: radial-gradient(circle, var(--accent), transparent 70%); }
-        .glow-2 { bottom: -100px; left: -100px; background: radial-gradient(circle, var(--primary), transparent 70%); }
+        .glow-1 { top: -120px; right: -120px; background: radial-gradient(circle, var(--accent), transparent 70%); }
+        .glow-2 { bottom: -120px; left: -120px; background: radial-gradient(circle, var(--primary), transparent 70%); }
 
+        /* Navbar */
         .navbar {
             width: 100%;
             display: flex;
@@ -87,8 +103,8 @@
         }
 
         .brand-icon {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             display: grid;
             place-items: center;
             border-radius: 12px;
@@ -96,6 +112,33 @@
             color: #fff;
             font-weight: 800;
             box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ui {
+            border: 1px solid var(--border-color);
+            background: var(--bg-surface);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-ui:hover {
+            background: var(--bg-surface-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
         }
 
         .pro-nav-btn {
@@ -118,15 +161,16 @@
             box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
         }
 
+        /* Container & Layout */
         .container {
             width: 100%;
-            max-width: 950px;
+            max-width: 1000px;
             padding: 30px 20px;
         }
 
         .header-section {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .ai-badge {
@@ -144,7 +188,7 @@
         }
 
         .welcome-title {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
             font-weight: 800;
             margin-bottom: 8px;
             background: linear-gradient(135deg, #fff, #a7f3d0);
@@ -155,7 +199,7 @@
 
         .subtitle {
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 1.05rem;
         }
 
         .controls-bar {
@@ -199,6 +243,7 @@
             color: var(--accent);
         }
 
+        /* Chat Window */
         .chat-card {
             background: var(--bg-surface);
             border: 1px solid var(--border-color);
@@ -206,7 +251,7 @@
             backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
-            height: 550px;
+            height: 560px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
@@ -276,6 +321,51 @@
             border-bottom-left-radius: 4px;
         }
 
+        /* Code Block Styling */
+        .code-container {
+            background: #0d1117;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+            font-family: var(--font-code);
+            direction: ltr;
+            text-align: left;
+        }
+
+        .code-header {
+            background: #161b22;
+            padding: 6px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #8b949e;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .code-content {
+            padding: 12px;
+            color: #e6edf3;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .copy-code-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #c9d1d9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .copy-code-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         .msg-tools {
             display: flex;
             gap: 8px;
@@ -296,6 +386,7 @@
             color: var(--accent);
         }
 
+        /* Input Controls */
         .chat-input-area {
             padding: 16px;
             border-top: 1px solid var(--border-color);
@@ -402,32 +493,37 @@
     <div class="ambient-glow glow-1"></div>
     <div class="ambient-glow glow-2"></div>
 
+    <!-- NAVBAR -->
     <nav class="navbar">
         <a href="index.html" class="brand">
             <div class="brand-icon">⚡</div>
-            <span>VideoYTFX Human AI</span>
+            <span>VideoYTFX AI Studio MAX</span>
         </a>
 
-        <a href="downloads.html" class="pro-nav-btn">
-            👑 النسخة الأقوى (PRO)
-        </a>
+        <div class="nav-actions">
+            <a href="downloads.html" class="pro-nav-btn">
+                👑 النسخة الأقوى (PRO)
+            </a>
+            <button class="btn-ui" id="themeBtn" onclick="toggleTheme()">☀️</button>
+        </div>
     </nav>
 
+    <!-- MAIN CONTAINER -->
     <div class="container">
         <div class="header-section">
             <div class="ai-badge">
-                <span>🤖</span> <span>مساعد ذكي مفتوح ومتحدث حُر</span>
+                <span>🤖</span> <span>استوديو الذكاء الاصطناعي الشامل</span>
             </div>
             <h1 class="welcome-title" id="greetingText">مرحباً بك</h1>
-            <p class="subtitle" id="greetingSub">مساعدك الذكي للتحدث في أي موضوع، كتابة الأكواد، وتحليل الأفكار بحرية فائقة.</p>
+            <p class="subtitle" id="greetingSub">مساعدك الذكي للتحدث بحرية، البرمجة، معالجة المحتوى، وتحليل الروابط.</p>
         </div>
 
         <div class="controls-bar">
             <div>
-                <label style="font-size: 0.85rem; color: var(--text-muted);">نمط الحوار: </label>
+                <label style="font-size: 0.85rem; color: var(--text-muted);">نمط الشات: </label>
                 <select id="personaSelect" class="persona-select">
-                    <option value="human">إنسان طبيعي (صديق متحدث بحرية)</option>
-                    <option value="tech">خبير ومطور تقني محترف</option>
+                    <option value="human">إنسان طبيعي (مساعد متحدث بحرية)</option>
+                    <option value="tech">خبير ومطور برمجي</option>
                     <option value="creative">مبتكر ومفكر إبداعي</option>
                 </select>
             </div>
@@ -440,16 +536,16 @@
 
         <div class="chat-card">
             <div class="chat-header">
-                <span>💬 محادثة مباشرة مرنة</span>
+                <span>💬 محادثة تفاعلية مباشرة</span>
                 <div class="status-indicator">
                     <div class="status-dot"></div>
-                    <span>محرك الرد السريعة نشط</span>
+                    <span id="statusText">أعلى سرعة استجابة</span>
                 </div>
             </div>
             <div class="chat-messages" id="chatMessages"></div>
             <div class="chat-input-area">
                 <button class="mic-btn" id="micBtn" onclick="toggleVoiceInput()" title="إملاء صوتي">🎙️</button>
-                <input type="text" id="userInput" class="chat-input" placeholder="اسألني عن أي موضوع أو اسرد أفكارك..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" class="chat-input" placeholder="اسأل عن أي موضوع، اطلب كود، أو ضع رابط فيديو..." onkeypress="handleKeyPress(event)">
                 <button class="send-btn" id="sendBtn" onclick="sendMessage()">
                     <span>إرسال</span> ⚡
                 </button>
@@ -462,9 +558,10 @@
     </div>
 
     <footer>
-        © 2026 VideoYTFX AI Studio. جميع الحقوق محفوظة.
+        © 2026 VideoYTFX AI Studio MAX. جميع الحقوق محفوظة.
     </footer>
 
+    <!-- SCRIPT ENGINE -->
     <script type="module">
         import * as webllm from "https://esm.run/@mlc-ai/web-llm";
 
@@ -482,18 +579,17 @@
 
         const selectedModel = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
 
-        // ذاكرة التحدث الحرة لتذكر سياق الكلام
         const conversationHistory = [
             {
                 role: "system",
-                content: "أنت إنسان طبيعي ومساعد ذكي حر طليق. تتحدث باللغة العربية السلسة وبدون أي قيود أو ردود نمطية. ناقش كافة المواضيع، الأفكار، البرمجيات، والتحليلات كصديق ومفكر وواعي."
+                content: "أنت مساعد ذكاء اصطناعي حر ومتطور. تتحدث باللغة العربية الطبيعية، تجيب على أسلوب المحادثات الحرة، البرمجية، وتحليل المحتوى بأسلوب متجدد ومباشر."
             }
         ];
 
         function setupGreeting() {
             let userName = localStorage.getItem('user_name');
             if (!userName) {
-                userName = prompt("مرحباً بك! ما هو اسمك الكريم؟") || "صديقي العزيز";
+                userName = prompt("مرحباً بك! ما هو اسمك الكريم؟") || "صديقنا العزيز";
                 localStorage.setItem('user_name', userName);
             }
 
@@ -504,7 +600,7 @@
             else timeTxt = "مساء النور والسرور";
 
             greetingText.textContent = `${timeTxt}، ${userName}! 👋`;
-            greetingSub.textContent = `أنا جاهز لمناقشة أي موضوع والتحدث مع بمرونة تامة.`;
+            greetingSub.textContent = `أنا جاهز لمساعدتك في أي موضوع أو مهمة برمجية بمرونة تامة.`;
         }
 
         async function initWebLLM() {
@@ -515,35 +611,35 @@
                     });
                 }
             } catch (e) {
-                console.log("استخدام المحرك المباشر المرن");
+                console.log("استخدام المحرك المباشر السريع");
             }
         }
 
         function loadChatHistory() {
-            const saved = localStorage.getItem('human_chat_history');
+            const saved = localStorage.getItem('max_chat_history');
             if (saved) {
                 chatMessages.innerHTML = saved;
             } else {
                 const userName = localStorage.getItem('user_name') || 'صديقي';
-                appendBotMessage(`يا مرحباً بك يا ${userName}! أنا هنا وجاهز للتحدث معك في أي موضوع يدور في ذهنك. اسألني عن الفيديوهات، البرمجة، أو الأفكار العامة وسأجيبك بمرونة كاملة!`);
+                appendBotMessage(`يا مرحباً بك يا ${userName}! أنا هنا في أحدث نظام للذكاء الاصطناعي. كيف أستطيع مساعدتك اليوم؟ يمكنك مناقشتي في الفيديوهات، البرمجة، أو الأفكار العامة!`);
             }
         }
 
         function saveChatHistory() {
-            localStorage.setItem('human_chat_history', chatMessages.innerHTML);
+            localStorage.setItem('max_chat_history', chatMessages.innerHTML);
         }
 
         window.clearChat = function() {
-            localStorage.removeItem('human_chat_history');
+            localStorage.removeItem('max_chat_history');
             chatMessages.innerHTML = '';
             const userName = localStorage.getItem('user_name') || 'صديقي';
-            appendBotMessage(`تم تنظيف المحادثة! أهلاً بك مجدداً يا ${userName}، ما الذي تريد أن نتحدث فيه الآن؟`);
+            appendBotMessage(`تم تنظيف المحادثة بنجاح! أهلاً بك مجدداً يا ${userName}.`);
             saveChatHistory();
         };
 
         window.exportChatHistory = function() {
             const messages = document.querySelectorAll('.msg');
-            let txt = "--- سجل محادثة الذكاء الاصطناعي ---\n\n";
+            let txt = "--- سجل محادثة AI Studio MAX ---\n\n";
             messages.forEach(m => {
                 const isUser = m.classList.contains('user');
                 txt += `${isUser ? 'أنت' : 'المساعد'}: ${m.textContent.trim()}\n\n`;
@@ -552,7 +648,7 @@
             const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'chat-log.txt';
+            link.download = 'chat-max-log.txt';
             link.click();
         };
 
@@ -572,7 +668,7 @@
                 if (engine) {
                     const chunks = await engine.chat.completions.create({
                         messages: conversationHistory,
-                        temperature: 0.85,
+                        temperature: 0.8,
                         stream: true
                     });
 
@@ -582,25 +678,25 @@
                     for await (const chunk of chunks) {
                         const content = chunk.choices[0]?.delta?.content || "";
                         responseText += content;
-                        botMsgDiv.textContent = responseText;
+                        botMsgDiv.innerHTML = formatMarkdown(responseText);
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     }
 
                     conversationHistory.push({ role: "assistant", content: responseText });
                     addToolsToMessage(wrapper, responseText);
                 } else {
-                    await streamHumanResponse(botMsgDiv, wrapper, text);
+                    await streamSmartResponse(botMsgDiv, wrapper, text);
                 }
             } catch (err) {
-                await streamHumanResponse(botMsgDiv, wrapper, text);
+                await streamSmartResponse(botMsgDiv, wrapper, text);
             } finally {
                 sendBtn.disabled = false;
                 saveChatHistory();
             }
         };
 
-        async function streamHumanResponse(botMsgDiv, wrapper, userText) {
-            const reply = generateHumanResponse(userText);
+        async function streamSmartResponse(botMsgDiv, wrapper, userText) {
+            const reply = generateSmartReply(userText);
             botMsgDiv.textContent = "";
 
             const words = reply.split(" ");
@@ -608,31 +704,63 @@
 
             for (let i = 0; i < words.length; i++) {
                 currentText += words[i] + " ";
-                botMsgDiv.textContent = currentText;
+                botMsgDiv.innerHTML = formatMarkdown(currentText);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-                await new Promise(r => setTimeout(r, 28)); // كتابة تدفقية سريعة بحركة بشرية
+                await new Promise(r => setTimeout(r, 25));
             }
 
             conversationHistory.push({ role: "assistant", content: reply });
             addToolsToMessage(wrapper, reply);
         }
 
-        function generateHumanResponse(input) {
+        function generateSmartReply(input) {
             const userName = localStorage.getItem('user_name') || 'صديقي';
             const lower = input.toLowerCase();
             const persona = personaSelect.value;
 
             if (lower.includes("http://") || lower.includes("https://") || lower.includes("youtube") || lower.includes("tiktok")) {
-                return `ممتاز يا ${userName}! لقد قمت بالتعرف على هذا الرابط. يمكنك تنزيله بأعلى جودة وتنسيق عبر استخدام النسخة المتقدمة من خيار "👑 النسخة الأقوى (PRO)" في الأعلى!`;
+                return `رائع يا ${userName}! لقد قمت بالتعرف على هذا الرابط. يمكنك معالجته وتنزيله بأعلى دقة عبر استخدام خيار "👑 النسخة الأقوى (PRO)" أعلى الشاشة!`;
+            }
+
+            if (lower.includes("كود") || lower.includes("برمجة") || lower.includes("python") || lower.includes("html") || lower.includes("javascript")) {
+                return `إليك حل برمي مباشر ومصمم كود خالي من الأخطاء يا ${userName}:\n\`\`\`python\n# نموذج كود متطور لحل المشكلة\ndef execute_task(input_data):\n    print(f"Executing: {input_data}")
+    return True\n\`\`\``;
             }
 
             if (persona === 'tech') {
-                return `بناءً على تحليلي البرمجي لـ "${input}": يُفضل دائماً بناء معمارية نظيفة وتوزيع الاستجابات لتفادي البطء وتحقيق أعلى أداء متكامل.`;
+                return `بناءً على المعايير التقنية بخصوص "${input}": أنصحك دائماً بهيكلة البيانات بأسلوب Modular يتيح أقصى أداء واستجابة.`;
             } else if (persona === 'creative') {
-                return `يا لها من فكرة ممتازة يا ${userName}! بخصوص "${input}"، يمكننا تطويرها برؤية مبتكرة وجذابة تفتح أبعاداً جديدة.`;
+                return `يا لها من فكرة مبتكرة يا ${userName}! بالنسبة لـ "${input}"، يمكننا إعادة صياغتها برؤية جديدة تضمن أفضل تفاعل وترتيب!`;
             } else {
-                return `فكرة رائعة يا ${userName}! بالنسبة لموضوع "${input}"، أنا معك تماماً وأرى أنه ينطوي على أبعاد ممتازة يمكننا التعمق فيها معاً!`;
+                return `أنا معك تماماً يا ${userName}! بخصوص "${input}"، النظام يتيح لك حلولاً مرنة ومباشرة تمكنك من تنفيذ طلبك بأعلى دقة.`;
             }
+        }
+
+        function formatMarkdown(text) {
+            // تنسيق بسيط لإظهار الأكواد البرمجية
+            if (text.includes("```")) {
+                const parts = text.split("```");
+                let formatted = parts[0];
+                for (let i = 1; i < parts.length; i += 2) {
+                    const codeBlock = parts[i];
+                    const firstLineEnd = codeBlock.indexOf("\n");
+                    const lang = codeBlock.substring(0, firstLineEnd).trim() || "code";
+                    const code = codeBlock.substring(firstLineEnd + 1);
+
+                    formatted += `
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span>${lang.toUpperCase()}</span>
+                                <button class="copy-code-btn" onclick="navigator.clipboard.writeText(\`${code.replace(/`/g, '\\`')}\`)">نسخ الكود 📋</button>
+                            </div>
+                            <div class="code-content">${code}</div>
+                        </div>
+                    `;
+                    if (parts[i + 1]) formatted += parts[i + 1];
+                }
+                return formatted;
+            }
+            return text;
         }
 
         function appendUserMessage(text) {
@@ -646,7 +774,7 @@
         function appendBotMessage(text) {
             const wrapper = document.createElement('div');
             wrapper.className = 'msg-wrapper';
-            wrapper.innerHTML = `<div class="msg bot">${text}</div>`;
+            wrapper.innerHTML = `<div class="msg bot">${formatMarkdown(text)}</div>`;
             chatMessages.appendChild(wrapper);
             addToolsToMessage(wrapper, text);
             chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -657,7 +785,7 @@
             wrapper.className = 'msg-wrapper';
             const botMsgDiv = document.createElement('div');
             botMsgDiv.className = 'msg bot';
-            botMsgDiv.textContent = "جاري التفكير والكتابة...";
+            botMsgDiv.textContent = "جاري المعالجة...";
             wrapper.appendChild(botMsgDiv);
             chatMessages.appendChild(wrapper);
             return { botMsgDiv, wrapper };
@@ -689,7 +817,7 @@
         function speakText(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(text);
+                const utterance = new SpeechSynthesisUtterance(text.replace(/```[\s\S]*?```/g, 'كود برمجي'));
                 utterance.lang = 'ar-SA';
                 window.speechSynthesis.speak(utterance);
             }
@@ -724,13 +852,26 @@
             }
         };
 
+        window.toggleTheme = function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', nextTheme);
+            document.getElementById('themeBtn').textContent = nextTheme === 'light' ? '🌙' : '☀️';
+            localStorage.setItem('app_theme', nextTheme);
+        };
+
         window.handleKeyPress = function(e) {
             if (e.key === 'Enter') window.sendMessage();
         };
 
+        // Execution
         setupGreeting();
         loadChatHistory();
         initWebLLM();
+
+        const savedTheme = localStorage.getItem('app_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeBtn').textContent = savedTheme === 'light' ? '🌙' : '☀️';
     </script>
 </body>
 
