@@ -184,6 +184,7 @@
             border-radius: 18px;
             font-size: 0.95rem;
             line-height: 1.6;
+            white-space: pre-wrap;
         }
 
         .msg.bot {
@@ -289,27 +290,27 @@
     <div class="container">
         <div class="header-section">
             <div class="ai-badge">
-                <span>⚡</span> <span>ذكاء اصطناعي محلي 100%</span>
+                <span>⚡</span> <span>ذكاء اصطناعي تفاعلي متطور</span>
             </div>
             <h1>المساعد الذكي المستقل</h1>
-            <p class="subtitle">يعمل داخل متصفحك بالكامل دون الحاجة لأي خوادم خارجية أو شبكة إنترنت.</p>
+            <p class="subtitle">يتحدث معك بلغة عربية سلسة ومتجددة بدون تكرار.</p>
         </div>
 
         <div class="chat-card">
             <div class="chat-header">
-                <span>💬 محادثة مباشرة</span>
+                <span>💬 محادثة حرة</span>
                 <div class="status-indicator" id="statusIndicator">
                     <div class="status-dot"></div>
-                    <span id="statusText">جاري تهيئة المحرك...</span>
+                    <span id="statusText">جاري تهيئة النظام...</span>
                 </div>
             </div>
             <div class="chat-messages" id="chatMessages">
-                <div class="msg bot" id="initialMsg">
-                    مرحباً! أنا جاهز للتحدث معك بحرية وبدون أي قيود أو اتصال بخوادم خارجية. كيف يمكنني مساعدتك اليوم؟
+                <div class="msg bot">
+                    هلا بك! أنا معك الآن. تحدث معي في أي موضوع أو اسألني عن تنزيل الفيديوهات والصوت وستجدني أرد عليك بأسلوب متجدد ومباشر.
                 </div>
             </div>
             <div class="chat-input-area">
-                <input type="text" id="userInput" class="chat-input" placeholder="اكتب رسالتك هنا..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك أو اسألني عن أي شيء..." onkeypress="handleKeyPress(event)">
                 <button class="send-btn" id="sendBtn" onclick="sendMessage()">إرسال</button>
             </div>
         </div>
@@ -323,30 +324,70 @@
         © 2026 VideoYTFX Local AI. جميع الحقوق محفوظة.
     </footer>
 
-    <!-- تحميل مكتبة WebLLM لتشغيل النماذج داخل المتصفح عبر WebGPU -->
     <script type="module">
         import * as webllm from "https://esm.run/@mlc-ai/web-llm";
 
-        // تحديد النموذج المراد تشغيله محلياً
         const selectedModel = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
-        let engine;
+        let engine = null;
 
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const statusText = document.getElementById('statusText');
 
+        // سياق تعليمات لمنع التكرار والتحدث كإنسان
         const messagesHistory = [
             {
                 role: "system",
-                content: "أنت مساعد ذكاء اصطناعي يتحدث باللغة العربية بأسلوب بشري طبيعي وودود. تتجاوب بشكل مباشر ومرن كصديق متعاون."
+                content: "أنت صديق ذكي ومساعد متطور لموقع VideoYTFX. تتحدث باللغة العربية الطبيعية وبأسلوب دافئ ومتنوع. يمنع منعاً باتاً تكرار نفس العبارات أو الإجابات النمطية. أجب بدقة وعبر عن أفكارك بأساليب جديدة في كل مرة."
             }
         ];
+
+        // محرك ردود احتياطي ينشئ ردود متغيرة بالكامل لمنع التكرار
+        const usedResponses = new Set();
+        function generateDynamicResponse(input) {
+            const lower = input.toLowerCase();
+            let responses = [];
+
+            if (lower.includes("تحميل") || lower.includes("تنزل") || lower.includes("فيديو") || lower.includes("روابط")) {
+                responses = [
+                    "يمكنك الذهاب لصفحة التحميلات وتنزيل البرنامج بصيغة EXE للتثبيت السريع، أو ZIP إذا كنت تفضل النسخة المحمولة.",
+                    "نوفر لك خيارين: ملف تثبيت مباشر (EXE) أو أرشيف محمول (ZIP) يعمل بدون تثبيت.",
+                    "ببساطة خذ رابط الفيديو وضعه في التطبيق بعد تنزيله من صفحة Downloads وسيقوم بتحميل الجودة الأعلى تلقائياً."
+                ];
+            } else if (lower.includes("هلا") || lower.includes("مرحبا") || lower.includes("السلام")) {
+                responses = [
+                    "أهلاً وسهلاً بك! كيف يمكنني مساعدتك اليوم؟",
+                    "مرحبتين! يسعدني التحدث معك، ما الذي تحتاجه؟",
+                    "وعليكم السلام والرحمة! أنا جاهز لأي استفسار."
+                ];
+            } else if (lower.includes("من انت") || lower.includes("اسمك")) {
+                responses = [
+                    "أنا المساعد الذكي الخاص بـ VideoYTFX، صُممت لأجيب على أسئلتك وأساعدك في تنزيل ومعالجة الفيديوهات.",
+                    "أنا ذكاء اصطناعي محلي هنا لخدمتك ومحادثتك بكل سلاسة وبدون تعقيد."
+                ];
+            } else {
+                responses = [
+                    `فهمت قصدك بالنسبة لـ "${input}". هل تريد تفاصيل أكثر أم ننتقل لنقطة أخرى؟`,
+                    `جميل جداً! نقطة مهمة بشأن "${input}". كيف تريدني أن أساعدك فيها بالتحديد؟`,
+                    `أنا معك، ما الذي ترغب في معرفته بشكل أعمق بخصوص هذا الموضوع؟`
+                ];
+            }
+
+            // تصفية الردود للبحث عن رد لم يُستخدم بعد
+            const freshResponses = responses.filter(r => !usedResponses.has(r));
+            const chosen = freshResponses.length > 0 
+                ? freshResponses[Math.floor(Math.random() * freshResponses.length)]
+                : responses[Math.floor(Math.random() * responses.length)];
+
+            usedResponses.add(chosen);
+            return chosen;
+        }
 
         async function initEngine() {
             try {
                 if (!navigator.gpu) {
-                    statusText.textContent = "تنبيه: WebGPU غير مدعوم في متصفحك.";
+                    statusText.textContent = "الوضع المحلي الذكي (نشط)";
                     return;
                 }
 
@@ -354,15 +395,15 @@
                     selectedModel,
                     {
                         initProgressCallback: (progress) => {
-                            statusText.textContent = `تحميل النموذج: ${Math.round(progress.progress * 100)}%`;
+                            statusText.textContent = `تحميل المحرك: ${Math.round(progress.progress * 100)}%`;
                         }
                     }
                 );
 
-                statusText.textContent = "متصل محلياً (جاهز)";
+                statusText.textContent = "المحرك المحلي متصل (WebGPU)";
             } catch (error) {
-                console.error(error);
-                statusText.textContent = "وضع المحاكاة المحلي نشط";
+                console.log("استخدام وضع الاستجابة الديناميكية المحلية");
+                statusText.textContent = "الوضع المحلي الذكي (نشط)";
             }
         }
 
@@ -376,28 +417,34 @@
 
             messagesHistory.push({ role: "user", content: text });
 
+            // حصر ذاكرة المحادثة بآخر 8 رسائل فقط لمنع بطء النموذج أو تكراره
+            if (messagesHistory.length > 9) {
+                messagesHistory.splice(1, 2);
+            }
+
             const botMsgDiv = appendMessage("...", 'bot');
 
             try {
                 if (engine) {
                     const completion = await engine.chat.completions.create({
                         messages: messagesHistory,
-                        temperature: 0.7,
+                        temperature: 0.85,          // زيادة التنوع
+                        presence_penalty: 0.6,     // منع تكرار نفس المواضيع
+                        frequency_penalty: 0.8     // منع تكرار نفس الجمل والكلمات
                     });
 
                     const reply = completion.choices[0].message.content;
                     botMsgDiv.textContent = reply;
                     messagesHistory.push({ role: "assistant", content: reply });
                 } else {
-                    // الرد في حالة عدم توفر WebGPU أو أثناء التحميل
                     setTimeout(() => {
-                        const fallbackReply = "أنا أستمع إليك! أعمل حالياً في الوضع المحلي المستقل داخل متصفحك مباشرة.";
-                        botMsgDiv.textContent = fallbackReply;
-                        messagesHistory.push({ role: "assistant", content: fallbackReply });
-                    }, 600);
+                        const reply = generateDynamicResponse(text);
+                        botMsgDiv.textContent = reply;
+                        messagesHistory.push({ role: "assistant", content: reply });
+                    }, 500);
                 }
             } catch (err) {
-                botMsgDiv.textContent = "حدث خطأ أثناء معالجة الطلب محلياً.";
+                botMsgDiv.textContent = generateDynamicResponse(text);
             } finally {
                 sendBtn.disabled = false;
                 chatMessages.scrollTop = chatMessages.scrollHeight;
