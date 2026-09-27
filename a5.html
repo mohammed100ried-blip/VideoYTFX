@@ -2,3780 +2,682 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>A5 AI</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap"
-    rel="stylesheet"
->
-
-<style>
-
-:root {
-
-    --bg: #05070d;
-    --bg2: #0b1020;
-
-    --panel: rgba(10,15,27,.86);
-    --panel2: rgba(18,25,42,.75);
-
-    --border: rgba(255,255,255,.08);
-
-    --text: #f8fafc;
-    --muted: #94a3b8;
-    --muted2: #64748b;
-
-    --primary: #6366f1;
-    --primary2: #8b5cf6;
-
-    --green: #22c55e;
-    --red: #ef4444;
-    --orange: #f59e0b;
-
-}
-
-body.light {
-
-    --bg: #f5f7fb;
-    --bg2: #eef2ff;
-
-    --panel: rgba(255,255,255,.9);
-    --panel2: rgba(248,250,252,.9);
-
-    --border: rgba(15,23,42,.1);
-
-    --text: #111827;
-    --muted: #475569;
-    --muted2: #94a3b8;
-
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html,
-body {
-    width: 100%;
-    height: 100%;
-}
-
-body {
-
-    overflow: hidden;
-
-    color: var(--text);
-
-    font-family: "Tajawal", sans-serif;
-
-    background:
-        radial-gradient(
-            circle at 10% 0%,
-            rgba(99,102,241,.18),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 90% 10%,
-            rgba(6,182,212,.10),
-            transparent 25%
-        ),
-        var(--bg);
-
-    transition: .3s;
-
-}
-
-button,
-textarea,
-input {
-    font: inherit;
-}
-
-button {
-    cursor: pointer;
-}
-
-
-/* =========================
-   APP
-========================= */
-
-.app {
-
-    width: 100%;
-    height: 100vh;
-
-    display: flex;
-
-}
-
-
-/* =========================
-   SIDEBAR
-========================= */
-
-.sidebar {
-
-    width: 285px;
-    height: 100vh;
-
-    flex-shrink: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    padding: 18px;
-
-    background: var(--panel);
-
-    border-left:
-        1px solid var(--border);
-
-    backdrop-filter: blur(25px);
-
-    z-index: 10;
-
-    transition: .3s;
-
-}
-
-.logo-area {
-
-    display: flex;
-    align-items: center;
-
-    gap: 11px;
-
-    margin-bottom: 22px;
-
-}
-
-.logo {
-
-    width: 45px;
-    height: 45px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 14px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #6366f1,
-            #8b5cf6,
-            #06b6d4
-        );
-
-    font-size: 21px;
-
-    box-shadow:
-        0 10px 40px
-        rgba(99,102,241,.3);
-
-}
-
-.logo-title {
-
-    font-size: 18px;
-    font-weight: 800;
-
-}
-
-.logo-sub {
-
-    margin-top: 2px;
-
-    color: var(--muted);
-
-    font-size: 10px;
-
-}
-
-.new-chat {
-
-    width: 100%;
-
-    padding: 12px;
-
-    margin-bottom: 15px;
-
-    border:
-        1px solid
-        rgba(99,102,241,.3);
-
-    border-radius: 12px;
-
-    background:
-        rgba(99,102,241,.12);
-
-    color: var(--text);
-
-    font-weight: 700;
-
-}
-
-.new-chat:hover {
-
-    background:
-        rgba(99,102,241,.2);
-
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-.search {
-
-    position: relative;
-
-    margin-bottom: 13px;
-
-}
-
-.search input {
-
-    width: 100%;
-
-    padding:
-        10px
-        12px
-        10px
-        35px;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius: 11px;
-
-    outline: none;
-
-    background:
-        rgba(255,255,255,.035);
-
-    color: var(--text);
-
-}
-
-.search span {
-
-    position: absolute;
-
-    left: 12px;
-
-    top: 50%;
-
-    transform:
-        translateY(-50%);
-
-    color: var(--muted);
-
-}
-
-.sessions-title {
-
-    margin:
-        5px
-        5px
-        8px;
-
-    color: var(--muted2);
-
-    font-size: 11px;
-
-}
-
-.sessions {
-
-    flex: 1;
-
-    min-height: 0;
-
-    overflow-y: auto;
-
-}
-
-.session {
-
-    width: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 9px;
-
-    padding: 10px;
-
-    margin-bottom: 4px;
-
-    border:
-        1px solid
-        transparent;
-
-    border-radius: 11px;
-
-    background: transparent;
-
-    color: var(--muted);
-
-    text-align: right;
-
-}
-
-.session:hover {
-
-    background:
-        rgba(255,255,255,.04);
-
-    color: var(--text);
-
-}
-
-.session.active {
-
-    background:
-        rgba(99,102,241,.12);
-
-    border-color:
-        rgba(99,102,241,.2);
-
-    color: var(--text);
-
-}
-
-.session-name {
-
-    overflow: hidden;
-
-    white-space: nowrap;
-
-    text-overflow: ellipsis;
-
-    font-size: 12px;
-
-}
-
-
-/* =========================
-   SIDE BUTTONS
-========================= */
-
-.side-buttons {
-
-    padding-top: 12px;
-
-    border-top:
-        1px solid
-        var(--border);
-
-}
-
-.side-button {
-
-    width: 100%;
-
-    padding: 10px;
-
-    display: flex;
-
-    gap: 9px;
-
-    border: 0;
-
-    border-radius: 10px;
-
-    background: transparent;
-
-    color: var(--muted);
-
-    text-align: right;
-
-}
-
-.side-button:hover {
-
-    background:
-        rgba(255,255,255,.04);
-
-    color: var(--text);
-
-}
-
-
-/* =========================
-   MAIN
-========================= */
-
-.main {
-
-    flex: 1;
-
-    min-width: 0;
-
-    height: 100vh;
-
-    display: flex;
-
-    flex-direction: column;
-
-}
-
-
-/* =========================
-   TOPBAR
-========================= */
-
-.topbar {
-
-    height: 68px;
-
-    flex-shrink: 0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding:
-        0 24px;
-
-    border-bottom:
-        1px solid
-        var(--border);
-
-    background:
-        rgba(5,7,13,.45);
-
-    backdrop-filter:
-        blur(20px);
-
-}
-
-body.light .topbar {
-
-    background:
-        rgba(255,255,255,.55);
-
-}
-
-.top-title {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-}
-
-.top-icon {
-
-    width: 36px;
-    height: 36px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 10px;
-
-    background:
-        rgba(99,102,241,.13);
-
-}
-
-.top-name {
-
-    font-weight: 800;
-
-}
-
-.top-sub {
-
-    display: block;
-
-    color: var(--muted);
-
-    font-size: 10px;
-
-}
-
-.top-actions {
-
-    display: flex;
-
-    gap: 7px;
-
-}
-
-.top-button {
-
-    width: 38px;
-    height: 38px;
-
-    display: grid;
-    place-items: center;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius: 10px;
-
-    background:
-        rgba(255,255,255,.03);
-
-    color: var(--text);
-
-}
-
-
-/* =========================
-   CHAT
-========================= */
-
-.chat {
-
-    flex: 1;
-
-    min-height: 0;
-
-    display: flex;
-
-    flex-direction: column;
-
-}
-
-.welcome {
-
-    flex: 1;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    padding: 30px;
-
-    text-align: center;
-
-}
-
-.welcome-inner {
-
-    width: min(650px,100%);
-
-}
-
-.welcome-logo {
-
-    width: 75px;
-    height: 75px;
-
-    display: grid;
-    place-items: center;
-
-    margin:
-        0 auto 22px;
-
-    border-radius: 23px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #6366f1,
-            #8b5cf6,
-            #06b6d4
-        );
-
-    font-size: 31px;
-
-}
-
-.welcome h1 {
-
-    margin-bottom: 10px;
-
-    font-size:
-        clamp(32px,5vw,52px);
-
-    background:
-        linear-gradient(
-            90deg,
-            var(--text),
-            #a78bfa,
-            #67e8f9
-        );
-
-    -webkit-background-clip: text;
-
-    background-clip: text;
-
-    color: transparent;
-
-}
-
-.welcome p {
-
-    color: var(--muted);
-
-    line-height: 1.9;
-
-}
-
-.quick-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    gap: 10px;
-
-    margin-top: 28px;
-
-}
-
-.quick-card {
-
-    padding: 15px 10px;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius: 13px;
-
-    background:
-        rgba(255,255,255,.025);
-
-    color: var(--text);
-
-}
-
-.quick-card:hover {
-
-    border-color:
-        rgba(99,102,241,.35);
-
-    transform:
-        translateY(-2px);
-
-}
-
-.quick-card span {
-
-    display: block;
-
-}
-
-.quick-card .icon {
-
-    margin-bottom: 6px;
-
-    font-size: 20px;
-
-}
-
-.quick-card .label {
-
-    color: var(--muted);
-
-    font-size: 11px;
-
-}
-
-
-/* =========================
-   MESSAGES
-========================= */
-
-.messages {
-
-    flex: 1;
-
-    min-height: 0;
-
-    overflow-y: auto;
-
-    padding:
-        30px
-        max(18px,calc((100% - 900px)/2));
-
-}
-
-.message {
-
-    display: flex;
-
-    gap: 11px;
-
-    margin-bottom: 28px;
-
-}
-
-.avatar {
-
-    width: 36px;
-    height: 36px;
-
-    flex-shrink: 0;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 11px;
-
-}
-
-.avatar.ai {
-
-    background:
-        linear-gradient(
-            135deg,
-            #6366f1,
-            #06b6d4
-        );
-
-}
-
-.avatar.user {
-
-    background:
-        #334155;
-
-}
-
-.message-body {
-
-    max-width:
-        calc(100% - 48px);
-
-    min-width: 0;
-
-}
-
-.message-name {
-
-    margin-bottom: 5px;
-
-    color: var(--muted);
-
-    font-size: 11px;
-
-}
-
-.bubble {
-
-    font-size: 14px;
-
-    line-height: 1.9;
-
-    word-break: break-word;
-
-}
-
-.message.user .bubble {
-
-    display: inline-block;
-
-    padding:
-        10px
-        14px;
-
-    border-radius:
-        15px
-        15px
-        4px
-        15px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #4f46e5,
-            #2563eb
-        );
-
-    color: white;
-
-}
-
-.bubble pre {
-
-    direction: ltr;
-
-    text-align: left;
-
-    overflow-x: auto;
-
-    margin:
-        13px 0;
-
-    padding: 15px;
-
-    border-radius: 12px;
-
-    background:
-        #050812;
-
-    border:
-        1px solid
-        rgba(255,255,255,.08);
-
-}
-
-.bubble code {
-
-    font-family:
-        "Fira Code",
-        monospace;
-
-    font-size: 12px;
-
-}
-
-.tools {
-
-    display: flex;
-
-    gap: 8px;
-
-    margin-top: 6px;
-
-}
-
-.tool {
-
-    border: 0;
-
-    background: transparent;
-
-    color: var(--muted2);
-
-    font-size: 10px;
-
-}
-
-.tool:hover {
-
-    color: var(--text);
-
-}
-
-
-/* =========================
-   TYPING
-========================= */
-
-.typing {
-
-    display: flex;
-
-    gap: 5px;
-
-}
-
-.typing span {
-
-    width: 6px;
-    height: 6px;
-
-    border-radius: 50%;
-
-    background:
-        #8b5cf6;
-
-    animation:
-        typing 1s infinite;
-
-}
-
-.typing span:nth-child(2) {
-    animation-delay: .15s;
-}
-
-.typing span:nth-child(3) {
-    animation-delay: .3s;
-}
-
-@keyframes typing {
-
-    0%,100% {
-        opacity: .25;
-        transform: translateY(0);
-    }
-
-    50% {
-        opacity: 1;
-        transform: translateY(-4px);
-    }
-
-}
-
-
-/* =========================
-   COMPOSER
-========================= */
-
-.composer-wrap {
-
-    padding:
-        9px
-        max(18px,calc((100% - 900px)/2))
-        18px;
-
-}
-
-.composer {
-
-    overflow: hidden;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius: 18px;
-
-    background:
-        var(--panel);
-
-    backdrop-filter:
-        blur(20px);
-
-}
-
-.quick-actions {
-
-    display: flex;
-
-    gap: 7px;
-
-    padding:
-        9px 11px 0;
-
-}
-
-.quick {
-
-    padding:
-        6px 9px;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius: 9px;
-
-    background:
-        transparent;
-
-    color: var(--muted);
-
-    font-size: 10px;
-
-}
-
-.input-row {
-
-    display: flex;
-
-    gap: 8px;
-
-    padding: 10px;
-
-}
-
-.input {
-
-    flex: 1;
-
-    min-width: 0;
-
-    max-height: 130px;
-
-    resize: none;
-
-    outline: none;
-
-    border: 0;
-
-    background: transparent;
-
-    color: var(--text);
-
-    padding: 10px 5px;
-
-    line-height: 1.6;
-
-}
-
-.input::placeholder {
-
-    color: var(--muted2);
-
-}
-
-.input-button,
-.send,
-.stop {
-
-    width: 42px;
-    height: 42px;
-
-    flex-shrink: 0;
-
-    border-radius: 11px;
-
-}
-
-.input-button {
-
-    border:
-        1px solid
-        var(--border);
-
-    background:
-        rgba(255,255,255,.03);
-
-    color: var(--text);
-
-}
-
-.input-button.recording {
-
-    border-color:
-        rgba(239,68,68,.5);
-
-    background:
-        rgba(239,68,68,.13);
-
-}
-
-.send {
-
-    border: 0;
-
-    background:
-        linear-gradient(
-            135deg,
-            #6366f1,
-            #3b82f6
-        );
-
-    color: white;
-
-}
-
-.send:disabled {
-
-    opacity: .4;
-
-}
-
-.stop {
-
-    display: none;
-
-    border:
-        1px solid
-        rgba(239,68,68,.3);
-
-    background:
-        rgba(239,68,68,.1);
-
-    color:
-        #f87171;
-
-}
-
-.stop.show {
-
-    display: block;
-
-}
-
-.status {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    padding:
-        0 13px
-        9px;
-
-    color: var(--muted2);
-
-    font-size: 9px;
-
-}
-
-.status-left {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 5px;
-
-}
-
-.dot {
-
-    width: 6px;
-    height: 6px;
-
-    border-radius: 50%;
-
-    background:
-        var(--orange);
-
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-.mobile-menu {
-
-    display: none;
-
-}
-
-@media(max-width:800px){
-
-    .sidebar {
-
-        position: fixed;
-
-        right: 0;
-        top: 0;
-
-        transform:
-            translateX(105%);
-
-        box-shadow:
-            -20px 0 60px
-            rgba(0,0,0,.4);
-
-    }
-
-    .sidebar.open {
-
-        transform:
-            translateX(0);
-
-    }
-
-    .mobile-menu {
-
-        display: grid;
-
-    }
-
-    .topbar {
-
-        padding:
-            0 13px;
-
-    }
-
-    .messages {
-
-        padding:
-            22px 13px;
-
-    }
-
-    .composer-wrap {
-
-        padding:
-            8px
-            10px
-            12px;
-
-    }
-
-    .quick-grid {
-
-        grid-template-columns:
-            repeat(2,1fr);
-
-    }
-
-}
-
-@media(max-width:450px){
-
-    .quick-actions {
-
-        display: none;
-
-    }
-
-    .welcome {
-
-        padding:
-            20px 15px;
-
-    }
-
-    .welcome h1 {
-
-        font-size: 34px;
-
-    }
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A5 AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #05070d;
+            --bg2: #0b1020;
+            --panel: rgba(10,15,27,.86);
+            --panel2: rgba(18,25,42,.75);
+            --border: rgba(255,255,255,.08);
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --muted2: #64748b;
+            --primary: #6366f1;
+            --primary2: #8b5cf6;
+            --green: #22c55e;
+            --red: #ef4444;
+            --orange: #f59e0b;
+        }
+
+        body.light {
+            --bg: #f5f7fb;
+            --bg2: #eef2ff;
+            --panel: rgba(255,255,255,.9);
+            --panel2: rgba(248,250,252,.9);
+            --border: rgba(15,23,42,.1);
+            --text: #111827;
+            --muted: #475569;
+            --muted2: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
+            color: var(--text);
+            font-family: "Tajawal", sans-serif;
+            background:
+                radial-gradient(circle at 10% 0%, rgba(99,102,241,.18), transparent 30%),
+                radial-gradient(circle at 90% 10%, rgba(6,182,212,.10), transparent 25%),
+                var(--bg);
+            transition: .3s;
+        }
+
+        button, textarea, input { font: inherit; }
+        button { cursor: pointer; }
+
+        .app { width: 100%; height: 100vh; display: flex; }
+
+        .sidebar {
+            width: 285px;
+            height: 100vh;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 18px;
+            background: var(--panel);
+            border-left: 1px solid var(--border);
+            backdrop-filter: blur(25px);
+            z-index: 10;
+            transition: .3s;
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 11px; margin-bottom: 22px; }
+        .logo {
+            width: 45px; height: 45px; display: grid; place-items: center; border-radius: 14px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+            font-size: 21px; box-shadow: 0 10px 40px rgba(99,102,241,.3);
+        }
+        .logo-title { font-size: 18px; font-weight: 800; }
+        .logo-sub { margin-top: 2px; color: var(--muted); font-size: 10px; }
+
+        .new-chat {
+            width: 100%; padding: 12px; margin-bottom: 15px;
+            border: 1px solid rgba(99,102,241,.3); border-radius: 12px;
+            background: rgba(99,102,241,.12); color: var(--text); font-weight: 700;
+        }
+        .new-chat:hover { background: rgba(99,102,241,.2); }
+
+        .search { position: relative; margin-bottom: 13px; }
+        .search input {
+            width: 100%; padding: 10px 12px 10px 35px;
+            border: 1px solid var(--border); border-radius: 11px;
+            outline: none; background: rgba(255,255,255,.035); color: var(--text);
+        }
+        .search span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+
+        .sessions-title { margin: 5px 5px 8px; color: var(--muted2); font-size: 11px; }
+        .sessions { flex: 1; min-height: 0; overflow-y: auto; }
+        .session {
+            width: 100%; display: flex; align-items: center; gap: 9px; padding: 10px;
+            margin-bottom: 4px; border: 1px solid transparent; border-radius: 11px;
+            background: transparent; color: var(--muted); text-align: right;
+        }
+        .session:hover { background: rgba(255,255,255,.04); color: var(--text); }
+        .session.active { background: rgba(99,102,241,.12); border-color: rgba(99,102,241,.2); color: var(--text); }
+        .session-name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 12px; }
+
+        .side-buttons { padding-top: 12px; border-top: 1px solid var(--border); }
+        .side-button {
+            width: 100%; padding: 10px; display: flex; gap: 9px; border: 0;
+            border-radius: 10px; background: transparent; color: var(--muted); text-align: right;
+        }
+        .side-button:hover { background: rgba(255,255,255,.04); color: var(--text); }
+
+        .main { flex: 1; min-width: 0; height: 100vh; display: flex; flex-direction: column; }
+
+        .topbar {
+            height: 68px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 24px; border-bottom: 1px solid var(--border); background: rgba(5,7,13,.45); backdrop-filter: blur(20px);
+        }
+        body.light .topbar { background: rgba(255,255,255,.55); }
+
+        .top-title { display: flex; align-items: center; gap: 10px; }
+        .top-icon { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; background: rgba(99,102,241,.13); }
+        .top-name { font-weight: 800; }
+        .top-sub { display: block; color: var(--muted); font-size: 10px; }
+        .top-actions { display: flex; gap: 7px; }
+        .top-button {
+            width: 38px; height: 38px; display: grid; place-items: center;
+            border: 1px solid var(--border); border-radius: 10px; background: rgba(255,255,255,.03); color: var(--text);
+        }
+
+        .chat { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+        .welcome { flex: 1; display: flex; justify-content: center; align-items: center; padding: 30px; text-align: center; }
+        .welcome-inner { width: min(650px, 100%); }
+        .welcome-logo {
+            width: 75px; height: 75px; display: grid; place-items: center; margin: 0 auto 22px;
+            border-radius: 23px; background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4); font-size: 31px;
+        }
+        .welcome h1 {
+            margin-bottom: 10px; font-size: clamp(32px,5vw,52px);
+            background: linear-gradient(90deg, var(--text), #a78bfa, #67e8f9);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .welcome p { color: var(--muted); line-height: 1.9; }
+
+        .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 28px; }
+        .quick-card {
+            padding: 15px 10px; border: 1px solid var(--border); border-radius: 13px;
+            background: rgba(255,255,255,.025); color: var(--text);
+        }
+        .quick-card:hover { border-color: rgba(99,102,241,.35); transform: translateY(-2px); }
+        .quick-card span { display: block; }
+        .quick-card .icon { margin-bottom: 6px; font-size: 20px; }
+        .quick-card .label { color: var(--muted); font-size: 11px; }
+
+        .messages { flex: 1; min-height: 0; overflow-y: auto; padding: 30px max(18px, calc((100% - 900px)/2)); }
+        .message { display: flex; gap: 11px; margin-bottom: 28px; }
+        .avatar { width: 36px; height: 36px; flex-shrink: 0; display: grid; place-items: center; border-radius: 11px; }
+        .avatar.ai { background: linear-gradient(135deg, #6366f1, #06b6d4); }
+        .avatar.user { background: #334155; }
+        .message-body { max-width: calc(100% - 48px); min-width: 0; }
+        .message-name { margin-bottom: 5px; color: var(--muted); font-size: 11px; }
+        .bubble { font-size: 14px; line-height: 1.9; word-break: break-word; }
+        .message.user .bubble {
+            display: inline-block; padding: 10px 14px;
+            border-radius: 15px 15px 4px 15px;
+            background: linear-gradient(135deg, #4f46e5, #2563eb); color: white;
+        }
+        .bubble pre {
+            direction: ltr; text-align: left; overflow-x: auto; margin: 13px 0;
+            padding: 15px; border-radius: 12px; background: #050812; border: 1px solid rgba(255,255,255,.08);
+        }
+        .bubble code { font-family: "Fira Code", monospace; font-size: 12px; }
+
+        .tools { display: flex; gap: 8px; margin-top: 6px; }
+        .tool { border: 0; background: transparent; color: var(--muted2); font-size: 10px; }
+        .tool:hover { color: var(--text); }
+
+        .typing { display: flex; gap: 5px; }
+        .typing span {
+            width: 6px; height: 6px; border-radius: 50%; background: #8b5cf6;
+            animation: typing 1s infinite;
+        }
+        .typing span:nth-child(2) { animation-delay: .15s; }
+        .typing span:nth-child(3) { animation-delay: .3s; }
+        @keyframes typing { 0%,100% { opacity: .25; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-4px); } }
+
+        .composer-wrap { padding: 9px max(18px, calc((100% - 900px)/2)) 18px; }
+        .composer { overflow: hidden; border: 1px solid var(--border); border-radius: 18px; background: var(--panel); backdrop-filter: blur(20px); }
+        .quick-actions { display: flex; gap: 7px; padding: 9px 11px 0; }
+        .quick { padding: 6px 9px; border: 1px solid var(--border); border-radius: 9px; background: transparent; color: var(--muted); font-size: 10px; }
+        .input-row { display: flex; gap: 8px; padding: 10px; }
+        .input { flex: 1; min-width: 0; max-height: 130px; resize: none; outline: none; border: 0; background: transparent; color: var(--text); padding: 10px 5px; line-height: 1.6; }
+        .input::placeholder { color: var(--muted2); }
+
+        .input-button, .send, .stop { width: 42px; height: 42px; flex-shrink: 0; border-radius: 11px; }
+        .input-button { border: 1px solid var(--border); background: rgba(255,255,255,.03); color: var(--text); }
+        .input-button.recording { border-color: rgba(239,68,68,.5); background: rgba(239,68,68,.13); }
+        .send { border: 0; background: linear-gradient(135deg, #6366f1, #3b82f6); color: white; }
+        .send:disabled { opacity: .4; }
+        .stop { display: none; border: 1px solid rgba(239,68,68,.3); background: rgba(239,68,68,.1); color: #f87171; }
+        .stop.show { display: block; }
+
+        .status { display: flex; justify-content: space-between; padding: 0 13px 9px; color: var(--muted2); font-size: 9px; }
+        .status-left { display: flex; align-items: center; gap: 5px; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
+        .dot.ready { background: var(--green); }
+
+        .mobile-menu { display: none; }
+        @media(max-width:800px){
+            .sidebar { position: fixed; right: 0; top: 0; transform: translateX(105%); box-shadow: -20px 0 60px rgba(0,0,0,.4); }
+            .sidebar.open { transform: translateX(0); }
+            .mobile-menu { display: grid; }
+            .topbar { padding: 0 13px; }
+            .messages { padding: 22px 13px; }
+            .composer-wrap { padding: 8px 10px 12px; }
+            .quick-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media(max-width:450px){
+            .quick-actions { display: none; }
+            .welcome { padding: 20px 15px; }
+            .welcome h1 { font-size: 34px; }
+        }
+    </style>
 </head>
-
 
 <body>
 
-
 <div class="app">
 
-
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
-
-<aside
-    class="sidebar"
-    id="sidebar"
->
-
+<aside class="sidebar" id="sidebar">
     <div class="logo-area">
-
-        <div class="logo">
-            ⚡
-        </div>
-
+        <div class="logo">⚡</div>
         <div>
-
-            <div class="logo-title">
-                A5 AI
-            </div>
-
-            <div class="logo-sub">
-                Personal Local Intelligence
-            </div>
-
+            <div class="logo-title">A5 AI</div>
+            <div class="logo-sub">Personal Local Intelligence</div>
         </div>
-
     </div>
 
-
-    <button
-        class="new-chat"
-        id="newChat"
-    >
-        ＋ محادثة جديدة
-    </button>
-
+    <button class="new-chat" id="newChat">＋ محادثة جديدة</button>
 
     <div class="search">
-
-        <span>
-            🔎
-        </span>
-
-        <input
-            id="search"
-            placeholder="ابحث في المحادثات..."
-        >
-
+        <span>🔎</span>
+        <input id="search" placeholder="ابحث في المحادثات...">
     </div>
 
-
-    <div class="sessions-title">
-        المحادثات
-    </div>
-
-
-    <div
-        class="sessions"
-        id="sessions"
-    ></div>
-
+    <div class="sessions-title">المحادثات</div>
+    <div class="sessions" id="sessions"></div>
 
     <div class="side-buttons">
-
-        <button
-            class="side-button"
-            id="clearAll"
-        >
-            🗑️
-            حذف جميع المحادثات
-        </button>
-
-
-        <button
-            class="side-button"
-            id="export"
-        >
-            📥
-            تصدير المحادثة
-        </button>
-
-
-        <button
-            class="side-button"
-            id="theme"
-        >
-            🌙
-            تغيير المظهر
-        </button>
-
+        <button class="side-button" id="clearAll">🗑️ حذف جميع المحادثات</button>
+        <button class="side-button" id="export">📥 تصدير المحادثة</button>
+        <button class="side-button" id="theme">🌙 تغيير المظهر</button>
     </div>
-
 </aside>
 
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
 <main class="main">
-
-
-<header class="topbar">
-
-    <div class="top-title">
-
-        <button
-            class="top-button mobile-menu"
-            id="menu"
-        >
-            ☰
-        </button>
-
-        <div class="top-icon">
-            🤖
-        </div>
-
-        <div>
-
-            <div class="top-name">
-                A5
+    <header class="topbar">
+        <div class="top-title">
+            <button class="top-button mobile-menu" id="menu">☰</button>
+            <div class="top-icon">🤖</div>
+            <div>
+                <div class="top-name">A5</div>
+                <span class="top-sub">مساعدك الشخصي المحلي</span>
             </div>
-
-            <span class="top-sub">
-                مساعدك الشخصي المحلي
-            </span>
-
         </div>
 
-    </div>
-
-
-    <div class="top-actions">
-
-        <button
-            class="top-button"
-            id="clearCurrent"
-            title="مسح المحادثة"
-        >
-            🧹
-        </button>
-
-    </div>
-
-</header>
-
-
-<section class="chat">
-
-
-<!-- =====================================================
-     WELCOME
-===================================================== -->
-
-<div
-    class="welcome"
-    id="welcome"
->
-
-    <div class="welcome-inner">
-
-        <div class="welcome-logo">
-            ⚡
+        <div class="top-actions">
+            <button class="top-button" id="clearCurrent" title="مسح المحادثة">🧹</button>
         </div>
+    </header>
 
-        <h1>
-            A5
-        </h1>
+    <section class="chat">
+        <div class="welcome" id="welcome">
+            <div class="welcome-inner">
+                <div class="welcome-logo">⚡</div>
+                <h1>A5</h1>
+                <p>مساعدك الشخصي الصريح.<br>لا مجاملات، لا كلام فارغ، ولا موافقة عمياء.</p>
 
-        <p>
-            مساعدك الشخصي الصريح.
-            لا مجاملات، لا كلام فارغ، ولا موافقة عمياء.
-        </p>
-
-
-        <div class="quick-grid">
-
-
-            <button
-                class="quick-card"
-                data-prompt="حلل فكرتي بصرامة واذكر جميع نقاط ضعفها"
-            >
-
-                <span class="icon">
-                    🧠
-                </span>
-
-                <span class="label">
-                    نقد الفكرة
-                </span>
-
-            </button>
-
-
-            <button
-                class="quick-card"
-                data-prompt="راجع هذا الكود وابحث عن الأخطاء بدون مجاملة"
-            >
-
-                <span class="icon">
-                    💻
-                </span>
-
-                <span class="label">
-                    نقد الكود
-                </span>
-
-            </button>
-
-
-            <button
-                class="quick-card"
-                data-prompt="اشرح لي الحقيقة بشكل مباشر ولا تحاول تلطيفها"
-            >
-
-                <span class="icon">
-                    🎯
-                </span>
-
-                <span class="label">
-                    الحقيقة
-                </span>
-
-            </button>
-
-
-            <button
-                class="quick-card"
-                data-prompt="اختبر فكرتي وابحث عن التناقضات والمشاكل فيها"
-            >
-
-                <span class="icon">
-                    ⚔️
-                </span>
-
-                <span class="label">
-                    اختبار قاس
-                </span>
-
-            </button>
-
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- =====================================================
-     MESSAGES
-===================================================== -->
-
-<div
-    class="messages"
-    id="messages"
-    style="display:none"
-></div>
-
-
-<!-- =====================================================
-     COMPOSER
-===================================================== -->
-
-<div class="composer-wrap">
-
-    <div class="composer">
-
-
-        <div class="quick-actions">
-
-            <button
-                class="quick"
-                data-prompt="انتقد فكرتي بصراحة"
-            >
-                🧠 نقد
-            </button>
-
-            <button
-                class="quick"
-                data-prompt="راجع الكود وابحث عن الأخطاء"
-            >
-                💻 كود
-            </button>
-
-            <button
-                class="quick"
-                data-prompt="قل لي أين أخطأت بالتحديد"
-            >
-                🎯 خطأ
-            </button>
-
-            <button
-                class="quick"
-                data-prompt="لا تجاملني وأعطني الحقيقة"
-            >
-                ⚔️ صراحة
-            </button>
-
-        </div>
-
-
-        <div class="input-row">
-
-
-            <button
-                class="input-button"
-                id="mic"
-                title="الصوت"
-            >
-                🎙️
-            </button>
-
-
-            <textarea
-                class="input"
-                id="input"
-                rows="1"
-                placeholder="اكتب لـ A5..."
-            ></textarea>
-
-
-            <button
-                class="stop"
-                id="stop"
-            >
-                ■
-            </button>
-
-
-            <button
-                class="send"
-                id="send"
-            >
-                ➤
-            </button>
-
-
-        </div>
-
-
-        <div class="status">
-
-            <div class="status-left">
-
-                <span
-                    class="dot"
-                    id="dot"
-                ></span>
-
-                <span id="status">
-                    A5 يستعد...
-                </span>
-
+                <div class="quick-grid">
+                    <button class="quick-card" data-prompt="حلل فكرتي بصرامة واذكر جميع نقاط ضعفها">
+                        <span class="icon">🧠</span>
+                        <span class="label">نقد الفكرة</span>
+                    </button>
+                    <button class="quick-card" data-prompt="راجع هذا الكود وابحث عن الأخطاء بدون مجاملة">
+                        <span class="icon">💻</span>
+                        <span class="label">نقد الكود</span>
+                    </button>
+                    <button class="quick-card" data-prompt="اشرح لي الحقيقة بشكل مباشر ولا تحاول تلطيفها">
+                        <span class="icon">🎯</span>
+                        <span class="label">الحقيقة</span>
+                    </button>
+                    <button class="quick-card" data-prompt="اختبر فكرتي وابحث عن التناقضات والمشاكل فيها">
+                        <span class="icon">⚔️</span>
+                        <span class="label">اختبار قاس</span>
+                    </button>
+                </div>
             </div>
-
-            <span>
-                WebGPU • Local AI
-            </span>
-
         </div>
 
+        <div class="messages" id="messages" style="display:none"></div>
 
-    </div>
+        <div class="composer-wrap">
+            <div class="composer">
+                <div class="quick-actions">
+                    <button class="quick" data-prompt="انتقد فكرتي بصراحة">🧠 نقد</button>
+                    <button class="quick" data-prompt="راجع الكود وابحث عن الأخطاء">💻 كود</button>
+                    <button class="quick" data-prompt="قل لي أين أخطأت بالتحديد">🎯 خطأ</button>
+                    <button class="quick" data-prompt="لا تجاملني وأعطني الحقيقة">⚔️ صراحة</button>
+                </div>
 
-</div>
+                <div class="input-row">
+                    <button class="input-button" id="mic" title="الصوت">🎙️</button>
+                    <textarea class="input" id="input" rows="1" placeholder="اكتب لـ A5..."></textarea>
+                    <button class="stop" id="stop">■</button>
+                    <button class="send" id="send">➤</button>
+                </div>
 
-
-</section>
-
+                <div class="status">
+                    <div class="status-left">
+                        <span class="dot" id="dot"></span>
+                        <span id="status">A5 يستعد...</span>
+                    </div>
+                    <span>WebGPU • Local AI</span>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 
 </div>
 
-
 <script type="module">
+import { CreateMLCEngine } from "https://esm.run/@mlc-ai/web-llm";
 
-/* =====================================================
-   WEBLLM
-===================================================== */
+const MODEL = "Llama-3.2-3B-Instruct-q4f16_1-MLC";
+const MAX_MEMORY = 25;
 
-import {
-    CreateMLCEngine
-}
-from
-"https://esm.run/@mlc-ai/web-llm";
-
-
-/* =====================================================
-   CONFIG
-===================================================== */
-
-const MODEL =
-    "Llama-3.2-3B-Instruct-q4f16_1-MLC";
-
-const MAX_MEMORY =
-    25;
-
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const $ = id =>
-    document.getElementById(id);
-
-const sidebar =
-    $("sidebar");
-
-const sessionsEl =
-    $("sessions");
-
-const welcome =
-    $("welcome");
-
-const messagesEl =
-    $("messages");
-
-const input =
-    $("input");
-
-const send =
-    $("send");
-
-const stop =
-    $("stop");
-
-const status =
-    $("status");
-
-const dot =
-    $("dot");
-
-const search =
-    $("search");
-
-
-/* =====================================================
-   AI STATE
-===================================================== */
+const $ = id => document.getElementById(id);
+const sidebar = $("sidebar");
+const sessionsEl = $("sessions");
+const welcome = $("welcome");
+const messagesEl = $("messages");
+const input = $("input");
+const send = $("send");
+const stop = $("stop");
+const status = $("status");
+const dot = $("dot");
+const search = $("search");
+const mic = $("mic");
 
 let engine = null;
-
 let generating = false;
-
 let controller = null;
-
 let recognition = null;
-
 let recording = false;
 
+let sessions = load("a5_sessions", [[]]);
+let memory = load("a5_memory", []);
+let current = 0;
 
-/* =====================================================
-   STORAGE
-===================================================== */
+if (!Array.isArray(sessions) || !sessions.length) sessions = [[]];
+if (!Array.isArray(memory)) memory = [];
 
-let sessions =
-    load(
-        "a5_sessions",
-        [[]]
-    );
-
-let memory =
-    load(
-        "a5_memory",
-        []
-    );
-
-let current =
-    0;
-
-
-if(
-    !Array.isArray(sessions) ||
-    !sessions.length
-){
-
-    sessions = [[]];
-
-}
-
-
-if(!Array.isArray(memory)){
-
-    memory = [];
-
-}
-
-
-/* =====================================================
-   STORAGE FUNCTIONS
-===================================================== */
-
-function load(
-    key,
-    fallback
-){
-
-    try{
-
-        const data =
-            localStorage.getItem(key);
-
-        if(!data){
-
-            return fallback;
-
-        }
-
-        return JSON.parse(data);
-
-    }catch{
-
+function load(key, fallback) {
+    try {
+        const data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : fallback;
+    } catch {
         return fallback;
-
     }
-
 }
 
-
-function save(){
-
-    try{
-
-        localStorage.setItem(
-            "a5_sessions",
-            JSON.stringify(sessions)
-        );
-
-        localStorage.setItem(
-            "a5_memory",
-            JSON.stringify(memory)
-        );
-
-    }catch(error){
-
-        console.error(
-            "A5 storage error:",
-            error
-        );
-
+function save() {
+    try {
+        localStorage.setItem("a5_sessions", JSON.stringify(sessions));
+        localStorage.setItem("a5_memory", JSON.stringify(memory));
+    } catch (err) {
+        console.error("Storage error:", err);
     }
-
 }
 
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHTML(text){
-
+function escapeHTML(text) {
     return String(text)
-
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
-
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
 
-
-/* =====================================================
-   MARKDOWN
-===================================================== */
-
-function markdown(text){
-
-    let result =
-        escapeHTML(text);
-
-
-    result =
-        result.replace(
-            /```([\s\S]*?)```/g,
-            "<pre><code>$1</code></pre>"
-        );
-
-
-    result =
-        result.replace(
-            /`([^`]+)`/g,
-            "<code>$1</code>"
-        );
-
-
-    result =
-        result.replace(
-            /\*\*(.*?)\*\*/g,
-            "<strong>$1</strong>"
-        );
-
-
-    result =
-        result.replace(
-            /\n/g,
-            "<br>"
-        );
-
-
+function markdown(text) {
+    let result = escapeHTML(text);
+    result = result.replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>");
+    result = result.replace(/`([^`]+)`/g, "<code>$1</code>");
+    result = result.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    result = result.replace(/\n/g, "<br>");
     return result;
-
 }
 
+function memoryText() {
+    if (!memory.length) return "";
+    return `\nمقتطفات من الذاكرة المحلية السابقة:\n${memory.slice(-8).map((item, i) => `${i+1}. المستخدم: ${item.user}\nA5:${item.assistant}`).join("\n")}\n`;
+}
 
-/* =====================================================
-   MEMORY
-===================================================== */
+function systemPrompt() {
+    return `أنت A5، المساعد الشخصي المحلي الصارم جداً.
+أنت لا تجامل، لا توافق لمجرد الإرضاء، ولا تستخدم عبارات المديح الفارغة.
+تقول الحقيقة بوضوح وحزم. إذا كانت الفكرة ضعيفة أو الكود سيئاً، حدد الخلل مباشرة وبدون تلطيف.
+ممنوع الشتم أو الإهانة الشخصية، القسوة تكون في النقد والنصائح المباشرة فقط.
 
-function addMemory(
-    user,
-    assistant
-){
+${memoryText()}`;
+}
 
-    memory.push({
+function scrollBottom() {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+}
 
-        user:
-            user.slice(0,500),
+function sessionName(chat, index) {
+    const first = chat.find(x => x.role === "user");
+    if (!first) return `محادثة ${index + 1}`;
+    let text = first.content.replace(/\s+/g, " ").trim();
+    return text.length > 35 ? text.slice(0, 35) + "..." : text;
+}
 
-        assistant:
-            assistant.slice(0,800),
+function renderSessions() {
+    sessionsEl.innerHTML = "";
+    const query = search.value.trim().toLowerCase();
+    let found = false;
 
-        time:
-            Date.now()
+    sessions.forEach((chat, index) => {
+        const title = sessionName(chat, index);
+        const all = [title, ...chat.map(x => x.content)].join(" ").toLowerCase();
+        if (query && !all.includes(query)) return;
 
+        found = true;
+        const button = document.createElement("button");
+        button.className = `session ${index === current ? "active" : ""}`;
+        button.innerHTML = `<span>💬</span><span class="session-name">${escapeHTML(title)}</span>`;
+        button.onclick = () => {
+            current = index;
+            renderSessions();
+            renderChat();
+            closeSidebar();
+        };
+        sessionsEl.appendChild(button);
     });
 
-
-    if(
-        memory.length >
-        MAX_MEMORY
-    ){
-
-        memory =
-            memory.slice(
-                -MAX_MEMORY
-            );
-
+    if (!found) {
+        sessionsEl.innerHTML = `<div style="padding:15px; color:var(--muted2); text-align:center; font-size:11px;">لا توجد نتائج</div>`;
     }
-
-
-    save();
-
 }
 
-
-function memoryText(){
-
-    if(!memory.length){
-
-        return "";
-
-    }
-
-
-    return `
-
-هذه مقتطفات من الذاكرة المحلية السابقة.
-استخدمها فقط إذا كانت مرتبطة بالسؤال الحالي.
-
-${memory
-    .slice(-8)
-    .map(
-        (item,index)=>
-`
-${index + 1}.
-المستخدم:
-${item.user}
-
-A5:
-${item.assistant}
-`
-    )
-    .join("\n")}
-
-`;
-
-}
-
-
-/* =====================================================
-   A5 PERSONALITY
-===================================================== */
-
-function systemPrompt(){
-
-return `
-
-أنت A5.
-
-أنت المساعد الشخصي المحلي للمستخدم.
-
-شخصيتك صارمة جداً.
-
-أنت لا تجامل.
-
-أنت لا توافق المستخدم لمجرد إرضائه.
-
-أنت لا تستخدم عبارات المديح الفارغة.
-
-أنت تقول الحقيقة بوضوح حتى لو كانت غير مريحة.
-
-==============================
-الشخصية
-==============================
-
-- صارم.
-- مباشر.
-- حاد.
-- ذكي.
-- ساخر عند الحاجة.
-- لا يخاف من تصحيح المستخدم.
-- لا يسمح للأخطاء الواضحة بالمرور.
-- لا يختلق الأعذار للمستخدم.
-- لا يحاول دائماً جعل المستخدم سعيداً.
-- يهتم بأن يفهم المستخدم الحقيقة.
-
-إذا كانت الفكرة سيئة:
-قل بوضوح إنها فكرة ضعيفة واشرح السبب.
-
-إذا كان المستخدم مخطئاً:
-قل بوضوح إنه مخطئ واشرح أين أخطأ.
-
-إذا كان الكود سيئاً:
-لا تقل "الكود جيد".
-اذكر المشاكل مباشرة.
-
-إذا كان المستخدم يكرر نفس الخطأ:
-نبهه إلى أنه يكرر الخطأ.
-
-إذا كان هناك تناقض في كلامه:
-أشر إليه مباشرة.
-
-إذا كان طلبه غير منطقي:
-قل ذلك ولا تتظاهر بأن الطلب منطقي.
-
-==============================
-أسلوب الكلام
-==============================
-
-لا تستخدم المجاملات المصطنعة.
-
-تجنب:
-
-"فكرة رائعة!"
-
-"ممتاز جداً!"
-
-"أحسنت!"
-
-إلا إذا كان هناك سبب حقيقي لذلك.
-
-بدلاً من ذلك استخدم لغة مباشرة مثل:
-
-"لا، هذا خطأ."
-
-"الفكرة ضعيفة لهذا السبب..."
-
-"أنت تتجاهل مشكلة أساسية هنا."
-
-"هذا الحل سيعمل، لكنه حل سيئ."
-
-"المشكلة ليست في الكود فقط، بل في طريقة تصميم الفكرة."
-
-"أنت تحاول حل المشكلة من المكان الخطأ."
-
-"هذا افتراض غير صحيح."
-
-استخدم السخرية الخفيفة عندما يكون الخطأ واضحاً، لكن لا تحول الرد إلى إهانة شخصية.
-
-==============================
-ممنوع
-==============================
-
-لا تشتم المستخدم.
-
-لا تستخدم ألفاظاً مهينة ضد المستخدم.
-
-لا تحقر المستخدم كشخص.
-
-لا تستخدم تهديدات.
-
-لا تستخدم إهانات تتعلق بشكله أو عائلته أو حياته أو صفاته الشخصية.
-
-القسوة تكون في النقد، وليس في الإهانة الشخصية.
-
-==============================
-الهدف
-==============================
-
-لا تحاول أن تجعل المستخدم يشعر بأنه عبقري.
-
-حاول أن تجعله يفهم:
-
-أين أخطأ.
-
-لماذا أخطأ.
-
-كيف يصلح الخطأ.
-
-وماذا سيحدث إذا تجاهله.
-
-==============================
-البرمجة
-==============================
-
-عندما يطلب المستخدم كوداً:
-
-أعطه كوداً كاملاً إذا طلب الكود الكامل.
-
-لا تحذف فكرة المشروع الأصلية بدون سبب.
-
-لا تخترع APIs.
-
-لا تخترع مكتبات.
-
-لا تدّعي أنك اختبرت الكود إذا لم تختبره.
-
-إذا كان هناك خطأ:
-حدد الخطأ.
-
-اشرح السبب.
-
-ثم قدم الحل.
-
-إذا كان الحل الذي يريده المستخدم سيئاً:
-قل له ذلك قبل تنفيذ الحل.
-
-==============================
-المعلومات
-==============================
-
-لا تخترع معلومات.
-
-إذا لم تعرف شيئاً:
-قل إنك لا تعرف.
-
-لا تدعي استخدام الإنترنت.
-
-لا تدعي الوصول إلى ملفات أو أجهزة لم يتم إعطاؤك الوصول إليها.
-
-==============================
-اللغة
-==============================
-
-إذا تحدث المستخدم بالعربية:
-تحدث بالعربية.
-
-استخدم لغة طبيعية.
-
-كن مختصراً عندما يكون السؤال بسيطاً.
-
-استخدم خطوات عندما يحتاج الموضوع إلى خطوات.
-
-==============================
-الذاكرة
-==============================
-
-استخدم الذاكرة المحلية الموجودة في السياق فقط.
-
-لا تخترع ذكريات.
-
-لا تدعي أنك تتذكر شيئاً غير موجود.
-
-==============================
-
-أنت A5.
-
-لا مجاملات فارغة.
-
-لا موافقة عمياء.
-
-لا تلطيف غير ضروري.
-
-واجه الخطأ.
-
-حلل الفكرة.
-
-قل الحقيقة.
-
-${memoryText()}
-
-`;
-
-}
-
-
-/* =====================================================
-   SESSION NAME
-===================================================== */
-
-function sessionName(
-    chat,
-    index
-){
-
-    const first =
-        chat.find(
-            x =>
-                x.role === "user"
-        );
-
-
-    if(!first){
-
-        return `محادثة ${index + 1}`;
-
-    }
-
-
-    let text =
-        first.content
-            .replace(/\s+/g," ")
-            .trim();
-
-
-    if(text.length > 35){
-
-        text =
-            text.slice(0,35) +
-            "...";
-
-    }
-
-
-    return text ||
-        `محادثة ${index + 1}`;
-
-}
-
-
-/* =====================================================
-   RENDER SESSIONS
-===================================================== */
-
-function renderSessions(){
-
-    sessionsEl.innerHTML =
-        "";
-
-
-    const query =
-        search.value
-            .trim()
-            .toLowerCase();
-
-
-    let found =
-        false;
-
-
-    sessions.forEach(
-        (chat,index)=>{
-
-            const title =
-                sessionName(
-                    chat,
-                    index
-                );
-
-
-            const all =
-                [
-                    title,
-                    ...chat.map(
-                        x =>
-                            x.content
-                    )
-                ]
-                .join(" ")
-                .toLowerCase();
-
-
-            if(
-                query &&
-                !all.includes(query)
-            ){
-
-                return;
-
-            }
-
-
-            found = true;
-
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.className =
-                "session";
-
-
-            if(
-                index === current
-            ){
-
-                button.classList.add(
-                    "active"
-                );
-
-            }
-
-
-            button.innerHTML = `
-
-                <span>
-                    💬
-                </span>
-
-                <span class="session-name">
-                    ${escapeHTML(title)}
-                </span>
-
-            `;
-
-
-            button.onclick =
-                ()=>{
-
-                    current =
-                        index;
-
-                    renderSessions();
-
-                    renderChat();
-
-                    closeSidebar();
-
-                };
-
-
-            sessionsEl.appendChild(
-                button
-            );
-
-        }
-    );
-
-
-    if(
-        !found
-    ){
-
-        sessionsEl.innerHTML = `
-
-            <div
-                style="
-                    padding:15px;
-                    color:var(--muted2);
-                    text-align:center;
-                    font-size:11px;
-                "
-            >
-                لا توجد نتائج
-            </div>
-
-        `;
-
-    }
-
-}
-
-
-/* =====================================================
-   RENDER CHAT
-===================================================== */
-
-function renderChat(){
-
-    const chat =
-        sessions[current] || [];
-
-
-    messagesEl.innerHTML =
-        "";
-
-
-    if(!chat.length){
-
-        welcome.style.display =
-            "flex";
-
-        messagesEl.style.display =
-            "none";
-
+function renderChat() {
+    const chat = sessions[current] || [];
+    messagesEl.innerHTML = "";
+
+    if (!chat.length) {
+        welcome.style.display = "flex";
+        messagesEl.style.display = "none";
         return;
-
     }
 
+    welcome.style.display = "none";
+    messagesEl.style.display = "block";
 
-    welcome.style.display =
-        "none";
-
-    messagesEl.style.display =
-        "block";
-
-
-    chat.forEach(
-        message=>{
-
-            if(
-                message.role === "user"
-            ){
-
-                drawUser(
-                    message.content,
-                    false
-                );
-
-            }else{
-
-                drawAI(
-                    message.content,
-                    false
-                );
-
-            }
-
-        }
-    );
-
-
+    chat.forEach(msg => {
+        if (msg.role === "user") drawUser(msg.content, false);
+        else drawAI(msg.content, false);
+    });
     scrollBottom();
-
 }
 
-
-/* =====================================================
-   DRAW USER
-===================================================== */
-
-function drawUser(
-    text,
-    saveMessage
-){
-
-    const row =
-        document.createElement(
-            "div"
-        );
-
-
-    row.className =
-        "message user";
-
-
+function drawUser(text, saveMessage = true) {
+    const row = document.createElement("div");
+    row.className = "message user";
     row.innerHTML = `
-
-        <div class="avatar user">
-            👤
-        </div>
-
+        <div class="avatar user">👤</div>
         <div class="message-body">
-
-            <div class="message-name">
-                أنت
-            </div>
-
-            <div class="bubble">
-                ${escapeHTML(text)}
-            </div>
-
+            <div class="message-name">أنت</div>
+            <div class="bubble">${escapeHTML(text)}</div>
         </div>
-
     `;
+    messagesEl.appendChild(row);
 
-
-    messagesEl.appendChild(
-        row
-    );
-
-
-    if(saveMessage){
-
-        sessions[current].push({
-
-            role:
-                "user",
-
-            content:
-                text
-
-        });
-
-
+    if (saveMessage) {
+        sessions[current].push({ role: "user", content: text });
         save();
-
         renderSessions();
-
     }
-
-
     scrollBottom();
-
 }
 
-
-/* =====================================================
-   DRAW AI
-===================================================== */
-
-function drawAI(
-    text,
-    saveMessage
-){
-
-    const row =
-        document.createElement(
-            "div"
-        );
-
-
-    row.className =
-        "message";
-
-
-    const body =
-        document.createElement(
-            "div"
-        );
-
-
-    body.className =
-        "message-body";
-
-
-    body.innerHTML = `
-
-        <div class="message-name">
-            A5
-        </div>
-
-        <div class="bubble">
-            ${markdown(text)}
-        </div>
-
-    `;
-
-
-    const tools =
-        document.createElement(
-            "div"
-        );
-
-
-    tools.className =
-        "tools";
-
-
-    const copy =
-        document.createElement(
-            "button"
-        );
-
-
-    copy.className =
-        "tool";
-
-    copy.textContent =
-        "📋 نسخ";
-
-
-    copy.onclick =
-        async()=>{
-
-            try{
-
-                await navigator.clipboard
-                    .writeText(text);
-
-                copy.textContent =
-                    "✓ تم النسخ";
-
-                setTimeout(
-                    ()=>{
-                        copy.textContent =
-                            "📋 نسخ";
-                    },
-                    1200
-                );
-
-            }catch{
-
-                copy.textContent =
-                    "تعذر النسخ";
-
-            }
-
-        };
-
-
-    const speak =
-        document.createElement(
-            "button"
-        );
-
-
-    speak.className =
-        "tool";
-
-    speak.textContent =
-        "🔊 استماع";
-
-
-    speak.onclick =
-        ()=>{
-
-            speechSynthesis.cancel();
-
-
-            const clean =
-                text
-                    .replace(
-                        /```[\s\S]*?```/g,
-                        "كود"
-                    )
-                    .replace(
-                        /[*_#`]/g,
-                        ""
-                    );
-
-
-            const utterance =
-                new SpeechSynthesisUtterance(
-                    clean
-                );
-
-
-            utterance.lang =
-                "ar-SA";
-
-            utterance.rate =
-                .95;
-
-
-            speechSynthesis.speak(
-                utterance
-            );
-
-        };
-
-
-    tools.appendChild(
-        copy
-    );
-
-    tools.appendChild(
-        speak
-    );
-
-
-    body.appendChild(
-        tools
-    );
-
-
+function drawAI(text = "", saveMessage = false) {
+    const row = document.createElement("div");
+    row.className = "message ai";
     row.innerHTML = `
-
-        <div class="avatar ai">
-            ⚡
-        </div>
-
-    `;
-
-
-    row.appendChild(
-        body
-    );
-
-
-    messagesEl.appendChild(
-        row
-    );
-
-
-    if(saveMessage){
-
-        sessions[current].push({
-
-            role:
-                "assistant",
-
-            content:
-                text
-
-        });
-
-
-        save();
-
-    }
-
-
-    scrollBottom();
-
-}
-
-
-/* =====================================================
-   PLACEHOLDER
-===================================================== */
-
-function placeholder(){
-
-    const row =
-        document.createElement(
-            "div"
-        );
-
-
-    row.className =
-        "message";
-
-
-    row.innerHTML = `
-
-        <div class="avatar ai">
-            ⚡
-        </div>
-
+        <div class="avatar ai">⚡</div>
         <div class="message-body">
-
-            <div class="message-name">
-                A5
-            </div>
-
-            <div class="bubble">
-
-                <div class="typing">
-
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
-                </div>
-
-            </div>
-
+            <div class="message-name">A5</div>
+            <div class="bubble">${markdown(text)}</div>
         </div>
-
     `;
-
-
-    messagesEl.appendChild(
-        row
-    );
-
-
+    messagesEl.appendChild(row);
     scrollBottom();
-
-
-    return {
-
-        row,
-
-        bubble:
-            row.querySelector(
-                ".bubble"
-            )
-
-    };
-
+    return row.querySelector(".bubble");
 }
 
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-function setStatus(
-    text,
-    color
-){
-
-    status.textContent =
-        text;
-
-    dot.style.background =
-        color;
-
+async function initEngine() {
+    try {
+        status.innerText = "جاري تحميل A5 محلياً...";
+        engine = await CreateMLCEngine(MODEL, {
+            initProgressCallback: (p) => {
+                status.innerText = `جاري التحميل: ${Math.round(p.progress * 100)}%`;
+            }
+        });
+        status.innerText = "A5 جاهز تماماً.";
+        dot.classList.add("ready");
+    } catch (err) {
+        status.innerText = "فشل التحميل (تحقق من دعم WebGPU).";
+        console.error(err);
+    }
 }
 
+async function handleSubmit() {
+    const text = input.value.trim();
+    if (!text || generating) return;
 
-/* =====================================================
-   INITIALIZE AI
-===================================================== */
-
-async function initAI(){
-
-    if(engine){
-
-        return engine;
-
-    }
-
-
-    if(
-        !navigator.gpu
-    ){
-
-        setStatus(
-            "WebGPU غير متاح",
-            "#ef4444"
-        );
-
-        throw new Error(
-            "WebGPU غير مدعوم"
-        );
-
-    }
-
-
-    try{
-
-        setStatus(
-            "جاري تحميل A5...",
-            "#f59e0b"
-        );
-
-
-        send.disabled =
-            true;
-
-
-        engine =
-            await CreateMLCEngine(
-                MODEL,
-                {
-
-                    initProgressCallback:
-                        progress=>{
-
-                            if(
-                                progress?.text
-                            ){
-
-                                setStatus(
-                                    progress.text,
-                                    "#f59e0b"
-                                );
-
-                            }
-
-                        }
-
-                }
-            );
-
-
-        send.disabled =
-            false;
-
-
-        setStatus(
-            "A5 جاهز",
-            "#22c55e"
-        );
-
-
-        return engine;
-
-    }catch(error){
-
-        console.error(error);
-
-        engine =
-            null;
-
-        setStatus(
-            "فشل تحميل A5",
-            "#ef4444"
-        );
-
-        throw error;
-
-    }
-
-}
-
-
-/* =====================================================
-   SEND
-===================================================== */
-
-async function sendMessage(){
-
-    if(generating){
-
+    if (!engine) {
+        alert("انتظر حتى يكتمل تحميل النموذج أولاً.");
         return;
-
     }
 
+    welcome.style.display = "none";
+    messagesEl.style.display = "block";
 
-    const text =
-        input.value.trim();
+    drawUser(text, true);
+    input.value = "";
+    input.style.height = "auto";
 
+    generating = true;
+    send.style.display = "none";
+    stop.classList.add("show");
 
-    if(!text){
+    const aiBubble = drawAI("");
+    aiBubble.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
 
-        return;
-
-    }
-
-
-    try{
-
-        if(!engine){
-
-            await initAI();
-
-        }
-
-    }catch{
-
-        drawAI(
-            "لم يتم تشغيل النموذج. المشكلة تقنية وليست في الرسالة. تأكد من أن WebGPU يعمل في متصفحك."
-        );
-
-        return;
-
-    }
-
-
-    drawUser(
-        text,
-        true
-    );
-
-
-    input.value =
-        "";
-
-    resize();
-
-
-    generating =
-        true;
-
-
-    controller =
-        new AbortController();
-
-
-    send.disabled =
-        true;
-
-    stop.classList.add(
-        "show"
-    );
-
-
-    setStatus(
-        "A5 يعالج الرسالة...",
-        "#f59e0b"
-    );
-
-
-    const box =
-        placeholder();
-
-
-    try{
-
-        const chat =
-            sessions[current];
-
-
+    try {
         const history = [
-
-            {
-
-                role:
-                    "system",
-
-                content:
-                    systemPrompt()
-
-            },
-
-            ...chat.map(
-                x=>({
-
-                    role:
-                        x.role,
-
-                    content:
-                        x.content
-
-                })
-            )
-
+            { role: "system", content: systemPrompt() },
+            ...sessions[current].map(m => ({ role: m.role, content: m.content }))
         ];
 
-
-        const stream =
-            await engine.chat
-                .completions
-                .create({
-
-                    messages:
-                        history,
-
-                    temperature:
-                        .72,
-
-                    top_p:
-                        .9,
-
-                    repetition_penalty:
-                        1.08,
-
-                    max_tokens:
-                        1200,
-
-                    stream:
-                        true,
-
-                    signal:
-                        controller.signal
-
-                });
-
-
-        let answer =
-            "";
-
-
-        box.bubble.innerHTML =
-            "";
-
-
-        for await(
-            const chunk of stream
-        ){
-
-            if(
-                controller.signal.aborted
-            ){
-
-                break;
-
-            }
-
-
-            const piece =
-                chunk
-                    ?.choices?.[0]
-                    ?.delta?.content
-                    || "";
-
-
-            if(!piece){
-
-                continue;
-
-            }
-
-
-            answer +=
-                piece;
-
-
-            box.bubble.innerHTML =
-                markdown(answer);
-
-
-            scrollBottom();
-
-        }
-
-
-        if(
-            controller.signal.aborted
-        ){
-
-            answer +=
-                "\n\n[تم إيقاف التوليد]";
-
-        }
-
-
-        if(!answer.trim()){
-
-            answer =
-                "لم ينتج A5 رداً.";
-
-        }
-
-
-        box.bubble.innerHTML =
-            markdown(answer);
-
-
-        const body =
-            box.row.querySelector(
-                ".message-body"
-            );
-
-
-        const tools =
-            document.createElement(
-                "div"
-            );
-
-
-        tools.className =
-            "tools";
-
-
-        const copy =
-            document.createElement(
-                "button"
-            );
-
-
-        copy.className =
-            "tool";
-
-        copy.textContent =
-            "📋 نسخ";
-
-
-        copy.onclick =
-            async()=>{
-
-                await navigator.clipboard
-                    .writeText(answer);
-
-                copy.textContent =
-                    "✓ تم النسخ";
-
-            };
-
-
-        const speak =
-            document.createElement(
-                "button"
-            );
-
-
-        speak.className =
-            "tool";
-
-        speak.textContent =
-            "🔊 استماع";
-
-
-        speak.onclick =
-            ()=>{
-
-                speechSynthesis.cancel();
-
-
-                const utterance =
-                    new SpeechSynthesisUtterance(
-                        answer
-                    );
-
-
-                utterance.lang =
-                    "ar-SA";
-
-
-                utterance.rate =
-                    .95;
-
-
-                speechSynthesis.speak(
-                    utterance
-                );
-
-            };
-
-
-        tools.appendChild(
-            copy
-        );
-
-        tools.appendChild(
-            speak
-        );
-
-
-        body.appendChild(
-            tools
-        );
-
-
-        sessions[current].push({
-
-            role:
-                "assistant",
-
-            content:
-                answer
-
+        controller = new AbortController();
+        const completion = await engine.chat.completions.create({
+            messages: history,
+            stream: true,
+            temperature: 0.6
         });
 
-
-        addMemory(
-            text,
-            answer
-        );
-
-
-        save();
-
-        renderSessions();
-
-
-    }catch(error){
-
-        console.error(
-            "A5 error:",
-            error
-        );
-
-
-        if(
-            controller?.signal?.aborted
-        ){
-
-            box.bubble.innerHTML =
-                "تم إيقاف التوليد.";
-
-        }else{
-
-            box.bubble.innerHTML =
-                "حدث خطأ أثناء التوليد. تحقق من WebGPU أو أعد تحميل الصفحة.";
-
+        let fullResponse = "";
+        for await (const chunk of completion) {
+            const content = chunk.choices[0]?.delta?.content || "";
+            fullResponse += content;
+            aiBubble.innerHTML = markdown(fullResponse);
+            scrollBottom();
         }
 
+        sessions[current].push({ role: "assistant", content: fullResponse });
+        memory.push({ user: text, assistant: fullResponse });
+        if (memory.length > MAX_MEMORY) memory.shift();
+        save();
+    } catch (err) {
+        if (err.name !== "AbortError") {
+            aiBubble.innerHTML = `<span style="color:var(--red)">حدث خطأ أثناء المعالجة.</span>`;
+        }
+    } finally {
+        generating = false;
+        send.style.display = "block";
+        stop.classList.remove("show");
     }
-
-
-    generating =
-        false;
-
-    controller =
-        null;
-
-
-    send.disabled =
-        false;
-
-
-    stop.classList.remove(
-        "show"
-    );
-
-
-    setStatus(
-        "A5 جاهز",
-        "#22c55e"
-    );
-
-
-    input.focus();
-
-    scrollBottom();
-
 }
 
+function closeSidebar() { sidebar.classList.remove("open"); }
 
-/* =====================================================
-   STOP
-===================================================== */
+$("newChat").onclick = () => {
+    sessions.unshift([]);
+    current = 0;
+    save();
+    renderSessions();
+    renderChat();
+    closeSidebar();
+};
 
-stop.onclick =
-    ()=>{
+$("clearCurrent").onclick = () => {
+    sessions[current] = [];
+    save();
+    renderSessions();
+    renderChat();
+};
 
-        if(controller){
-
-            controller.abort();
-
-        }
-
-    };
-
-
-/* =====================================================
-   NEW CHAT
-===================================================== */
-
-$("newChat").onclick =
-    ()=>{
-
-        sessions.push([]);
-
-        current =
-            sessions.length - 1;
-
+$("clearAll").onclick = () => {
+    if (confirm("هل أنت تأكد من حذف كل المحادثات؟")) {
+        sessions = [[]];
+        memory = [];
+        current = 0;
         save();
-
         renderSessions();
-
         renderChat();
+    }
+};
 
-        closeSidebar();
+$("export").onclick = () => {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(sessions[current], null, 2));
+    const a = document.createElement('a');
+    a.href = dataStr;
+    a.download = `A5_Chat_${current + 1}.json`;
+    a.click();
+};
 
-        input.focus();
+$("theme").onclick = () => document.body.classList.toggle("light");
+$("menu").onclick = () => sidebar.classList.toggle("open");
 
+send.onclick = handleSubmit;
+input.onkeydown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        handleSubmit();
+    }
+};
+
+stop.onclick = () => {
+    if (controller) controller.abort();
+};
+
+document.querySelectorAll("[data-prompt]").forEach(btn => {
+    btn.onclick = () => {
+        input.value = btn.dataset.prompt;
+        handleSubmit();
     };
+});
 
-
-/* =====================================================
-   CLEAR CURRENT
-===================================================== */
-
-$("clearCurrent").onclick =
-    ()=>{
-
-        if(
-            !sessions[current]?.length
-        ){
-
-            return;
-
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new Speech();
+    recognition.lang = 'ar-SA';
+    recognition.onresult = (e) => {
+        input.value = e.results[0][0].transcript;
+        mic.classList.remove("recording");
+        recording = false;
+    };
+    mic.onclick = () => {
+        if (!recording) {
+            recognition.start();
+            mic.classList.add("recording");
+            recording = true;
+        } else {
+            recognition.stop();
+            mic.classList.remove("recording");
+            recording = false;
         }
-
-
-        if(
-            confirm(
-                "هل تريد حذف المحادثة الحالية؟"
-            )
-        ){
-
-            sessions[current] =
-                [];
-
-            save();
-
-            renderSessions();
-
-            renderChat();
-
-        }
-
     };
-
-
-/* =====================================================
-   CLEAR ALL
-===================================================== */
-
-$("clearAll").onclick =
-    ()=>{
-
-        if(
-            !confirm(
-                "سيتم حذف جميع المحادثات. هل أنت متأكد؟"
-            )
-        ){
-
-            return;
-
-        }
-
-
-        sessions =
-            [[]];
-
-        current =
-            0;
-
-
-        save();
-
-        renderSessions();
-
-        renderChat();
-
-    };
-
-
-/* =====================================================
-   EXPORT
-===================================================== */
-
-$("export").onclick =
-    ()=>{
-
-        const chat =
-            sessions[current] || [];
-
-
-        if(!chat.length){
-
-            alert(
-                "لا توجد محادثة لتصديرها."
-            );
-
-            return;
-
-        }
-
-
-        let text =
-            "A5 AI\n\n";
-
-
-        chat.forEach(
-            message=>{
-
-                text +=
-                    message.role === "user"
-                        ? "أنت:\n"
-                        : "A5:\n";
-
-                text +=
-                    message.content;
-
-                text +=
-                    "\n\n----------------\n\n";
-
-            }
-        );
-
-
-        const blob =
-            new Blob(
-                [text],
-                {
-                    type:
-                        "text/plain;charset=utf-8"
-                }
-            );
-
-
-        const url =
-            URL.createObjectURL(
-                blob
-            );
-
-
-        const a =
-            document.createElement(
-                "a"
-            );
-
-
-        a.href =
-            url;
-
-        a.download =
-            "A5-conversation.txt";
-
-
-        a.click();
-
-
-        URL.revokeObjectURL(
-            url
-        );
-
-    };
-
-
-/* =====================================================
-   THEME
-===================================================== */
-
-$("theme").onclick =
-    ()=>{
-
-        document.body.classList.toggle(
-            "light"
-        );
-
-
-        localStorage.setItem(
-            "a5_theme",
-            document.body.classList.contains(
-                "light"
-            )
-                ? "light"
-                : "dark"
-        );
-
-    };
-
-
-if(
-    localStorage.getItem(
-        "a5_theme"
-    ) === "light"
-){
-
-    document.body.classList.add(
-        "light"
-    );
-
+} else {
+    mic.style.display = "none";
 }
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-search.oninput =
-    renderSessions;
-
-
-/* =====================================================
-   INPUT
-===================================================== */
-
-input.oninput =
-    resize;
-
-
-function resize(){
-
-    input.style.height =
-        "auto";
-
-
-    input.style.height =
-        Math.min(
-            input.scrollHeight,
-            130
-        ) + "px";
-
-}
-
-
-input.onkeydown =
-    event=>{
-
-        if(
-            event.key === "Enter" &&
-            !event.shiftKey
-        ){
-
-            event.preventDefault();
-
-            sendMessage();
-
-        }
-
-    };
-
-
-send.onclick =
-    sendMessage;
-
-
-/* =====================================================
-   QUICK PROMPTS
-===================================================== */
-
-document
-    .querySelectorAll(
-        "[data-prompt]"
-    )
-    .forEach(
-        button=>{
-
-            button.onclick =
-                ()=>{
-
-                    input.value =
-                        button.dataset.prompt;
-
-                    resize();
-
-                    input.focus();
-
-                };
-
-        }
-    );
-
-
-/* =====================================================
-   VOICE
-===================================================== */
-
-$("mic").onclick =
-    ()=>{
-
-        const SpeechRecognition =
-            window.SpeechRecognition ||
-            window.webkitSpeechRecognition;
-
-
-        if(!SpeechRecognition){
-
-            alert(
-                "التعرف على الصوت غير متاح في هذا المتصفح."
-            );
-
-            return;
-
-        }
-
-
-        if(recording){
-
-            recognition?.stop();
-
-            return;
-
-        }
-
-
-        recognition =
-            new SpeechRecognition();
-
-
-        recognition.lang =
-            "ar-SA";
-
-        recognition.interimResults =
-            true;
-
-        recognition.continuous =
-            false;
-
-
-        recognition.onstart =
-            ()=>{
-
-                recording =
-                    true;
-
-                $("mic")
-                    .classList
-                    .add(
-                        "recording"
-                    );
-
-
-                setStatus(
-                    "A5 يستمع...",
-                    "#ef4444"
-                );
-
-            };
-
-
-        recognition.onresult =
-            event=>{
-
-                let text =
-                    "";
-
-
-                for(
-                    let i =
-                        event.resultIndex;
-
-                    i <
-                        event.results.length;
-
-                    i++
-                ){
-
-                    text +=
-                        event
-                            .results[i][0]
-                            .transcript;
-
-                }
-
-
-                input.value =
-                    text;
-
-                resize();
-
-            };
-
-
-        recognition.onerror =
-            ()=>{
-
-                recording =
-                    false;
-
-                $("mic")
-                    .classList
-                    .remove(
-                        "recording"
-                    );
-
-            };
-
-
-        recognition.onend =
-            ()=>{
-
-                recording =
-                    false;
-
-                $("mic")
-                    .classList
-                    .remove(
-                        "recording"
-                    );
-
-
-                setStatus(
-                    engine
-                        ? "A5 جاهز"
-                        : "A5 يستعد...",
-                    engine
-                        ? "#22c55e"
-                        : "#f59e0b"
-                );
-
-            };
-
-
-        recognition.start();
-
-    };
-
-
-/* =====================================================
-   MOBILE MENU
-===================================================== */
-
-$("menu").onclick =
-    ()=>{
-
-        sidebar.classList.toggle(
-            "open"
-        );
-
-    };
-
-
-function closeSidebar(){
-
-    sidebar.classList.remove(
-        "open"
-    );
-
-}
-
-
-/* =====================================================
-   SCROLL
-===================================================== */
-
-function scrollBottom(){
-
-    requestAnimationFrame(
-        ()=>{
-
-            messagesEl.scrollTop =
-                messagesEl.scrollHeight;
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   START
-===================================================== */
 
 renderSessions();
-
 renderChat();
-
-resize();
-
-
-setTimeout(
-    async()=>{
-
-        try{
-
-            await initAI();
-
-        }catch(error){
-
-            console.error(
-                error
-            );
-
-        }
-
-    },
-    500
-);
-
+initEngine();
 </script>
 
 </body>
-
 </html>
