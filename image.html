@@ -1,931 +1,564 @@
-/* =========================================================
-   VideoYTFX - Image Studio
-   image.js
-   ========================================================= */
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-(() => {
-    "use strict";
+    <title>VideoYTFX - Image Studio</title>
 
-    const state = {
-        image: null,
-        fileName: "VideoYTFX-image",
-        rotation: 0,
-        scale: 1,
-        filter: "none",
-        brightness: 100,
-        contrast: 100,
-        saturation: 100,
-        blur: 0,
-        grayscale: 0
-    };
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-    const canvas = document.getElementById("imageCanvas");
-    const ctx = canvas ? canvas.getContext("2d") : null;
-
-    const uploadInput =
-        document.getElementById("imageInput") ||
-        document.getElementById("uploadInput") ||
-        document.querySelector('input[type="file"]');
-
-    const uploadArea =
-        document.getElementById("uploadArea") ||
-        document.getElementById("dropZone");
-
-    const preview =
-        document.getElementById("imagePreview");
-
-    const downloadButton =
-        document.getElementById("downloadBtn") ||
-        document.getElementById("downloadImage");
-
-    const resetButton =
-        document.getElementById("resetBtn") ||
-        document.getElementById("resetImage");
-
-    const rotateButton =
-        document.getElementById("rotateBtn");
-
-    const zoomInButton =
-        document.getElementById("zoomInBtn");
-
-    const zoomOutButton =
-        document.getElementById("zoomOutBtn");
-
-
-    /* =========================================================
-       FIND ELEMENT
-       ========================================================= */
-
-    function find(selectorList) {
-        for (const selector of selectorList) {
-            const element = document.querySelector(selector);
-
-            if (element) {
-                return element;
-            }
+    <style>
+        :root {
+            --bg: #030712;
+            --panel: rgba(15, 23, 42, .82);
+            --panel2: rgba(30, 41, 59, .65);
+            --border: rgba(255,255,255,.09);
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --primary: #3b82f6;
+            --accent: #8b5cf6;
+            --danger: #ef4444;
+            --radius: 18px;
         }
 
-        return null;
-    }
-
-
-    /* =========================================================
-       IMAGE INPUT
-       ========================================================= */
-
-    function openFilePicker() {
-        if (uploadInput) {
-            uploadInput.click();
-        }
-    }
-
-
-    if (uploadArea) {
-        uploadArea.addEventListener("click", openFilePicker);
-
-        uploadArea.addEventListener("dragover", event => {
-            event.preventDefault();
-            uploadArea.classList.add("dragging");
-        });
-
-        uploadArea.addEventListener("dragleave", () => {
-            uploadArea.classList.remove("dragging");
-        });
-
-        uploadArea.addEventListener("drop", event => {
-            event.preventDefault();
-
-            uploadArea.classList.remove("dragging");
-
-            const files = event.dataTransfer.files;
-
-            if (files && files.length > 0) {
-                loadImage(files[0]);
-            }
-        });
-    }
-
-
-    if (uploadInput) {
-        uploadInput.addEventListener("change", event => {
-            const file = event.target.files?.[0];
-
-            if (file) {
-                loadImage(file);
-            }
-        });
-    }
-
-
-    /* =========================================================
-       LOAD IMAGE
-       ========================================================= */
-
-    function loadImage(file) {
-
-        if (!file) {
-            return;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        if (!file.type.startsWith("image/")) {
-            showMessage(
-                "Please select a valid image file."
-            );
-            return;
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(59,130,246,.15), transparent 30%),
+                radial-gradient(circle at 90% 90%, rgba(139,92,246,.14), transparent 30%),
+                var(--bg);
+            color: var(--text);
+            font-family: "Tajawal", sans-serif;
         }
 
-        const maxSize =
-            25 * 1024 * 1024;
-
-        if (file.size > maxSize) {
-            showMessage(
-                "Image size must be smaller than 25 MB."
-            );
-            return;
+        button,
+        input,
+        select {
+            font: inherit;
         }
 
-        const reader =
-            new FileReader();
-
-        reader.onload = event => {
-
-            const image =
-                new Image();
-
-            image.onload = () => {
-
-                state.image = image;
-
-                state.fileName =
-                    file.name
-                        .replace(/\.[^/.]+$/, "")
-                        .replace(/[^a-zA-Z0-9-_]/g, "-");
-
-                resetSettings(false);
-
-                setupCanvas();
-
-                draw();
-
-                updatePreview();
-
-                showEditor();
-
-            };
-
-            image.onerror = () => {
-                showMessage(
-                    "Could not load this image."
-                );
-            };
-
-            image.src =
-                event.target.result;
-        };
-
-        reader.readAsDataURL(file);
-    }
-
-
-    /* =========================================================
-       CANVAS
-       ========================================================= */
-
-    function setupCanvas() {
-
-        if (!canvas || !state.image) {
-            return;
+        .navbar {
+            height: 72px;
+            padding: 0 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            background: rgba(3,7,18,.75);
+            backdrop-filter: blur(18px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        const image =
-            state.image;
-
-        const maxWidth = 1600;
-        const maxHeight = 1200;
-
-        let width =
-            image.naturalWidth;
-
-        let height =
-            image.naturalHeight;
-
-        const ratio =
-            Math.min(
-                1,
-                maxWidth / width,
-                maxHeight / height
-            );
-
-        width =
-            Math.round(width * ratio);
-
-        height =
-            Math.round(height * ratio);
-
-        canvas.width =
-            width;
-
-        canvas.height =
-            height;
-    }
-
-
-    /* =========================================================
-       DRAW
-       ========================================================= */
-
-    function draw() {
-
-        if (!canvas || !ctx || !state.image) {
-            return;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 800;
         }
 
-        const image =
-            state.image;
-
-        const width =
-            canvas.width;
-
-        const height =
-            canvas.height;
-
-        ctx.clearRect(
-            0,
-            0,
-            width,
-            height
-        );
-
-        ctx.save();
-
-        ctx.translate(
-            width / 2,
-            height / 2
-        );
-
-        ctx.rotate(
-            state.rotation *
-            Math.PI / 180
-        );
-
-        ctx.scale(
-            state.scale,
-            state.scale
-        );
-
-        ctx.filter =
-            createFilter();
-
-        ctx.drawImage(
-            image,
-            -width / 2,
-            -height / 2,
-            width,
-            height
-        );
-
-        ctx.restore();
-
-        ctx.filter =
-            "none";
-    }
-
-
-    /* =========================================================
-       FILTER
-       ========================================================= */
-
-    function createFilter() {
-
-        let filter = "";
-
-        filter +=
-            `brightness(${state.brightness}%) `;
-
-        filter +=
-            `contrast(${state.contrast}%) `;
-
-        filter +=
-            `saturate(${state.saturation}%) `;
-
-        filter +=
-            `blur(${state.blur}px) `;
-
-        filter +=
-            `grayscale(${state.grayscale}%) `;
-
-        switch (state.filter) {
-
-            case "vintage":
-                filter +=
-                    "sepia(35%) contrast(110%) saturate(85%)";
-                break;
-
-            case "warm":
-                filter +=
-                    "sepia(20%) saturate(125%)";
-                break;
-
-            case "cool":
-                filter +=
-                    "hue-rotate(12deg) saturate(110%)";
-                break;
-
-            case "dramatic":
-                filter +=
-                    "contrast(135%) saturate(105%)";
-                break;
-
-            case "mono":
-                filter +=
-                    "grayscale(100%) contrast(115%)";
-                break;
-
-            case "soft":
-                filter +=
-                    "brightness(105%) contrast(92%) saturate(90%)";
-                break;
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 8px 30px rgba(59,130,246,.3);
         }
 
-        return filter;
-    }
-
-
-    /* =========================================================
-       PREVIEW
-       ========================================================= */
-
-    function updatePreview() {
-
-        if (!preview || !canvas) {
-            return;
+        .nav-buttons {
+            display: flex;
+            gap: 8px;
         }
 
-        preview.src =
-            canvas.toDataURL(
-                "image/png"
-            );
-
-        preview.style.display =
-            "block";
-    }
-
-
-    /* =========================================================
-       SHOW EDITOR
-       ========================================================= */
-
-    function showEditor() {
-
-        const editor =
-            find([
-                "#editor",
-                ".editor",
-                "#imageEditor",
-                ".image-editor"
-            ]);
-
-        const upload =
-            find([
-                "#uploadArea",
-                "#dropZone",
-                ".upload-area",
-                ".drop-zone"
-            ]);
-
-        if (editor) {
-            editor.style.display =
-                "block";
+        .nav-btn {
+            border: 1px solid var(--border);
+            background: var(--panel);
+            color: var(--text);
+            padding: 9px 14px;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: .2s;
         }
 
-        if (upload) {
-            upload.classList.add(
-                "has-image"
-            );
-        }
-    }
-
-
-    /* =========================================================
-       BRIGHTNESS
-       ========================================================= */
-
-    const brightness =
-        find([
-            "#brightness",
-            "#brightnessSlider"
-        ]);
-
-    if (brightness) {
-
-        brightness.addEventListener(
-            "input",
-            () => {
-
-                state.brightness =
-                    Number(
-                        brightness.value
-                    );
-
-                draw();
-                updatePreview();
-            }
-        );
-    }
-
-
-    /* =========================================================
-       CONTRAST
-       ========================================================= */
-
-    const contrast =
-        find([
-            "#contrast",
-            "#contrastSlider"
-        ]);
-
-    if (contrast) {
-
-        contrast.addEventListener(
-            "input",
-            () => {
-
-                state.contrast =
-                    Number(
-                        contrast.value
-                    );
-
-                draw();
-                updatePreview();
-            }
-        );
-    }
-
-
-    /* =========================================================
-       SATURATION
-       ========================================================= */
-
-    const saturation =
-        find([
-            "#saturation",
-            "#saturationSlider"
-        ]);
-
-    if (saturation) {
-
-        saturation.addEventListener(
-            "input",
-            () => {
-
-                state.saturation =
-                    Number(
-                        saturation.value
-                    );
-
-                draw();
-                updatePreview();
-            }
-        );
-    }
-
-
-    /* =========================================================
-       BLUR
-       ========================================================= */
-
-    const blur =
-        find([
-            "#blur",
-            "#blurSlider"
-        ]);
-
-    if (blur) {
-
-        blur.addEventListener(
-            "input",
-            () => {
-
-                state.blur =
-                    Number(
-                        blur.value
-                    );
-
-                draw();
-                updatePreview();
-            }
-        );
-    }
-
-
-    /* =========================================================
-       FILTER BUTTONS
-       ========================================================= */
-
-    document
-        .querySelectorAll(
-            "[data-filter]"
-        )
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    state.filter =
-                        button.dataset.filter;
-
-                    document
-                        .querySelectorAll(
-                            "[data-filter]"
-                        )
-                        .forEach(item => {
-                            item.classList.remove(
-                                "active"
-                            );
-                        });
-
-                    button.classList.add(
-                        "active"
-                    );
-
-                    draw();
-                    updatePreview();
-                }
-            );
-
-        });
-
-
-    /* =========================================================
-       ROTATE
-       ========================================================= */
-
-    function rotateImage() {
-
-        if (!state.image) {
-            return;
+        .nav-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
         }
 
-        state.rotation += 90;
-
-        if (state.rotation >= 360) {
-            state.rotation = 0;
+        .container {
+            width: min(1250px, 94%);
+            margin: auto;
+            padding: 35px 0 60px;
         }
 
-        draw();
-        updatePreview();
-    }
-
-
-    if (rotateButton) {
-        rotateButton.addEventListener(
-            "click",
-            rotateImage
-        );
-    }
-
-
-    /* =========================================================
-       ZOOM
-       ========================================================= */
-
-    function zoomIn() {
-
-        if (!state.image) {
-            return;
+        .hero {
+            text-align: center;
+            margin-bottom: 30px;
         }
 
-        state.scale =
-            Math.min(
-                3,
-                state.scale + .1
-            );
-
-        draw();
-        updatePreview();
-    }
-
-
-    function zoomOut() {
-
-        if (!state.image) {
-            return;
+        .hero-icon {
+            width: 75px;
+            height: 75px;
+            margin: auto auto 16px;
+            display: grid;
+            place-items: center;
+            border-radius: 22px;
+            font-size: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 15px 40px rgba(59,130,246,.25);
         }
 
-        state.scale =
-            Math.max(
-                .2,
-                state.scale - .1
-            );
-
-        draw();
-        updatePreview();
-    }
-
-
-    if (zoomInButton) {
-        zoomInButton.addEventListener(
-            "click",
-            zoomIn
-        );
-    }
-
-
-    if (zoomOutButton) {
-        zoomOutButton.addEventListener(
-            "click",
-            zoomOut
-        );
-    }
-
-
-    /* =========================================================
-       DOWNLOAD
-       ========================================================= */
-
-    function downloadImage() {
-
-        if (!state.image || !canvas) {
-            showMessage(
-                "Please upload an image first."
-            );
-            return;
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 8px;
+            font-weight: 800;
         }
 
-        const link =
-            document.createElement("a");
-
-        link.download =
-            `${state.fileName}-VideoYTFX.png`;
-
-        link.href =
-            canvas.toDataURL(
-                "image/png",
-                1
-            );
-
-        document.body.appendChild(
-            link
-        );
-
-        link.click();
-
-        link.remove();
-    }
-
-
-    if (downloadButton) {
-        downloadButton.addEventListener(
-            "click",
-            downloadImage
-        );
-    }
-
-
-    /* =========================================================
-       RESET
-       ========================================================= */
-
-    function resetSettings(redraw = true) {
-
-        state.rotation = 0;
-        state.scale = 1;
-
-        state.filter = "none";
-
-        state.brightness = 100;
-        state.contrast = 100;
-        state.saturation = 100;
-        state.blur = 0;
-        state.grayscale = 0;
-
-
-        setControlValue(
-            ["#brightness", "#brightnessSlider"],
-            100
-        );
-
-        setControlValue(
-            ["#contrast", "#contrastSlider"],
-            100
-        );
-
-        setControlValue(
-            ["#saturation", "#saturationSlider"],
-            100
-        );
-
-        setControlValue(
-            ["#blur", "#blurSlider"],
-            0
-        );
-
-
-        document
-            .querySelectorAll(
-                "[data-filter]"
-            )
-            .forEach(button => {
-
-                button.classList.remove(
-                    "active"
-                );
-
-                if (
-                    button.dataset.filter ===
-                    "none"
-                ) {
-                    button.classList.add(
-                        "active"
-                    );
-                }
-
-            });
-
-
-        if (redraw) {
-
-            draw();
-
-            updatePreview();
-
+        .subtitle {
+            color: var(--muted);
+            font-size: 1rem;
         }
-    }
 
-
-    function setControlValue(
-        selectors,
-        value
-    ) {
-
-        const element =
-            find(selectors);
-
-        if (element) {
-            element.value =
-                value;
+        .editor {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            align-items: start;
         }
-    }
 
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            backdrop-filter: blur(20px);
+        }
 
-    if (resetButton) {
+        .panel h2 {
+            font-size: 1.05rem;
+            margin-bottom: 16px;
+        }
 
-        resetButton.addEventListener(
-            "click",
-            () => {
+        .upload {
+            min-height: 180px;
+            border: 2px dashed rgba(59,130,246,.35);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            cursor: pointer;
+            transition: .25s;
+            background: rgba(59,130,246,.04);
+        }
 
-                resetSettings();
+        .upload:hover,
+        .upload.dragging {
+            border-color: var(--primary);
+            background: rgba(59,130,246,.1);
+        }
 
-            }
-        );
+        .upload-icon {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
 
-    }
+        .upload strong {
+            display: block;
+            margin-bottom: 5px;
+        }
 
+        .upload span {
+            color: var(--muted);
+            font-size: .85rem;
+        }
 
-    /* =========================================================
-       KEYBOARD SHORTCUTS
-       ========================================================= */
+        #imageInput {
+            display: none;
+        }
 
-    document.addEventListener(
-        "keydown",
-        event => {
+        .controls {
+            margin-top: 20px;
+        }
 
-            if (
-                event.ctrlKey &&
-                event.key.toLowerCase() === "s"
-            ) {
+        .control {
+            margin-bottom: 18px;
+        }
 
-                event.preventDefault();
+        .control-head {
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: .9rem;
+            margin-bottom: 8px;
+        }
 
-                downloadImage();
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        select {
+            width: 100%;
+            padding: 11px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #111827;
+            color: white;
+            outline: none;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .action-btn {
+            border: 1px solid var(--border);
+            background: var(--panel2);
+            color: white;
+            padding: 11px;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .action-btn:hover {
+            border-color: var(--primary);
+            background: rgba(59,130,246,.15);
+            transform: translateY(-2px);
+        }
+
+        .download {
+            width: 100%;
+            margin-top: 10px;
+            border: 0;
+            padding: 13px;
+            border-radius: 12px;
+            cursor: pointer;
+            color: white;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 10px 25px rgba(59,130,246,.2);
+            transition: .2s;
+        }
+
+        .download:hover {
+            transform: translateY(-2px);
+        }
+
+        .download:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .canvas-panel {
+            min-height: 650px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .canvas-wrapper {
+            flex: 1;
+            min-height: 500px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            background:
+                linear-gradient(45deg, #111827 25%, transparent 25%),
+                linear-gradient(-45deg, #111827 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #111827 75%),
+                linear-gradient(-45deg, transparent 75%, #111827 75%);
+            background-size: 30px 30px;
+            background-position: 0 0, 0 15px, 15px -15px, -15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        canvas {
+            max-width: 100%;
+            max-height: 560px;
+            display: block;
+            box-shadow: 0 15px 40px rgba(0,0,0,.4);
+        }
+
+        .empty {
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            opacity: .5;
+            margin-bottom: 10px;
+        }
+
+        .canvas-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .canvas-actions button {
+            flex: 1;
+        }
+
+        .status {
+            margin-top: 12px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .85rem;
+            min-height: 20px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            padding: 22px;
+            font-size: .85rem;
+        }
+
+        @media (max-width: 850px) {
+            .editor {
+                grid-template-columns: 1fr;
             }
 
+            .canvas-panel {
+                min-height: 500px;
+            }
 
-            if (
-                event.key.toLowerCase() === "r"
-            ) {
-
-                rotateImage();
+            .canvas-wrapper {
+                min-height: 400px;
             }
         }
-    );
+    </style>
+</head>
 
+<body>
 
-    /* =========================================================
-       MESSAGE
-       ========================================================= */
+<nav class="navbar">
+    <a href="index.html" class="brand">
+        <span class="brand-icon">V</span>
+        <span>VideoYTFX</span>
+    </a>
 
-    function showMessage(message) {
+    <div class="nav-buttons">
+        <button class="nav-btn" id="languageBtn">🌐 English</button>
+        <button class="nav-btn" id="themeBtn">☀️</button>
+    </div>
+</nav>
 
-        let box =
-            document.getElementById(
-                "imageMessage"
-            );
+<main class="container">
 
-        if (!box) {
+    <section class="hero">
+        <div class="hero-icon">🖼️</div>
+        <h1 id="title">استوديو الصور</h1>
+        <p class="subtitle" id="subtitle">
+            عدّل وحسّن وأضف الفلاتر والمؤثرات إلى صورك بسهولة.
+        </p>
+    </section>
 
-            box =
-                document.createElement(
-                    "div"
-                );
+    <section class="editor">
 
-            box.id =
-                "imageMessage";
+        <!-- LEFT PANEL -->
+        <aside class="panel">
 
-            box.style.position =
-                "fixed";
+            <h2 id="uploadTitle">إضافة صورة</h2>
 
-            box.style.left =
-                "50%";
+            <div class="upload" id="uploadArea">
+                <div class="upload-icon">📷</div>
 
-            box.style.bottom =
-                "25px";
+                <strong id="uploadText">
+                    اضغط لاختيار صورة
+                </strong>
 
-            box.style.transform =
-                "translateX(-50%)";
+                <span id="uploadHint">
+                    أو اسحب الصورة هنا
+                </span>
 
-            box.style.padding =
-                "12px 20px";
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                >
+            </div>
 
-            box.style.borderRadius =
-                "12px";
+            <div class="controls">
 
-            box.style.background =
-                "rgba(17,24,39,.95)";
+                <div class="control">
+                    <div class="control-head">
+                        <span id="brightnessLabel">الإضاءة</span>
+                        <span id="brightnessValue">100%</span>
+                    </div>
 
-            box.style.color =
-                "#fff";
+                    <input
+                        type="range"
+                        id="brightness"
+                        min="0"
+                        max="200"
+                        value="100"
+                    >
+                </div>
 
-            box.style.border =
-                "1px solid rgba(255,255,255,.1)";
+                <div class="control">
+                    <div class="control-head">
+                        <span id="contrastLabel">التباين</span>
+                        <span id="contrastValue">100%</span>
+                    </div>
 
-            box.style.zIndex =
-                "99999";
+                    <input
+                        type="range"
+                        id="contrast"
+                        min="0"
+                        max="200"
+                        value="100"
+                    >
+                </div>
 
-            box.style.fontFamily =
-                "inherit";
+                <div class="control">
+                    <div class="control-head">
+                        <span id="saturationLabel">التشبع</span>
+                        <span id="saturationValue">100%</span>
+                    </div>
 
-            document.body.appendChild(
-                box
-            );
-        }
+                    <input
+                        type="range"
+                        id="saturation"
+                        min="0"
+                        max="200"
+                        value="100"
+                    >
+                </div>
 
-        box.textContent =
-            message;
+                <div class="control">
+                    <div class="control-head">
+                        <span id="blurLabel">ضبابية</span>
+                        <span id="blurValue">0px</span>
+                    </div>
 
-        box.style.opacity =
-            "1";
+                    <input
+                        type="range"
+                        id="blur"
+                        min="0"
+                        max="20"
+                        value="0"
+                    >
+                </div>
 
-        clearTimeout(
-            box._timer
-        );
+                <div class="control">
+                    <label id="filterLabel" class="control-head">
+                        الفلتر
+                    </label>
 
-        box._timer =
-            setTimeout(
-                () => {
-                    box.style.opacity =
-                        "0";
-                },
-                3000
-            );
-    }
+                    <select id="filter">
+                        <option value="none">بدون فلتر</option>
+                        <option value="vintage">Vintage</option>
+                        <option value="warm">Warm</option>
+                        <option value="cool">Cool</option>
+                        <option value="dramatic">Dramatic</option>
+                        <option value="mono">Black & White</option>
+                    </select>
+                </div>
 
+                <div class="button-grid">
+                    <button class="action-btn" id="rotateLeft">
+                        ↶ تدوير
+                    </button>
 
-    /* =========================================================
-       GLOBAL API
-       ========================================================= */
+                    <button class="action-btn" id="rotateRight">
+                        ↷ تدوير
+                    </button>
 
-    window.VideoYTFXImageStudio = {
+                    <button class="action-btn" id="zoomOut">
+                        − تصغير
+                    </button>
 
-        loadImage,
+                    <button class="action-btn" id="zoomIn">
+                        ＋ تكبير
+                    </button>
 
-        downloadImage,
+                    <button class="action-btn" id="reset">
+                        🔄 إعادة ضبط
+                    </button>
+                </div>
 
-        reset: resetSettings,
+                <button
+                    class="download"
+                    id="downloadBtn"
+                    disabled
+                >
+                    ⬇️ تحميل الصورة
+                </button>
 
-        rotate: rotateImage,
+            </div>
 
-        zoomIn,
+        </aside>
 
-        zoomOut,
+        <!-- CANVAS -->
+        <section class="panel canvas-panel">
 
-        getState() {
-            return {
-                ...state
-            };
-        }
+            <div class="canvas-wrapper" id="canvasWrapper">
 
-    };
+                <div class="empty" id="emptyState">
+                    <div class="empty-icon">🖼️</div>
+                    <div id="emptyText">
+                        أضف صورة لبدء التعديل
+                    </div>
+                </div>
 
+                <canvas id="imageCanvas"></canvas>
 
-    /* =========================================================
-       START
-       ========================================================= */
+            </div>
 
-    if (preview) {
-        preview.style.display =
-            "none";
-    }
+            <div class="canvas-actions">
 
-})();
+                <button class="action-btn" id="openButton">
+                    📁 اختيار صورة
+                </button>
+
+                <button class="action-btn" id="resetImage">
+                    🔄 إعادة الصورة
+                </button>
+
+            </div>
+
+            <div class="status" id="status"></div>
+
+        </section>
+
+    </section>
+
+</main>
+
+<footer>
+    © 2026 VideoYTFX. All rights reserved.
+</footer>
+
+<script src="image.js"></script>
+
+</body>
+</html>
