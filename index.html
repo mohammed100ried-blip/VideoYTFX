@@ -4,47 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>VideoYTFX - Ultimate Video Downloader & AI Companion</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
         :root {
-            /* Color Palette */
             --bg-base: #030712;
-            --bg-surface: rgba(17, 24, 39, 0.7);
-            --bg-surface-hover: rgba(31, 41, 55, 0.8);
+            --bg-surface: rgba(17, 24, 39, 0.72);
+            --bg-surface-hover: rgba(31, 41, 55, 0.88);
             --border-color: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(59, 130, 246, 0.5);
-
+            --border-hover: rgba(59, 130, 246, 0.55);
             --text-main: #f9fafb;
             --text-muted: #9ca3af;
-
             --primary: #3b82f6;
             --primary-glow: rgba(59, 130, 246, 0.35);
             --accent: #8b5cf6;
-
             --font-en: 'Plus Jakarta Sans', sans-serif;
             --font-ar: 'Tajawal', sans-serif;
-
-            --radius-lg: 20px;
-            --radius-md: 12px;
+            --radius-lg: 22px;
+            --radius-md: 14px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         [data-theme="light"] {
             --bg-base: #f8fafc;
-            --bg-surface: rgba(255, 255, 255, 0.85);
+            --bg-surface: rgba(255, 255, 255, 0.88);
             --bg-surface-hover: rgba(241, 245, 249, 1);
             --border-color: rgba(0, 0, 0, 0.08);
             --border-hover: rgba(59, 130, 246, 0.4);
-
             --text-main: #0f172a;
             --text-muted: #64748b;
-
             --primary-glow: rgba(59, 130, 246, 0.15);
         }
 
@@ -61,7 +58,7 @@
         body {
             min-height: 100vh;
             font-family: var(--font-en);
-            background-color: var(--bg-base);
+            background: var(--bg-base);
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
@@ -73,7 +70,15 @@
             font-family: var(--font-ar);
         }
 
-        /* Ambient Background Lights */
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
         .ambient-glow {
             position: absolute;
             width: 600px;
@@ -97,13 +102,14 @@
             background: radial-gradient(circle, var(--accent), transparent 70%);
         }
 
-        /* Utility Components */
-        a {
-            color: inherit;
-            text-decoration: none;
+        .glow-3 {
+            top: 45%;
+            left: 45%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.16), transparent 70%);
         }
 
-        /* Navbar */
         .navbar {
             width: 100%;
             display: flex;
@@ -129,8 +135,8 @@
         }
 
         .brand-icon {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             display: grid;
             place-items: center;
             border-radius: var(--radius-md);
@@ -138,6 +144,11 @@
             color: #fff;
             font-weight: 800;
             box-shadow: 0 4px 20px var(--primary-glow);
+            transition: var(--transition);
+        }
+
+        .brand:hover .brand-icon {
+            transform: rotate(-6deg) scale(1.05);
         }
 
         .nav-actions {
@@ -150,7 +161,7 @@
             border: 1px solid var(--border-color);
             background: var(--bg-surface);
             color: var(--text-main);
-            padding: 8px 16px;
+            padding: 9px 16px;
             border-radius: var(--radius-md);
             font-weight: 600;
             cursor: pointer;
@@ -158,7 +169,7 @@
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
         }
 
         .btn-ui:hover {
@@ -167,25 +178,24 @@
             transform: translateY(-2px);
         }
 
-        /* Hero Section */
         .hero {
-            min-height: 70vh;
+            min-height: 68vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 80px 20px 40px;
+            padding: 80px 20px 50px;
         }
 
         .hero-content {
-            max-width: 800px;
+            max-width: 850px;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 16px;
+            padding: 7px 17px;
             border-radius: 30px;
             background: rgba(59, 130, 246, 0.1);
             border: 1px solid rgba(59, 130, 246, 0.2);
@@ -196,10 +206,10 @@
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2.8rem, 7vw, 5rem);
             font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 20px;
+            line-height: 1.05;
+            margin-bottom: 22px;
             background: linear-gradient(180deg, var(--text-main) 0%, var(--text-muted) 100%);
             -webkit-background-clip: text;
             background-clip: text;
@@ -209,7 +219,7 @@
         .hero p {
             font-size: 1.125rem;
             color: var(--text-muted);
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto 36px;
         }
 
@@ -239,7 +249,6 @@
             box-shadow: 0 15px 35px var(--primary-glow);
         }
 
-        /* Features Section */
         .features {
             max-width: 1100px;
             margin: 0 auto;
@@ -252,6 +261,7 @@
         .card {
             position: relative;
             padding: 32px;
+            min-height: 245px;
             border-radius: var(--radius-lg);
             border: 1px solid var(--border-color);
             background: var(--bg-surface);
@@ -260,24 +270,47 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            top: -80px;
+            right: -80px;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.04;
+            transition: var(--transition);
         }
 
         .card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-7px);
             border-color: var(--border-hover);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover::before {
+            transform: scale(2);
         }
 
         .card-icon {
-            width: 52px;
-            height: 52px;
+            width: 56px;
+            height: 56px;
             border-radius: var(--radius-md);
             background: rgba(59, 130, 246, 0.1);
             color: var(--primary);
             display: grid;
             place-items: center;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.08) rotate(-3deg);
         }
 
         .card h2 {
@@ -291,7 +324,22 @@
             font-size: 0.95rem;
         }
 
-        /* Footer */
+        .card-arrow {
+            margin-top: 24px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .card:hover .card-arrow {
+            transform: translateX(7px);
+        }
+
+        html[dir="rtl"] .card:hover .card-arrow {
+            transform: translateX(-7px);
+        }
+
         footer {
             text-align: center;
             padding: 30px;
@@ -302,139 +350,466 @@
         }
 
         @media (max-width: 640px) {
-            .navbar { padding: 16px 5%; }
-            .hero { padding-top: 40px; }
-            .cta-group { flex-direction: column; width: 100%; }
-            .btn-primary, .btn-ui { width: 100%; justify-content: center; }
+
+            .navbar {
+                padding: 14px 5%;
+            }
+
+            .hero {
+                min-height: 60vh;
+                padding: 55px 20px 35px;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-primary,
+            .btn-ui {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-actions {
+                gap: 7px;
+            }
+
+            .btn-ui {
+                padding: 8px 11px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                padding: 25px 18px 70px;
+            }
+
+            .card {
+                min-height: 220px;
+            }
         }
     </style>
 </head>
 
 <body>
+
     <div class="ambient-glow glow-1"></div>
     <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
 
-    <!-- NAVBAR -->
     <nav class="navbar">
+
         <a href="index.html" class="brand">
-            <div class="brand-icon">V</div>
-            <span>VideoYTFX</span>
+
+            <div class="brand-icon">
+                V
+            </div>
+
+            <span>
+                VideoYTFX
+            </span>
+
         </a>
 
         <div class="nav-actions">
-            <button class="btn-ui" id="languageBtn" onclick="toggleLanguage()">
-                <span>🌐</span> <span id="langLabel">العربية</span>
+
+            <button
+                class="btn-ui"
+                id="languageBtn"
+                onclick="toggleLanguage()"
+            >
+                🌐
+                <span id="langLabel">
+                    العربية
+                </span>
             </button>
-            <button class="btn-ui" id="themeBtn" onclick="toggleTheme()">☀️</button>
+
+            <button
+                class="btn-ui"
+                id="themeBtn"
+                onclick="toggleTheme()"
+            >
+                ☀️
+            </button>
+
         </div>
+
     </nav>
 
-    <!-- HERO -->
+
     <section class="hero">
+
         <div class="hero-content">
-            <div class="hero-badge" data-i18n="badge">✨ Next-Gen Media Downloader</div>
-            <h1 data-i18n="heroTitle">VideoYTFX</h1>
-            <p data-i18n="heroDescription">A simple, ultra-fast, and powerful video downloading experience powered by advanced technology.</p>
-            
-            <div class="cta-group">
-                <a class="btn-primary" href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
-                    <span>⬇️</span> <span data-i18n="downloadText">Download for Windows</span>
-                </a>
+
+            <div
+                class="hero-badge"
+                data-i18n="badge"
+            >
+                ✨ Next-Gen Media Downloader
             </div>
+
+            <h1 data-i18n="heroTitle">
+                VideoYTFX
+            </h1>
+
+            <p data-i18n="heroDescription">
+                A simple, ultra-fast, and powerful video downloading experience powered by advanced technology.
+            </p>
+
+            <div class="cta-group">
+
+                <a
+                    class="btn-primary"
+                    href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe"
+                >
+                    ⬇️
+                    <span data-i18n="downloadText">
+                        Download for Windows
+                    </span>
+                </a>
+
+            </div>
+
         </div>
+
     </section>
 
-    <!-- FEATURES / MENU -->
+
     <section class="features">
+
         <a href="downloads.html" class="card">
+
             <div>
-                <div class="card-icon">📥</div>
-                <h2 data-i18n="downloadsTitle">Downloads</h2>
-                <p data-i18n="downloadsDescription">Download the latest stable version and builds of VideoYTFX.</p>
+
+                <div class="card-icon">
+                    📥
+                </div>
+
+                <h2 data-i18n="downloadsTitle">
+                    Downloads
+                </h2>
+
+                <p data-i18n="downloadsDescription">
+                    Download the latest stable version and builds of VideoYTFX.
+                </p>
+
             </div>
+
+            <div class="card-arrow">
+                →
+            </div>
+
         </a>
+
 
         <a href="a5.html" class="card">
+
             <div>
-                <div class="card-icon">🤖</div>
-                <h2 data-i18n="aiTitle">A5 AI Assistant</h2>
-                <p data-i18n="aiDescription">Your intelligent AI assistant for video analysis and smart prompts.</p>
+
+                <div class="card-icon">
+                    🤖
+                </div>
+
+                <h2 data-i18n="aiTitle">
+                    A5 AI Assistant
+                </h2>
+
+                <p data-i18n="aiDescription">
+                    Your intelligent AI assistant for video analysis and smart prompts.
+                </p>
+
             </div>
+
+            <div class="card-arrow">
+                →
+            </div>
+
         </a>
+
+
+        <a href="image.html" class="card">
+
+            <div>
+
+                <div class="card-icon">
+                    🖼️
+                </div>
+
+                <h2 data-i18n="imageTitle">
+                    Image Studio
+                </h2>
+
+                <p data-i18n="imageDescription">
+                    Edit, enhance, filter and transform your images easily.
+                </p>
+
+            </div>
+
+            <div class="card-arrow">
+                →
+            </div>
+
+        </a>
+
+
+        <a href="video.html" class="card">
+
+            <div>
+
+                <div class="card-icon">
+                    🎬
+                </div>
+
+                <h2 data-i18n="videoTitle">
+                    Video Studio
+                </h2>
+
+                <p data-i18n="videoDescription">
+                    Edit, trim, convert and enhance your videos in one place.
+                </p>
+
+            </div>
+
+            <div class="card-arrow">
+                →
+            </div>
+
+        </a>
+
     </section>
 
-    <!-- FOOTER -->
+
     <footer>
-        <span data-i18n="footerText">© 2026 VideoYTFX. All rights reserved.</span>
+
+        <span data-i18n="footerText">
+            © 2026 VideoYTFX. All rights reserved.
+        </span>
+
     </footer>
 
-    <!-- SCRIPT -->
+
     <script>
+
         const translations = {
+
             en: {
-                badge: "✨ Next-Gen Media Downloader",
-                heroTitle: "VideoYTFX",
-                heroDescription: "A simple, ultra-fast, and powerful video downloading experience powered by advanced technology.",
-                downloadText: "Download for Windows",
-                downloadsTitle: "Downloads",
-                downloadsDescription: "Download the latest stable version and builds of VideoYTFX.",
-                aiTitle: "A5 AI Assistant",
-                aiDescription: "Your intelligent AI assistant for video analysis and smart prompts.",
-                footerText: "© 2026 VideoYTFX. All rights reserved.",
-                langButton: "العربية"
+
+                badge:
+                    "✨ Next-Gen Media Downloader",
+
+                heroTitle:
+                    "VideoYTFX",
+
+                heroDescription:
+                    "A simple, ultra-fast, and powerful video downloading experience powered by advanced technology.",
+
+                downloadText:
+                    "Download for Windows",
+
+                downloadsTitle:
+                    "Downloads",
+
+                downloadsDescription:
+                    "Download the latest stable version and builds of VideoYTFX.",
+
+                aiTitle:
+                    "A5 AI Assistant",
+
+                aiDescription:
+                    "Your intelligent AI assistant for video analysis and smart prompts.",
+
+                imageTitle:
+                    "Image Studio",
+
+                imageDescription:
+                    "Edit, enhance, filter and transform your images easily.",
+
+                videoTitle:
+                    "Video Studio",
+
+                videoDescription:
+                    "Edit, trim, convert and enhance your videos in one place.",
+
+                footerText:
+                    "© 2026 VideoYTFX. All rights reserved.",
+
+                langButton:
+                    "العربية"
             },
+
+
             ar: {
-                badge: "✨ أداة تنزيل وسائط من الجيل الجديد",
-                heroTitle: "VideoYTFX",
-                heroDescription: "تجربة فائقة السرعة والقوة لتحميل الفيديوهات بأسلوب عصري ومتطور.",
-                downloadText: "تحميل لنظام الويندوز",
-                downloadsTitle: "التحميلات",
-                downloadsDescription: "قم بتنزيل أحدث الإصدارات المستقرة والملفات الخاصة بـ VideoYTFX.",
-                aiTitle: "الذكاء الاصطناعي A5",
-                aiDescription: "مساعدك الذكي المدمج لتحليل الفيديوهات وتسهيل المهام.",
-                footerText: "© 2026 VideoYTFX. جميع الحقوق محفوظة.",
-                langButton: "English"
+
+                badge:
+                    "✨ أداة تنزيل وسائط من الجيل الجديد",
+
+                heroTitle:
+                    "VideoYTFX",
+
+                heroDescription:
+                    "تجربة فائقة السرعة والقوة لتحميل الفيديوهات بأسلوب عصري ومتطور.",
+
+                downloadText:
+                    "تحميل لنظام الويندوز",
+
+                downloadsTitle:
+                    "التحميلات",
+
+                downloadsDescription:
+                    "قم بتنزيل أحدث الإصدارات المستقرة والملفات الخاصة بـ VideoYTFX.",
+
+                aiTitle:
+                    "الذكاء الاصطناعي A5",
+
+                aiDescription:
+                    "مساعدك الذكي المدمج لتحليل الفيديوهات وتسهيل المهام.",
+
+                imageTitle:
+                    "استوديو الصور",
+
+                imageDescription:
+                    "عدّل وحسّن وأضف الفلاتر والمؤثرات إلى صورك بسهولة.",
+
+                videoTitle:
+                    "استوديو الفيديو",
+
+                videoDescription:
+                    "عدّل واقصص وحوّل وحسّن فيديوهاتك في مكان واحد.",
+
+                footerText:
+                    "© 2026 VideoYTFX. جميع الحقوق محفوظة.",
+
+                langButton:
+                    "English"
             }
+
         };
 
-        function setLanguage(lang) {
-            document.querySelectorAll("[data-i18n]").forEach(element => {
-                const key = element.getAttribute("data-i18n");
-                if (translations[lang][key]) {
-                    element.textContent = translations[lang][key];
-                }
-            });
 
-            document.getElementById("langLabel").textContent = translations[lang].langButton;
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-            localStorage.setItem("app_lang", lang);
+        function setLanguage(lang) {
+
+            document
+                .querySelectorAll("[data-i18n]")
+                .forEach(element => {
+
+                    const key =
+                        element.getAttribute("data-i18n");
+
+                    if (
+                        translations[lang] &&
+                        translations[lang][key]
+                    ) {
+
+                        element.textContent =
+                            translations[lang][key];
+
+                    }
+
+                });
+
+
+            document.getElementById("langLabel")
+                .textContent =
+                translations[lang].langButton;
+
+
+            document.documentElement.lang =
+                lang;
+
+
+            document.documentElement.dir =
+                lang === "ar"
+                    ? "rtl"
+                    : "ltr";
+
+
+            localStorage.setItem(
+                "app_lang",
+                lang
+            );
+
         }
+
 
         function toggleLanguage() {
-            const currentLang = localStorage.getItem("app_lang") || "en";
-            setLanguage(currentLang === "en" ? "ar" : "en");
+
+            const currentLang =
+                localStorage.getItem("app_lang")
+                || "en";
+
+            setLanguage(
+                currentLang === "en"
+                    ? "ar"
+                    : "en"
+            );
+
         }
+
 
         function setTheme(theme) {
-            document.documentElement.setAttribute("data-theme", theme);
-            document.getElementById("themeBtn").textContent = theme === "light" ? "🌙" : "☀️";
-            localStorage.setItem("app_theme", theme);
+
+            document.documentElement
+                .setAttribute(
+                    "data-theme",
+                    theme
+                );
+
+
+            document.getElementById("themeBtn")
+                .textContent =
+                theme === "light"
+                    ? "🌙"
+                    : "☀️";
+
+
+            localStorage.setItem(
+                "app_theme",
+                theme
+            );
+
         }
+
 
         function toggleTheme() {
-            const currentTheme = localStorage.getItem("app_theme") || "dark";
-            setTheme(currentTheme === "dark" ? "light" : "dark");
+
+            const currentTheme =
+                localStorage.getItem("app_theme")
+                || "dark";
+
+            setTheme(
+                currentTheme === "dark"
+                    ? "light"
+                    : "dark"
+            );
+
         }
 
-        // Initialize Settings
+
         (function init() {
-            const savedLang = localStorage.getItem("app_lang") || "en";
-            const savedTheme = localStorage.getItem("app_theme") || "dark";
+
+            const savedLang =
+                localStorage.getItem("app_lang")
+                || "en";
+
+            const savedTheme =
+                localStorage.getItem("app_theme")
+                || "dark";
+
             setLanguage(savedLang);
             setTheme(savedTheme);
+
         })();
+
     </script>
+
 </body>
 
 </html>
