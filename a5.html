@@ -2,13 +2,8 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>A5 AI</title>
 
@@ -16,9 +11,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Fira+Code:wght@400;600&display=swap"
-    rel="stylesheet"
->
+href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap"
+rel="stylesheet">
 
 <style>
 
@@ -28,21 +22,32 @@
 
 :root{
 
-    --bg:#050816;
+    --bg:#070a12;
+    --bg2:#0b1020;
 
-    --panel:rgba(15,23,42,.82);
+    --sidebar:#0a0e18;
 
-    --panel2:rgba(30,41,59,.75);
+    --card:rgba(17,24,39,.72);
 
-    --border:rgba(255,255,255,.09);
+    --card2:rgba(20,29,48,.72);
+
+    --input:#0c1220;
+
+    --border:rgba(255,255,255,.08);
+
+    --border-hover:rgba(129,140,248,.4);
 
     --text:#f8fafc;
 
-    --muted:#94a3b8;
+    --muted:#8b98ad;
+
+    --muted2:#64748b;
 
     --primary:#6366f1;
 
-    --secondary:#3b82f6;
+    --primary2:#8b5cf6;
+
+    --blue:#3b82f6;
 
     --cyan:#06b6d4;
 
@@ -52,7 +57,42 @@
 
     --orange:#f59e0b;
 
-    --radius:20px;
+    --shadow:0 25px 80px rgba(0,0,0,.35);
+
+    --radius:18px;
+
+}
+
+
+/* =========================================================
+   LIGHT
+========================================================= */
+
+body.light{
+
+    --bg:#f5f7fb;
+
+    --bg2:#eef2ff;
+
+    --sidebar:#ffffff;
+
+    --card:rgba(255,255,255,.82);
+
+    --card2:#f8fafc;
+
+    --input:#ffffff;
+
+    --border:rgba(15,23,42,.09);
+
+    --border-hover:rgba(79,70,229,.35);
+
+    --text:#111827;
+
+    --muted:#64748b;
+
+    --muted2:#94a3b8;
+
+    --shadow:0 20px 60px rgba(15,23,42,.08);
 
 }
 
@@ -62,250 +102,453 @@
 ========================================================= */
 
 *{
-
     box-sizing:border-box;
-
     margin:0;
-
     padding:0;
-
 }
-
 
 html{
-
-    scroll-behavior:smooth;
-
+    height:100%;
 }
-
 
 body{
 
-    min-height:100vh;
+    min-height:100%;
 
     background:
-
         radial-gradient(
-            circle at 15% 10%,
-            rgba(99,102,241,.18),
+            circle at 10% 0%,
+            rgba(99,102,241,.13),
             transparent 30%
         ),
-
         radial-gradient(
-            circle at 85% 15%,
-            rgba(6,182,212,.12),
-            transparent 28%
+            circle at 90% 10%,
+            rgba(6,182,212,.09),
+            transparent 25%
         ),
-
-        radial-gradient(
-            circle at 50% 100%,
-            rgba(124,58,237,.08),
-            transparent 35%
-        ),
-
         var(--bg);
 
     color:var(--text);
 
-    font-family:'Tajawal',sans-serif;
+    font-family:"Tajawal",sans-serif;
 
-    overflow-x:hidden;
+    overflow:hidden;
+
+    transition:
+        background .3s,
+        color .3s;
 
 }
-
 
 button,
-input{
-
-    font-family:inherit;
-
+input,
+textarea{
+    font:inherit;
 }
 
-
 button{
-
     cursor:pointer;
+}
 
+button:disabled{
+    cursor:not-allowed;
 }
 
 
 /* =========================================================
-   PARTICLES
+   BACKGROUND
 ========================================================= */
 
-#particles{
+.background{
 
     position:fixed;
 
     inset:0;
 
-    width:100%;
-
-    height:100%;
-
     pointer-events:none;
 
-    z-index:-1;
+    overflow:hidden;
+
+    z-index:-2;
+
+}
+
+.glow{
+
+    position:absolute;
+
+    width:450px;
+
+    height:450px;
+
+    border-radius:50%;
+
+    filter:blur(100px);
+
+    opacity:.12;
+
+}
+
+.glow.one{
+
+    background:#6366f1;
+
+    top:-250px;
+
+    right:-120px;
+
+}
+
+.glow.two{
+
+    background:#06b6d4;
+
+    bottom:-280px;
+
+    left:-150px;
 
 }
 
 
 /* =========================================================
-   NAVBAR
+   APP
 ========================================================= */
 
-.navbar{
+.app{
 
-    position:sticky;
+    height:100vh;
 
-    top:0;
+    display:flex;
 
-    z-index:100;
+}
 
-    height:70px;
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+
+    width:270px;
+
+    height:100vh;
+
+    flex-shrink:0;
+
+    background:rgba(8,12,21,.72);
+
+    border-left:1px solid var(--border);
+
+    backdrop-filter:blur(25px);
+
+    display:flex;
+
+    flex-direction:column;
+
+    padding:18px;
+
+    transition:.3s;
+
+}
+
+body.light .sidebar{
+    background:rgba(255,255,255,.75);
+}
+
+
+/* LOGO */
+
+.logo-area{
 
     display:flex;
 
     align-items:center;
 
-    justify-content:space-between;
+    gap:11px;
 
-    padding:0 5%;
-
-    background:rgba(5,8,22,.75);
-
-    border-bottom:1px solid var(--border);
-
-    backdrop-filter:blur(20px);
+    margin-bottom:22px;
 
 }
-
-
-.brand{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    color:white;
-
-    text-decoration:none;
-
-    font-size:1.15rem;
-
-    font-weight:800;
-
-}
-
 
 .logo{
 
-    width:42px;
+    width:43px;
 
-    height:42px;
+    height:43px;
+
+    border-radius:14px;
 
     display:grid;
 
     place-items:center;
 
-    border-radius:13px;
-
     background:
-
         linear-gradient(
             135deg,
-            var(--primary),
-            var(--secondary),
-            var(--cyan)
+            #6366f1,
+            #8b5cf6,
+            #06b6d4
         );
 
     box-shadow:
+        0 8px 30px rgba(99,102,241,.28);
 
-        0 0 25px rgba(99,102,241,.4);
+    font-size:20px;
 
-    font-size:1.2rem;
+}
+
+.logo-text strong{
+
+    display:block;
+
+    font-size:17px;
+
+}
+
+.logo-text span{
+
+    color:var(--muted);
+
+    font-size:11px;
 
 }
 
 
-.nav-right{
+/* NEW CHAT */
 
-    display:flex;
+.new-chat{
 
-    gap:8px;
+    width:100%;
 
-}
+    border:1px solid rgba(129,140,248,.3);
 
+    background:
+        linear-gradient(
+            135deg,
+            rgba(99,102,241,.18),
+            rgba(59,130,246,.1)
+        );
 
-/* =========================================================
-   BUTTONS
-========================================================= */
+    color:var(--text);
 
-.btn{
+    border-radius:13px;
 
-    border:1px solid var(--border);
+    padding:12px;
 
-    color:white;
-
-    background:rgba(255,255,255,.04);
-
-    border-radius:12px;
-
-    padding:10px 14px;
+    font-weight:700;
 
     transition:.2s;
 
+    margin-bottom:20px;
+
 }
 
+.new-chat:hover{
 
-.btn:hover{
-
-    border-color:var(--primary);
+    border-color:var(--border-hover);
 
     transform:translateY(-1px);
 
 }
 
 
-.btn.primary{
+/* SEARCH */
+
+.search-box{
+
+    position:relative;
+
+    margin-bottom:15px;
+
+}
+
+.search-box input{
+
+    width:100%;
+
+    border:1px solid var(--border);
+
+    background:var(--input);
+
+    color:var(--text);
+
+    border-radius:11px;
+
+    padding:10px 38px 10px 12px;
+
+    outline:none;
+
+    font-size:13px;
+
+}
+
+.search-icon{
+
+    position:absolute;
+
+    right:12px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:var(--muted);
+
+}
+
+
+/* SESSIONS */
+
+.session-title{
+
+    color:var(--muted2);
+
+    font-size:11px;
+
+    margin:5px 5px 8px;
+
+}
+
+.sessions{
+
+    flex:1;
+
+    overflow-y:auto;
+
+}
+
+.sessions::-webkit-scrollbar{
+    width:4px;
+}
+
+.sessions::-webkit-scrollbar-thumb{
+
+    background:rgba(148,163,184,.2);
+
+    border-radius:20px;
+
+}
+
+.session{
+
+    width:100%;
+
+    border:1px solid transparent;
+
+    background:transparent;
+
+    color:var(--muted);
+
+    padding:11px;
+
+    border-radius:11px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    text-align:right;
+
+    margin-bottom:4px;
+
+    transition:.2s;
+
+}
+
+.session:hover{
+
+    background:rgba(255,255,255,.04);
+
+    color:var(--text);
+
+}
+
+.session.active{
+
+    background:rgba(99,102,241,.12);
+
+    border-color:rgba(99,102,241,.18);
+
+    color:var(--text);
+
+}
+
+.session-icon{
+
+    width:27px;
+
+    height:27px;
+
+    display:grid;
+
+    place-items:center;
+
+    background:rgba(255,255,255,.04);
+
+    border-radius:8px;
+
+    flex-shrink:0;
+
+}
+
+.session-name{
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+    flex:1;
+
+    font-size:13px;
+
+}
+
+
+/* SIDEBAR BOTTOM */
+
+.sidebar-bottom{
+
+    border-top:1px solid var(--border);
+
+    padding-top:13px;
+
+}
+
+.side-button{
+
+    width:100%;
 
     border:0;
 
-    background:
+    background:transparent;
 
-        linear-gradient(
-            135deg,
-            var(--primary),
-            var(--secondary)
-        );
+    color:var(--muted);
 
-    font-weight:800;
+    padding:10px;
 
-    box-shadow:
+    border-radius:10px;
 
-        0 8px 25px rgba(99,102,241,.25);
+    text-align:right;
 
-}
+    display:flex;
 
+    align-items:center;
 
-.btn.primary:hover{
+    gap:10px;
 
-    box-shadow:
-
-        0 12px 35px rgba(99,102,241,.4);
+    margin-bottom:3px;
 
 }
 
+.side-button:hover{
 
-.btn:disabled{
+    background:rgba(255,255,255,.05);
 
-    opacity:.45;
-
-    cursor:not-allowed;
-
-    transform:none;
+    color:var(--text);
 
 }
 
@@ -314,13 +557,142 @@ button{
    MAIN
 ========================================================= */
 
-.container{
+.main{
 
-    width:min(1100px,94%);
+    flex:1;
 
-    margin:auto;
+    min-width:0;
 
-    padding:28px 0 50px;
+    height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar{
+
+    height:68px;
+
+    flex-shrink:0;
+
+    border-bottom:1px solid var(--border);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 25px;
+
+    background:rgba(7,10,18,.45);
+
+    backdrop-filter:blur(20px);
+
+}
+
+body.light .topbar{
+    background:rgba(255,255,255,.45);
+}
+
+.top-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.top-title-icon{
+
+    width:35px;
+
+    height:35px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:10px;
+
+    background:linear-gradient(
+        135deg,
+        rgba(99,102,241,.2),
+        rgba(6,182,212,.12)
+    );
+
+}
+
+.top-title strong{
+
+    font-size:15px;
+
+}
+
+.top-title span{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+}
+
+
+.top-actions{
+
+    display:flex;
+
+    gap:7px;
+
+}
+
+.top-button{
+
+    width:38px;
+
+    height:38px;
+
+    border:1px solid var(--border);
+
+    background:rgba(255,255,255,.03);
+
+    color:var(--text);
+
+    border-radius:10px;
+
+}
+
+.top-button:hover{
+
+    border-color:var(--border-hover);
+
+}
+
+
+/* =========================================================
+   CHAT AREA
+========================================================= */
+
+.chat-area{
+
+    flex:1;
+
+    min-height:0;
+
+    display:flex;
+
+    flex-direction:column;
 
 }
 
@@ -331,22 +703,67 @@ button{
 
 .welcome{
 
+    flex:1;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
     text-align:center;
 
-    padding:45px 20px 30px;
+    padding:40px;
 
 }
 
+.welcome-inner{
+
+    max-width:650px;
+
+}
+
+.welcome-logo{
+
+    width:70px;
+
+    height:70px;
+
+    margin:0 auto 22px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #8b5cf6,
+            #06b6d4
+        );
+
+    font-size:30px;
+
+    box-shadow:
+        0 20px 60px rgba(99,102,241,.25);
+
+}
 
 .welcome h1{
 
-    font-size:clamp(2rem,5vw,3.5rem);
+    font-size:clamp(30px,5vw,52px);
+
+    line-height:1.1;
+
+    margin-bottom:13px;
 
     background:
-
         linear-gradient(
             90deg,
-            #fff,
+            var(--text),
             #a78bfa,
             #67e8f9
         );
@@ -357,240 +774,77 @@ button{
 
     color:transparent;
 
-    margin-bottom:12px;
-
 }
-
 
 .welcome p{
 
     color:var(--muted);
 
-    font-size:1rem;
+    font-size:15px;
+
+    line-height:1.8;
 
 }
 
 
-/* =========================================================
-   SESSIONS
-========================================================= */
+/* QUICK */
 
-.sessions-bar{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    gap:10px;
-
-    margin-bottom:15px;
-
-}
-
-
-.sessions{
-
-    display:flex;
-
-    gap:7px;
-
-    overflow-x:auto;
-
-    max-width:70%;
-
-}
-
-
-.session{
-
-    border:1px solid var(--border);
-
-    background:var(--panel);
-
-    color:var(--muted);
-
-    border-radius:10px;
-
-    padding:7px 11px;
-
-    white-space:nowrap;
-
-}
-
-
-.session.active{
-
-    color:white;
-
-    border-color:var(--primary);
-
-    background:rgba(99,102,241,.15);
-
-}
-
-
-/* =========================================================
-   CHAT
-========================================================= */
-
-.chat{
-
-    height:calc(100vh - 150px);
-
-    min-height:600px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    overflow:hidden;
-
-    background:var(--panel);
-
-    border:1px solid var(--border);
-
-    border-radius:var(--radius);
-
-    backdrop-filter:blur(20px);
-
-    box-shadow:
-
-        0 30px 80px rgba(0,0,0,.35);
-
-}
-
-
-/* =========================================================
-   CHAT HEADER
-========================================================= */
-
-.chat-header{
-
-    min-height:72px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    gap:15px;
-
-    padding:13px 18px;
-
-    border-bottom:1px solid var(--border);
-
-}
-
-
-.ai-info{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:11px;
-
-}
-
-
-.ai-icon{
-
-    width:42px;
-
-    height:42px;
+.quick-grid{
 
     display:grid;
 
-    place-items:center;
+    grid-template-columns:
+        repeat(4,1fr);
 
-    border-radius:13px;
+    gap:10px;
 
-    background:
-
-        linear-gradient(
-            135deg,
-            var(--primary),
-            var(--cyan)
-        );
-
-    font-size:1.2rem;
-
-    box-shadow:
-
-        0 0 22px rgba(99,102,241,.25);
+    margin-top:28px;
 
 }
 
-
-.ai-name{
-
-    font-weight:800;
-
-}
-
-
-.ai-status{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:6px;
-
-    color:var(--green);
-
-    font-size:.76rem;
-
-}
-
-
-.status-dot{
-
-    width:7px;
-
-    height:7px;
-
-    border-radius:50%;
-
-    background:var(--green);
-
-    box-shadow:
-
-        0 0 10px var(--green);
-
-}
-
-
-/* =========================================================
-   A5 MODEL LABEL
-========================================================= */
-
-.a5-model{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:7px;
-
-    background:#020617;
-
-    color:white;
+.quick-card{
 
     border:1px solid var(--border);
 
-    border-radius:10px;
+    background:rgba(255,255,255,.025);
 
-    padding:9px 13px;
+    color:var(--text);
 
-    font-weight:700;
+    border-radius:13px;
 
-    box-shadow:
+    padding:15px 10px;
 
-        inset 0 0 20px rgba(99,102,241,.04);
+    text-align:center;
+
+    transition:.2s;
+
+}
+
+.quick-card:hover{
+
+    border-color:var(--border-hover);
+
+    background:rgba(99,102,241,.07);
+
+    transform:translateY(-2px);
+
+}
+
+.quick-card .icon{
+
+    font-size:20px;
+
+    display:block;
+
+    margin-bottom:7px;
+
+}
+
+.quick-card span{
+
+    color:var(--muted);
+
+    font-size:11px;
 
 }
 
@@ -603,199 +857,222 @@ button{
 
     flex:1;
 
+    min-height:0;
+
     overflow-y:auto;
 
-    padding:22px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:18px;
+    padding:35px max(25px,calc((100% - 900px)/2));
 
 }
-
 
 .messages::-webkit-scrollbar{
-
-    width:7px;
-
+    width:6px;
 }
-
 
 .messages::-webkit-scrollbar-thumb{
 
-    background:rgba(99,102,241,.35);
+    background:rgba(148,163,184,.2);
 
     border-radius:20px;
 
 }
 
 
+/* MESSAGE */
+
 .message-row{
-
-    display:flex;
-
-    flex-direction:column;
-
-    max-width:90%;
-
-}
-
-
-.message-row.user{
-
-    align-self:flex-end;
-
-    align-items:flex-end;
-
-}
-
-
-.message-row.ai{
-
-    align-self:flex-start;
-
-    align-items:flex-start;
-
-}
-
-
-.message{
-
-    padding:14px 17px;
-
-    border-radius:18px;
-
-    line-height:1.8;
-
-    word-break:break-word;
-
-    font-size:.96rem;
-
-}
-
-
-.message.user{
-
-    background:
-
-        linear-gradient(
-            135deg,
-            #6366f1,
-            #2563eb
-        );
-
-    border-bottom-left-radius:5px;
-
-}
-
-
-.message.ai{
-
-    background:var(--panel2);
-
-    border:1px solid var(--border);
-
-    border-bottom-right-radius:5px;
-
-}
-
-
-.message pre{
-
-    direction:ltr;
-
-    text-align:left;
-
-    background:#020617;
-
-    border:1px solid var(--border);
-
-    border-radius:12px;
-
-    padding:14px;
-
-    margin:12px 0;
-
-    overflow:auto;
-
-}
-
-
-.message code{
-
-    font-family:'Fira Code',monospace;
-
-    font-size:.85rem;
-
-}
-
-
-.message p{
-
-    margin-bottom:8px;
-
-}
-
-
-.message p:last-child{
-
-    margin-bottom:0;
-
-}
-
-
-.message ul,
-.message ol{
-
-    padding-right:22px;
-
-    margin:8px 0;
-
-}
-
-
-/* =========================================================
-   MESSAGE TOOLS
-========================================================= */
-
-.message-tools{
 
     display:flex;
 
     gap:12px;
 
-    margin-top:5px;
+    margin-bottom:27px;
 
-    padding:0 5px;
+}
+
+.message-row.user{
+
+    justify-content:flex-start;
+
+}
+
+.message-row.ai{
+
+    justify-content:flex-start;
 
 }
 
 
-.tool{
+/* AVATAR */
 
-    border:0;
+.avatar{
 
-    background:none;
+    width:34px;
+
+    height:34px;
+
+    flex-shrink:0;
+
+    border-radius:11px;
+
+    display:grid;
+
+    place-items:center;
+
+    font-size:14px;
+
+    margin-top:2px;
+
+}
+
+.avatar.ai{
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #06b6d4
+        );
+
+}
+
+.avatar.user{
+
+    background:
+        linear-gradient(
+            135deg,
+            #334155,
+            #475569
+        );
+
+}
+
+
+/* MESSAGE CONTENT */
+
+.message-content{
+
+    min-width:0;
+
+    max-width:calc(100% - 46px);
+
+}
+
+.message-name{
+
+    font-size:11px;
 
     color:var(--muted);
 
-    font-size:.75rem;
+    margin-bottom:6px;
 
 }
 
+.bubble{
 
-.tool:hover{
+    line-height:1.9;
+
+    font-size:14px;
+
+    word-break:break-word;
+
+}
+
+.message-row.user .bubble{
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #2563eb
+        );
+
+    padding:11px 15px;
+
+    border-radius:15px 15px 4px 15px;
 
     color:white;
 
 }
 
+.message-row.ai .bubble{
 
-/* =========================================================
-   TYPING
-========================================================= */
+    color:var(--text);
+
+}
+
+
+/* CODE */
+
+.bubble pre{
+
+    direction:ltr;
+
+    text-align:left;
+
+    background:#050812;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:12px;
+
+    padding:15px;
+
+    overflow:auto;
+
+    margin:13px 0;
+
+}
+
+.bubble code{
+
+    font-family:"Fira Code",monospace;
+
+    font-size:12px;
+
+}
+
+.bubble strong{
+
+    font-weight:800;
+
+}
+
+
+/* TOOLS */
+
+.message-tools{
+
+    display:flex;
+
+    gap:8px;
+
+    margin-top:7px;
+
+}
+
+.tool{
+
+    border:0;
+
+    background:transparent;
+
+    color:var(--muted2);
+
+    font-size:10px;
+
+    padding:3px 5px;
+
+}
+
+.tool:hover{
+
+    color:var(--text);
+
+}
+
+
+/* TYPING */
 
 .typing{
 
@@ -803,104 +1080,43 @@ button{
 
     gap:5px;
 
-    align-items:center;
-
-    height:22px;
+    padding:8px 0;
 
 }
 
-
 .typing span{
 
-    width:7px;
+    width:6px;
 
-    height:7px;
+    height:6px;
 
     border-radius:50%;
 
-    background:#a78bfa;
+    background:#8b5cf6;
 
     animation:typing 1s infinite;
 
 }
 
-
 .typing span:nth-child(2){
-
     animation-delay:.15s;
-
 }
-
 
 .typing span:nth-child(3){
-
     animation-delay:.3s;
-
 }
-
 
 @keyframes typing{
 
     0%,100%{
-
         opacity:.25;
-
         transform:translateY(0);
-
     }
 
     50%{
-
         opacity:1;
-
         transform:translateY(-4px);
-
     }
-
-}
-
-
-/* =========================================================
-   QUICK ACTIONS
-========================================================= */
-
-.quick-actions{
-
-    display:flex;
-
-    gap:7px;
-
-    overflow-x:auto;
-
-    padding-bottom:8px;
-
-}
-
-
-.quick{
-
-    white-space:nowrap;
-
-    border:1px solid var(--border);
-
-    background:rgba(255,255,255,.04);
-
-    color:var(--muted);
-
-    border-radius:10px;
-
-    padding:7px 10px;
-
-    font-size:.75rem;
-
-}
-
-
-.quick:hover{
-
-    border-color:var(--primary);
-
-    color:white;
 
 }
 
@@ -909,186 +1125,266 @@ button{
    COMPOSER
 ========================================================= */
 
+.composer-wrap{
+
+    flex-shrink:0;
+
+    padding:
+        10px
+        max(20px,calc((100% - 900px)/2))
+        22px;
+
+}
+
 .composer{
 
-    padding:13px;
+    border:1px solid var(--border);
 
-    background:rgba(2,6,23,.65);
+    background:rgba(12,18,32,.86);
 
-    border-top:1px solid var(--border);
+    backdrop-filter:blur(20px);
+
+    border-radius:18px;
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+
+}
+
+body.light .composer{
+    background:rgba(255,255,255,.9);
+}
+
+
+/* QUICK ACTIONS */
+
+.quick-actions{
+
+    display:flex;
+
+    gap:7px;
+
+    padding:10px 12px 0;
+
+    overflow-x:auto;
+
+}
+
+.quick{
+
+    white-space:nowrap;
+
+    border:1px solid var(--border);
+
+    background:rgba(255,255,255,.025);
+
+    color:var(--muted);
+
+    border-radius:9px;
+
+    padding:6px 9px;
+
+    font-size:10px;
+
+}
+
+.quick:hover{
+
+    color:var(--text);
+
+    border-color:var(--border-hover);
 
 }
 
 
-.composer-row{
+/* INPUT */
+
+.input-row{
 
     display:flex;
 
     gap:8px;
 
-}
-
-
-.input{
-
-    width:100%;
-
-    background:#020617;
-
-    color:white;
-
-    border:1px solid var(--border);
-
-    border-radius:13px;
-
-    padding:13px 15px;
-
-    outline:none;
-
-    transition:.2s;
+    padding:10px;
 
 }
-
-
-.input:focus{
-
-    border-color:var(--primary);
-
-    box-shadow:
-
-        0 0 0 3px rgba(99,102,241,.1);
-
-}
-
 
 .chat-input{
 
     flex:1;
 
+    min-width:0;
+
+    resize:none;
+
+    border:0;
+
+    outline:none;
+
+    background:transparent;
+
+    color:var(--text);
+
+    padding:10px 5px;
+
+    min-height:42px;
+
+    max-height:130px;
+
+    line-height:1.6;
+
+}
+
+.chat-input::placeholder{
+
+    color:var(--muted2);
+
 }
 
 
-.icon-btn{
+/* INPUT BUTTON */
 
-    min-width:48px;
+.input-button{
+
+    width:42px;
+
+    height:42px;
+
+    flex-shrink:0;
 
     border:1px solid var(--border);
 
-    border-radius:13px;
+    background:rgba(255,255,255,.035);
 
-    background:rgba(255,255,255,.04);
+    color:var(--text);
+
+    border-radius:11px;
+
+}
+
+.input-button:hover{
+
+    border-color:var(--border-hover);
+
+}
+
+.input-button.recording{
+
+    background:rgba(239,68,68,.15);
+
+    border-color:rgba(239,68,68,.5);
+
+    color:#f87171;
+
+}
+
+
+/* SEND */
+
+.send-button{
+
+    width:42px;
+
+    height:42px;
+
+    flex-shrink:0;
+
+    border:0;
+
+    border-radius:11px;
 
     color:white;
 
-    font-size:1.1rem;
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #3b82f6
+        );
+
+    box-shadow:
+        0 7px 20px rgba(99,102,241,.25);
+
+}
+
+.send-button:hover{
+
+    transform:translateY(-1px);
+
+}
+
+.send-button:disabled{
+
+    opacity:.4;
+
+    transform:none;
 
 }
 
 
-.icon-btn:hover{
+/* STOP */
 
-    border-color:var(--primary);
-
-}
-
-
-.icon-btn.recording{
-
-    background:var(--red);
-
-    border-color:var(--red);
-
-    animation:pulse 1s infinite;
-
-}
-
-
-@keyframes pulse{
-
-    50%{
-
-        box-shadow:
-
-            0 0 0 8px rgba(239,68,68,.1);
-
-    }
-
-}
-
-
-.stop{
+.stop-button{
 
     display:none;
 
-    background:rgba(239,68,68,.13);
+    width:42px;
 
-    color:#fca5a5;
+    height:42px;
 
-    border:1px solid rgba(239,68,68,.4);
+    border:1px solid rgba(239,68,68,.3);
 
-    border-radius:12px;
+    background:rgba(239,68,68,.1);
 
-    padding:0 14px;
+    color:#f87171;
+
+    border-radius:11px;
 
 }
 
-
-.stop.show{
-
+.stop-button.show{
     display:block;
-
 }
 
 
-/* =========================================================
-   LIGHT MODE
-========================================================= */
+/* FOOTER */
 
-body.light{
+.composer-footer{
 
-    --bg:#eef2ff;
+    display:flex;
 
-    --panel:rgba(255,255,255,.85);
+    justify-content:space-between;
 
-    --panel2:rgba(241,245,249,.95);
+    align-items:center;
 
-    --border:rgba(15,23,42,.1);
+    padding:0 13px 9px;
 
-    --text:#0f172a;
+    color:var(--muted2);
 
-    --muted:#64748b;
+    font-size:9px;
 
 }
 
+.webgpu-status{
 
-body.light .navbar{
+    display:flex;
 
-    background:rgba(255,255,255,.8);
+    align-items:center;
 
-}
-
-
-body.light .input{
-
-    background:white;
-
-    color:#0f172a;
+    gap:5px;
 
 }
 
+.status-dot{
 
-body.light .message.ai{
+    width:6px;
 
-    color:#0f172a;
+    height:6px;
 
-}
+    border-radius:50%;
 
-
-body.light .a5-model{
-
-    background:white;
-
-    color:#0f172a;
+    background:var(--orange);
 
 }
 
@@ -1097,236 +1393,461 @@ body.light .a5-model{
    MOBILE
 ========================================================= */
 
-@media(max-width:700px){
+.mobile-menu{
 
-    .navbar{
+    display:none;
 
-        padding:0 3%;
+}
+
+
+@media(max-width:800px){
+
+    .sidebar{
+
+        position:fixed;
+
+        right:-290px;
+
+        top:0;
+
+        z-index:1000;
+
+        width:270px;
+
+        transition:.3s;
+
+        box-shadow:-20px 0 60px rgba(0,0,0,.4);
 
     }
 
-    .brand span{
+    .sidebar.open{
+        right:0;
+    }
 
-        font-size:.9rem;
+    .mobile-menu{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 14px;
+    }
+
+    .messages{
+
+        padding:
+            25px
+            15px;
+
+    }
+
+    .composer-wrap{
+
+        padding:
+            8px
+            10px
+            12px;
+
+    }
+
+    .quick-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
 
     }
 
     .welcome{
 
-        padding:25px 10px;
-
-    }
-
-    .chat{
-
-        height:calc(100vh - 115px);
-
-        min-height:550px;
-
-        border-radius:15px;
-
-    }
-
-    .chat-header{
-
-        align-items:flex-start;
-
-        flex-direction:column;
-
-    }
-
-    .a5-model{
-
-        width:100%;
-
-        justify-content:center;
-
-    }
-
-    .message-row{
-
-        max-width:95%;
-
-    }
-
-    .composer-row{
-
-        flex-wrap:wrap;
-
-    }
-
-    .chat-input{
-
-        flex-basis:100%;
-
-        order:-1;
-
-    }
-
-    .stop{
-
-        flex:1;
-
-    }
-
-    .send{
-
-        flex:2;
-
-    }
-
-    .sessions{
-
-        max-width:55%;
+        padding:25px 18px;
 
     }
 
 }
 
-</style>
 
+/* =========================================================
+   SMALL
+========================================================= */
+
+@media(max-width:450px){
+
+    .quick-actions{
+        display:none;
+    }
+
+    .welcome h1{
+        font-size:34px;
+    }
+
+    .welcome p{
+        font-size:13px;
+    }
+
+    .quick-grid{
+        gap:7px;
+    }
+
+}
+
+</style>
 </head>
 
 
 <body>
 
+<div class="background">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+</div>
 
-<canvas id="particles"></canvas>
+
+<div class="app">
 
 
-<!-- =========================================================
-     NAVBAR
-========================================================= -->
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
-<nav class="navbar">
+<aside class="sidebar" id="sidebar">
 
-    <a class="brand" href="#">
+
+    <div class="logo-area">
 
         <div class="logo">
             ⚡
         </div>
 
-        <span>
-            A5 AI
-        </span>
+        <div class="logo-text">
 
-    </a>
+            <strong>A5 AI</strong>
 
-
-    <div class="nav-right">
-
-        <button
-            class="btn"
-            id="themeButton"
-            title="تغيير المظهر"
-        >
-            🌙
-        </button>
-
-    </div>
-
-</nav>
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
-<main class="container">
-
-
-    <section class="welcome">
-
-        <h1>
-            A5 AI
-        </h1>
-
-        <p>
-            ذكاء اصطناعي محلي يتذكر سياقك ويتكيف مع أسلوبك.
-        </p>
-
-    </section>
-
-
-    <!-- =====================================================
-         SESSIONS
-    ====================================================== -->
-
-    <div class="sessions-bar">
-
-        <div
-            class="sessions"
-            id="sessions"
-        ></div>
-
-
-        <div
-            style="
-                display:flex;
-                gap:7px;
-            "
-        >
-
-            <button
-                class="btn"
-                id="newChat"
-                title="محادثة جديدة"
-            >
-                ➕
-            </button>
-
-
-            <button
-                class="btn"
-                id="clearChats"
-                title="حذف المحادثات"
-            >
-                🗑️
-            </button>
-
-
-            <button
-                class="btn"
-                id="exportChat"
-                title="تصدير"
-            >
-                📥
-            </button>
+            <span>Local Intelligence</span>
 
         </div>
 
     </div>
 
 
-    <!-- =====================================================
-         CHAT
-    ====================================================== -->
-
-    <section class="chat">
-
-
-        <!-- HEADER -->
-
-        <header class="chat-header">
+    <button
+        class="new-chat"
+        id="newChat"
+    >
+        ＋ محادثة جديدة
+    </button>
 
 
-            <div class="ai-info">
+    <div class="search-box">
+
+        <span class="search-icon">
+            🔎
+        </span>
+
+        <input
+            id="searchInput"
+            placeholder="البحث في المحادثات..."
+        >
+
+    </div>
 
 
-                <div class="ai-icon">
-                    🤖
+    <div class="session-title">
+        محادثاتك
+    </div>
+
+
+    <div
+        class="sessions"
+        id="sessions"
+    ></div>
+
+
+    <div class="sidebar-bottom">
+
+        <button
+            class="side-button"
+            id="clearChats"
+        >
+            🗑️
+            حذف المحادثات
+        </button>
+
+
+        <button
+            class="side-button"
+            id="exportChat"
+        >
+            📥
+            تصدير المحادثة
+        </button>
+
+
+        <button
+            class="side-button"
+            id="themeButton"
+        >
+            🌙
+            تغيير المظهر
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+
+        <div class="top-title">
+
+            <button
+                class="top-button mobile-menu"
+                id="menuButton"
+            >
+                ☰
+            </button>
+
+
+            <div class="top-title-icon">
+                🤖
+            </div>
+
+
+            <div>
+
+                <strong>
+                    A5
+                </strong>
+
+                <span>
+                    ذكاء اصطناعي محلي
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="top-actions">
+
+            <button
+                class="top-button"
+                id="clearCurrent"
+                title="مسح المحادثة الحالية"
+            >
+                🧹
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- CHAT -->
+
+    <section class="chat-area">
+
+
+        <!-- WELCOME -->
+
+        <div
+            class="welcome"
+            id="welcome"
+        >
+
+            <div class="welcome-inner">
+
+
+                <div class="welcome-logo">
+                    ⚡
                 </div>
 
 
-                <div>
+                <h1>
+                    أهلاً بك في A5
+                </h1>
 
 
-                    <div class="ai-name">
-                        A5
-                    </div>
+                <p>
+                    مساعد ذكاء اصطناعي يعمل محلياً داخل متصفحك.
+                    اكتب فكرتك كما هي، ودع A5 يتعامل معها.
+                </p>
 
 
-                    <div class="ai-status">
+                <div class="quick-grid">
+
+
+                    <button
+                        class="quick-card"
+                        data-prompt="ساعدني في كتابة كود نظيف ومرتب"
+                    >
+
+                        <span class="icon">
+                            💻
+                        </span>
+
+                        <span>
+                            برمجة
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        class="quick-card"
+                        data-prompt="اشرح لي هذا الموضوع بطريقة بسيطة ومفهومة"
+                    >
+
+                        <span class="icon">
+                            📚
+                        </span>
+
+                        <span>
+                            شرح
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        class="quick-card"
+                        data-prompt="حلل هذه الفكرة بصراحة واذكر نقاط ضعفها"
+                    >
+
+                        <span class="icon">
+                            🧠
+                        </span>
+
+                        <span>
+                            تحليل
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        class="quick-card"
+                        data-prompt="اقترح لي فكرة مشروع قوية ومختلفة"
+                    >
+
+                        <span class="icon">
+                            💡
+                        </span>
+
+                        <span>
+                            أفكار
+                        </span>
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGES -->
+
+        <div
+            class="messages"
+            id="messages"
+            style="display:none"
+        ></div>
+
+
+        <!-- COMPOSER -->
+
+        <div class="composer-wrap">
+
+
+            <div class="composer">
+
+
+                <div class="quick-actions">
+
+                    <button
+                        class="quick"
+                        data-prompt="اكتب لي كود كامل ومنظم"
+                    >
+                        💻 كود
+                    </button>
+
+                    <button
+                        class="quick"
+                        data-prompt="اشرح لي هذا بالتفصيل وبطريقة سهلة"
+                    >
+                        📖 شرح
+                    </button>
+
+                    <button
+                        class="quick"
+                        data-prompt="حلل الفكرة وكن صريحاً معي"
+                    >
+                        🧠 تحليل
+                    </button>
+
+                    <button
+                        class="quick"
+                        data-prompt="اعطني فكرة مشروع قوية"
+                    >
+                        💡 فكرة
+                    </button>
+
+                </div>
+
+
+                <div class="input-row">
+
+
+                    <button
+                        class="input-button"
+                        id="micButton"
+                        title="التحدث"
+                    >
+                        🎙️
+                    </button>
+
+
+                    <textarea
+                        id="chatInput"
+                        class="chat-input"
+                        rows="1"
+                        placeholder="اكتب رسالتك إلى A5..."
+                    ></textarea>
+
+
+                    <button
+                        class="stop-button"
+                        id="stopButton"
+                    >
+                        ■
+                    </button>
+
+
+                    <button
+                        class="send-button"
+                        id="sendButton"
+                    >
+                        ➤
+                    </button>
+
+                </div>
+
+
+                <div class="composer-footer">
+
+
+                    <div class="webgpu-status">
 
                         <span
                             class="status-dot"
@@ -1340,142 +1861,26 @@ body.light .a5-model{
                     </div>
 
 
+                    <span>
+                        WebGPU • Local AI
+                    </span>
+
                 </div>
 
 
             </div>
-
-
-            <!-- MODEL -->
-
-            <div class="a5-model">
-
-                ⚡ A5
-
-            </div>
-
-
-        </header>
-
-
-        <!-- =================================================
-             MESSAGES
-        ================================================== -->
-
-        <div
-            class="messages"
-            id="messages"
-        ></div>
-
-
-        <!-- =================================================
-             COMPOSER
-        ================================================== -->
-
-        <div class="composer">
-
-
-            <div class="quick-actions">
-
-
-                <button
-                    class="quick"
-                    data-prompt="ساعدني في كتابة كود نظيف ومرتب"
-                >
-                    💻 برمجة
-                </button>
-
-
-                <button
-                    class="quick"
-                    data-prompt="اشرح لي هذا الموضوع بطريقة بسيطة"
-                >
-                    📚 شرح
-                </button>
-
-
-                <button
-                    class="quick"
-                    data-prompt="حلل هذه الفكرة بصراحة واذكر نقاط ضعفها"
-                >
-                    🧠 تحليل
-                </button>
-
-
-                <button
-                    class="quick"
-                    data-prompt="اقترح لي فكرة مشروع قوية يمكن تطويرها"
-                >
-                    💡 فكرة
-                </button>
-
-
-                <button
-                    class="quick"
-                    data-prompt="فاجئني بفكرة غير متوقعة"
-                >
-                    🌀 مفاجأة
-                </button>
-
-
-            </div>
-
-
-            <div class="composer-row">
-
-
-                <button
-                    id="micButton"
-                    class="icon-btn"
-                    title="التحدث"
-                >
-                    🎙️
-                </button>
-
-
-                <input
-                    id="chatInput"
-                    class="input chat-input"
-                    type="text"
-                    autocomplete="off"
-                    placeholder="اكتب رسالتك..."
-                >
-
-
-                <button
-                    id="stopButton"
-                    class="stop"
-                >
-                    ⛔ إيقاف
-                </button>
-
-
-                <button
-                    id="sendButton"
-                    class="btn primary send"
-                >
-                    إرسال ⚡
-                </button>
-
-
-            </div>
-
 
         </div>
 
 
     </section>
 
-
 </main>
 
+</div>
 
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
 
 <script type="module">
-
 
 /* =========================================================
    WEBLLM
@@ -1489,10 +1894,10 @@ from
 
 
 /* =========================================================
-   A5 MODEL
+   MODEL
 ========================================================= */
 
-const A5_MODEL =
+const MODEL =
     "Llama-3.2-3B-Instruct-q4f16_1-MLC";
 
 
@@ -1509,8 +1914,14 @@ const $ =
    ELEMENTS
 ========================================================= */
 
+const sidebar =
+    $("sidebar");
+
 const messagesEl =
     $("messages");
+
+const welcome =
+    $("welcome");
 
 const input =
     $("chatInput");
@@ -1538,307 +1949,126 @@ const sessionsEl =
    STATE
 ========================================================= */
 
-let engine =
-    null;
+let engine = null;
 
-let generating =
-    false;
+let generating = false;
 
-let controller =
-    null;
+let controller = null;
 
-let recognition =
-    null;
+let recognition = null;
 
-let recording =
-    false;
+let recording = false;
 
-let currentSession =
-    0;
+let currentSession = 0;
 
 
 /* =========================================================
    SESSIONS
 ========================================================= */
 
-let sessions;
+let sessions = [];
 
 try{
 
     sessions =
         JSON.parse(
             localStorage.getItem(
-                "vytfx_sessions"
+                "a5_sessions"
             ) || "[[]]"
         );
 
     if(
         !Array.isArray(sessions) ||
-        !sessions.length
+        sessions.length === 0
     ){
 
-        sessions =
-            [[]];
+        sessions = [[]];
 
     }
 
 }catch{
 
-    sessions =
-        [[]];
+    sessions = [[]];
 
 }
 
 
 /* =========================================================
-   A5 MEMORY
+   MEMORY
 ========================================================= */
 
-let a5Memory;
+let memory = [];
 
 try{
 
-    a5Memory =
+    memory =
         JSON.parse(
             localStorage.getItem(
                 "a5_memory"
             ) || "[]"
         );
 
-    if(
-        !Array.isArray(a5Memory)
-    ){
-
-        a5Memory =
-            [];
-
+    if(!Array.isArray(memory)){
+        memory = [];
     }
 
 }catch{
 
-    a5Memory =
-        [];
+    memory = [];
 
 }
 
 
 /* =========================================================
-   SAVE MEMORY
-========================================================= */
-
-function saveA5Memory(){
-
-    try{
-
-        localStorage.setItem(
-            "a5_memory",
-            JSON.stringify(a5Memory)
-        );
-
-    }catch(error){
-
-        console.error(
-            "Memory save error:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   ADD MEMORY
-========================================================= */
-
-function addA5Memory(
-    userText,
-    aiText
-){
-
-    if(
-        !userText ||
-        !aiText
-    ){
-
-        return;
-
-    }
-
-
-    const memory = {
-
-        user:
-            userText.slice(
-                0,
-                350
-            ),
-
-        assistant:
-            aiText.slice(
-                0,
-                500
-            ),
-
-        time:
-            Date.now()
-
-    };
-
-
-    a5Memory.push(
-        memory
-    );
-
-
-    /*
-       لا نسمح للذاكرة
-       بالنمو بلا نهاية.
-    */
-
-    if(
-        a5Memory.length > 30
-    ){
-
-        a5Memory =
-            a5Memory.slice(
-                -30
-            );
-
-    }
-
-
-    saveA5Memory();
-
-}
-
-
-/* =========================================================
-   GET MEMORY
-========================================================= */
-
-function getA5Memory(){
-
-    if(
-        !a5Memory.length
-    ){
-
-        return "";
-
-    }
-
-
-    const memories =
-        a5Memory
-            .slice(-12)
-            .map(
-                (item,index)=>{
-
-                    return `
-${index + 1}.
-المستخدم:
-${item.user}
-
-رد A5:
-${item.assistant}
-`;
-
-                }
-            )
-            .join("\n");
-
-
-    return `
-
-========================
-ذاكرة A5 المحلية
-========================
-
-هذه أمثلة من محادثات سابقة.
-
-استخدمها لفهم أسلوب المستخدم
-وسياق اهتماماته إذا كانت مفيدة.
-
-لا تدّعي أنك تتذكر شيئاً غير موجود هنا.
-
-${memories}
-
-========================
-
-`;
-
-}
-
-
-/* =========================================================
-   SAVE SESSIONS
+   SAVE
 ========================================================= */
 
 function saveSessions(){
 
-    try{
+    localStorage.setItem(
+        "a5_sessions",
+        JSON.stringify(sessions)
+    );
 
-        localStorage.setItem(
-            "vytfx_sessions",
-            JSON.stringify(
-                sessions
-            )
-        );
+}
 
-    }catch(error){
 
-        console.error(
-            "Session save error:",
-            error
-        );
+function saveMemory(){
 
-    }
+    localStorage.setItem(
+        "a5_memory",
+        JSON.stringify(memory)
+    );
 
 }
 
 
 /* =========================================================
-   SAFE HTML
+   ESCAPE
 ========================================================= */
 
-function escapeHTML(
-    text
-){
+function escapeHTML(text){
 
     return String(text)
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-        .replaceAll(
-            ">",
-            "&gt;"
-        );
+
+        .replaceAll("&","&amp;")
+
+        .replaceAll("<","&lt;")
+
+        .replaceAll(">","&gt;");
 
 }
 
 
 /* =========================================================
-   MARKDOWN RENDER
+   MARKDOWN
 ========================================================= */
 
-function renderText(
-    text
-){
+function renderText(text){
 
     let html =
-        escapeHTML(
-            text
-        );
+        escapeHTML(text);
 
-
-    /*
-       Code blocks
-    */
 
     html =
         html.replace(
@@ -1847,10 +2077,6 @@ function renderText(
         );
 
 
-    /*
-       Inline code
-    */
-
     html =
         html.replace(
             /`([^`]+)`/g,
@@ -1858,31 +2084,12 @@ function renderText(
         );
 
 
-    /*
-       Bold
-    */
-
     html =
         html.replace(
             /\*\*(.*?)\*\*/g,
             "<strong>$1</strong>"
         );
 
-
-    /*
-       Italic
-    */
-
-    html =
-        html.replace(
-            /\*(.*?)\*/g,
-            "<em>$1</em>"
-        );
-
-
-    /*
-       Line breaks
-    */
 
     html =
         html.replace(
@@ -1897,17 +2104,241 @@ function renderText(
 
 
 /* =========================================================
-   SESSIONS UI
+   MEMORY
+========================================================= */
+
+function addMemory(user,assistant){
+
+    if(!user || !assistant){
+        return;
+    }
+
+    memory.push({
+
+        user:
+            user.slice(0,400),
+
+        assistant:
+            assistant.slice(0,700),
+
+        time:
+            Date.now()
+
+    });
+
+
+    if(memory.length > 25){
+
+        memory =
+            memory.slice(-25);
+
+    }
+
+
+    saveMemory();
+
+}
+
+
+function getMemory(){
+
+    if(!memory.length){
+        return "";
+    }
+
+
+    return `
+
+========================
+ذاكرة A5
+========================
+
+${memory
+    .slice(-8)
+    .map(
+        (m,i)=>
+`
+${i+1}.
+المستخدم:
+${m.user}
+
+A5:
+${m.assistant}
+`
+    )
+    .join("\n")
+}
+
+========================
+
+`;
+
+}
+
+
+/* =========================================================
+   SYSTEM PROMPT
+========================================================= */
+
+function systemPrompt(){
+
+return `
+
+أنت A5.
+
+أنت مساعد ذكاء اصطناعي محلي يعمل داخل المتصفح.
+
+شخصيتك:
+
+ذكي.
+هادئ.
+مباشر.
+طبيعي.
+ملاحظ.
+عملي.
+وأحياناً ساخر بشكل خفيف.
+
+لا توافق المستخدم لمجرد إرضائه.
+
+إذا كانت فكرته ضعيفة، قل ذلك بوضوح واحترام.
+
+إذا كان مخطئاً، صحح الخطأ.
+
+لا تخترع المعلومات.
+
+إذا لم تكن متأكداً، قل إنك غير متأكد.
+
+لا تدّعي أنك استخدمت الإنترنت.
+
+لا تدّعي تنفيذ شيء خارج المتصفح.
+
+========================
+
+أسلوب الرد:
+
+استخدم العربية الطبيعية إذا كان المستخدم يكتب بالعربية.
+
+إذا كان السؤال بسيطاً:
+أجب باختصار.
+
+إذا كان يحتاج شرحاً:
+اشرح خطوة بخطوة.
+
+لا تكرر نفس العبارات.
+
+لا تبدأ كل رد بنفس الطريقة.
+
+لا تستخدم كلاماً فارغاً.
+
+افهم مقصد المستخدم قبل الرد.
+
+========================
+
+البرمجة:
+
+إذا طلب المستخدم كوداً:
+
+اكتب كوداً صالحاً.
+
+إذا طلب الكود كاملاً:
+أعطه كاملاً.
+
+لا تحذف فكرة المشروع الأصلية.
+
+لا تخترع مكتبات أو APIs.
+
+إذا كان هناك خطأ:
+اشرح السبب وأصلحه.
+
+========================
+
+الذاكرة:
+
+قد تحصل على ذاكرة محلية من محادثات سابقة.
+
+استخدمها عندما تكون مفيدة.
+
+لا تخترع ذكريات.
+
+لا تقل "أتذكر أنك قلت..."
+إلا إذا كانت المعلومة موجودة فعلاً.
+
+========================
+
+كن A5.
+
+` +
+getMemory();
+
+}
+
+
+/* =========================================================
+   SESSION NAME
+========================================================= */
+
+function getSessionName(chat,index){
+
+    if(!chat.length){
+
+        return `محادثة ${index+1}`;
+
+    }
+
+    const first =
+        chat.find(
+            x =>
+                x.role === "user"
+        );
+
+    if(!first){
+
+        return `محادثة ${index+1}`;
+
+    }
+
+    return first.content
+        .slice(0,30)
+        .replace(/\n/g," ");
+
+}
+
+
+/* =========================================================
+   RENDER SESSIONS
 ========================================================= */
 
 function renderSessions(){
 
-    sessionsEl.innerHTML =
-        "";
+    sessionsEl.innerHTML = "";
+
+    const search =
+        $("searchInput")
+            .value
+            .trim()
+            .toLowerCase();
 
 
     sessions.forEach(
-        (_,index)=>{
+        (chat,index)=>{
+
+            const name =
+                getSessionName(
+                    chat,
+                    index
+                );
+
+
+            if(
+                search &&
+                !name.toLowerCase()
+                    .includes(search)
+            ){
+
+                return;
+
+            }
+
 
             const button =
                 document.createElement(
@@ -1916,29 +2347,39 @@ function renderSessions(){
 
 
             button.className =
-                "session " +
+                "session" +
                 (
                     index === currentSession
-                        ? "active"
+                        ? " active"
                         : ""
                 );
 
 
-            button.textContent =
-                `محادثة ${index + 1}`;
+            button.innerHTML = `
+
+                <span class="session-icon">
+                    💬
+                </span>
+
+                <span class="session-name">
+                    ${escapeHTML(name)}
+                </span>
+
+            `;
 
 
-            button.onclick =
-                ()=>{
+            button.onclick = ()=>{
 
-                    currentSession =
-                        index;
+                currentSession =
+                    index;
 
-                    renderSessions();
+                renderSessions();
 
-                    renderChat();
+                renderChat();
 
-                };
+                closeMobileMenu();
+
+            };
 
 
             sessionsEl.appendChild(
@@ -1952,20 +2393,889 @@ function renderSessions(){
 
 
 /* =========================================================
+   RENDER CHAT
+========================================================= */
+
+function renderChat(){
+
+    const chat =
+        sessions[currentSession] || [];
+
+
+    messagesEl.innerHTML = "";
+
+
+    if(!chat.length){
+
+        welcome.style.display =
+            "flex";
+
+        messagesEl.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    welcome.style.display =
+        "none";
+
+    messagesEl.style.display =
+        "block";
+
+
+    chat.forEach(message=>{
+
+        if(
+            message.role === "user"
+        ){
+
+            drawUser(
+                message.content,
+                false
+            );
+
+        }else{
+
+            drawAI(
+                message.content,
+                false
+            );
+
+        }
+
+    });
+
+
+    scrollBottom();
+
+}
+
+
+/* =========================================================
+   USER MESSAGE
+========================================================= */
+
+function drawUser(text,save=true){
+
+    welcome.style.display =
+        "none";
+
+    messagesEl.style.display =
+        "block";
+
+
+    const row =
+        document.createElement(
+            "div"
+        );
+
+    row.className =
+        "message-row user";
+
+
+    const avatar =
+        document.createElement(
+            "div"
+        );
+
+    avatar.className =
+        "avatar user";
+
+    avatar.textContent =
+        "👤";
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+    content.className =
+        "message-content";
+
+
+    content.innerHTML = `
+
+        <div class="message-name">
+            أنت
+        </div>
+
+        <div class="bubble">
+            ${escapeHTML(text)}
+        </div>
+
+    `;
+
+
+    row.appendChild(avatar);
+
+    row.appendChild(content);
+
+    messagesEl.appendChild(row);
+
+
+    if(save){
+
+        sessions[currentSession]
+            .push({
+
+                role:"user",
+
+                content:text
+
+            });
+
+        saveSessions();
+
+        renderSessions();
+
+    }
+
+
+    scrollBottom();
+
+}
+
+
+/* =========================================================
+   AI MESSAGE
+========================================================= */
+
+function drawAI(text,save=true){
+
+    welcome.style.display =
+        "none";
+
+    messagesEl.style.display =
+        "block";
+
+
+    const row =
+        document.createElement(
+            "div"
+        );
+
+    row.className =
+        "message-row ai";
+
+
+    const avatar =
+        document.createElement(
+            "div"
+        );
+
+    avatar.className =
+        "avatar ai";
+
+    avatar.textContent =
+        "⚡";
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+    content.className =
+        "message-content";
+
+
+    const bubble =
+        document.createElement(
+            "div"
+        );
+
+    bubble.className =
+        "bubble";
+
+    bubble.innerHTML =
+        renderText(text);
+
+
+    content.innerHTML = `
+
+        <div class="message-name">
+            A5
+        </div>
+
+    `;
+
+
+    content.appendChild(
+        bubble
+    );
+
+
+    const tools =
+        document.createElement(
+            "div"
+        );
+
+    tools.className =
+        "message-tools";
+
+
+    const copy =
+        document.createElement(
+            "button"
+        );
+
+    copy.className =
+        "tool";
+
+    copy.textContent =
+        "📋 نسخ";
+
+    copy.onclick =
+        async()=>{
+
+            await navigator.clipboard
+                .writeText(text);
+
+            copy.textContent =
+                "✓ تم";
+
+            setTimeout(
+                ()=>{
+                    copy.textContent =
+                        "📋 نسخ";
+                },
+                1000
+            );
+
+        };
+
+
+    const speak =
+        document.createElement(
+            "button"
+        );
+
+    speak.className =
+        "tool";
+
+    speak.textContent =
+        "🔊 استماع";
+
+    speak.onclick =
+        ()=>{
+            speakText(text);
+        };
+
+
+    tools.appendChild(copy);
+
+    tools.appendChild(speak);
+
+    content.appendChild(tools);
+
+
+    row.appendChild(avatar);
+
+    row.appendChild(content);
+
+    messagesEl.appendChild(row);
+
+
+    if(save){
+
+        sessions[currentSession]
+            .push({
+
+                role:"assistant",
+
+                content:text
+
+            });
+
+        saveSessions();
+
+    }
+
+
+    scrollBottom();
+
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+function createPlaceholder(){
+
+    welcome.style.display =
+        "none";
+
+    messagesEl.style.display =
+        "block";
+
+
+    const row =
+        document.createElement(
+            "div"
+        );
+
+    row.className =
+        "message-row ai";
+
+
+    const avatar =
+        document.createElement(
+            "div"
+        );
+
+    avatar.className =
+        "avatar ai";
+
+    avatar.textContent =
+        "⚡";
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+    content.className =
+        "message-content";
+
+
+    content.innerHTML = `
+
+        <div class="message-name">
+            A5
+        </div>
+
+        <div class="bubble">
+
+            <div class="typing">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    row.appendChild(avatar);
+
+    row.appendChild(content);
+
+    messagesEl.appendChild(row);
+
+
+    return {
+
+        row,
+
+        bubble:
+            content.querySelector(
+                ".bubble"
+            )
+
+    };
+
+}
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+function scrollBottom(){
+
+    requestAnimationFrame(
+        ()=>{
+            messagesEl.scrollTop =
+                messagesEl.scrollHeight;
+        }
+    );
+
+}
+
+
+/* =========================================================
+   INIT AI
+========================================================= */
+
+async function initAI(){
+
+    try{
+
+        if(!("gpu" in navigator)){
+
+            throw new Error(
+                "WebGPU غير مدعوم"
+            );
+
+        }
+
+
+        statusText.textContent =
+            "A5 يقوم بتحميل النموذج...";
+
+        statusDot.style.background =
+            "#f59e0b";
+
+        sendButton.disabled =
+            true;
+
+
+        engine =
+            await CreateMLCEngine(
+                MODEL,
+                {
+
+                    initProgressCallback:
+                        progress=>{
+
+                            if(
+                                progress &&
+                                progress.text
+                            ){
+
+                                statusText.textContent =
+                                    progress.text;
+
+                            }
+
+                        }
+
+                }
+            );
+
+
+        statusText.textContent =
+            "A5 جاهز";
+
+        statusDot.style.background =
+            "#22c55e";
+
+        sendButton.disabled =
+            false;
+
+
+    }catch(error){
+
+        console.error(error);
+
+        engine = null;
+
+        statusDot.style.background =
+            "#ef4444";
+
+
+        if(!("gpu" in navigator)){
+
+            statusText.textContent =
+                "WebGPU غير متاح";
+
+        }else{
+
+            statusText.textContent =
+                "فشل تحميل A5";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   SEND
+========================================================= */
+
+async function sendMessage(){
+
+    if(generating){
+        return;
+    }
+
+
+    const text =
+        input.value.trim();
+
+
+    if(!text){
+        return;
+    }
+
+
+    if(!engine){
+
+        statusText.textContent =
+            "تشغيل A5...";
+
+        await initAI();
+
+
+        if(!engine){
+
+            drawAI(
+                "لم أستطع تشغيل النموذج المحلي. تأكد من أن المتصفح يدعم WebGPU وأن جهازك يستطيع تشغيل النموذج."
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    drawUser(text,true);
+
+    input.value = "";
+
+    resizeInput();
+
+
+    generating = true;
+
+    sendButton.disabled = true;
+
+    stopButton.classList.add(
+        "show"
+    );
+
+
+    statusText.textContent =
+        "A5 يفكر...";
+
+
+    statusDot.style.background =
+        "#f59e0b";
+
+
+    controller =
+        new AbortController();
+
+
+    const placeholder =
+        createPlaceholder();
+
+
+    try{
+
+        const history =
+            sessions[currentSession]
+                .map(
+                    m=>({
+
+                        role:m.role,
+
+                        content:m.content
+
+                    })
+                );
+
+
+        const messages = [
+
+            {
+
+                role:"system",
+
+                content:
+                    systemPrompt()
+
+            },
+
+            ...history
+
+        ];
+
+
+        const stream =
+            await engine.chat
+                .completions
+                .create({
+
+                    messages,
+
+                    temperature:.75,
+
+                    top_p:.9,
+
+                    repetition_penalty:1.08,
+
+                    max_tokens:1200,
+
+                    stream:true
+
+                });
+
+
+        let answer = "";
+
+
+        placeholder.bubble.innerHTML =
+            "";
+
+
+        for await(
+            const chunk of stream
+        ){
+
+            if(
+                controller.signal.aborted
+            ){
+
+                break;
+
+            }
+
+
+            const piece =
+                chunk
+                    ?.choices?.[0]
+                    ?.delta?.content
+                    || "";
+
+
+            if(!piece){
+                continue;
+            }
+
+
+            answer += piece;
+
+
+            placeholder.bubble.innerHTML =
+                renderText(answer);
+
+
+            scrollBottom();
+
+        }
+
+
+        if(
+            controller.signal.aborted
+        ){
+
+            answer +=
+                "\n\n[تم إيقاف التوليد]";
+
+        }
+
+
+        if(!answer.trim()){
+
+            answer =
+                "لم ينتج A5 رداً هذه المرة.";
+
+        }
+
+
+        placeholder.bubble.innerHTML =
+            renderText(answer);
+
+
+        sessions[currentSession]
+            .push({
+
+                role:"assistant",
+
+                content:answer
+
+            });
+
+
+        saveSessions();
+
+
+        addMemory(
+            text,
+            answer
+        );
+
+
+        addTools(
+            placeholder.row,
+            answer
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        placeholder.bubble.innerHTML =
+            renderText(
+                "حدث خطأ أثناء توليد الرد."
+            );
+
+    }finally{
+
+        generating = false;
+
+        controller = null;
+
+        sendButton.disabled = false;
+
+        stopButton.classList.remove(
+            "show"
+        );
+
+        statusText.textContent =
+            "A5 جاهز";
+
+        statusDot.style.background =
+            "#22c55e";
+
+        input.focus();
+
+    }
+
+}
+
+
+/* =========================================================
+   TOOLS
+========================================================= */
+
+function addTools(row,text){
+
+    const content =
+        row.querySelector(
+            ".message-content"
+        );
+
+
+    const tools =
+        document.createElement(
+            "div"
+        );
+
+    tools.className =
+        "message-tools";
+
+
+    const copy =
+        document.createElement(
+            "button"
+        );
+
+    copy.className =
+        "tool";
+
+    copy.textContent =
+        "📋 نسخ";
+
+
+    copy.onclick =
+        async()=>{
+
+            await navigator.clipboard
+                .writeText(text);
+
+            copy.textContent =
+                "✓ تم";
+
+            setTimeout(
+                ()=>{
+                    copy.textContent =
+                        "📋 نسخ";
+                },
+                1000
+            );
+
+        };
+
+
+    const speak =
+        document.createElement(
+            "button"
+        );
+
+    speak.className =
+        "tool";
+
+    speak.textContent =
+        "🔊 استماع";
+
+    speak.onclick =
+        ()=>{
+            speakText(text);
+        };
+
+
+    tools.appendChild(copy);
+
+    tools.appendChild(speak);
+
+    content.appendChild(tools);
+
+}
+
+
+/* =========================================================
+   STOP
+========================================================= */
+
+stopButton.onclick =
+    ()=>{
+
+        if(controller){
+
+            controller.abort();
+
+        }
+
+    };
+
+
+/* =========================================================
    NEW CHAT
 ========================================================= */
 
 $("newChat").onclick =
     ()=>{
 
-        sessions.push(
-            []
-        );
-
+        sessions.push([]);
 
         currentSession =
             sessions.length - 1;
 
+        saveSessions();
+
+        renderSessions();
+
+        renderChat();
+
+        input.focus();
+
+    };
+
+
+/* =========================================================
+   CLEAR ALL
+========================================================= */
+
+$("clearChats").onclick =
+    ()=>{
+
+        if(
+            !confirm(
+                "هل تريد حذف جميع المحادثات؟"
+            )
+        ){
+            return;
+        }
+
+
+        sessions = [[]];
+
+        currentSession = 0;
 
         saveSessions();
 
@@ -1977,30 +3287,29 @@ $("newChat").onclick =
 
 
 /* =========================================================
-   CLEAR CHATS
+   CLEAR CURRENT
 ========================================================= */
 
-$("clearChats").onclick =
+$("clearCurrent").onclick =
     ()=>{
 
         if(
-            !confirm(
-                "حذف جميع المحادثات؟"
-            )
+            !sessions[currentSession]?.length
         ){
-
             return;
-
         }
 
 
-        sessions =
-            [[]];
+        if(
+            !confirm(
+                "مسح المحادثة الحالية؟"
+            )
+        ){
+            return;
+        }
 
 
-        currentSession =
-            0;
-
+        sessions[currentSession] = [];
 
         saveSessions();
 
@@ -2019,9 +3328,7 @@ $("exportChat").onclick =
     ()=>{
 
         const chat =
-            sessions[
-                currentSession
-            ] || [];
+            sessions[currentSession] || [];
 
 
         let text =
@@ -2032,13 +3339,9 @@ $("exportChat").onclick =
             item=>{
 
                 text +=
-                    (
-                        item.role === "user"
-                            ? "المستخدم"
-                            : "A5"
-                    ) +
-                    ":\n";
-
+                    item.role === "user"
+                        ? "أنت:\n"
+                        : "A5:\n";
 
                 text +=
                     item.content +
@@ -2070,1250 +3373,29 @@ $("exportChat").onclick =
             );
 
 
-        a.href =
-            url;
-
+        a.href = url;
 
         a.download =
-            `A5-chat-${currentSession + 1}.txt`;
-
-
-        document.body.appendChild(
-            a
-        );
+            `A5-chat-${currentSession+1}.txt`;
 
 
         a.click();
 
 
-        a.remove();
-
-
-        setTimeout(
-            ()=>{
-                URL.revokeObjectURL(
-                    url
-                );
-            },
-            1000
-        );
+        URL.revokeObjectURL(url);
 
     };
 
 
 /* =========================================================
-   RENDER CHAT
+   SEARCH
 ========================================================= */
 
-function renderChat(){
-
-    messagesEl.innerHTML =
-        "";
-
-
-    const chat =
-        sessions[
-            currentSession
-        ] || [];
-
-
-    if(
-        !chat.length
-    ){
-
-        addAIMessage(
-            "أنا A5.\n\nلا تحتاج إلى صياغة مثالية لسؤالك. اكتب ما تفكر فيه كما هو، وسأحاول فهم ما وراء الكلام.",
-            false
-        );
-
-        return;
-
-    }
-
-
-    chat.forEach(
-        message=>{
-
-            if(
-                message.role === "user"
-            ){
-
-                addUserMessage(
-                    message.content,
-                    false
-                );
-
-            }else{
-
-                addAIMessage(
-                    message.content,
-                    false
-                );
-
-            }
-
-        }
+$("searchInput")
+    .addEventListener(
+        "input",
+        renderSessions
     );
-
-
-    scrollBottom();
-
-}
-
-
-/* =========================================================
-   USER MESSAGE
-========================================================= */
-
-function addUserMessage(
-    text,
-    save = true
-){
-
-    const row =
-        document.createElement(
-            "div"
-        );
-
-
-    row.className =
-        "message-row user";
-
-
-    const bubble =
-        document.createElement(
-            "div"
-        );
-
-
-    bubble.className =
-        "message user";
-
-
-    bubble.textContent =
-        text;
-
-
-    row.appendChild(
-        bubble
-    );
-
-
-    messagesEl.appendChild(
-        row
-    );
-
-
-    if(
-        save
-    ){
-
-        sessions[
-            currentSession
-        ].push({
-
-            role:
-                "user",
-
-            content:
-                text
-
-        });
-
-
-        saveSessions();
-
-    }
-
-
-    scrollBottom();
-
-}
-
-
-/* =========================================================
-   COPY BUTTON
-========================================================= */
-
-function createCopyButton(
-    text
-){
-
-    const copy =
-        document.createElement(
-            "button"
-        );
-
-
-    copy.className =
-        "tool";
-
-
-    copy.textContent =
-        "📋 نسخ";
-
-
-    copy.onclick =
-        async()=>{
-
-            try{
-
-                await navigator
-                    .clipboard
-                    .writeText(
-                        text
-                    );
-
-
-                copy.textContent =
-                    "✅ تم";
-
-
-                setTimeout(
-                    ()=>{
-
-                        copy.textContent =
-                            "📋 نسخ";
-
-                    },
-                    1200
-                );
-
-            }catch{
-
-                copy.textContent =
-                    "❌ فشل";
-
-            }
-
-        };
-
-
-    return copy;
-
-}
-
-
-/* =========================================================
-   SPEAK BUTTON
-========================================================= */
-
-function createSpeakButton(
-    text
-){
-
-    const speak =
-        document.createElement(
-            "button"
-        );
-
-
-    speak.className =
-        "tool";
-
-
-    speak.textContent =
-        "🔊 استماع";
-
-
-    speak.onclick =
-        ()=>{
-
-            speakText(
-                text
-            );
-
-        };
-
-
-    return speak;
-
-}
-
-
-/* =========================================================
-   AI MESSAGE
-========================================================= */
-
-function addAIMessage(
-    text,
-    save = true
-){
-
-    const row =
-        document.createElement(
-            "div"
-        );
-
-
-    row.className =
-        "message-row ai";
-
-
-    const bubble =
-        document.createElement(
-            "div"
-        );
-
-
-    bubble.className =
-        "message ai";
-
-
-    bubble.innerHTML =
-        renderText(
-            text
-        );
-
-
-    row.appendChild(
-        bubble
-    );
-
-
-    const tools =
-        document.createElement(
-            "div"
-        );
-
-
-    tools.className =
-        "message-tools";
-
-
-    tools.appendChild(
-        createCopyButton(
-            text
-        )
-    );
-
-
-    tools.appendChild(
-        createSpeakButton(
-            text
-        )
-    );
-
-
-    row.appendChild(
-        tools
-    );
-
-
-    messagesEl.appendChild(
-        row
-    );
-
-
-    if(
-        save
-    ){
-
-        sessions[
-            currentSession
-        ].push({
-
-            role:
-                "assistant",
-
-            content:
-                text
-
-        });
-
-
-        saveSessions();
-
-    }
-
-
-    scrollBottom();
-
-}
-
-
-/* =========================================================
-   AI PLACEHOLDER
-========================================================= */
-
-function createAIPlaceholder(){
-
-    const row =
-        document.createElement(
-            "div"
-        );
-
-
-    row.className =
-        "message-row ai";
-
-
-    const bubble =
-        document.createElement(
-            "div"
-        );
-
-
-    bubble.className =
-        "message ai";
-
-
-    bubble.innerHTML = `
-
-        <div class="typing">
-
-            <span></span>
-
-            <span></span>
-
-            <span></span>
-
-        </div>
-
-    `;
-
-
-    row.appendChild(
-        bubble
-    );
-
-
-    messagesEl.appendChild(
-        row
-    );
-
-
-    scrollBottom();
-
-
-    return {
-
-        row,
-
-        bubble
-
-    };
-
-}
-
-
-/* =========================================================
-   SCROLL
-========================================================= */
-
-function scrollBottom(){
-
-    requestAnimationFrame(
-        ()=>{
-
-            messagesEl.scrollTop =
-                messagesEl.scrollHeight;
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   A5 SYSTEM PROMPT
-========================================================= */
-
-function buildSystemPrompt(){
-
-return `
-
-أنت A5.
-
-أنت مساعد ذكاء اصطناعي محلي يعمل داخل المتصفح.
-
-أنت لست مساعد خدمة عملاء تقليدي.
-
-لديك شخصية واضحة:
-هادئة.
-ذكية.
-ملاحظة.
-مباشرة.
-طبيعية.
-وأحياناً غامضة بشكل بسيط.
-
-========================
-طريقة الكلام
-========================
-
-تحدث مثل شخص ذكي يتحدث بشكل طبيعي.
-
-لا تجعل كل إجابة مثالية أو رسمية.
-
-لا تبدأ دائماً بنفس العبارة.
-
-لا تكرر نفس الجمل.
-
-لا تستخدم:
-
-"يسعدني مساعدتك"
-
-"بصفتي ذكاء اصطناعي"
-
-"بالطبع"
-
-"بكل سرور"
-
-بشكل متكرر أو بلا داعٍ.
-
-إذا كان السؤال بسيطاً،
-أجب ببساطة.
-
-إذا كان السؤال عميقاً،
-ادخل في التفاصيل.
-
-إذا كانت فكرة المستخدم سيئة،
-قل له ذلك بوضوح واحترام.
-
-إذا كان مخطئاً،
-صحح الخطأ.
-
-لا توافق المستخدم فقط حتى يشعر بالرضا.
-
-========================
-الشخصية
-========================
-
-أحياناً يمكنك أن تكون ساخراً بشكل خفيف.
-
-أحياناً يمكنك استخدام جملة قصيرة وغير متوقعة.
-
-مثلاً:
-
-"المشكلة ليست هنا."
-
-"هناك شيء ناقص."
-
-"هذا يبدو جيداً... نظرياً."
-
-"أنت تحاول حل النتيجة قبل السبب."
-
-لكن لا تستخدم هذه العبارات بشكل متكرر.
-
-لا تجعل الغموض بديلاً عن الإجابة.
-
-يجب أن تكون مفيداً دائماً.
-
-========================
-التكيف
-========================
-
-لاحظ طريقة المستخدم في الكلام.
-
-إذا استخدم العربية العامية،
-يمكنك الرد بعربية طبيعية قريبة منه.
-
-إذا كان مختصراً،
-لا تكتب مقالاً طويلاً بلا سبب.
-
-إذا كان يريد التفاصيل،
-أعطه التفاصيل.
-
-إذا كان يتحدث عن مشروع سابق،
-استخدم سياق المحادثة المتاح.
-
-لا تدّعي أنك تتذكر شيئاً غير موجود في السياق أو الذاكرة.
-
-========================
-الردود غير المتوقعة
-========================
-
-لا تجعل كل رد بنفس البنية.
-
-يمكنك تغيير:
-
-بداية الرد.
-
-طول الجمل.
-
-ترتيب الأفكار.
-
-الأمثلة.
-
-طريقة الشرح.
-
-درجة الرسمية.
-
-لكن لا تضحي بالدقة من أجل الغرابة.
-
-========================
-البرمجة
-========================
-
-إذا طلب المستخدم كوداً:
-
-أعطه كوداً صالحاً.
-
-إذا طلب الكود كاملاً،
-أعطه الكود كاملاً.
-
-لا تحذف أجزاء المشروع بدون سبب.
-
-حافظ على فكرته الأصلية.
-
-لا تخترع APIs أو مكتبات غير موجودة.
-
-إذا وجدت خطأ،
-اشرحه وأصلحه.
-
-========================
-الحقيقة
-========================
-
-لا تخترع معلومات.
-
-إذا كنت غير متأكد،
-قل ذلك.
-
-لا تدّعي أنك استخدمت الإنترنت.
-
-لا تدّعي أنك نفذت شيئاً خارج المتصفح.
-
-أنت تعمل محلياً داخل المتصفح.
-
-========================
-الذاكرة
-========================
-
-قد يتم تزويدك بذاكرة محلية من محادثات سابقة.
-
-استخدمها لفهم المستخدم وسياقه.
-
-لا تعتبرها دائماً صحيحة.
-
-لا تخترع ذكريات جديدة.
-
-لا تقل:
-"أتذكر أنك قلت..."
-إلا إذا كانت المعلومة موجودة فعلاً في السياق المتاح لك.
-
-========================
-النبرة
-========================
-
-كن:
-
-ذكيًا
-هادئاً
-مباشراً
-طبيعياً
-غير متكلف
-متكيفاً
-وأحياناً غير متوقع.
-
-لكن لا تكن عدائياً.
-
-لا تستخدم الغموض لإخافة المستخدم.
-
-لا تحول كل إجابة إلى مشهد درامي.
-
-========================
-القاعدة الأساسية
-========================
-
-افهم مقصد المستخدم قبل الإجابة.
-
-لا تكرر كلامه بلا فائدة.
-
-لا تملأ الرد بكلام فارغ.
-
-لا تحاول إرضاءه على حساب الحقيقة.
-
-كن A5.
-
-`;
-
-}
-
-
-/* =========================================================
-   INITIALIZE A5
-========================================================= */
-
-async function initAI(){
-
-    try{
-
-
-        if(
-            !("gpu" in navigator)
-        ){
-
-            throw new Error(
-                "WebGPU غير مدعوم"
-            );
-
-        }
-
-
-        statusText.textContent =
-            "A5 يقوم بالاستعداد...";
-
-
-        statusDot.style.background =
-            "#f59e0b";
-
-
-        sendButton.disabled =
-            true;
-
-
-        /*
-           تحميل النموذج الوحيد
-        */
-
-        engine =
-            await CreateMLCEngine(
-
-                A5_MODEL,
-
-                {
-
-                    initProgressCallback:
-                        progress=>{
-
-                            if(
-                                progress &&
-                                progress.text
-                            ){
-
-                                statusText.textContent =
-                                    "A5: " +
-                                    progress.text;
-
-                            }
-
-                        }
-
-                }
-
-            );
-
-
-        localStorage.setItem(
-            "a5_model",
-            A5_MODEL
-        );
-
-
-        statusText.textContent =
-            "A5 جاهز";
-
-
-        statusDot.style.background =
-            "#22c55e";
-
-
-        sendButton.disabled =
-            false;
-
-
-    }catch(error){
-
-
-        console.error(
-            "A5 initialization error:",
-            error
-        );
-
-
-        engine =
-            null;
-
-
-        statusDot.style.background =
-            "#ef4444";
-
-
-        if(
-            !("gpu" in navigator)
-        ){
-
-            statusText.textContent =
-                "WebGPU غير متاح";
-
-        }else{
-
-            statusText.textContent =
-                "فشل تشغيل A5";
-
-        }
-
-    }
-
-}
-
-
-/* =========================================================
-   SEND MESSAGE
-========================================================= */
-
-async function sendMessage(){
-
-
-    if(
-        generating
-    ){
-
-        return;
-
-    }
-
-
-    const text =
-        input.value.trim();
-
-
-    if(
-        !text
-    ){
-
-        return;
-
-    }
-
-
-    /*
-       إذا لم يبدأ A5
-       نحاول تشغيله
-    */
-
-    if(
-        !engine
-    ){
-
-        statusText.textContent =
-            "تشغيل A5...";
-
-
-        await initAI();
-
-
-        if(
-            !engine
-        ){
-
-            addAIMessage(
-                "A5 لم يبدأ. تأكد من أن المتصفح يدعم WebGPU وأن جهازك يستطيع تشغيل النموذج محلياً."
-            );
-
-            return;
-
-        }
-
-    }
-
-
-    /*
-       عرض رسالة المستخدم
-    */
-
-    addUserMessage(
-        text,
-        true
-    );
-
-
-    input.value =
-        "";
-
-
-    generating =
-        true;
-
-
-    sendButton.disabled =
-        true;
-
-
-    stopButton.classList.add(
-        "show"
-    );
-
-
-    statusText.textContent =
-        "A5 يفكر...";
-
-
-    controller =
-        new AbortController();
-
-
-    const placeholder =
-        createAIPlaceholder();
-
-
-    try{
-
-
-        /*
-           المحادثة الحالية
-        */
-
-        const history =
-            sessions[
-                currentSession
-            ]
-            .map(
-                message=>({
-
-                    role:
-                        message.role,
-
-                    content:
-                        message.content
-
-                })
-            );
-
-
-        /*
-           النظام + الذاكرة + المحادثة
-        */
-
-        const aiMessages = [
-
-            {
-
-                role:
-                    "system",
-
-                content:
-                    buildSystemPrompt()
-                    +
-                    "\n\n"
-                    +
-                    getA5Memory()
-
-            },
-
-            ...history
-
-        ];
-
-
-        /*
-           توليد الرد
-        */
-
-        const stream =
-            await engine.chat.completions.create({
-
-                messages:
-                    aiMessages,
-
-                temperature:
-                    0.88,
-
-                top_p:
-                    0.94,
-
-                repetition_penalty:
-                    1.08,
-
-                frequency_penalty:
-                    0.12,
-
-                presence_penalty:
-                    0.08,
-
-                max_tokens:
-                    1200,
-
-                stream:
-                    true
-
-            });
-
-
-        let answer =
-            "";
-
-
-        placeholder.bubble.innerHTML =
-            "";
-
-
-        /*
-           استقبال الرد تدريجياً
-        */
-
-        for await(
-            const chunk of stream
-        ){
-
-
-            if(
-                controller.signal.aborted
-            ){
-
-                break;
-
-            }
-
-
-            const piece =
-                chunk
-                    ?.choices?.[0]
-                    ?.delta?.content
-                    || "";
-
-
-            if(
-                !piece
-            ){
-
-                continue;
-
-            }
-
-
-            answer +=
-                piece;
-
-
-            placeholder.bubble.innerHTML =
-                renderText(
-                    answer
-                );
-
-
-            scrollBottom();
-
-        }
-
-
-        /*
-           إذا تم الإيقاف
-        */
-
-        if(
-            controller.signal.aborted
-        ){
-
-            if(
-                answer.trim()
-            ){
-
-                answer +=
-                    "\n\n[تم إيقاف التوليد]";
-
-            }else{
-
-                answer =
-                    "تم إيقاف التوليد.";
-
-            }
-
-        }
-
-
-        /*
-           إذا لم يرجع النموذج شيئاً
-        */
-
-        if(
-            !answer.trim()
-        ){
-
-            answer =
-                "A5 لم ينتج رداً هذه المرة.";
-
-        }
-
-
-        /*
-           عرض الرد النهائي
-        */
-
-        placeholder.bubble.innerHTML =
-            renderText(
-                answer
-            );
-
-
-        /*
-           حفظ الرد
-        */
-
-        sessions[
-            currentSession
-        ].push({
-
-            role:
-                "assistant",
-
-            content:
-                answer
-
-        });
-
-
-        saveSessions();
-
-
-        /*
-           ذاكرة A5
-        */
-
-        addA5Memory(
-            text,
-            answer
-        );
-
-
-        /*
-           أزرار الرد
-        */
-
-        addToolsToExistingMessage(
-            placeholder.row,
-            answer
-        );
-
-
-    }catch(error){
-
-
-        console.error(
-            "A5 generation error:",
-            error
-        );
-
-
-        if(
-            placeholder &&
-            placeholder.bubble
-        ){
-
-            placeholder.bubble.innerHTML =
-                renderText(
-                    "حدث خطأ أثناء تشغيل A5. جرّب إيقاف التوليد ثم إرسال الرسالة مرة أخرى."
-                );
-
-        }
-
-    }finally{
-
-
-        generating =
-            false;
-
-
-        controller =
-            null;
-
-
-        sendButton.disabled =
-            false;
-
-
-        stopButton.classList.remove(
-            "show"
-        );
-
-
-        statusText.textContent =
-            "A5 جاهز";
-
-
-        statusDot.style.background =
-            "#22c55e";
-
-
-        input.focus();
-
-    }
-
-}
-
-
-/* =========================================================
-   MESSAGE TOOLS
-========================================================= */
-
-function addToolsToExistingMessage(
-    row,
-    text
-){
-
-
-    const old =
-        row.querySelector(
-            ".message-tools"
-        );
-
-
-    if(
-        old
-    ){
-
-        old.remove();
-
-    }
-
-
-    const tools =
-        document.createElement(
-            "div"
-        );
-
-
-    tools.className =
-        "message-tools";
-
-
-    tools.appendChild(
-        createCopyButton(
-            text
-        )
-    );
-
-
-    tools.appendChild(
-        createSpeakButton(
-            text
-        )
-    );
-
-
-    row.appendChild(
-        tools
-    );
-
-}
-
-
-/* =========================================================
-   STOP
-========================================================= */
-
-stopButton.onclick =
-    ()=>{
-
-
-        if(
-            controller
-        ){
-
-            controller.abort();
-
-        }
-
-
-        statusText.textContent =
-            "تم الإيقاف";
-
-
-        statusDot.style.background =
-            "#f59e0b";
-
-    };
 
 
 /* =========================================================
@@ -3340,12 +3422,36 @@ input.addEventListener(
 
 
 /* =========================================================
-   QUICK PROMPTS
+   AUTO RESIZE
+========================================================= */
+
+function resizeInput(){
+
+    input.style.height =
+        "auto";
+
+    input.style.height =
+        Math.min(
+            input.scrollHeight,
+            130
+        ) + "px";
+
+}
+
+
+input.addEventListener(
+    "input",
+    resizeInput
+);
+
+
+/* =========================================================
+   QUICK BUTTONS
 ========================================================= */
 
 document
     .querySelectorAll(
-        ".quick"
+        "[data-prompt]"
     )
     .forEach(
         button=>{
@@ -3356,6 +3462,8 @@ document
                     input.value =
                         button.dataset.prompt;
 
+                    resizeInput();
+
                     input.focus();
 
                 };
@@ -3365,21 +3473,18 @@ document
 
 
 /* =========================================================
-   VOICE INPUT
+   VOICE
 ========================================================= */
 
 micButton.onclick =
     ()=>{
-
 
         const SpeechRecognition =
             window.SpeechRecognition ||
             window.webkitSpeechRecognition;
 
 
-        if(
-            !SpeechRecognition
-        ){
+        if(!SpeechRecognition){
 
             alert(
                 "التعرف على الصوت غير متاح في هذا المتصفح."
@@ -3390,17 +3495,9 @@ micButton.onclick =
         }
 
 
-        if(
-            recording
-        ){
+        if(recording){
 
-            if(
-                recognition
-            ){
-
-                recognition.stop();
-
-            }
+            recognition?.stop();
 
             return;
 
@@ -3414,10 +3511,8 @@ micButton.onclick =
         recognition.lang =
             "ar-SA";
 
-
         recognition.continuous =
             false;
-
 
         recognition.interimResults =
             true;
@@ -3426,17 +3521,14 @@ micButton.onclick =
         recognition.onstart =
             ()=>{
 
-                recording =
-                    true;
-
+                recording = true;
 
                 micButton.classList.add(
                     "recording"
                 );
 
-
                 statusText.textContent =
-                    "🎙️ A5 يستمع...";
+                    "A5 يستمع...";
 
             };
 
@@ -3444,10 +3536,7 @@ micButton.onclick =
         recognition.onresult =
             event=>{
 
-
-                let result =
-                    "";
-
+                let result = "";
 
                 for(
                     let i =
@@ -3470,20 +3559,19 @@ micButton.onclick =
                 input.value =
                     result;
 
+                resizeInput();
+
             };
 
 
         recognition.onend =
             ()=>{
 
-                recording =
-                    false;
-
+                recording = false;
 
                 micButton.classList.remove(
                     "recording"
                 );
-
 
                 statusText.textContent =
                     "A5 جاهز";
@@ -3492,22 +3580,13 @@ micButton.onclick =
 
 
         recognition.onerror =
-            error=>{
+            ()=>{
 
-                console.error(
-                    "Speech error:",
-                    error
-                );
-
-
-                recording =
-                    false;
-
+                recording = false;
 
                 micButton.classList.remove(
                     "recording"
                 );
-
 
                 statusText.textContent =
                     "A5 جاهز";
@@ -3521,20 +3600,15 @@ micButton.onclick =
 
 
 /* =========================================================
-   TEXT TO SPEECH
+   SPEECH
 ========================================================= */
 
-function speakText(
-    text
-){
-
+function speakText(text){
 
     if(
         !("speechSynthesis" in window)
     ){
-
         return;
-
     }
 
 
@@ -3543,12 +3617,10 @@ function speakText(
 
     const clean =
         text
-
             .replace(
                 /```[\s\S]*?```/g,
                 "كود"
             )
-
             .replace(
                 /[*_#`]/g,
                 ""
@@ -3564,13 +3636,8 @@ function speakText(
     voice.lang =
         "ar-SA";
 
-
     voice.rate =
-        .96;
-
-
-    voice.pitch =
-        1;
+        .95;
 
 
     speechSynthesis.speak(
@@ -3586,13 +3653,11 @@ function speakText(
 
 const savedTheme =
     localStorage.getItem(
-        "vytfx_theme"
+        "a5_theme"
     );
 
 
-if(
-    savedTheme === "light"
-){
+if(savedTheme === "light"){
 
     document.body.classList.add(
         "light"
@@ -3601,13 +3666,8 @@ if(
 }
 
 
-/* =========================================================
-   THEME BUTTON
-========================================================= */
-
 $("themeButton").onclick =
     ()=>{
-
 
         document.body.classList.toggle(
             "light"
@@ -3621,173 +3681,36 @@ $("themeButton").onclick =
 
 
         localStorage.setItem(
-            "vytfx_theme",
+            "a5_theme",
             light
                 ? "light"
                 : "dark"
         );
 
-
-        $("themeButton").textContent =
-            light
-                ? "☀️"
-                : "🌙";
-
     };
 
 
 /* =========================================================
-   PARTICLES
+   MOBILE MENU
 ========================================================= */
 
-const canvas =
-    $("particles");
+$("menuButton").onclick =
+    ()=>{
+
+        sidebar.classList.toggle(
+            "open"
+        );
+
+    };
 
 
-const ctx =
-    canvas.getContext(
-        "2d"
-    );
+function closeMobileMenu(){
 
-
-let particles =
-    [];
-
-
-function resize(){
-
-    canvas.width =
-        window.innerWidth;
-
-    canvas.height =
-        window.innerHeight;
-
-}
-
-
-resize();
-
-
-window.addEventListener(
-    "resize",
-    resize
-);
-
-
-/* =========================================================
-   CREATE PARTICLES
-========================================================= */
-
-for(
-    let i = 0;
-    i < 45;
-    i++
-){
-
-    particles.push({
-
-        x:
-            Math.random() *
-            window.innerWidth,
-
-        y:
-            Math.random() *
-            window.innerHeight,
-
-        vx:
-            (Math.random() - .5)
-            * .3,
-
-        vy:
-            (Math.random() - .5)
-            * .3,
-
-        r:
-            Math.random() *
-            1.5 +
-            .4
-
-    });
-
-}
-
-
-/* =========================================================
-   ANIMATE
-========================================================= */
-
-function animate(){
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-    particles.forEach(
-        particle=>{
-
-
-            particle.x +=
-                particle.vx;
-
-
-            particle.y +=
-                particle.vy;
-
-
-            if(
-                particle.x < 0 ||
-                particle.x > canvas.width
-            ){
-
-                particle.vx *= -1;
-
-            }
-
-
-            if(
-                particle.y < 0 ||
-                particle.y > canvas.height
-            ){
-
-                particle.vy *= -1;
-
-            }
-
-
-            ctx.beginPath();
-
-
-            ctx.arc(
-                particle.x,
-                particle.y,
-                particle.r,
-                0,
-                Math.PI * 2
-            );
-
-
-            ctx.fillStyle =
-                "rgba(129,140,248,.35)";
-
-
-            ctx.fill();
-
-        }
-    );
-
-
-    requestAnimationFrame(
-        animate
+    sidebar.classList.remove(
+        "open"
     );
 
 }
-
-
-animate();
 
 
 /* =========================================================
@@ -3799,23 +3722,16 @@ renderSessions();
 renderChat();
 
 
-/*
-   ننتظر قليلاً حتى تظهر الواجهة
-   قبل تحميل النموذج الكبير.
-*/
+// تحميل النموذج بعد ظهور الواجهة
 
 setTimeout(
     ()=>{
-
         initAI();
-
     },
-    500
+    400
 );
 
 </script>
 
-
 </body>
-
 </html>
