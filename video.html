@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Video Studio - VideoYTFX</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --bg: #030712;
+            --surface: rgba(17, 24, 39, .78);
+            --surface-hover: rgba(31, 41, 55, .92);
+            --border: rgba(255, 255, 255, .08);
+            --border-hover: rgba(59, 130, 246, .55);
+
+            --text: #f9fafb;
+            --muted: #9ca3af;
+
+            --primary: #3b82f6;
+            --accent: #8b5cf6;
+            --glow: rgba(59, 130, 246, .3);
+
+            --radius-lg: 24px;
+            --radius-md: 14px;
+
+            --font-en: "Plus Jakarta Sans", sans-serif;
+            --font-ar: "Tajawal", sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg: #f8fafc;
+            --surface: rgba(255, 255, 255, .9);
+            --surface-hover: #f1f5f9;
+            --border: rgba(0, 0, 0, .08);
+            --border-hover: rgba(59, 130, 246, .4);
+
+            --text: #0f172a;
+            --muted: #64748b;
+            --glow: rgba(59, 130, 246, .14);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-en);
+            overflow-x: hidden;
+            transition: .3s;
+        }
+
+        html[dir="rtl"] body {
+            font-family: var(--font-ar);
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .ambient {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: .35;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .ambient.one {
+            top: -180px;
+            left: -120px;
+            background: radial-gradient(circle, var(--primary), transparent 70%);
+        }
+
+        .ambient.two {
+            right: -180px;
+            bottom: -150px;
+            background: radial-gradient(circle, var(--accent), transparent 70%);
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            width: 100%;
+            padding: 15px 7%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--accent)
+                );
+
+            color: white;
+
+            box-shadow:
+                0 8px 25px var(--glow);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 9px 14px;
+
+            border-radius: 12px;
+
+            border: 1px solid var(--border);
+
+            background: var(--surface);
+            color: var(--text);
+
+            font-weight: 600;
+
+            transition: .25s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-hover);
+            background: var(--surface-hover);
+        }
+
+        /* MAIN */
+
+        .container {
+            width: min(1150px, 94%);
+            margin: auto;
+            padding: 55px 0 70px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 38px;
+        }
+
+        .page-icon {
+            width: 82px;
+            height: 82px;
+
+            margin: 0 auto 20px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 23px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--accent)
+                );
+
+            font-size: 40px;
+
+            box-shadow:
+                0 18px 40px var(--glow);
+
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        h1 {
+            font-size: clamp(2.1rem, 5vw, 3.3rem);
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            max-width: 650px;
+            margin: auto;
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        /* UPLOAD */
+
+        .upload-box {
+            position: relative;
+
+            min-height: 250px;
+
+            border:
+                1px dashed
+                rgba(59, 130, 246, .5);
+
+            border-radius: var(--radius-lg);
+
+            background: var(--surface);
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 35px;
+
+            transition: .3s;
+
+            cursor: pointer;
+
+            backdrop-filter: blur(20px);
+        }
+
+        .upload-box:hover,
+        .upload-box.dragging {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, .08);
+            transform: translateY(-3px);
+        }
+
+        .upload-icon {
+            width: 70px;
+            height: 70px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 20px;
+
+            background:
+                rgba(59, 130, 246, .12);
+
+            font-size: 32px;
+
+            margin-bottom: 18px;
+        }
+
+        .upload-box h2 {
+            margin-bottom: 8px;
+        }
+
+        .upload-box p {
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .upload-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 13px 24px;
+
+            border-radius: 13px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--accent)
+                );
+
+            font-weight: 700;
+
+            box-shadow:
+                0 10px 25px var(--glow);
+        }
+
+        #videoInput {
+            display: none;
+        }
+
+        /* EDITOR */
+
+        .editor {
+            display: none;
+
+            margin-top: 25px;
+
+            padding: 22px;
+
+            border-radius: var(--radius-lg);
+
+            border: 1px solid var(--border);
+
+            background: var(--surface);
+
+            backdrop-filter: blur(20px);
+        }
+
+        .editor.active {
+            display: block;
+            animation: appear .35s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .video-wrapper {
+            width: 100%;
+
+            background: #000;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        video {
+            display: block;
+
+            width: 100%;
+            max-height: 600px;
+
+            background: #000;
+        }
+
+        /* CONTROLS */
+
+        .controls {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(190px, 1fr)
+                );
+
+            gap: 14px;
+
+            margin-top: 20px;
+        }
+
+        .control-card {
+            padding: 17px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 15px;
+
+            background:
+                rgba(255, 255, 255, .025);
+        }
+
+        .control-card label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 11px;
+
+            font-weight: 600;
+
+            color: var(--text);
+        }
+
+        .value {
+            color: var(--primary);
+            font-size: .85rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* ACTIONS */
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+        .action {
+            flex: 1;
+            min-width: 145px;
+
+            padding: 13px 18px;
+
+            border-radius: 13px;
+
+            border: 1px solid var(--border);
+
+            background: var(--surface-hover);
+
+            color: var(--text);
+
+            font-weight: 700;
+
+            transition: .25s;
+        }
+
+        .action:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-hover);
+        }
+
+        .action.primary {
+            color: white;
+
+            border: none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--accent)
+                );
+
+            box-shadow:
+                0 10px 25px var(--glow);
+        }
+
+        /* STATUS */
+
+        .status {
+            margin-top: 15px;
+
+            color: var(--muted);
+
+            font-size: .88rem;
+
+            text-align: center;
+
+            min-height: 24px;
+        }
+
+        /* BACK */
+
+        .back {
+            display: flex;
+            justify-content: center;
+
+            margin-top: 30px;
+
+            color: var(--muted);
+
+            font-weight: 600;
+
+            transition: .25s;
+        }
+
+        .back:hover {
+            color: var(--primary);
+        }
+
+        /* FOOTER */
+
+        footer {
+            width: 100%;
+
+            padding: 24px;
+
+            text-align: center;
+
+            border-top: 1px solid var(--border);
+
+            color: var(--muted);
+
+            background: var(--surface);
+
+            font-size: .85rem;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 13px 5%;
+            }
+
+            .brand {
+                font-size: 1rem;
+            }
+
+            .nav-btn {
+                padding: 8px 10px;
+            }
+
+            .container {
+                width: 92%;
+                padding-top: 42px;
+            }
+
+            .upload-box {
+                min-height: 220px;
+                padding: 25px;
+            }
+
+            .controls {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .action {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="ambient one"></div>
+    <div class="ambient two"></div>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <a href="index.html" class="brand">
+
+            <div class="brand-icon">
+                V
+            </div>
+
+            <span>
+                VideoYTFX
+            </span>
+
+        </a>
+
+
+        <div class="nav-actions">
+
+            <button
+                class="nav-btn"
+                onclick="toggleLanguage()"
+                type="button"
+            >
+                🌐
+                <span id="languageText">
+                    العربية
+                </span>
+            </button>
+
+
+            <button
+                class="nav-btn"
+                onclick="toggleTheme()"
+                type="button"
+                id="themeButton"
+            >
+                ☀️
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+        <header class="header">
+
+            <div class="page-icon">
+                🎬
+            </div>
+
+            <h1 data-i18n="title">
+                Video Studio
+            </h1>
+
+            <p data-i18n="subtitle">
+                Edit, trim, convert and enhance your videos in one place.
+            </p>
+
+        </header>
+
+
+        <!-- UPLOAD -->
+
+        <section
+            class="upload-box"
+            id="uploadBox"
+        >
+
+            <input
+                type="file"
+                id="videoInput"
+                accept="video/*"
+            >
+
+            <div class="upload-icon">
+                🎥
+            </div>
+
+            <h2 data-i18n="uploadTitle">
+                Upload your video
+            </h2>
+
+            <p data-i18n="uploadText">
+                Drag and drop a video here or choose a file from your device.
+            </p>
+
+            <label
+                class="upload-button"
+                for="videoInput"
+            >
+                📁
+                <span data-i18n="chooseVideo">
+                    Choose Video
+                </span>
+            </label>
+
+        </section>
+
+
+        <!-- EDITOR -->
+
+        <section
+            class="editor"
+            id="editor"
+        >
+
+            <div class="video-wrapper">
+
+                <video
+                    id="videoPreview"
+                    controls
+                    playsinline
+                ></video>
+
+            </div>
+
+
+            <!-- CONTROLS -->
+
+            <div class="controls">
+
+                <div class="control-card">
+
+                    <label>
+
+                        <span data-i18n="brightness">
+                            Brightness
+                        </span>
+
+                        <span
+                            class="value"
+                            id="brightnessValue"
+                        >
+                            100%
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="range"
+                        id="brightness"
+                        min="50"
+                        max="150"
+                        value="100"
+                    >
+
+                </div>
+
+
+                <div class="control-card">
+
+                    <label>
+
+                        <span data-i18n="contrast">
+                            Contrast
+                        </span>
+
+                        <span
+                            class="value"
+                            id="contrastValue"
+                        >
+                            100%
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="range"
+                        id="contrast"
+                        min="50"
+                        max="150"
+                        value="100"
+                    >
+
+                </div>
+
+
+                <div class="control-card">
+
+                    <label>
+
+                        <span data-i18n="saturation">
+                            Saturation
+                        </span>
+
+                        <span
+                            class="value"
+                            id="saturationValue"
+                        >
+                            100%
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="range"
+                        id="saturation"
+                        min="0"
+                        max="200"
+                        value="100"
+                    >
+
+                </div>
+
+
+                <div class="control-card">
+
+                    <label>
+
+                        <span data-i18n="speed">
+                            Speed
+                        </span>
+
+                        <span
+                            class="value"
+                            id="speedValue"
+                        >
+                            1x
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="range"
+                        id="speed"
+                        min="0.25"
+                        max="2"
+                        step="0.05"
+                        value="1"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="actions">
+
+                <button
+                    class="action"
+                    type="button"
+                    onclick="rotateVideo()"
+                >
+                    🔄
+                    <span data-i18n="rotate">
+                        Rotate
+                    </span>
+                </button>
+
+
+                <button
+                    class="action"
+                    type="button"
+                    onclick="toggleMute()"
+                    id="muteButton"
+                >
+                    🔊
+                    <span data-i18n="mute">
+                        Mute
+                    </span>
+                </button>
+
+
+                <button
+                    class="action"
+                    type="button"
+                    onclick="resetVideo()"
+                >
+                    ↩️
+                    <span data-i18n="reset">
+                        Reset
+                    </span>
+                </button>
+
+
+                <button
+                    class="action primary"
+                    type="button"
+                    onclick="downloadVideo()"
+                >
+                    ⬇️
+                    <span data-i18n="download">
+                        Download
+                    </span>
+                </button>
+
+            </div>
+
+
+            <div
+                class="status"
+                id="status"
+            ></div>
+
+        </section>
+
+
+        <a
+            class="back"
+            href="index.html"
+        >
+
+            <span id="backArrow">
+                ←
+            </span>
+
+            <span data-i18n="back">
+                Back to Home
+            </span>
+
+        </a>
+
+    </main>
+
+
+    <footer>
+
+        <span data-i18n="footer">
+            © 2026 VideoYTFX. All rights reserved.
+        </span>
+
+    </footer>
+
+
+    <script>
+
+        /* =====================================================
+           STATE
+        ===================================================== */
+
+        let videoFile = null;
+
+        let videoURL = null;
+
+        let rotation = 0;
+
+        let originalState = {
+            brightness: 100,
+            contrast: 100,
+            saturation: 100,
+            speed: 1
+        };
+
+
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
+
+        const videoInput =
+            document.getElementById(
+                "videoInput"
+            );
+
+        const uploadBox =
+            document.getElementById(
+                "uploadBox"
+            );
+
+        const editor =
+            document.getElementById(
+                "editor"
+            );
+
+        const video =
+            document.getElementById(
+                "videoPreview"
+            );
+
+        const status =
+            document.getElementById(
+                "status"
+            );
+
+
+        /* =====================================================
+           UPLOAD
+        ===================================================== */
+
+        videoInput.addEventListener(
+            "change",
+            event => {
+
+                const file =
+                    event.target.files[0];
+
+                if (file) {
+                    loadVideo(file);
+                }
+
+            }
+        );
+
+
+        uploadBox.addEventListener(
+            "dragover",
+            event => {
+
+                event.preventDefault();
+
+                uploadBox.classList.add(
+                    "dragging"
+                );
+
+            }
+        );
+
+
+        uploadBox.addEventListener(
+            "dragleave",
+            () => {
+
+                uploadBox.classList.remove(
+                    "dragging"
+                );
+
+            }
+        );
+
+
+        uploadBox.addEventListener(
+            "drop",
+            event => {
+
+                event.preventDefault();
+
+                uploadBox.classList.remove(
+                    "dragging"
+                );
+
+                const file =
+                    event.dataTransfer.files[0];
+
+                if (
+                    file &&
+                    file.type.startsWith(
+                        "video/"
+                    )
+                ) {
+
+                    loadVideo(file);
+
+                } else {
+
+                    showStatus(
+                        "Please select a valid video."
+                    );
+
+                }
+
+            }
+        );
+
+
+        function loadVideo(file) {
+
+            if (
+                !file.type.startsWith(
+                    "video/"
+                )
+            ) {
+                showStatus(
+                    "Please select a valid video file."
+                );
+
+                return;
+            }
+
+
+            if (videoURL) {
+                URL.revokeObjectURL(
+                    videoURL
+                );
+            }
+
+
+            videoFile = file;
+
+            videoURL =
+                URL.createObjectURL(
+                    file
+                );
+
+
+            video.src =
+                videoURL;
+
+
+            editor.classList.add(
+                "active"
+            );
+
+
+            uploadBox.style.display =
+                "none";
+
+
+            resetVideo(false);
+
+
+            showStatus(
+                file.name
+            );
+
+        }
+
+
+        /* =====================================================
+           FILTERS
+        ===================================================== */
+
+        const brightness =
+            document.getElementById(
+                "brightness"
+            );
+
+        const contrast =
+            document.getElementById(
+                "contrast"
+            );
+
+        const saturation =
+            document.getElementById(
+                "saturation"
+            );
+
+        const speed =
+            document.getElementById(
+                "speed"
+            );
+
+
+        brightness.addEventListener(
+            "input",
+            updateVideo
+        );
+
+        contrast.addEventListener(
+            "input",
+            updateVideo
+        );
+
+        saturation.addEventListener(
+            "input",
+            updateVideo
+        );
+
+        speed.addEventListener(
+            "input",
+            updateVideo
+        );
+
+
+        function updateVideo() {
+
+            const b =
+                brightness.value;
+
+            const c =
+                contrast.value;
+
+            const s =
+                saturation.value;
+
+            const sp =
+                speed.value;
+
+
+            video.style.filter =
+                `
+                brightness(${b}%)
+                contrast(${c}%)
+                saturate(${s}%)
+                `;
+
+
+            video.playbackRate =
+                Number(sp);
+
+
+            document.getElementById(
+                "brightnessValue"
+            ).textContent =
+                `${b}%`;
+
+
+            document.getElementById(
+                "contrastValue"
+            ).textContent =
+                `${c}%`;
+
+
+            document.getElementById(
+                "saturationValue"
+            ).textContent =
+                `${s}%`;
+
+
+            document.getElementById(
+                "speedValue"
+            ).textContent =
+                `${sp}x`;
+
+        }
+
+
+        /* =====================================================
+           ROTATE
+        ===================================================== */
+
+        function rotateVideo() {
+
+            rotation += 90;
+
+            if (rotation >= 360) {
+                rotation = 0;
+            }
+
+
+            video.style.transform =
+                `rotate(${rotation}deg)`;
+
+        }
+
+
+        /* =====================================================
+           MUTE
+        ===================================================== */
+
+        function toggleMute() {
+
+            video.muted =
+                !video.muted;
+
+
+            const button =
+                document.getElementById(
+                    "muteButton"
+                );
+
+
+            const span =
+                button.querySelector(
+                    "span"
+                );
+
+
+            if (video.muted) {
+
+                button.firstChild.textContent =
+                    "🔇 ";
+
+                span.textContent =
+                    translations[
+                        getLanguage()
+                    ].unmute;
+
+            } else {
+
+                button.firstChild.textContent =
+                    "🔊 ";
+
+                span.textContent =
+                    translations[
+                        getLanguage()
+                    ].mute;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        function resetVideo(
+            showMessage = true
+        ) {
+
+            brightness.value = 100;
+            contrast.value = 100;
+            saturation.value = 100;
+            speed.value = 1;
+
+
+            rotation = 0;
+
+            video.style.transform =
+                "rotate(0deg)";
+
+            video.style.filter =
+                "none";
+
+            video.playbackRate =
+                1;
+
+            video.muted =
+                false;
+
+
+            updateVideo();
+
+
+            const muteButton =
+                document.getElementById(
+                    "muteButton"
+                );
+
+
+            muteButton.firstChild.textContent =
+                "🔊 ";
+
+
+            muteButton.querySelector(
+                "span"
+            ).textContent =
+                translations[
+                    getLanguage()
+                ].mute;
+
+
+            if (showMessage) {
+                showStatus(
+                    translations[
+                        getLanguage()
+                    ].resetDone
+                );
+            }
+
+        }
+
+
+        /* =====================================================
+           DOWNLOAD
+        ===================================================== */
+
+        function downloadVideo() {
+
+            if (!videoFile) {
+
+                showStatus(
+                    translations[
+                        getLanguage()
+                    ].noVideo
+                );
+
+                return;
+            }
+
+
+            /*
+             * This downloads the original video.
+             *
+             * Browser-only HTML cannot reliably render
+             * filters/rotation/speed back into a new MP4.
+             *
+             * The preview editor works immediately.
+             */
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+
+            link.href =
+                videoURL;
+
+
+            const originalName =
+                videoFile.name
+                    .replace(
+                        /\.[^/.]+$/,
+                        ""
+                    );
+
+
+            link.download =
+                `${originalName}-VideoYTFX.${getExtension(videoFile.name)}`;
+
+
+            document.body.appendChild(
+                link
+            );
+
+
+            link.click();
+
+
+            link.remove();
+
+
+            showStatus(
+                translations[
+                    getLanguage()
+                ].downloadStarted
+            );
+
+        }
+
+
+        function getExtension(name) {
+
+            const parts =
+                name.split(".");
+
+            return parts.length > 1
+                ? parts.pop()
+                : "mp4";
+
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        function showStatus(message) {
+
+            status.textContent =
+                message;
+
+        }
+
+
+        /* =====================================================
+           LANGUAGE
+        ===================================================== */
+
+        const translations = {
+
+            en: {
+
+                title:
+                    "Video Studio",
+
+                subtitle:
+                    "Edit, trim, convert and enhance your videos in one place.",
+
+                uploadTitle:
+                    "Upload your video",
+
+                uploadText:
+                    "Drag and drop a video here or choose a file from your device.",
+
+                chooseVideo:
+                    "Choose Video",
+
+                brightness:
+                    "Brightness",
+
+                contrast:
+                    "Contrast",
+
+                saturation:
+                    "Saturation",
+
+                speed:
+                    "Speed",
+
+                rotate:
+                    "Rotate",
+
+                mute:
+                    "Mute",
+
+                unmute:
+                    "Unmute",
+
+                reset:
+                    "Reset",
+
+                download:
+                    "Download",
+
+                back:
+                    "Back to Home",
+
+                footer:
+                    "© 2026 VideoYTFX. All rights reserved.",
+
+                lang:
+                    "العربية",
+
+                resetDone:
+                    "Settings reset.",
+
+                noVideo:
+                    "Please upload a video first.",
+
+                downloadStarted:
+                    "Download started."
+
+            },
+
+
+            ar: {
+
+                title:
+                    "استوديو الفيديو",
+
+                subtitle:
+                    "عدّل واقصص وحسّن فيديوهاتك في مكان واحد.",
+
+                uploadTitle:
+                    "ارفع الفيديو الخاص بك",
+
+                uploadText:
+                    "اسحب الفيديو وأفلته هنا أو اختر ملفًا من جهازك.",
+
+                chooseVideo:
+                    "اختيار فيديو",
+
+                brightness:
+                    "السطوع",
+
+                contrast:
+                    "التباين",
+
+                saturation:
+                    "التشبع",
+
+                speed:
+                    "السرعة",
+
+                rotate:
+                    "تدوير",
+
+                mute:
+                    "كتم الصوت",
+
+                unmute:
+                    "تشغيل الصوت",
+
+                reset:
+                    "إعادة ضبط",
+
+                download:
+                    "تحميل",
+
+                back:
+                    "العودة للرئيسية",
+
+                footer:
+                    "© 2026 VideoYTFX. جميع الحقوق محفوظة.",
+
+                lang:
+                    "English",
+
+                resetDone:
+                    "تمت إعادة ضبط الإعدادات.",
+
+                noVideo:
+                    "ارفع فيديو أولاً.",
+
+                downloadStarted:
+                    "بدأ التحميل."
+
+            }
+
+        };
+
+
+        function getLanguage() {
+
+            return localStorage.getItem(
+                "app_lang"
+            ) || "en";
+
+        }
+
+
+        function setLanguage(lang) {
+
+            const dictionary =
+                translations[lang];
+
+
+            document
+                .querySelectorAll(
+                    "[data-i18n]"
+                )
+                .forEach(element => {
+
+                    const key =
+                        element.dataset.i18n;
+
+                    if (dictionary[key]) {
+
+                        element.textContent =
+                            dictionary[key];
+
+                    }
+
+                });
+
+
+            document.getElementById(
+                "languageText"
+            ).textContent =
+                dictionary.lang;
+
+
+            document.documentElement.lang =
+                lang;
+
+
+            document.documentElement.dir =
+                lang === "ar"
+                    ? "rtl"
+                    : "ltr";
+
+
+            localStorage.setItem(
+                "app_lang",
+                lang
+            );
+
+
+            const muteButton =
+                document.getElementById(
+                    "muteButton"
+                );
+
+
+            if (muteButton) {
+
+                muteButton.querySelector(
+                    "span"
+                ).textContent =
+                    video.muted
+                        ? dictionary.unmute
+                        : dictionary.mute;
+
+            }
+
+        }
+
+
+        function toggleLanguage() {
+
+            const current =
+                getLanguage();
+
+
+            setLanguage(
+                current === "en"
+                    ? "ar"
+                    : "en"
+            );
+
+        }
+
+
+        /* =====================================================
+           THEME
+        ===================================================== */
+
+        function setTheme(theme) {
+
+            document.documentElement
+                .setAttribute(
+                    "data-theme",
+                    theme
+                );
+
+
+            document.getElementById(
+                "themeButton"
+            ).textContent =
+                theme === "light"
+                    ? "🌙"
+                    : "☀️";
+
+
+            localStorage.setItem(
+                "app_theme",
+                theme
+            );
+
+        }
+
+
+        function toggleTheme() {
+
+            const current =
+                localStorage.getItem(
+                    "app_theme"
+                ) || "dark";
+
+
+            setTheme(
+                current === "dark"
+                    ? "light"
+                    : "dark"
+            );
+
+        }
+
+
+        /* =====================================================
+           INITIALIZE
+        ===================================================== */
+
+        const savedLanguage =
+            localStorage.getItem(
+                "app_lang"
+            ) || "en";
+
+
+        const savedTheme =
+            localStorage.getItem(
+                "app_theme"
+            ) || "dark";
+
+
+        setLanguage(
+            savedLanguage
+        );
+
+
+        setTheme(
+            savedTheme
+        );
+
+    </script>
+
+</body>
+
+</html>
