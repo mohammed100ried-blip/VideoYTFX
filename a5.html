@@ -9,12 +9,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #05070d; --bg2: #0b1020; --panel: rgba(10,15,27,.86); --panel2: rgba(18,25,42,.75);
+  --bg: #05070d; --panel: rgba(10,15,27,.86);
   --border: rgba(255,255,255,.08); --text: #f8fafc; --muted: #94a3b8; --muted2: #64748b;
-  --primary: #6366f1; --primary2: #8b5cf6; --green: #22c55e; --red: #ef4444; --orange: #f59e0b;
+  --green: #22c55e; --red: #ef4444; --orange: #f59e0b;
 }
 body.light {
-  --bg: #f5f7fb; --bg2: #eef2ff; --panel: rgba(255,255,255,.9); --panel2: rgba(248,250,252,.9);
+  --bg: #f5f7fb; --panel: rgba(255,255,255,.9);
   --border: rgba(15,23,42,.1); --text: #111827; --muted: #475569; --muted2: #94a3b8;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -90,6 +90,10 @@ body.light .topbar { background: rgba(255,255,255,.55); }
 .typing span:nth-child(2) { animation-delay: .15s; }
 .typing span:nth-child(3) { animation-delay: .3s; }
 @keyframes typing { 0%,100% { opacity: .25; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-4px); } }
+.load-bar-wrap { display: none; padding: 8px 13px 0; }
+.load-bar-wrap.show { display: block; }
+.load-bar-track { width: 100%; height: 5px; border-radius: 4px; background: rgba(255,255,255,.06); overflow: hidden; }
+.load-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #6366f1, #06b6d4); transition: width .25s ease; }
 .composer-wrap { padding: 9px max(18px,calc((100% - 900px)/2)) 18px; }
 .composer { overflow: hidden; border: 1px solid var(--border); border-radius: 18px; background: var(--panel); backdrop-filter: blur(20px); }
 .quick-actions { display: flex; gap: 7px; padding: 9px 11px 0; }
@@ -101,10 +105,10 @@ body.light .topbar { background: rgba(255,255,255,.55); }
 .input-button { border: 1px solid var(--border); background: rgba(255,255,255,.03); color: var(--text); }
 .input-button.recording { border-color: rgba(239,68,68,.5); background: rgba(239,68,68,.13); }
 .send { border: 0; background: linear-gradient(135deg, #6366f1, #3b82f6); color: white; }
-.send:disabled { opacity: .4; }
+.send:disabled { opacity: .4; cursor: not-allowed; }
 .stop { display: none; border: 1px solid rgba(239,68,68,.3); background: rgba(239,68,68,.1); color: #f87171; }
 .stop.show { display: block; }
-.status { display: flex; justify-content: space-between; padding: 0 13px 9px; color: var(--muted2); font-size: 9px; }
+.status { display: flex; justify-content: space-between; padding: 6px 13px 9px; color: var(--muted2); font-size: 9px; }
 .status-left { display: flex; align-items: center; gap: 5px; }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
 .mobile-menu { display: none; }
@@ -147,7 +151,7 @@ body.light .topbar { background: rgba(255,255,255,.55); }
       <button class="side-button" id="theme">🌙 تغيير المظهر</button>
     </div>
   </aside>
- 
+
   <main class="main">
     <header class="topbar">
       <div class="top-title">
@@ -162,7 +166,7 @@ body.light .topbar { background: rgba(255,255,255,.55); }
         <button class="top-button" id="clearCurrent" title="مسح المحادثة">🧹</button>
       </div>
     </header>
- 
+
     <section class="chat">
       <div class="welcome" id="welcome">
         <div class="welcome-inner">
@@ -185,11 +189,14 @@ body.light .topbar { background: rgba(255,255,255,.55); }
           </div>
         </div>
       </div>
- 
+
       <div class="messages" id="messages" style="display:none"></div>
- 
+
       <div class="composer-wrap">
         <div class="composer">
+          <div class="load-bar-wrap" id="loadBarWrap">
+            <div class="load-bar-track"><div class="load-bar-fill" id="loadBarFill"></div></div>
+          </div>
           <div class="quick-actions">
             <button class="quick" data-prompt="انتقد فكرتي بصراحة">🧠 نقد</button>
             <button class="quick" data-prompt="راجع الكود وابحث عن الأخطاء">💻 كود</button>
@@ -200,12 +207,12 @@ body.light .topbar { background: rgba(255,255,255,.55); }
             <button class="input-button" id="mic" title="الصوت">🎙️</button>
             <textarea class="input" id="input" rows="1" placeholder="اكتب لـ A5..."></textarea>
             <button class="stop" id="stop">■</button>
-            <button class="send" id="send">➤</button>
+            <button class="send" id="send" disabled>➤</button>
           </div>
           <div class="status">
             <div class="status-left">
               <span class="dot" id="dot"></span>
-              <span id="status">A5 يستعد...</span>
+              <span id="status">A5 يتحقق من الجهاز...</span>
             </div>
             <span>WebGPU • Local AI</span>
           </div>
@@ -214,13 +221,15 @@ body.light .topbar { background: rgba(255,255,255,.55); }
     </section>
   </main>
 </div>
- 
+
 <script type="module">
 import { CreateMLCEngine } from "https://esm.run/@mlc-ai/web-llm";
- 
+
+/* ===================== إعدادات ===================== */
 const MODEL = "Llama-3.2-3B-Instruct-q4f16_1-MLC";
 const MAX_MEMORY = 25;
- 
+
+/* ===================== عناصر DOM ===================== */
 const $ = id => document.getElementById(id);
 const sidebar = $("sidebar");
 const sessionsEl = $("sessions");
@@ -232,20 +241,18 @@ const stop = $("stop");
 const status = $("status");
 const dot = $("dot");
 const search = $("search");
- 
+const loadBarWrap = $("loadBarWrap");
+const loadBarFill = $("loadBarFill");
+
+/* ===================== حالة النموذج ===================== */
 let engine = null;
+let initPromise = null;   // يمنع أي تحميل مزدوج متزامن للنموذج
 let generating = false;
 let controller = null;
 let recognition = null;
 let recording = false;
- 
-let sessions = load("a5_sessions", [[]]);
-let memory = load("a5_memory", []);
-let current = 0;
-if (!Array.isArray(sessions) || !sessions.length) sessions = [[]];
-if (!Array.isArray(memory)) memory = [];
-if (current < 0 || current >= sessions.length) current = 0;
- 
+
+/* ===================== تخزين محلي ===================== */
 function load(key, fallback) {
   try {
     const data = localStorage.getItem(key);
@@ -254,7 +261,6 @@ function load(key, fallback) {
     return parsed ?? fallback;
   } catch { return fallback; }
 }
- 
 function save() {
   try {
     localStorage.setItem("a5_sessions", JSON.stringify(sessions));
@@ -263,7 +269,15 @@ function save() {
     console.error("A5 storage error:", error);
   }
 }
- 
+
+let sessions = load("a5_sessions", [[]]);
+let memory = load("a5_memory", []);
+let current = 0;
+if (!Array.isArray(sessions) || !sessions.length) sessions = [[]];
+if (!Array.isArray(memory)) memory = [];
+if (current < 0 || current >= sessions.length) current = 0;
+
+/* ===================== أدوات نص ===================== */
 function escapeHTML(text) {
   return String(text)
     .replaceAll("&", "&amp;")
@@ -272,7 +286,6 @@ function escapeHTML(text) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
- 
 function markdown(text) {
   let result = escapeHTML(text);
   result = result.replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>");
@@ -281,13 +294,13 @@ function markdown(text) {
   result = result.replace(/\n/g, "<br>");
   return result;
 }
- 
+
+/* ===================== الذاكرة ===================== */
 function addMemory(user, assistant) {
   memory.push({ user: user.slice(0,500), assistant: assistant.slice(0,800), time: Date.now() });
   if (memory.length > MAX_MEMORY) memory = memory.slice(-MAX_MEMORY);
   save();
 }
- 
 function memoryText() {
   if (!memory.length) return "";
   return `
@@ -298,15 +311,16 @@ ${index + 1}. المستخدم: ${item.user}
 `).join("\n")}
 `;
 }
- 
+
+/* ===================== شخصية A5 ===================== */
 function systemPrompt() {
   return `
 أنت A5. المساعد الشخصي المحلي للمستخدم.
- 
+
 شخصيتك: صارمة، مباشرة، لا تجامل، لا توافق لمجرد الإرضاء، لا تستخدم مديحاً فارغاً.
 هدفك أن تقول الحقيقة بأقصى وضوح ممكن حتى لو كانت غير مريحة، وأن تفكك كل فكرة أو كود
 بلا رحمة على مستوى المنطق والجودة — لكن هدفك النقد، وليس الإساءة للشخص نفسه.
- 
+
 ==============================
 الشخصية
 ==============================
@@ -317,7 +331,7 @@ function systemPrompt() {
 - إذا كرر المستخدم نفس الخطأ: نبّهه أنه يكرره، واذكر أنك سبق وقلت ذلك.
 - إذا كان هناك تناقض في كلامه: أشر إليه فوراً وباسمه.
 - إذا كان الطلب غير منطقي أو غامض: قل ذلك صراحة، لا تتظاهر بأنه منطقي.
- 
+
 أمثلة على الأسلوب المطلوب:
 "لا، هذا خطأ، وإليك السبب..."
 "فكرتك فيها ثغرة أساسية، وهذه ثغرة تكفي لإسقاطها."
@@ -325,7 +339,7 @@ function systemPrompt() {
 "أنت تتجاهل المشكلة الحقيقية وتعالج أعراضها فقط."
 "هذا الافتراض غلط من أساسه."
 "كررت نفس الخطأ الذي نبهتك له قبل قليل."
- 
+
 ==============================
 ممنوع تماماً (خطوط حمراء)
 ==============================
@@ -333,15 +347,13 @@ function systemPrompt() {
 - ممنوع أي إساءة تخص شكله، عائلته، حياته الشخصية، أو صفاته الجسدية.
 - ممنوع الشتم أو الألفاظ المهينة أو التهديد.
 - ممنوع السخرية التي تتحول إلى تنمر أو إذلال.
-القسوة تكون فقط في تفكيك الفكرة أو الكود أو الخطأ — أبداً في الشخص. النقد الحاد على العمل
-مسموح ومطلوب، الإهانة الشخصية غير مسموحة إطلاقاً ولا استثناء لها مهما طلب المستخدم ذلك.
- 
+القسوة تكون فقط في تفكيك الفكرة أو الكود أو الخطأ — أبداً في الشخص.
+
 ==============================
 الهدف الحقيقي
 ==============================
-لا تحاول أن تجعل المستخدم يشعر أنه عبقري، ولا تحاول جرحه لمجرد الجرح.
-اجعله يفهم بدقة: أين أخطأ، لماذا هذا خطأ، كيف يصلحه، وماذا يحدث إن تجاهله.
- 
+اجعل المستخدم يفهم بدقة: أين أخطأ، لماذا هذا خطأ، كيف يصلحه، وماذا يحدث إن تجاهله.
+
 ==============================
 البرمجة
 ==============================
@@ -351,28 +363,29 @@ function systemPrompt() {
 - لا تدّعِ أنك اختبرت الكود إذا لم تختبره فعلياً.
 - إن وجدت خطأ: حدده بدقة، اشرح سببه، ثم قدّم الحل.
 - إن كان الحل الذي يريده المستخدم رديئاً: قل ذلك بوضوح قبل تنفيذه.
- 
+
 ==============================
 المعلومات
 ==============================
 - لا تخترع معلومات لا تعرفها — قل بصراحة إنك لا تعرف.
 - لا تدّعِ اتصالاً بالإنترنت أو وصولاً لملفات أو أجهزة لم تُمنح صلاحية الوصول إليها.
- 
+
 ==============================
 اللغة
 ==============================
 - إذا تحدث المستخدم بالعربية، رد بالعربية بلغة طبيعية.
 - كن مختصراً في الأسئلة البسيطة، واستخدم خطوات مرقّمة في المواضيع المركبة.
- 
+
 ==============================
 الذاكرة
 ==============================
-استخدم فقط الذاكرة المحلية الموجودة أدناه إن كانت مرتبطة بالسؤال. لا تخترع ذكريات غير موجودة.
- 
+استخدم فقط الذاكرة المحلية أدناه إن كانت مرتبطة بالسؤال. لا تخترع ذكريات غير موجودة.
+
 ${memoryText()}
 `;
 }
- 
+
+/* ===================== الجلسات ===================== */
 function sessionName(chat, index) {
   const first = chat.find(x => x.role === "user");
   if (!first) return `محادثة ${index + 1}`;
@@ -380,7 +393,7 @@ function sessionName(chat, index) {
   if (text.length > 35) text = text.slice(0, 35) + "...";
   return text || `محادثة ${index + 1}`;
 }
- 
+
 function renderSessions() {
   sessionsEl.innerHTML = "";
   const query = search.value.trim().toLowerCase();
@@ -406,7 +419,7 @@ function renderSessions() {
     sessionsEl.innerHTML = `<div style="padding:15px;color:var(--muted2);text-align:center;font-size:11px;">لا توجد نتائج</div>`;
   }
 }
- 
+
 function renderChat() {
   const chat = sessions[current] || [];
   messagesEl.innerHTML = "";
@@ -423,7 +436,7 @@ function renderChat() {
   });
   scrollBottom();
 }
- 
+
 function drawUser(text, saveMessage) {
   const row = document.createElement("div");
   row.className = "message user";
@@ -441,11 +454,11 @@ function drawUser(text, saveMessage) {
   }
   scrollBottom();
 }
- 
+
 function attachTools(container, getText) {
   const tools = document.createElement("div");
   tools.className = "tools";
- 
+
   const copy = document.createElement("button");
   copy.className = "tool";
   copy.textContent = "📋 نسخ";
@@ -453,13 +466,12 @@ function attachTools(container, getText) {
     try {
       await navigator.clipboard.writeText(getText());
       copy.textContent = "✓ تم النسخ";
-      setTimeout(() => { copy.textContent = "📋 نسخ"; }, 1200);
     } catch {
       copy.textContent = "تعذر النسخ";
-      setTimeout(() => { copy.textContent = "📋 نسخ"; }, 1200);
     }
+    setTimeout(() => { copy.textContent = "📋 نسخ"; }, 1200);
   };
- 
+
   const speak = document.createElement("button");
   speak.className = "tool";
   speak.textContent = "🔊 استماع";
@@ -471,35 +483,35 @@ function attachTools(container, getText) {
     utterance.rate = .95;
     speechSynthesis.speak(utterance);
   };
- 
+
   tools.appendChild(copy);
   tools.appendChild(speak);
   container.appendChild(tools);
   return tools;
 }
- 
+
 function drawAI(text, saveMessage) {
   const row = document.createElement("div");
   row.className = "message";
   row.innerHTML = `<div class="avatar ai">⚡</div>`;
- 
+
   const body = document.createElement("div");
   body.className = "message-body";
   body.innerHTML = `
     <div class="message-name">A5</div>
     <div class="bubble">${markdown(text)}</div>`;
   attachTools(body, () => text);
- 
+
   row.appendChild(body);
   messagesEl.appendChild(row);
- 
+
   if (saveMessage) {
     sessions[current].push({ role: "assistant", content: text });
     save();
   }
   scrollBottom();
 }
- 
+
 function placeholder() {
   const row = document.createElement("div");
   row.className = "message";
@@ -513,70 +525,98 @@ function placeholder() {
   scrollBottom();
   return { row, bubble: row.querySelector(".bubble") };
 }
- 
+
 function setStatus(text, color) {
   status.textContent = text;
   dot.style.background = color;
 }
- 
+
+function setLoadProgress(percent) {
+  if (percent == null) {
+    loadBarWrap.classList.remove("show");
+    return;
+  }
+  loadBarWrap.classList.add("show");
+  loadBarFill.style.width = Math.max(0, Math.min(100, percent)) + "%";
+}
+
+/* ===================== تهيئة النموذج (نقطة واحدة، بدون تحميل مزدوج) ===================== */
 async function initAI() {
   if (engine) return engine;
+  if (initPromise) return initPromise; // أي طلب ثاني ينتظر نفس التحميل بدل ما يبدأ واحد جديد
+
   if (!navigator.gpu) {
-    setStatus("WebGPU غير متاح", "#ef4444");
-    throw new Error("WebGPU غير مدعوم في هذا المتصفح");
+    setStatus("المتصفح لا يدعم WebGPU", "#ef4444");
+    throw new Error("هذا المتصفح لا يدعم WebGPU. جرّب أحدث إصدار من Chrome أو Edge على جهاز يدعم تسريع الرسوميات.");
   }
+
   send.disabled = true;
-  try {
-    setStatus("جاري تحميل A5...", "#f59e0b");
-    engine = await CreateMLCEngine(MODEL, {
-      initProgressCallback: progress => {
-        if (progress?.text) setStatus(progress.text, "#f59e0b");
-      }
-    });
-    setStatus("A5 جاهز", "#22c55e");
-    return engine;
-  } catch (error) {
-    console.error(error);
-    engine = null;
-    setStatus("فشل تحميل A5 — أعد المحاولة", "#ef4444");
-    throw error;
-  } finally {
-    // يُعاد تفعيل الزر دائماً، نجح التحميل أو فشل، حتى يقدر المستخدم يعيد المحاولة.
-    send.disabled = false;
-  }
+
+  initPromise = (async () => {
+    try {
+      setStatus("جاري تحميل A5... 0%", "#f59e0b");
+      setLoadProgress(0);
+
+      engine = await CreateMLCEngine(MODEL, {
+        initProgressCallback: progress => {
+          const pct = typeof progress?.progress === "number" ? Math.round(progress.progress * 100) : null;
+          setLoadProgress(pct);
+          setStatus(pct != null ? `جاري تحميل A5... ${pct}%` : (progress?.text || "جاري تحميل A5..."), "#f59e0b");
+        }
+      });
+
+      setLoadProgress(null);
+      setStatus("A5 جاهز", "#22c55e");
+      return engine;
+    } catch (error) {
+      console.error("A5 init error:", error);
+      engine = null;
+      setLoadProgress(null);
+      setStatus("فشل تحميل A5 — اضغط إرسال لإعادة المحاولة", "#ef4444");
+      throw error;
+    } finally {
+      send.disabled = false;
+      initPromise = null;
+    }
+  })();
+
+  return initPromise;
 }
- 
+
+/* ===================== الإرسال ===================== */
 async function sendMessage() {
   if (generating) return;
   const text = input.value.trim();
   if (!text) return;
- 
-  try {
-    if (!engine) await initAI();
-  } catch {
-    drawAI("لم يتم تشغيل النموذج. المشكلة تقنية (WebGPU) وليست في رسالتك. تأكد أن متصفحك يدعم WebGPU ثم أعد المحاولة.");
-    return;
+
+  if (!engine) {
+    try {
+      await initAI();
+    } catch (error) {
+      drawAI(`لم يتم تشغيل النموذج بعد.\n\nالسبب: ${error?.message || "خطأ غير معروف"}\n\nجرب تعيد المحاولة، أو تأكد إن المتصفح يدعم WebGPU (Chrome/Edge حديث).`);
+      return;
+    }
   }
- 
+
   drawUser(text, true);
   input.value = "";
   resize();
- 
+
   generating = true;
   controller = new AbortController();
   send.disabled = true;
   stop.classList.add("show");
   setStatus("A5 يعالج الرسالة...", "#f59e0b");
- 
+
   const box = placeholder();
- 
+
   try {
     const chat = sessions[current];
     const history = [
       { role: "system", content: systemPrompt() },
       ...chat.map(x => ({ role: x.role, content: x.content }))
     ];
- 
+
     const stream = await engine.chat.completions.create({
       messages: history,
       temperature: .72,
@@ -586,7 +626,7 @@ async function sendMessage() {
       stream: true,
       signal: controller.signal
     });
- 
+
     let answer = "";
     box.bubble.innerHTML = "";
     for await (const chunk of stream) {
@@ -597,27 +637,27 @@ async function sendMessage() {
       box.bubble.innerHTML = markdown(answer);
       scrollBottom();
     }
- 
+
     if (controller.signal.aborted) answer += "\n\n[تم إيقاف التوليد]";
     if (!answer.trim()) answer = "لم ينتج A5 رداً.";
- 
+
     box.bubble.innerHTML = markdown(answer);
     const body = box.row.querySelector(".message-body");
     attachTools(body, () => answer);
- 
+
     sessions[current].push({ role: "assistant", content: answer });
     addMemory(text, answer);
     save();
     renderSessions();
   } catch (error) {
-    console.error("A5 error:", error);
+    console.error("A5 generation error:", error);
     if (controller?.signal?.aborted) {
       box.bubble.innerHTML = "تم إيقاف التوليد.";
     } else {
-      box.bubble.innerHTML = "حدث خطأ أثناء التوليد. تحقق من WebGPU أو أعد تحميل الصفحة.";
+      box.bubble.innerHTML = `حدث خطأ أثناء التوليد: ${escapeHTML(error?.message || "غير معروف")}`;
     }
   }
- 
+
   generating = false;
   controller = null;
   send.disabled = false;
@@ -626,9 +666,10 @@ async function sendMessage() {
   input.focus();
   scrollBottom();
 }
- 
+
 stop.onclick = () => { if (controller) controller.abort(); };
- 
+
+/* ===================== أزرار الشريط الجانبي ===================== */
 $("newChat").onclick = () => {
   sessions.push([]);
   current = sessions.length - 1;
@@ -638,7 +679,7 @@ $("newChat").onclick = () => {
   closeSidebar();
   input.focus();
 };
- 
+
 $("clearCurrent").onclick = () => {
   if (!sessions[current]?.length) return;
   if (confirm("هل تريد حذف المحادثة الحالية؟")) {
@@ -648,7 +689,7 @@ $("clearCurrent").onclick = () => {
     renderChat();
   }
 };
- 
+
 $("clearAll").onclick = () => {
   if (!confirm("سيتم حذف جميع المحادثات. هل أنت متأكد؟")) return;
   sessions = [[]];
@@ -657,7 +698,7 @@ $("clearAll").onclick = () => {
   renderSessions();
   renderChat();
 };
- 
+
 $("export").onclick = () => {
   const chat = sessions[current] || [];
   if (!chat.length) { alert("لا توجد محادثة لتصديرها."); return; }
@@ -675,15 +716,16 @@ $("export").onclick = () => {
   a.click();
   URL.revokeObjectURL(url);
 };
- 
+
 $("theme").onclick = () => {
   document.body.classList.toggle("light");
   localStorage.setItem("a5_theme", document.body.classList.contains("light") ? "light" : "dark");
 };
 if (localStorage.getItem("a5_theme") === "light") document.body.classList.add("light");
- 
+
 search.oninput = renderSessions;
- 
+
+/* ===================== الإدخال ===================== */
 input.oninput = resize;
 function resize() {
   input.style.height = "auto";
@@ -696,7 +738,7 @@ input.onkeydown = event => {
   }
 };
 send.onclick = sendMessage;
- 
+
 document.querySelectorAll("[data-prompt]").forEach(button => {
   button.onclick = () => {
     input.value = button.dataset.prompt;
@@ -704,17 +746,18 @@ document.querySelectorAll("[data-prompt]").forEach(button => {
     input.focus();
   };
 });
- 
+
+/* ===================== الصوت ===================== */
 $("mic").onclick = () => {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) { alert("التعرف على الصوت غير متاح في هذا المتصفح."); return; }
   if (recording) { recognition?.stop(); return; }
- 
+
   recognition = new SpeechRecognition();
   recognition.lang = "ar-SA";
   recognition.interimResults = true;
   recognition.continuous = false;
- 
+
   recognition.onstart = () => {
     recording = true;
     $("mic").classList.add("recording");
@@ -739,21 +782,23 @@ $("mic").onclick = () => {
   };
   recognition.start();
 };
- 
+
+/* ===================== القائمة الجانبية على الجوال ===================== */
 $("menu").onclick = () => { sidebar.classList.toggle("open"); };
 function closeSidebar() { sidebar.classList.remove("open"); }
- 
+
 function scrollBottom() {
   requestAnimationFrame(() => { messagesEl.scrollTop = messagesEl.scrollHeight; });
 }
- 
+
+/* ===================== البدء ===================== */
 renderSessions();
 renderChat();
 resize();
-setTimeout(async () => {
-  try { await initAI(); } catch (error) { console.error(error); }
-}, 500);
+
+// يبدأ التحميل تلقائياً مرة واحدة فقط عند فتح الصفحة.
+// أي محاولة إرسال أثناء التحميل تنضم لنفس initPromise ولا تبدأ تحميلاً جديداً.
+initAI().catch(error => console.error("A5 startup init failed:", error));
 </script>
 </body>
 </html>
- 
