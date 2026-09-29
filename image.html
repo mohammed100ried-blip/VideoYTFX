@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>VideoYTFX - Image Studio</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <title>VideoYTFX Studio</title>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap');
+
         :root {
-            --bg: #030712;
-            --panel: rgba(15, 23, 42, .82);
-            --panel2: rgba(30, 41, 59, .65);
-            --border: rgba(255,255,255,.09);
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --primary: #3b82f6;
-            --accent: #8b5cf6;
-            --danger: #ef4444;
-            --radius: 18px;
+            --bg: #07090f;
+            --card: rgba(18, 22, 34, .82);
+            --card-hover: rgba(25, 31, 48, .96);
+            --text: #ffffff;
+            --muted: #9299aa;
+            --line: rgba(255,255,255,.09);
+            --primary: #6d7cff;
+            --secondary: #9c5cff;
+            --danger: #ff5577;
+            --shadow: 0 30px 80px rgba(0,0,0,.42);
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f7fb;
+            --card: rgba(255,255,255,.9);
+            --card-hover: #ffffff;
+            --text: #101522;
+            --muted: #697386;
+            --line: rgba(15,23,42,.1);
+            --shadow: 0 25px 70px rgba(30,40,70,.13);
         }
 
         * {
@@ -32,12 +41,10 @@
 
         body {
             min-height: 100vh;
-            background:
-                radial-gradient(circle at 10% 10%, rgba(59,130,246,.15), transparent 30%),
-                radial-gradient(circle at 90% 90%, rgba(139,92,246,.14), transparent 30%),
-                var(--bg);
+            background: var(--bg);
             color: var(--text);
             font-family: "Tajawal", sans-serif;
+            overflow-x: hidden;
         }
 
         button,
@@ -46,519 +53,2653 @@
             font: inherit;
         }
 
-        .navbar {
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================
+           BACKGROUND
+        ========================= */
+
+        .background {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        .glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: .18;
+        }
+
+        .glow.one {
+            background: #536dff;
+            top: -250px;
+            left: -180px;
+        }
+
+        .glow.two {
+            background: #a34fff;
+            bottom: -280px;
+            right: -180px;
+        }
+
+        .grid {
+            position: absolute;
+            inset: 0;
+            opacity: .08;
+
+            background-image:
+                linear-gradient(var(--line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line) 1px, transparent 1px);
+
+            background-size: 45px 45px;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        nav {
             height: 72px;
-            padding: 0 6%;
+            padding: 0 5%;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-            background: rgba(3,7,18,.75);
-            backdrop-filter: blur(18px);
+
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 50;
+
+            background: var(--card);
+            backdrop-filter: blur(20px);
+
+            border-bottom: 1px solid var(--line);
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: white;
-            text-decoration: none;
-            font-size: 1.3rem;
+            gap: 11px;
+
+            font-size: 18px;
             font-weight: 800;
         }
 
-        .brand-icon {
+        .logo {
             width: 42px;
             height: 42px;
+
             display: grid;
             place-items: center;
-            border-radius: 13px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            box-shadow: 0 8px 30px rgba(59,130,246,.3);
+
+            color: white;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
+            box-shadow:
+                0 10px 30px rgba(109,124,255,.25);
         }
 
-        .nav-buttons {
+        .nav-actions {
             display: flex;
             gap: 8px;
         }
 
         .nav-btn {
-            border: 1px solid var(--border);
-            background: var(--panel);
-            color: var(--text);
-            padding: 9px 14px;
+            height: 40px;
+            padding: 0 13px;
+
+            border: 1px solid var(--line);
             border-radius: 11px;
-            cursor: pointer;
+
+            background: rgba(255,255,255,.04);
+            color: var(--text);
+
+            font-weight: 700;
+
             transition: .2s;
         }
 
         .nav-btn:hover {
-            border-color: var(--primary);
+            transform: translateY(-2px);
+            border-color: rgba(109,124,255,.6);
+        }
+
+        /* =========================
+           HOME
+        ========================= */
+
+        .home {
+            width: min(1100px, 92%);
+            margin: auto;
+            padding: 85px 0 90px;
+        }
+
+        .home-title {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+
+        .home-title h1 {
+            font-size: clamp(38px, 7vw, 72px);
+            line-height: 1;
+            letter-spacing: -2px;
+        }
+
+        .home-title .accent {
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        /* =========================
+           TWO CARDS
+        ========================= */
+
+        .tools {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 22px;
+        }
+
+        .tool-card {
+            position: relative;
+
+            min-height: 390px;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 35px;
+
+            background: var(--card);
+
+            border:
+                1px solid
+                var(--line);
+
+            border-radius: 30px;
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+
+            transition:
+                transform .3s ease,
+                border-color .3s ease,
+                background .3s ease;
+        }
+
+        .tool-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+            height: 250px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(109,124,255,.17),
+                    transparent 70%
+                );
+
+            top: -130px;
+            left: -100px;
+
+            pointer-events: none;
+        }
+
+        .tool-card.watermark::before {
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(156,92,255,.18),
+                    transparent 70%
+                );
+        }
+
+        .tool-card:hover {
+            transform: translateY(-7px);
+
+            background:
+                var(--card-hover);
+
+            border-color:
+                rgba(109,124,255,.42);
+        }
+
+        .tool-icon {
+            width: 105px;
+            height: 105px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 30px;
+
+            font-size: 48px;
+
+            margin-bottom: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(109,124,255,.16),
+                    rgba(156,92,255,.12)
+                );
+
+            border:
+                1px solid
+                rgba(109,124,255,.2);
+
+            transition: .3s;
+        }
+
+        .tool-card:hover .tool-icon {
+            transform:
+                scale(1.08)
+                rotate(-3deg);
+        }
+
+        .tool-card h2 {
+            font-size: 26px;
+            margin-bottom: 24px;
+        }
+
+        .open-button {
+            border: 0;
+
+            padding: 13px 25px;
+
+            border-radius: 13px;
+
+            color: white;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
+            box-shadow:
+                0 12px 35px
+                rgba(109,124,255,.22);
+
+            transition: .2s;
+        }
+
+        .open-button:hover {
             transform: translateY(-2px);
         }
 
-        .container {
-            width: min(1250px, 94%);
-            margin: auto;
-            padding: 35px 0 60px;
-        }
+        /* =========================
+           EDITOR
+        ========================= */
 
-        .hero {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .hero-icon {
-            width: 75px;
-            height: 75px;
-            margin: auto auto 16px;
-            display: grid;
-            place-items: center;
-            border-radius: 22px;
-            font-size: 36px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            box-shadow: 0 15px 40px rgba(59,130,246,.25);
-        }
-
-        h1 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            margin-bottom: 8px;
-            font-weight: 800;
-        }
-
-        .subtitle {
-            color: var(--muted);
-            font-size: 1rem;
-        }
-
-        .editor {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 20px;
-            align-items: start;
-        }
-
-        .panel {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            backdrop-filter: blur(20px);
-        }
-
-        .panel h2 {
-            font-size: 1.05rem;
-            margin-bottom: 16px;
-        }
-
-        .upload {
-            min-height: 180px;
-            border: 2px dashed rgba(59,130,246,.35);
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            cursor: pointer;
-            transition: .25s;
-            background: rgba(59,130,246,.04);
-        }
-
-        .upload:hover,
-        .upload.dragging {
-            border-color: var(--primary);
-            background: rgba(59,130,246,.1);
-        }
-
-        .upload-icon {
-            font-size: 42px;
-            margin-bottom: 10px;
-        }
-
-        .upload strong {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .upload span {
-            color: var(--muted);
-            font-size: .85rem;
-        }
-
-        #imageInput {
+        .page {
             display: none;
         }
 
+        .page.active {
+            display: block;
+            animation: appear .35s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .editor-page {
+            width: min(1200px, 94%);
+            margin: auto;
+            padding: 35px 0 70px;
+        }
+
+        .editor-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .editor-top h1 {
+            font-size: 28px;
+        }
+
+        .back-button {
+            border: 1px solid var(--line);
+            background: var(--card);
+            color: var(--text);
+
+            padding: 10px 15px;
+
+            border-radius: 11px;
+
+            font-weight: 700;
+        }
+
+        .workspace {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.6fr)
+                330px;
+
+            gap: 18px;
+        }
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        /* =========================
+           UPLOAD
+        ========================= */
+
+        .upload {
+            min-height: 600px;
+
+            display: grid;
+            place-items: center;
+
+            padding: 30px;
+
+            text-align: center;
+
+            border: 1px dashed
+                rgba(109,124,255,.45);
+
+            border-radius: 22px;
+
+            transition: .25s;
+        }
+
+        .upload.drag {
+            border-color: var(--primary);
+            background: rgba(109,124,255,.08);
+            transform: scale(1.01);
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .upload h2 {
+            margin-bottom: 20px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* =========================
+           IMAGE AREA
+        ========================= */
+
+        .image-stage {
+            position: relative;
+
+            min-height: 600px;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            overflow: hidden;
+        }
+
+        .image-stage.active {
+            display: flex;
+        }
+
+        .image-stage img {
+            max-width: 100%;
+            max-height: 650px;
+
+            object-fit: contain;
+
+            border-radius: 10px;
+
+            user-select: none;
+
+            transition: .2s;
+        }
+
+        .compare {
+            position: relative;
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =========================
+           SIDE PANEL
+        ========================= */
+
         .controls {
-            margin-top: 20px;
+            padding: 18px;
+        }
+
+        .controls h3 {
+            margin-bottom: 17px;
         }
 
         .control {
-            margin-bottom: 18px;
+            padding: 14px 0;
+
+            border-bottom:
+                1px solid var(--line);
+        }
+
+        .control:last-child {
+            border-bottom: 0;
         }
 
         .control-head {
             display: flex;
             justify-content: space-between;
-            color: var(--muted);
-            font-size: .9rem;
-            margin-bottom: 8px;
+            gap: 10px;
+
+            margin-bottom: 9px;
+        }
+
+        .control-head span:last-child {
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 13px;
         }
 
         input[type="range"] {
             width: 100%;
             accent-color: var(--primary);
-            cursor: pointer;
         }
 
         select {
             width: 100%;
-            padding: 11px;
+
+            background: rgba(255,255,255,.04);
+            color: var(--text);
+
+            border: 1px solid var(--line);
+
             border-radius: 10px;
-            border: 1px solid var(--border);
-            background: #111827;
-            color: white;
+
+            padding: 10px;
+
             outline: none;
         }
 
-        .button-grid {
+        option {
+            background: #111827;
+        }
+
+        .control-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+
+            grid-template-columns:
+                1fr 1fr;
+
             gap: 8px;
-            margin-top: 18px;
+
+            margin-top: 15px;
         }
 
-        .action-btn {
-            border: 1px solid var(--border);
-            background: var(--panel2);
-            color: white;
-            padding: 11px;
-            border-radius: 11px;
-            cursor: pointer;
-            transition: .2s;
+        .small-button {
+            padding: 10px;
+
+            border: 1px solid var(--line);
+
+            background: rgba(255,255,255,.04);
+
+            color: var(--text);
+
+            border-radius: 10px;
+
+            font-weight: 700;
         }
 
-        .action-btn:hover {
-            border-color: var(--primary);
-            background: rgba(59,130,246,.15);
-            transform: translateY(-2px);
+        .small-button:hover {
+            border-color:
+                rgba(109,124,255,.5);
         }
 
         .download {
             width: 100%;
-            margin-top: 10px;
-            border: 0;
-            padding: 13px;
-            border-radius: 12px;
-            cursor: pointer;
-            color: white;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            box-shadow: 0 10px 25px rgba(59,130,246,.2);
-            transition: .2s;
-        }
 
-        .download:hover {
-            transform: translateY(-2px);
-        }
-
-        .download:disabled {
-            opacity: .4;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .canvas-panel {
-            min-height: 650px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .canvas-wrapper {
-            flex: 1;
-            min-height: 500px;
-            border-radius: 15px;
-            border: 1px solid var(--border);
-            background:
-                linear-gradient(45deg, #111827 25%, transparent 25%),
-                linear-gradient(-45deg, #111827 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #111827 75%),
-                linear-gradient(-45deg, transparent 75%, #111827 75%);
-            background-size: 30px 30px;
-            background-position: 0 0, 0 15px, 15px -15px, -15px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            padding: 20px;
-        }
-
-        canvas {
-            max-width: 100%;
-            max-height: 560px;
-            display: block;
-            box-shadow: 0 15px 40px rgba(0,0,0,.4);
-        }
-
-        .empty {
-            text-align: center;
-            color: var(--muted);
-        }
-
-        .empty-icon {
-            font-size: 55px;
-            opacity: .5;
-            margin-bottom: 10px;
-        }
-
-        .canvas-actions {
-            display: flex;
-            gap: 8px;
             margin-top: 15px;
+
+            border: 0;
+
+            padding: 14px;
+
+            border-radius: 12px;
+
+            color: white;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
         }
 
-        .canvas-actions button {
-            flex: 1;
+        /* =========================
+           WATERMARK TOOL
+        ========================= */
+
+        .watermark-area {
+            position: relative;
+
+            width: 100%;
+            min-height: 600px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .status {
-            margin-top: 12px;
+        .watermark-canvas {
+            max-width: 100%;
+            max-height: 650px;
+
+            border-radius: 10px;
+
+            cursor: crosshair;
+
+            touch-action: none;
+        }
+
+        .selection {
+            position: absolute;
+
+            display: none;
+
+            border:
+                2px solid
+                var(--primary);
+
+            background:
+                rgba(109,124,255,.12);
+
+            pointer-events: none;
+        }
+
+        .watermark-help {
             text-align: center;
-            color: var(--muted);
-            font-size: .85rem;
-            min-height: 20px;
         }
+
+        .watermark-help .upload-icon {
+            font-size: 55px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
 
         footer {
             text-align: center;
+
+            padding: 25px;
+
             color: var(--muted);
-            border-top: 1px solid var(--border);
-            padding: 22px;
-            font-size: .85rem;
+
+            border-top: 1px solid var(--line);
         }
 
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
         @media (max-width: 850px) {
-            .editor {
+
+            .tools {
                 grid-template-columns: 1fr;
             }
 
-            .canvas-panel {
-                min-height: 500px;
+            .tool-card {
+                min-height: 300px;
             }
 
-            .canvas-wrapper {
-                min-height: 400px;
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+
+            .upload,
+            .image-stage,
+            .watermark-area {
+                min-height: 450px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            nav {
+                padding: 0 4%;
+            }
+
+            .brand span {
+                display: none;
+            }
+
+            .home {
+                padding-top: 55px;
+            }
+
+            .tool-card {
+                min-height: 270px;
+                border-radius: 23px;
+            }
+
+            .tool-icon {
+                width: 85px;
+                height: 85px;
+                font-size: 38px;
             }
         }
     </style>
 </head>
 
+
 <body>
 
-<nav class="navbar">
-    <a href="index.html" class="brand">
-        <span class="brand-icon">V</span>
-        <span>VideoYTFX</span>
-    </a>
-
-    <div class="nav-buttons">
-        <button class="nav-btn" id="languageBtn">🌐 English</button>
-        <button class="nav-btn" id="themeBtn">☀️</button>
+    <div class="background">
+        <div class="glow one"></div>
+        <div class="glow two"></div>
+        <div class="grid"></div>
     </div>
-</nav>
 
-<main class="container">
 
-    <section class="hero">
-        <div class="hero-icon">🖼️</div>
-        <h1 id="title">استوديو الصور</h1>
-        <p class="subtitle" id="subtitle">
-            عدّل وحسّن وأضف الفلاتر والمؤثرات إلى صورك بسهولة.
-        </p>
-    </section>
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
 
-    <section class="editor">
+    <nav>
 
-        <!-- LEFT PANEL -->
-        <aside class="panel">
+        <div class="brand">
 
-            <h2 id="uploadTitle">إضافة صورة</h2>
+            <div class="logo">
+                V
+            </div>
 
-            <div class="upload" id="uploadArea">
-                <div class="upload-icon">📷</div>
+            <span>
+                VideoYTFX Studio
+            </span>
 
-                <strong id="uploadText">
-                    اضغط لاختيار صورة
-                </strong>
+        </div>
 
-                <span id="uploadHint">
-                    أو اسحب الصورة هنا
-                </span>
 
-                <input
-                    type="file"
-                    id="imageInput"
-                    accept="image/*"
+        <div class="nav-actions">
+
+            <button
+                class="nav-btn"
+                id="languageButton"
+            >
+                🌐 English
+            </button>
+
+            <button
+                class="nav-btn"
+                id="themeButton"
+            >
+                ☀️
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         HOME
+    ========================= -->
+
+    <main
+        id="homePage"
+        class="page active"
+    >
+
+        <section class="home">
+
+            <div class="home-title">
+
+                <h1>
+                    VideoYTFX
+                    <span class="accent">
+                        Studio
+                    </span>
+                </h1>
+
+            </div>
+
+
+            <div class="tools">
+
+                <!-- IMAGE EDITING -->
+
+                <article
+                    class="tool-card"
+                    id="imageTool"
                 >
-            </div>
 
-            <div class="controls">
-
-                <div class="control">
-                    <div class="control-head">
-                        <span id="brightnessLabel">الإضاءة</span>
-                        <span id="brightnessValue">100%</span>
+                    <div class="tool-icon">
+                        🖼️
                     </div>
 
-                    <input
-                        type="range"
-                        id="brightness"
-                        min="0"
-                        max="200"
-                        value="100"
+                    <h2
+                        data-ar="تعديل الصور"
+                        data-en="Image Editing"
                     >
-                </div>
+                        تعديل الصور
+                    </h2>
 
-                <div class="control">
-                    <div class="control-head">
-                        <span id="contrastLabel">التباين</span>
-                        <span id="contrastValue">100%</span>
-                    </div>
-
-                    <input
-                        type="range"
-                        id="contrast"
-                        min="0"
-                        max="200"
-                        value="100"
+                    <button
+                        class="open-button"
+                        id="openEditor"
                     >
-                </div>
-
-                <div class="control">
-                    <div class="control-head">
-                        <span id="saturationLabel">التشبع</span>
-                        <span id="saturationValue">100%</span>
-                    </div>
-
-                    <input
-                        type="range"
-                        id="saturation"
-                        min="0"
-                        max="200"
-                        value="100"
-                    >
-                </div>
-
-                <div class="control">
-                    <div class="control-head">
-                        <span id="blurLabel">ضبابية</span>
-                        <span id="blurValue">0px</span>
-                    </div>
-
-                    <input
-                        type="range"
-                        id="blur"
-                        min="0"
-                        max="20"
-                        value="0"
-                    >
-                </div>
-
-                <div class="control">
-                    <label id="filterLabel" class="control-head">
-                        الفلتر
-                    </label>
-
-                    <select id="filter">
-                        <option value="none">بدون فلتر</option>
-                        <option value="vintage">Vintage</option>
-                        <option value="warm">Warm</option>
-                        <option value="cool">Cool</option>
-                        <option value="dramatic">Dramatic</option>
-                        <option value="mono">Black & White</option>
-                    </select>
-                </div>
-
-                <div class="button-grid">
-                    <button class="action-btn" id="rotateLeft">
-                        ↶ تدوير
+                        <span
+                            data-ar="فتح"
+                            data-en="Open"
+                        >
+                            فتح
+                        </span>
                     </button>
 
-                    <button class="action-btn" id="rotateRight">
-                        ↷ تدوير
-                    </button>
+                </article>
 
-                    <button class="action-btn" id="zoomOut">
-                        − تصغير
-                    </button>
 
-                    <button class="action-btn" id="zoomIn">
-                        ＋ تكبير
-                    </button>
+                <!-- WATERMARK -->
 
-                    <button class="action-btn" id="reset">
-                        🔄 إعادة ضبط
-                    </button>
-                </div>
-
-                <button
-                    class="download"
-                    id="downloadBtn"
-                    disabled
+                <article
+                    class="tool-card watermark"
+                    id="watermarkTool"
                 >
-                    ⬇️ تحميل الصورة
-                </button>
 
-            </div>
-
-        </aside>
-
-        <!-- CANVAS -->
-        <section class="panel canvas-panel">
-
-            <div class="canvas-wrapper" id="canvasWrapper">
-
-                <div class="empty" id="emptyState">
-                    <div class="empty-icon">🖼️</div>
-                    <div id="emptyText">
-                        أضف صورة لبدء التعديل
+                    <div class="tool-icon">
+                        🧹
                     </div>
-                </div>
 
-                <canvas id="imageCanvas"></canvas>
+                    <h2
+                        data-ar="إزالة العلامات المائية"
+                        data-en="Watermark Removal"
+                    >
+                        إزالة العلامات المائية
+                    </h2>
+
+                    <button
+                        class="open-button"
+                        id="openWatermark"
+                    >
+                        <span
+                            data-ar="فتح"
+                            data-en="Open"
+                        >
+                            فتح
+                        </span>
+                    </button>
+
+                </article>
 
             </div>
-
-            <div class="canvas-actions">
-
-                <button class="action-btn" id="openButton">
-                    📁 اختيار صورة
-                </button>
-
-                <button class="action-btn" id="resetImage">
-                    🔄 إعادة الصورة
-                </button>
-
-            </div>
-
-            <div class="status" id="status"></div>
 
         </section>
 
-    </section>
 
-</main>
+        <footer>
+            © 2026 VideoYTFX
+        </footer>
 
-<footer>
-    © 2026 VideoYTFX. All rights reserved.
-</footer>
+    </main>
 
-<script src="image.js"></script>
+
+    <!-- =========================
+         IMAGE EDITOR
+    ========================= -->
+
+    <main
+        id="editorPage"
+        class="page"
+    >
+
+        <section class="editor-page">
+
+            <div class="editor-top">
+
+                <h1
+                    data-ar="تعديل الصور"
+                    data-en="Image Editing"
+                >
+                    تعديل الصور
+                </h1>
+
+                <button
+                    class="back-button"
+                    id="backEditor"
+                >
+                    ←
+                    <span
+                        data-ar="رجوع"
+                        data-en="Back"
+                    >
+                        رجوع
+                    </span>
+                </button>
+
+            </div>
+
+
+            <div class="workspace">
+
+                <div class="panel">
+
+                    <div
+                        class="upload"
+                        id="editorUpload"
+                    >
+
+                        <div>
+
+                            <div class="upload-icon">
+                                🖼️
+                            </div>
+
+                            <h2
+                                data-ar="اختر صورة"
+                                data-en="Choose Image"
+                            >
+                                اختر صورة
+                            </h2>
+
+                            <label
+                                class="open-button"
+                                for="editorInput"
+                            >
+                                <span
+                                    data-ar="اختيار"
+                                    data-en="Choose"
+                                >
+                                    اختيار
+                                </span>
+                            </label>
+
+                            <input
+                                class="file-input"
+                                id="editorInput"
+                                type="file"
+                                accept="image/*"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="image-stage"
+                        id="imageStage"
+                    >
+
+                        <div class="compare">
+
+                            <img
+                                id="editorImage"
+                                alt=""
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <aside class="panel controls">
+
+                    <h3
+                        data-ar="التحكم"
+                        data-en="Controls"
+                    >
+                        التحكم
+                    </h3>
+
+
+                    <div class="control">
+
+                        <div class="control-head">
+
+                            <span
+                                data-ar="السطوع"
+                                data-en="Brightness"
+                            >
+                                السطوع
+                            </span>
+
+                            <span id="brightnessValue">
+                                100%
+                            </span>
+
+                        </div>
+
+                        <input
+                            id="brightness"
+                            type="range"
+                            min="50"
+                            max="150"
+                            value="100"
+                        >
+
+                    </div>
+
+
+                    <div class="control">
+
+                        <div class="control-head">
+
+                            <span
+                                data-ar="التباين"
+                                data-en="Contrast"
+                            >
+                                التباين
+                            </span>
+
+                            <span id="contrastValue">
+                                100%
+                            </span>
+
+                        </div>
+
+                        <input
+                            id="contrast"
+                            type="range"
+                            min="50"
+                            max="180"
+                            value="100"
+                        >
+
+                    </div>
+
+
+                    <div class="control">
+
+                        <div class="control-head">
+
+                            <span
+                                data-ar="التشبع"
+                                data-en="Saturation"
+                            >
+                                التشبع
+                            </span>
+
+                            <span id="saturationValue">
+                                100%
+                            </span>
+
+                        </div>
+
+                        <input
+                            id="saturation"
+                            type="range"
+                            min="0"
+                            max="200"
+                            value="100"
+                        >
+
+                    </div>
+
+
+                    <div class="control">
+
+                        <div class="control-head">
+
+                            <span
+                                data-ar="الفلتر"
+                                data-en="Filter"
+                            >
+                                الفلتر
+                            </span>
+
+                        </div>
+
+                        <select id="filter">
+
+                            <option value="none">
+                                Original
+                            </option>
+
+                            <option value="grayscale(1)">
+                                Grayscale
+                            </option>
+
+                            <option value="sepia(1)">
+                                Sepia
+                            </option>
+
+                            <option value="saturate(1.8)">
+                                Vivid
+                            </option>
+
+                            <option value="contrast(1.2) saturate(.8)">
+                                Cinematic
+                            </option>
+
+                            <option value="brightness(1.1) saturate(1.25)">
+                                Warm
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="control-buttons">
+
+                        <button
+                            class="small-button"
+                            id="rotateLeft"
+                        >
+                            ↶
+                            90°
+                        </button>
+
+                        <button
+                            class="small-button"
+                            id="rotateRight"
+                        >
+                            ↷
+                            90°
+                        </button>
+
+                        <button
+                            class="small-button"
+                            id="flipX"
+                        >
+                            ↔
+                        </button>
+
+                        <button
+                            class="small-button"
+                            id="flipY"
+                        >
+                            ↕
+                        </button>
+
+                        <button
+                            class="small-button"
+                            id="resetEditor"
+                        >
+                            ↩
+                            <span
+                                data-ar="إعادة"
+                                data-en="Reset"
+                            >
+                                إعادة
+                            </span>
+                        </button>
+
+                    </div>
+
+
+                    <button
+                        class="download"
+                        id="downloadEdited"
+                    >
+                        ⬇️
+                        <span
+                            data-ar="تنزيل الصورة"
+                            data-en="Download Image"
+                        >
+                            تنزيل الصورة
+                        </span>
+                    </button>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         WATERMARK PAGE
+    ========================= -->
+
+    <main
+        id="watermarkPage"
+        class="page"
+    >
+
+        <section class="editor-page">
+
+            <div class="editor-top">
+
+                <h1
+                    data-ar="إزالة العلامات المائية"
+                    data-en="Watermark Removal"
+                >
+                    إزالة العلامات المائية
+                </h1>
+
+                <button
+                    class="back-button"
+                    id="backWatermark"
+                >
+                    ←
+                    <span
+                        data-ar="رجوع"
+                        data-en="Back"
+                    >
+                        رجوع
+                    </span>
+                </button>
+
+            </div>
+
+
+            <div class="workspace">
+
+                <div class="panel">
+
+                    <div
+                        class="upload"
+                        id="watermarkUpload"
+                    >
+
+                        <div>
+
+                            <div class="upload-icon">
+                                🧹
+                            </div>
+
+                            <h2
+                                data-ar="اختر صورة"
+                                data-en="Choose Image"
+                            >
+                                اختر صورة
+                            </h2>
+
+                            <label
+                                class="open-button"
+                                for="watermarkInput"
+                            >
+                                <span
+                                    data-ar="اختيار"
+                                    data-en="Choose"
+                                >
+                                    اختيار
+                                </span>
+                            </label>
+
+                            <input
+                                class="file-input"
+                                id="watermarkInput"
+                                type="file"
+                                accept="image/*"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="watermark-area"
+                        id="watermarkArea"
+                        style="display:none;"
+                    >
+
+                        <canvas
+                            id="watermarkCanvas"
+                            class="watermark-canvas"
+                        ></canvas>
+
+                        <div
+                            class="selection"
+                            id="selection"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <aside class="panel controls">
+
+                    <h3
+                        data-ar="تنظيف الصورة"
+                        data-en="Image Cleanup"
+                    >
+                        تنظيف الصورة
+                    </h3>
+
+
+                    <div class="control">
+
+                        <div class="control-head">
+
+                            <span
+                                data-ar="حجم الفرشاة"
+                                data-en="Brush Size"
+                            >
+                                حجم الفرشاة
+                            </span>
+
+                            <span id="brushValue">
+                                30
+                            </span>
+
+                        </div>
+
+                        <input
+                            id="brushSize"
+                            type="range"
+                            min="5"
+                            max="120"
+                            value="30"
+                        >
+
+                    </div>
+
+
+                    <div class="control">
+
+                        <div class="control-head">
+
+                            <span
+                                data-ar="نمط التنظيف"
+                                data-en="Cleanup Mode"
+                            >
+                                نمط التنظيف
+                            </span>
+
+                        </div>
+
+                        <select id="cleanupMode">
+
+                            <option value="blur">
+                                Soft Cleanup
+                            </option>
+
+                            <option value="clone">
+                                Local Clone
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="control-buttons">
+
+                        <button
+                            class="small-button"
+                            id="undoCleanup"
+                        >
+                            ↩
+                            <span
+                                data-ar="تراجع"
+                                data-en="Undo"
+                            >
+                                تراجع
+                            </span>
+                        </button>
+
+                        <button
+                            class="small-button"
+                            id="clearCleanup"
+                        >
+                            ✕
+                            <span
+                                data-ar="مسح"
+                                data-en="Clear"
+                            >
+                                مسح
+                            </span>
+                        </button>
+
+                    </div>
+
+
+                    <button
+                        class="download"
+                        id="downloadClean"
+                    >
+                        ⬇️
+                        <span
+                            data-ar="تنزيل الصورة"
+                            data-en="Download Image"
+                        >
+                            تنزيل الصورة
+                        </span>
+                    </button>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        /* =========================================
+           LANGUAGE
+        ========================================= */
+
+        let language =
+            localStorage.getItem(
+                "vytfx-language"
+            ) || "ar";
+
+
+        function updateLanguage() {
+
+            document.documentElement.lang =
+                language;
+
+            document.documentElement.dir =
+                language === "ar"
+                    ? "rtl"
+                    : "ltr";
+
+
+            document
+                .querySelectorAll(
+                    "[data-ar]"
+                )
+                .forEach(element => {
+
+                    element.textContent =
+                        element.dataset[
+                            language
+                        ];
+
+                });
+
+
+            document.getElementById(
+                "languageButton"
+            ).textContent =
+                language === "ar"
+                    ? "🌐 English"
+                    : "🌐 العربية";
+
+
+            localStorage.setItem(
+                "vytfx-language",
+                language
+            );
+
+        }
+
+
+        document.getElementById(
+            "languageButton"
+        ).onclick = () => {
+
+            language =
+                language === "ar"
+                    ? "en"
+                    : "ar";
+
+            updateLanguage();
+
+        };
+
+
+        /* =========================================
+           THEME
+        ========================================= */
+
+        let theme =
+            localStorage.getItem(
+                "vytfx-theme"
+            ) || "dark";
+
+
+        function updateTheme() {
+
+            document.documentElement
+                .dataset.theme =
+                theme;
+
+            document.getElementById(
+                "themeButton"
+            ).textContent =
+                theme === "dark"
+                    ? "☀️"
+                    : "🌙";
+
+            localStorage.setItem(
+                "vytfx-theme",
+                theme
+            );
+
+        }
+
+
+        document.getElementById(
+            "themeButton"
+        ).onclick = () => {
+
+            theme =
+                theme === "dark"
+                    ? "light"
+                    : "dark";
+
+            updateTheme();
+
+        };
+
+
+        updateLanguage();
+        updateTheme();
+
+
+        /* =========================================
+           PAGE SWITCHING
+        ========================================= */
+
+        const homePage =
+            document.getElementById(
+                "homePage"
+            );
+
+        const editorPage =
+            document.getElementById(
+                "editorPage"
+            );
+
+        const watermarkPage =
+            document.getElementById(
+                "watermarkPage"
+            );
+
+
+        function showPage(page) {
+
+            homePage.classList.remove(
+                "active"
+            );
+
+            editorPage.classList.remove(
+                "active"
+            );
+
+            watermarkPage.classList.remove(
+                "active"
+            );
+
+
+            page.classList.add(
+                "active"
+            );
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+
+        document.getElementById(
+            "openEditor"
+        ).onclick = () => {
+
+            showPage(editorPage);
+
+        };
+
+
+        document.getElementById(
+            "openWatermark"
+        ).onclick = () => {
+
+            showPage(watermarkPage);
+
+        };
+
+
+        document.getElementById(
+            "backEditor"
+        ).onclick = () => {
+
+            showPage(homePage);
+
+        };
+
+
+        document.getElementById(
+            "backWatermark"
+        ).onclick = () => {
+
+            showPage(homePage);
+
+        };
+
+
+        /* =========================================
+           IMAGE EDITOR
+        ========================================= */
+
+        const editorInput =
+            document.getElementById(
+                "editorInput"
+            );
+
+        const editorUpload =
+            document.getElementById(
+                "editorUpload"
+            );
+
+        const imageStage =
+            document.getElementById(
+                "imageStage"
+            );
+
+        const editorImage =
+            document.getElementById(
+                "editorImage"
+            );
+
+
+        let editorImageURL = null;
+
+        let editorRotation = 0;
+
+        let editorFlipX = 1;
+
+        let editorFlipY = 1;
+
+
+        function loadEditorImage(file) {
+
+            if (
+                !file ||
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
+                return;
+            }
+
+
+            if (editorImageURL) {
+
+                URL.revokeObjectURL(
+                    editorImageURL
+                );
+
+            }
+
+
+            editorImageURL =
+                URL.createObjectURL(
+                    file
+                );
+
+
+            editorImage.src =
+                editorImageURL;
+
+
+            editorUpload.style.display =
+                "none";
+
+            imageStage.classList.add(
+                "active"
+            );
+
+
+            resetEditorValues();
+
+        }
+
+
+        editorInput.onchange =
+            event => {
+
+                loadEditorImage(
+                    event.target.files[0]
+                );
+
+            };
+
+
+        function updateEditorImage() {
+
+            const brightness =
+                document.getElementById(
+                    "brightness"
+                ).value;
+
+            const contrast =
+                document.getElementById(
+                    "contrast"
+                ).value;
+
+            const saturation =
+                document.getElementById(
+                    "saturation"
+                ).value;
+
+            const filter =
+                document.getElementById(
+                    "filter"
+                ).value;
+
+
+            editorImage.style.filter =
+                `
+                brightness(${brightness}%)
+                contrast(${contrast}%)
+                saturate(${saturation}%)
+                ${filter}
+                `;
+
+
+            editorImage.style.transform =
+                `
+                rotate(${editorRotation}deg)
+                scaleX(${editorFlipX})
+                scaleY(${editorFlipY})
+                `;
+
+
+            document.getElementById(
+                "brightnessValue"
+            ).textContent =
+                brightness + "%";
+
+
+            document.getElementById(
+                "contrastValue"
+            ).textContent =
+                contrast + "%";
+
+
+            document.getElementById(
+                "saturationValue"
+            ).textContent =
+                saturation + "%";
+
+        }
+
+
+        [
+            "brightness",
+            "contrast",
+            "saturation",
+            "filter"
+        ].forEach(id => {
+
+            document.getElementById(
+                id
+            ).addEventListener(
+                "input",
+                updateEditorImage
+            );
+
+        });
+
+
+        document.getElementById(
+            "rotateLeft"
+        ).onclick = () => {
+
+            editorRotation -= 90;
+
+            updateEditorImage();
+
+        };
+
+
+        document.getElementById(
+            "rotateRight"
+        ).onclick = () => {
+
+            editorRotation += 90;
+
+            updateEditorImage();
+
+        };
+
+
+        document.getElementById(
+            "flipX"
+        ).onclick = () => {
+
+            editorFlipX *= -1;
+
+            updateEditorImage();
+
+        };
+
+
+        document.getElementById(
+            "flipY"
+        ).onclick = () => {
+
+            editorFlipY *= -1;
+
+            updateEditorImage();
+
+        };
+
+
+        function resetEditorValues() {
+
+            document.getElementById(
+                "brightness"
+            ).value = 100;
+
+            document.getElementById(
+                "contrast"
+            ).value = 100;
+
+            document.getElementById(
+                "saturation"
+            ).value = 100;
+
+            document.getElementById(
+                "filter"
+            ).value = "none";
+
+
+            editorRotation = 0;
+
+            editorFlipX = 1;
+
+            editorFlipY = 1;
+
+
+            updateEditorImage();
+
+        }
+
+
+        document.getElementById(
+            "resetEditor"
+        ).onclick =
+            resetEditorValues;
+
+
+        /* =========================================
+           SMOOTH IMAGE DOWNLOAD
+        ========================================= */
+
+        document.getElementById(
+            "downloadEdited"
+        ).onclick = async () => {
+
+            if (!editorImage.src) {
+                return;
+            }
+
+
+            const canvas =
+                document.createElement(
+                    "canvas"
+                );
+
+            const ctx =
+                canvas.getContext(
+                    "2d"
+                );
+
+
+            const image =
+                new Image();
+
+
+            image.onload = () => {
+
+                const rotated =
+                    Math.abs(
+                        editorRotation
+                    ) % 180 !== 0;
+
+
+                canvas.width =
+                    rotated
+                        ? image.height
+                        : image.width;
+
+
+                canvas.height =
+                    rotated
+                        ? image.width
+                        : image.height;
+
+
+                ctx.save();
+
+
+                ctx.translate(
+                    canvas.width / 2,
+                    canvas.height / 2
+                );
+
+
+                ctx.rotate(
+                    editorRotation *
+                    Math.PI /
+                    180
+                );
+
+
+                ctx.scale(
+                    editorFlipX,
+                    editorFlipY
+                );
+
+
+                ctx.filter =
+                    `
+                    brightness(${document.getElementById("brightness").value}%)
+                    contrast(${document.getElementById("contrast").value}%)
+                    saturate(${document.getElementById("saturation").value}%)
+                    ${document.getElementById("filter").value}
+                    `;
+
+
+                ctx.drawImage(
+                    image,
+                    -image.width / 2,
+                    -image.height / 2
+                );
+
+
+                ctx.restore();
+
+
+                canvas.toBlob(
+                    blob => {
+
+                        if (!blob) {
+                            return;
+                        }
+
+
+                        const url =
+                            URL.createObjectURL(
+                                blob
+                            );
+
+
+                        const link =
+                            document.createElement(
+                                "a"
+                            );
+
+
+                        link.href =
+                            url;
+
+                        link.download =
+                            "VideoYTFX-Edited.png";
+
+
+                        link.style.display =
+                            "none";
+
+
+                        document.body.appendChild(
+                            link
+                        );
+
+
+                        link.click();
+
+
+                        link.remove();
+
+
+                        setTimeout(
+                            () => {
+
+                                URL.revokeObjectURL(
+                                    url
+                                );
+
+                            },
+                            1000
+                        );
+
+                    },
+                    "image/png",
+                    1
+                );
+
+            };
+
+
+            image.src =
+                editorImage.src;
+
+        };
+
+
+        /* =========================================
+           EDITOR DRAG & DROP
+        ========================================= */
+
+        [
+            editorUpload
+        ].forEach(area => {
+
+            area.addEventListener(
+                "dragover",
+                event => {
+
+                    event.preventDefault();
+
+                    area.classList.add(
+                        "drag"
+                    );
+
+                }
+            );
+
+
+            area.addEventListener(
+                "dragleave",
+                () => {
+
+                    area.classList.remove(
+                        "drag"
+                    );
+
+                }
+            );
+
+
+            area.addEventListener(
+                "drop",
+                event => {
+
+                    event.preventDefault();
+
+                    area.classList.remove(
+                        "drag"
+                    );
+
+
+                    loadEditorImage(
+                        event.dataTransfer.files[0]
+                    );
+
+                }
+            );
+
+        });
+
+
+        /* =========================================
+           WATERMARK CLEANUP
+        ========================================= */
+
+        const watermarkInput =
+            document.getElementById(
+                "watermarkInput"
+            );
+
+        const watermarkUpload =
+            document.getElementById(
+                "watermarkUpload"
+            );
+
+        const watermarkArea =
+            document.getElementById(
+                "watermarkArea"
+            );
+
+        const watermarkCanvas =
+            document.getElementById(
+                "watermarkCanvas"
+            );
+
+        const selection =
+            document.getElementById(
+                "selection"
+            );
+
+
+        const wctx =
+            watermarkCanvas.getContext(
+                "2d"
+            );
+
+
+        let watermarkImage =
+            new Image();
+
+        let cleanupHistory = [];
+
+        let drawing = false;
+
+
+        watermarkInput.onchange =
+            event => {
+
+                const file =
+                    event.target.files[0];
+
+
+                if (
+                    !file ||
+                    !file.type.startsWith(
+                        "image/"
+                    )
+                ) {
+                    return;
+                }
+
+
+                const url =
+                    URL.createObjectURL(
+                        file
+                    );
+
+
+                watermarkImage =
+                    new Image();
+
+
+                watermarkImage.onload =
+                    () => {
+
+                        watermarkCanvas.width =
+                            watermarkImage.naturalWidth;
+
+                        watermarkCanvas.height =
+                            watermarkImage.naturalHeight;
+
+
+                        wctx.drawImage(
+                            watermarkImage,
+                            0,
+                            0
+                        );
+
+
+                        cleanupHistory = [];
+
+
+                        watermarkUpload.style.display =
+                            "none";
+
+                        watermarkArea.style.display =
+                            "flex";
+
+
+                        URL.revokeObjectURL(
+                            url
+                        );
+
+                    };
+
+
+                watermarkImage.src =
+                    url;
+
+            };
+
+
+        /* =========================
+           BRUSH
+        ========================= */
+
+        const brushSize =
+            document.getElementById(
+                "brushSize"
+            );
+
+
+        brushSize.oninput = () => {
+
+            document.getElementById(
+                "brushValue"
+            ).textContent =
+                brushSize.value;
+
+        };
+
+
+        function canvasPoint(event) {
+
+            const rect =
+                watermarkCanvas
+                    .getBoundingClientRect();
+
+
+            const scaleX =
+                watermarkCanvas.width /
+                rect.width;
+
+
+            const scaleY =
+                watermarkCanvas.height /
+                rect.height;
+
+
+            return {
+
+                x:
+                    (event.clientX -
+                        rect.left) *
+                    scaleX,
+
+                y:
+                    (event.clientY -
+                        rect.top) *
+                    scaleY
+
+            };
+
+        }
+
+
+        function saveHistory() {
+
+            cleanupHistory.push(
+                wctx.getImageData(
+                    0,
+                    0,
+                    watermarkCanvas.width,
+                    watermarkCanvas.height
+                )
+            );
+
+
+            if (
+                cleanupHistory.length >
+                10
+            ) {
+
+                cleanupHistory.shift();
+
+            }
+
+        }
+
+
+        watermarkCanvas.addEventListener(
+            "pointerdown",
+            event => {
+
+                drawing = true;
+
+                watermarkCanvas.setPointerCapture(
+                    event.pointerId
+                );
+
+
+                saveHistory();
+
+                cleanAt(
+                    event
+                );
+
+            }
+        );
+
+
+        watermarkCanvas.addEventListener(
+            "pointermove",
+            event => {
+
+                if (!drawing) {
+                    return;
+                }
+
+
+                cleanAt(
+                    event
+                );
+
+            }
+        );
+
+
+        watermarkCanvas.addEventListener(
+            "pointerup",
+            () => {
+
+                drawing = false;
+
+            }
+        );
+
+
+        watermarkCanvas.addEventListener(
+            "pointercancel",
+            () => {
+
+                drawing = false;
+
+            }
+        );
+
+
+        function cleanAt(event) {
+
+            const point =
+                canvasPoint(event);
+
+
+            const size =
+                Number(
+                    brushSize.value
+                );
+
+
+            const mode =
+                document.getElementById(
+                    "cleanupMode"
+                ).value;
+
+
+            if (
+                mode === "blur"
+            ) {
+
+                /*
+                 * Localized soft cleanup.
+                 * This modifies the selected area
+                 * without changing the original file.
+                 */
+
+                const x =
+                    Math.max(
+                        0,
+                        point.x - size
+                    );
+
+
+                const y =
+                    Math.max(
+                        0,
+                        point.y - size
+                    );
+
+
+                const width =
+                    Math.min(
+                        size * 2,
+                        watermarkCanvas.width - x
+                    );
+
+
+                const height =
+                    Math.min(
+                        size * 2,
+                        watermarkCanvas.height - y
+                    );
+
+
+                const temp =
+                    document.createElement(
+                        "canvas"
+                    );
+
+
+                temp.width =
+                    width;
+
+                temp.height =
+                    height;
+
+
+                const tctx =
+                    temp.getContext(
+                        "2d"
+                    );
+
+
+                tctx.filter =
+                    "blur(7px)";
+
+
+                tctx.drawImage(
+                    watermarkCanvas,
+                    x,
+                    y,
+                    width,
+                    height,
+                    0,
+                    0,
+                    width,
+                    height
+                );
+
+
+                wctx.drawImage(
+                    temp,
+                    x,
+                    y
+                );
+
+            } else {
+
+                /*
+                 * Local clone:
+                 * samples from a nearby clean area
+                 * and paints it over the selected area.
+                 */
+
+                const sourceX =
+                    Math.max(
+                        0,
+                        point.x -
+                        size * 2
+                    );
+
+
+                const sourceY =
+                    Math.max(
+                        0,
+                        point.y -
+                        size * 2
+                    );
+
+
+                const sourceSize =
+                    Math.min(
+                        size * 2,
+                        watermarkCanvas.width
+                    );
+
+
+                wctx.drawImage(
+                    watermarkCanvas,
+                    sourceX,
+                    sourceY,
+                    sourceSize,
+                    sourceSize,
+                    point.x - size,
+                    point.y - size,
+                    size * 2,
+                    size * 2
+                );
+
+            }
+
+        }
+
+
+        /* =========================================
+           UNDO
+        ========================================= */
+
+        document.getElementById(
+            "undoCleanup"
+        ).onclick = () => {
+
+            if (
+                cleanupHistory.length === 0
+            ) {
+                return;
+            }
+
+
+            const previous =
+                cleanupHistory.pop();
+
+
+            wctx.putImageData(
+                previous,
+                0,
+                0
+            );
+
+        };
+
+
+        /* =========================================
+           CLEAR
+        ========================================= */
+
+        document.getElementById(
+            "clearCleanup"
+        ).onclick = () => {
+
+            if (
+                !watermarkImage.src
+            ) {
+                return;
+            }
+
+
+            saveHistory();
+
+
+            wctx.clearRect(
+                0,
+                0,
+                watermarkCanvas.width,
+                watermarkCanvas.height
+            );
+
+
+            wctx.drawImage(
+                watermarkImage,
+                0,
+                0
+            );
+
+        };
+
+
+        /* =========================================
+           SMOOTH WATERMARK DOWNLOAD
+        ========================================= */
+
+        document.getElementById(
+            "downloadClean"
+        ).onclick = () => {
+
+            watermarkCanvas.toBlob(
+                blob => {
+
+                    if (!blob) {
+                        return;
+                    }
+
+
+                    const url =
+                        URL.createObjectURL(
+                            blob
+                        );
+
+
+                    const link =
+                        document.createElement(
+                            "a"
+                        );
+
+
+                    link.href =
+                        url;
+
+                    link.download =
+                        "VideoYTFX-Cleaned.png";
+
+
+                    link.style.display =
+                        "none";
+
+
+                    document.body.appendChild(
+                        link
+                    );
+
+
+                    link.click();
+
+
+                    link.remove();
+
+
+                    setTimeout(
+                        () => {
+
+                            URL.revokeObjectURL(
+                                url
+                            );
+
+                        },
+                        1000
+                    );
+
+                },
+                "image/png",
+                1
+            );
+
+        };
+
+
+        /* =========================================
+           WATERMARK DRAG & DROP
+        ========================================= */
+
+        watermarkUpload.addEventListener(
+            "dragover",
+            event => {
+
+                event.preventDefault();
+
+                watermarkUpload.classList.add(
+                    "drag"
+                );
+
+            }
+        );
+
+
+        watermarkUpload.addEventListener(
+            "dragleave",
+            () => {
+
+                watermarkUpload.classList.remove(
+                    "drag"
+                );
+
+            }
+        );
+
+
+        watermarkUpload.addEventListener(
+            "drop",
+            event => {
+
+                event.preventDefault();
+
+                watermarkUpload.classList.remove(
+                    "drag"
+                );
+
+
+                const file =
+                    event.dataTransfer.files[0];
+
+
+                if (
+                    file &&
+                    file.type.startsWith(
+                        "image/"
+                    )
+                ) {
+
+                    const dataTransfer =
+                        new DataTransfer();
+
+
+                    dataTransfer.items.add(
+                        file
+                    );
+
+
+                    watermarkInput.files =
+                        dataTransfer.files;
+
+
+                    watermarkInput.dispatchEvent(
+                        new Event("change")
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
 
 </body>
+
 </html>
