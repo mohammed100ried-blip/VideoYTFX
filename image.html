@@ -1,2705 +1,1158 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>VideoYTFX Studio</title>
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap');
-
-        :root {
-            --bg: #07090f;
-            --card: rgba(18, 22, 34, .82);
-            --card-hover: rgba(25, 31, 48, .96);
-            --text: #ffffff;
-            --muted: #9299aa;
-            --line: rgba(255,255,255,.09);
-            --primary: #6d7cff;
-            --secondary: #9c5cff;
-            --danger: #ff5577;
-            --shadow: 0 30px 80px rgba(0,0,0,.42);
-        }
-
-        [data-theme="light"] {
-            --bg: #f5f7fb;
-            --card: rgba(255,255,255,.9);
-            --card-hover: #ffffff;
-            --text: #101522;
-            --muted: #697386;
-            --line: rgba(15,23,42,.1);
-            --shadow: 0 25px 70px rgba(30,40,70,.13);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            min-height: 100vh;
-            background: var(--bg);
-            color: var(--text);
-            font-family: "Tajawal", sans-serif;
-            overflow-x: hidden;
-        }
-
-        button,
-        input,
-        select {
-            font: inherit;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        /* =========================
-           BACKGROUND
-        ========================= */
-
-        .background {
-            position: fixed;
-            inset: 0;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: -2;
-        }
-
-        .glow {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: .18;
-        }
-
-        .glow.one {
-            background: #536dff;
-            top: -250px;
-            left: -180px;
-        }
-
-        .glow.two {
-            background: #a34fff;
-            bottom: -280px;
-            right: -180px;
-        }
-
-        .grid {
-            position: absolute;
-            inset: 0;
-            opacity: .08;
-
-            background-image:
-                linear-gradient(var(--line) 1px, transparent 1px),
-                linear-gradient(90deg, var(--line) 1px, transparent 1px);
-
-            background-size: 45px 45px;
-        }
-
-        /* =========================
-           NAVBAR
-        ========================= */
-
-        nav {
-            height: 72px;
-            padding: 0 5%;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            position: sticky;
-            top: 0;
-            z-index: 50;
-
-            background: var(--card);
-            backdrop-filter: blur(20px);
-
-            border-bottom: 1px solid var(--line);
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-
-            font-size: 18px;
-            font-weight: 800;
-        }
-
-        .logo {
-            width: 42px;
-            height: 42px;
-
-            display: grid;
-            place-items: center;
-
-            color: white;
-
-            border-radius: 14px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--secondary)
-                );
-
-            box-shadow:
-                0 10px 30px rgba(109,124,255,.25);
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .nav-btn {
-            height: 40px;
-            padding: 0 13px;
-
-            border: 1px solid var(--line);
-            border-radius: 11px;
-
-            background: rgba(255,255,255,.04);
-            color: var(--text);
-
-            font-weight: 700;
-
-            transition: .2s;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            border-color: rgba(109,124,255,.6);
-        }
-
-        /* =========================
-           HOME
-        ========================= */
-
-        .home {
-            width: min(1100px, 92%);
-            margin: auto;
-            padding: 85px 0 90px;
-        }
-
-        .home-title {
-            text-align: center;
-            margin-bottom: 55px;
-        }
-
-        .home-title h1 {
-            font-size: clamp(38px, 7vw, 72px);
-            line-height: 1;
-            letter-spacing: -2px;
-        }
-
-        .home-title .accent {
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--primary),
-                    var(--secondary)
-                );
-
-            -webkit-background-clip: text;
-            background-clip: text;
-
-            color: transparent;
-        }
-
-        /* =========================
-           TWO CARDS
-        ========================= */
-
-        .tools {
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
-
-            gap: 22px;
-        }
-
-        .tool-card {
-            position: relative;
-
-            min-height: 390px;
-
-            display: flex;
-            flex-direction: column;
-
-            align-items: center;
-            justify-content: center;
-
-            text-align: center;
-
-            padding: 35px;
-
-            background: var(--card);
-
-            border:
-                1px solid
-                var(--line);
-
-            border-radius: 30px;
-
-            box-shadow: var(--shadow);
-
-            overflow: hidden;
-
-            transition:
-                transform .3s ease,
-                border-color .3s ease,
-                background .3s ease;
-        }
-
-        .tool-card::before {
-            content: "";
-
-            position: absolute;
-
-            width: 250px;
-            height: 250px;
-
-            border-radius: 50%;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(109,124,255,.17),
-                    transparent 70%
-                );
-
-            top: -130px;
-            left: -100px;
-
-            pointer-events: none;
-        }
-
-        .tool-card.watermark::before {
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(156,92,255,.18),
-                    transparent 70%
-                );
-        }
-
-        .tool-card:hover {
-            transform: translateY(-7px);
-
-            background:
-                var(--card-hover);
-
-            border-color:
-                rgba(109,124,255,.42);
-        }
-
-        .tool-icon {
-            width: 105px;
-            height: 105px;
-
-            display: grid;
-            place-items: center;
-
-            border-radius: 30px;
-
-            font-size: 48px;
-
-            margin-bottom: 25px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(109,124,255,.16),
-                    rgba(156,92,255,.12)
-                );
-
-            border:
-                1px solid
-                rgba(109,124,255,.2);
-
-            transition: .3s;
-        }
-
-        .tool-card:hover .tool-icon {
-            transform:
-                scale(1.08)
-                rotate(-3deg);
-        }
-
-        .tool-card h2 {
-            font-size: 26px;
-            margin-bottom: 24px;
-        }
-
-        .open-button {
-            border: 0;
-
-            padding: 13px 25px;
-
-            border-radius: 13px;
-
-            color: white;
-
-            font-weight: 800;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--secondary)
-                );
-
-            box-shadow:
-                0 12px 35px
-                rgba(109,124,255,.22);
-
-            transition: .2s;
-        }
-
-        .open-button:hover {
-            transform: translateY(-2px);
-        }
-
-        /* =========================
-           EDITOR
-        ========================= */
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-            animation: appear .35s ease;
-        }
-
-        @keyframes appear {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .editor-page {
-            width: min(1200px, 94%);
-            margin: auto;
-            padding: 35px 0 70px;
-        }
-
-        .editor-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .editor-top h1 {
-            font-size: 28px;
-        }
-
-        .back-button {
-            border: 1px solid var(--line);
-            background: var(--card);
-            color: var(--text);
-
-            padding: 10px 15px;
-
-            border-radius: 11px;
-
-            font-weight: 700;
-        }
-
-        .workspace {
-            display: grid;
-
-            grid-template-columns:
-                minmax(0, 1.6fr)
-                330px;
-
-            gap: 18px;
-        }
-
-        .panel {
-            background: var(--card);
-            border: 1px solid var(--line);
-            border-radius: 22px;
-            box-shadow: var(--shadow);
-        }
-
-        /* =========================
-           UPLOAD
-        ========================= */
-
-        .upload {
-            min-height: 600px;
-
-            display: grid;
-            place-items: center;
-
-            padding: 30px;
-
-            text-align: center;
-
-            border: 1px dashed
-                rgba(109,124,255,.45);
-
-            border-radius: 22px;
-
-            transition: .25s;
-        }
-
-        .upload.drag {
-            border-color: var(--primary);
-            background: rgba(109,124,255,.08);
-            transform: scale(1.01);
-        }
-
-        .upload-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-        }
-
-        .upload h2 {
-            margin-bottom: 20px;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        /* =========================
-           IMAGE AREA
-        ========================= */
-
-        .image-stage {
-            position: relative;
-
-            min-height: 600px;
-
-            display: none;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 20px;
-
-            overflow: hidden;
-        }
-
-        .image-stage.active {
-            display: flex;
-        }
-
-        .image-stage img {
-            max-width: 100%;
-            max-height: 650px;
-
-            object-fit: contain;
-
-            border-radius: 10px;
-
-            user-select: none;
-
-            transition: .2s;
-        }
-
-        .compare {
-            position: relative;
-            width: 100%;
-            height: 100%;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* =========================
-           SIDE PANEL
-        ========================= */
-
-        .controls {
-            padding: 18px;
-        }
-
-        .controls h3 {
-            margin-bottom: 17px;
-        }
-
-        .control {
-            padding: 14px 0;
-
-            border-bottom:
-                1px solid var(--line);
-        }
-
-        .control:last-child {
-            border-bottom: 0;
-        }
-
-        .control-head {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-
-            margin-bottom: 9px;
-        }
-
-        .control-head span:last-child {
-            color: var(--primary);
-            font-weight: 800;
-            font-size: 13px;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            accent-color: var(--primary);
-        }
-
-        select {
-            width: 100%;
-
-            background: rgba(255,255,255,.04);
-            color: var(--text);
-
-            border: 1px solid var(--line);
-
-            border-radius: 10px;
-
-            padding: 10px;
-
-            outline: none;
-        }
-
-        option {
-            background: #111827;
-        }
-
-        .control-buttons {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 8px;
-
-            margin-top: 15px;
-        }
-
-        .small-button {
-            padding: 10px;
-
-            border: 1px solid var(--line);
-
-            background: rgba(255,255,255,.04);
-
-            color: var(--text);
-
-            border-radius: 10px;
-
-            font-weight: 700;
-        }
-
-        .small-button:hover {
-            border-color:
-                rgba(109,124,255,.5);
-        }
-
-        .download {
-            width: 100%;
-
-            margin-top: 15px;
-
-            border: 0;
-
-            padding: 14px;
-
-            border-radius: 12px;
-
-            color: white;
-
-            font-weight: 800;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--secondary)
-                );
-        }
-
-        /* =========================
-           WATERMARK TOOL
-        ========================= */
-
-        .watermark-area {
-            position: relative;
-
-            width: 100%;
-            min-height: 600px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .watermark-canvas {
-            max-width: 100%;
-            max-height: 650px;
-
-            border-radius: 10px;
-
-            cursor: crosshair;
-
-            touch-action: none;
-        }
-
-        .selection {
-            position: absolute;
-
-            display: none;
-
-            border:
-                2px solid
-                var(--primary);
-
-            background:
-                rgba(109,124,255,.12);
-
-            pointer-events: none;
-        }
-
-        .watermark-help {
-            text-align: center;
-        }
-
-        .watermark-help .upload-icon {
-            font-size: 55px;
-        }
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        footer {
-            text-align: center;
-
-            padding: 25px;
-
-            color: var(--muted);
-
-            border-top: 1px solid var(--line);
-        }
-
-        /* =========================
-           RESPONSIVE
-        ========================= */
-
-        @media (max-width: 850px) {
-
-            .tools {
-                grid-template-columns: 1fr;
-            }
-
-            .tool-card {
-                min-height: 300px;
-            }
-
-            .workspace {
-                grid-template-columns: 1fr;
-            }
-
-            .upload,
-            .image-stage,
-            .watermark-area {
-                min-height: 450px;
-            }
-        }
-
-        @media (max-width: 500px) {
-
-            nav {
-                padding: 0 4%;
-            }
-
-            .brand span {
-                display: none;
-            }
-
-            .home {
-                padding-top: 55px;
-            }
-
-            .tool-card {
-                min-height: 270px;
-                border-radius: 23px;
-            }
-
-            .tool-icon {
-                width: 85px;
-                height: 85px;
-                font-size: 38px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VideoYTFX Studio</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg:#080b13;
+  --panel:#111725;
+  --panel2:#192235;
+  --text:#f4f6ff;
+  --muted:#98a3ba;
+  --line:#29334a;
+  --primary:#7285ff;
+  --secondary:#a05cff;
+  --danger:#ff6685;
+}
+
+[data-theme="light"] {
+  --bg:#f3f5fb;
+  --panel:#ffffff;
+  --panel2:#edf0f8;
+  --text:#172033;
+  --muted:#657089;
+  --line:#dfe4f0;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Tajawal',sans-serif;
+}
+
+button,input,select { font:inherit; }
+button { cursor:pointer; color:inherit; }
+
+button:focus-visible,input:focus-visible,select:focus-visible {
+  outline:2px solid var(--primary);
+}
+
+header {
+  height:70px;
+  padding:0 4%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:var(--panel);
+  border-bottom:1px solid var(--line);
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:20px;
+  font-weight:800;
+}
+
+.logo {
+  display:grid;
+  place-items:center;
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
+}
+
+.head-actions,.actions {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.btn {
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:10px 14px;
+  background:var(--panel2);
+  font-weight:700;
+}
+
+.btn:hover { border-color:var(--primary); }
+
+.btn.primary {
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  border:0;
+  color:white;
+}
+
+.btn.danger { color:var(--danger); }
+.btn:disabled { opacity:.4; cursor:not-allowed; }
+
+main {
+  width:min(1400px,94%);
+  margin:auto;
+  padding:32px 0 60px;
+}
+
+.page { display:none; }
+.page.active { display:block; }
+
+.hero {
+  text-align:center;
+  padding:45px 0;
+}
+
+.hero h1 {
+  font-size:clamp(35px,6vw,65px);
+  margin:10px 0;
+}
+
+.gradient {
+  background:linear-gradient(90deg,var(--primary),var(--secondary));
+  color:transparent;
+  background-clip:text;
+}
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+}
+
+.feature {
+  min-height:220px;
+  padding:25px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:22px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  transition:.2s;
+}
+
+.feature:hover {
+  transform:translateY(-4px);
+  border-color:var(--primary);
+}
+
+.feature .emoji { font-size:48px; }
+
+.feature h2 {
+  font-size:25px;
+  margin:0;
+}
+
+.editor-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.editor-head h1 { margin:0; }
+
+.workspace {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 310px;
+  gap:18px;
+  align-items:start;
+}
+
+.panel {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+}
+
+.stage-toolbar {
+  padding:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  border-bottom:1px solid var(--line);
+}
+
+.stage {
+  min-height:520px;
+  padding:18px;
+  display:grid;
+  place-items:center;
+  overflow:auto;
+  background-color:var(--panel2);
+  background-image:
+    linear-gradient(45deg,#80808012 25%,transparent 25%),
+    linear-gradient(-45deg,#80808012 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#80808012 75%),
+    linear-gradient(-45deg,transparent 75%,#80808012 75%);
+  background-size:22px 22px;
+  background-position:0 0,0 11px,11px -11px,-11px 0;
+}
+
+.dropzone {
+  width:min(430px,100%);
+  padding:40px 20px;
+  border:2px dashed var(--primary);
+  border-radius:20px;
+  text-align:center;
+  cursor:pointer;
+}
+
+.dropzone .big { font-size:48px; }
+.dropzone h2 { margin:10px 0; }
+
+canvas {
+  display:block;
+  max-width:100%;
+  height:auto;
+  touch-action:none;
+}
+
+#imageCanvas,#retouchCanvas,#drawCanvas {
+  display:none;
+  background:white;
+  box-shadow:0 10px 35px #0003;
+}
+
+.sidebar {
+  padding:18px;
+  max-height:800px;
+  overflow:auto;
+}
+
+.sidebar h3 { margin:0 0 15px; }
+
+.control {
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.control label {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:9px;
+  font-weight:600;
+}
+
+.control input[type="range"] {
+  width:100%;
+  accent-color:var(--primary);
+}
+
+.control input[type="text"],
+.control input[type="number"],
+.control select {
+  width:100%;
+  padding:10px;
+  background:var(--panel2);
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:9px;
+}
+
+.control input[type="color"] {
+  width:45px;
+  height:35px;
+  border:0;
+  background:transparent;
+}
+
+.two {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.full { width:100%; margin-top:10px; }
+
+.hidden { display:none!important; }
+
+.toast {
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translate(-50%,20px);
+  opacity:0;
+  padding:12px 18px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:12px;
+  pointer-events:none;
+  transition:.2s;
+  z-index:100;
+}
+
+.toast.show {
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+footer {
+  text-align:center;
+  color:var(--muted);
+  padding:24px;
+  border-top:1px solid var(--line);
+}
+
+@media(max-width:900px) {
+  .workspace { grid-template-columns:1fr; }
+  .sidebar { max-height:none; }
+  .stage { min-height:350px; }
+}
+
+@media(max-width:650px) {
+  header { padding:0 3%; }
+  .brand { font-size:15px; }
+  .logo { width:35px;height:35px; }
+  .cards { grid-template-columns:1fr; }
+  .feature { min-height:150px; }
+  .stage { min-height:300px;padding:10px; }
+  .editor-head { align-items:flex-start; }
+}
+</style>
 </head>
-
 
 <body>
 
-    <div class="background">
-        <div class="glow one"></div>
-        <div class="glow two"></div>
-        <div class="grid"></div>
+<header>
+  <div class="brand">
+    <div class="logo">V</div>
+    <span>VideoYTFX Studio</span>
+  </div>
+
+  <div class="head-actions">
+    <button class="btn" id="langBtn">🌐 English</button>
+    <button class="btn" id="themeBtn">☀️</button>
+  </div>
+</header>
+
+<main>
+
+<!-- الصفحة الرئيسية -->
+<section id="home" class="page active">
+  <div class="hero">
+    <h1>VideoYTFX <span class="gradient">Studio</span></h1>
+  </div>
+
+  <div class="cards">
+
+    <article class="feature" data-open="editor">
+      <div class="emoji">🖼️</div>
+      <h2 data-ar="محرر الصور" data-en="Image Editor">محرر الصور</h2>
+    </article>
+
+    <article class="feature" data-open="retouch">
+      <div class="emoji">🪄</div>
+      <h2 data-ar="تنظيف الصور" data-en="Image Retouch">تنظيف الصور</h2>
+    </article>
+
+    <article class="feature" data-open="drawing">
+      <div class="emoji">🎨</div>
+      <h2 data-ar="الرسم" data-en="Drawing">الرسم</h2>
+    </article>
+
+  </div>
+</section>
+
+<!-- محرر الصور -->
+<section id="editor" class="page">
+  <div class="editor-head">
+    <h1 data-ar="محرر الصور" data-en="Image Editor">محرر الصور</h1>
+
+    <div class="actions">
+      <button class="btn" data-home data-ar="الرئيسية" data-en="Home">الرئيسية</button>
+      <button class="btn" id="rotateLeft">↶</button>
+      <button class="btn" id="rotateRight">↷</button>
+      <button class="btn" id="flipImage" data-ar="عكس" data-en="Flip">عكس</button>
+      <button class="btn primary" id="exportEditor" data-ar="تنزيل" data-en="Export">تنزيل</button>
+    </div>
+  </div>
+
+  <div class="workspace">
+    <div class="panel">
+      <div class="stage-toolbar">
+        <span id="editorInfo">لم يتم اختيار صورة</span>
+        <button class="btn" id="chooseEditor" data-ar="اختيار صورة" data-en="Choose image">اختيار صورة</button>
+        <input type="file" id="editorFile" accept="image/*" hidden>
+      </div>
+
+      <div class="stage" id="editorStage">
+        <div class="dropzone" id="editorDrop">
+          <div class="big">📷</div>
+          <h2 data-ar="اختر صورة" data-en="Choose an image">اختر صورة</h2>
+        </div>
+        <canvas id="imageCanvas"></canvas>
+      </div>
     </div>
 
+    <aside class="panel sidebar">
+      <h3 data-ar="الأدوات" data-en="Tools">الأدوات</h3>
 
-    <!-- =========================
-         NAVIGATION
-    ========================= -->
+      <div class="control">
+        <label><span data-ar="الإضاءة" data-en="Brightness">الإضاءة</span><span id="brightnessVal">100%</span></label>
+        <input id="brightness" type="range" min="0" max="200" value="100">
+      </div>
 
-    <nav>
+      <div class="control">
+        <label><span data-ar="التباين" data-en="Contrast">التباين</span><span id="contrastVal">100%</span></label>
+        <input id="contrast" type="range" min="0" max="200" value="100">
+      </div>
 
-        <div class="brand">
+      <div class="control">
+        <label><span data-ar="التشبع" data-en="Saturation">التشبع</span><span id="saturationVal">100%</span></label>
+        <input id="saturation" type="range" min="0" max="200" value="100">
+      </div>
 
-            <div class="logo">
-                V
-            </div>
+      <div class="control">
+        <label><span data-ar="التمويه" data-en="Blur">التمويه</span><span id="blurVal">0px</span></label>
+        <input id="blur" type="range" min="0" max="10" value="0">
+      </div>
 
-            <span>
-                VideoYTFX Studio
-            </span>
+      <div class="control">
+        <label data-ar="الفلاتر" data-en="Filters">الفلاتر</label>
+        <select id="filterSelect">
+          <option value="none" data-ar="بدون" data-en="None">بدون</option>
+          <option value="grayscale(1)" data-ar="أبيض وأسود" data-en="Black and White">أبيض وأسود</option>
+          <option value="sepia(1)" data-ar="بني" data-en="Sepia">بني</option>
+          <option value="saturate(1.8) contrast(1.1)" data-ar="ألوان قوية" data-en="Vivid">ألوان قوية</option>
+          <option value="sepia(.3) contrast(1.2) brightness(.9)" data-ar="سينمائي" data-en="Cinema">سينمائي</option>
+        </select>
+      </div>
 
+      <div class="control">
+        <label data-ar="إضافة نص" data-en="Add text">إضافة نص</label>
+        <input type="text" id="textInput" placeholder="النص">
+        <div class="two" style="margin-top:8px">
+          <input type="color" id="textColor" value="#ffffff">
+          <input type="number" id="textSize" value="40" min="10" max="200">
         </div>
+        <button class="btn full" id="addText" data-ar="إضافة النص" data-en="Add text">إضافة النص</button>
+      </div>
 
+      <button class="btn full" id="resetEditor" data-ar="إعادة ضبط" data-en="Reset">إعادة ضبط</button>
+    </aside>
+  </div>
+</section>
 
-        <div class="nav-actions">
+<!-- تنظيف الصور -->
+<section id="retouch" class="page">
+  <div class="editor-head">
+    <h1 data-ar="تنظيف الصور" data-en="Image Retouch">تنظيف الصور</h1>
 
-            <button
-                class="nav-btn"
-                id="languageButton"
-            >
-                🌐 English
-            </button>
+    <div class="actions">
+      <button class="btn" data-home data-ar="الرئيسية" data-en="Home">الرئيسية</button>
+      <button class="btn" id="retouchUndo" data-ar="تراجع" data-en="Undo">تراجع</button>
+      <button class="btn primary" id="retouchExport" data-ar="تنزيل" data-en="Export">تنزيل</button>
+    </div>
+  </div>
 
-            <button
-                class="nav-btn"
-                id="themeButton"
-            >
-                ☀️
-            </button>
+  <div class="workspace">
+    <div class="panel">
+      <div class="stage-toolbar">
+        <span data-ar="تنظيف الصور" data-en="Image Retouch">تنظيف الصور</span>
+        <button class="btn" id="chooseRetouch" data-ar="اختيار صورة" data-en="Choose image">اختيار صورة</button>
+        <input type="file" id="retouchFile" accept="image/*" hidden>
+      </div>
 
+      <div class="stage" id="retouchStage">
+        <div class="dropzone" id="retouchDrop">
+          <div class="big">🪄</div>
+          <h2 data-ar="اختر صورة" data-en="Choose an image">اختر صورة</h2>
         </div>
-
-    </nav>
-
-
-    <!-- =========================
-         HOME
-    ========================= -->
-
-    <main
-        id="homePage"
-        class="page active"
-    >
-
-        <section class="home">
-
-            <div class="home-title">
-
-                <h1>
-                    VideoYTFX
-                    <span class="accent">
-                        Studio
-                    </span>
-                </h1>
-
-            </div>
-
-
-            <div class="tools">
-
-                <!-- IMAGE EDITING -->
-
-                <article
-                    class="tool-card"
-                    id="imageTool"
-                >
-
-                    <div class="tool-icon">
-                        🖼️
-                    </div>
-
-                    <h2
-                        data-ar="تعديل الصور"
-                        data-en="Image Editing"
-                    >
-                        تعديل الصور
-                    </h2>
-
-                    <button
-                        class="open-button"
-                        id="openEditor"
-                    >
-                        <span
-                            data-ar="فتح"
-                            data-en="Open"
-                        >
-                            فتح
-                        </span>
-                    </button>
-
-                </article>
-
-
-                <!-- WATERMARK -->
-
-                <article
-                    class="tool-card watermark"
-                    id="watermarkTool"
-                >
-
-                    <div class="tool-icon">
-                        🧹
-                    </div>
-
-                    <h2
-                        data-ar="إزالة العلامات المائية"
-                        data-en="Watermark Removal"
-                    >
-                        إزالة العلامات المائية
-                    </h2>
-
-                    <button
-                        class="open-button"
-                        id="openWatermark"
-                    >
-                        <span
-                            data-ar="فتح"
-                            data-en="Open"
-                        >
-                            فتح
-                        </span>
-                    </button>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-        <footer>
-            © 2026 VideoYTFX
-        </footer>
-
-    </main>
-
-
-    <!-- =========================
-         IMAGE EDITOR
-    ========================= -->
-
-    <main
-        id="editorPage"
-        class="page"
-    >
-
-        <section class="editor-page">
-
-            <div class="editor-top">
-
-                <h1
-                    data-ar="تعديل الصور"
-                    data-en="Image Editing"
-                >
-                    تعديل الصور
-                </h1>
-
-                <button
-                    class="back-button"
-                    id="backEditor"
-                >
-                    ←
-                    <span
-                        data-ar="رجوع"
-                        data-en="Back"
-                    >
-                        رجوع
-                    </span>
-                </button>
-
-            </div>
-
-
-            <div class="workspace">
-
-                <div class="panel">
-
-                    <div
-                        class="upload"
-                        id="editorUpload"
-                    >
-
-                        <div>
-
-                            <div class="upload-icon">
-                                🖼️
-                            </div>
-
-                            <h2
-                                data-ar="اختر صورة"
-                                data-en="Choose Image"
-                            >
-                                اختر صورة
-                            </h2>
-
-                            <label
-                                class="open-button"
-                                for="editorInput"
-                            >
-                                <span
-                                    data-ar="اختيار"
-                                    data-en="Choose"
-                                >
-                                    اختيار
-                                </span>
-                            </label>
-
-                            <input
-                                class="file-input"
-                                id="editorInput"
-                                type="file"
-                                accept="image/*"
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        class="image-stage"
-                        id="imageStage"
-                    >
-
-                        <div class="compare">
-
-                            <img
-                                id="editorImage"
-                                alt=""
-                            >
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <aside class="panel controls">
-
-                    <h3
-                        data-ar="التحكم"
-                        data-en="Controls"
-                    >
-                        التحكم
-                    </h3>
-
-
-                    <div class="control">
-
-                        <div class="control-head">
-
-                            <span
-                                data-ar="السطوع"
-                                data-en="Brightness"
-                            >
-                                السطوع
-                            </span>
-
-                            <span id="brightnessValue">
-                                100%
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="brightness"
-                            type="range"
-                            min="50"
-                            max="150"
-                            value="100"
-                        >
-
-                    </div>
-
-
-                    <div class="control">
-
-                        <div class="control-head">
-
-                            <span
-                                data-ar="التباين"
-                                data-en="Contrast"
-                            >
-                                التباين
-                            </span>
-
-                            <span id="contrastValue">
-                                100%
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="contrast"
-                            type="range"
-                            min="50"
-                            max="180"
-                            value="100"
-                        >
-
-                    </div>
-
-
-                    <div class="control">
-
-                        <div class="control-head">
-
-                            <span
-                                data-ar="التشبع"
-                                data-en="Saturation"
-                            >
-                                التشبع
-                            </span>
-
-                            <span id="saturationValue">
-                                100%
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="saturation"
-                            type="range"
-                            min="0"
-                            max="200"
-                            value="100"
-                        >
-
-                    </div>
-
-
-                    <div class="control">
-
-                        <div class="control-head">
-
-                            <span
-                                data-ar="الفلتر"
-                                data-en="Filter"
-                            >
-                                الفلتر
-                            </span>
-
-                        </div>
-
-                        <select id="filter">
-
-                            <option value="none">
-                                Original
-                            </option>
-
-                            <option value="grayscale(1)">
-                                Grayscale
-                            </option>
-
-                            <option value="sepia(1)">
-                                Sepia
-                            </option>
-
-                            <option value="saturate(1.8)">
-                                Vivid
-                            </option>
-
-                            <option value="contrast(1.2) saturate(.8)">
-                                Cinematic
-                            </option>
-
-                            <option value="brightness(1.1) saturate(1.25)">
-                                Warm
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="control-buttons">
-
-                        <button
-                            class="small-button"
-                            id="rotateLeft"
-                        >
-                            ↶
-                            90°
-                        </button>
-
-                        <button
-                            class="small-button"
-                            id="rotateRight"
-                        >
-                            ↷
-                            90°
-                        </button>
-
-                        <button
-                            class="small-button"
-                            id="flipX"
-                        >
-                            ↔
-                        </button>
-
-                        <button
-                            class="small-button"
-                            id="flipY"
-                        >
-                            ↕
-                        </button>
-
-                        <button
-                            class="small-button"
-                            id="resetEditor"
-                        >
-                            ↩
-                            <span
-                                data-ar="إعادة"
-                                data-en="Reset"
-                            >
-                                إعادة
-                            </span>
-                        </button>
-
-                    </div>
-
-
-                    <button
-                        class="download"
-                        id="downloadEdited"
-                    >
-                        ⬇️
-                        <span
-                            data-ar="تنزيل الصورة"
-                            data-en="Download Image"
-                        >
-                            تنزيل الصورة
-                        </span>
-                    </button>
-
-                </aside>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- =========================
-         WATERMARK PAGE
-    ========================= -->
-
-    <main
-        id="watermarkPage"
-        class="page"
-    >
-
-        <section class="editor-page">
-
-            <div class="editor-top">
-
-                <h1
-                    data-ar="إزالة العلامات المائية"
-                    data-en="Watermark Removal"
-                >
-                    إزالة العلامات المائية
-                </h1>
-
-                <button
-                    class="back-button"
-                    id="backWatermark"
-                >
-                    ←
-                    <span
-                        data-ar="رجوع"
-                        data-en="Back"
-                    >
-                        رجوع
-                    </span>
-                </button>
-
-            </div>
-
-
-            <div class="workspace">
-
-                <div class="panel">
-
-                    <div
-                        class="upload"
-                        id="watermarkUpload"
-                    >
-
-                        <div>
-
-                            <div class="upload-icon">
-                                🧹
-                            </div>
-
-                            <h2
-                                data-ar="اختر صورة"
-                                data-en="Choose Image"
-                            >
-                                اختر صورة
-                            </h2>
-
-                            <label
-                                class="open-button"
-                                for="watermarkInput"
-                            >
-                                <span
-                                    data-ar="اختيار"
-                                    data-en="Choose"
-                                >
-                                    اختيار
-                                </span>
-                            </label>
-
-                            <input
-                                class="file-input"
-                                id="watermarkInput"
-                                type="file"
-                                accept="image/*"
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        class="watermark-area"
-                        id="watermarkArea"
-                        style="display:none;"
-                    >
-
-                        <canvas
-                            id="watermarkCanvas"
-                            class="watermark-canvas"
-                        ></canvas>
-
-                        <div
-                            class="selection"
-                            id="selection"
-                        ></div>
-
-                    </div>
-
-                </div>
-
-
-                <aside class="panel controls">
-
-                    <h3
-                        data-ar="تنظيف الصورة"
-                        data-en="Image Cleanup"
-                    >
-                        تنظيف الصورة
-                    </h3>
-
-
-                    <div class="control">
-
-                        <div class="control-head">
-
-                            <span
-                                data-ar="حجم الفرشاة"
-                                data-en="Brush Size"
-                            >
-                                حجم الفرشاة
-                            </span>
-
-                            <span id="brushValue">
-                                30
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="brushSize"
-                            type="range"
-                            min="5"
-                            max="120"
-                            value="30"
-                        >
-
-                    </div>
-
-
-                    <div class="control">
-
-                        <div class="control-head">
-
-                            <span
-                                data-ar="نمط التنظيف"
-                                data-en="Cleanup Mode"
-                            >
-                                نمط التنظيف
-                            </span>
-
-                        </div>
-
-                        <select id="cleanupMode">
-
-                            <option value="blur">
-                                Soft Cleanup
-                            </option>
-
-                            <option value="clone">
-                                Local Clone
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="control-buttons">
-
-                        <button
-                            class="small-button"
-                            id="undoCleanup"
-                        >
-                            ↩
-                            <span
-                                data-ar="تراجع"
-                                data-en="Undo"
-                            >
-                                تراجع
-                            </span>
-                        </button>
-
-                        <button
-                            class="small-button"
-                            id="clearCleanup"
-                        >
-                            ✕
-                            <span
-                                data-ar="مسح"
-                                data-en="Clear"
-                            >
-                                مسح
-                            </span>
-                        </button>
-
-                    </div>
-
-
-                    <button
-                        class="download"
-                        id="downloadClean"
-                    >
-                        ⬇️
-                        <span
-                            data-ar="تنزيل الصورة"
-                            data-en="Download Image"
-                        >
-                            تنزيل الصورة
-                        </span>
-                    </button>
-
-                </aside>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <script>
-
-        /* =========================================
-           LANGUAGE
-        ========================================= */
-
-        let language =
-            localStorage.getItem(
-                "vytfx-language"
-            ) || "ar";
-
-
-        function updateLanguage() {
-
-            document.documentElement.lang =
-                language;
-
-            document.documentElement.dir =
-                language === "ar"
-                    ? "rtl"
-                    : "ltr";
-
-
-            document
-                .querySelectorAll(
-                    "[data-ar]"
-                )
-                .forEach(element => {
-
-                    element.textContent =
-                        element.dataset[
-                            language
-                        ];
-
-                });
-
-
-            document.getElementById(
-                "languageButton"
-            ).textContent =
-                language === "ar"
-                    ? "🌐 English"
-                    : "🌐 العربية";
-
-
-            localStorage.setItem(
-                "vytfx-language",
-                language
-            );
-
-        }
-
-
-        document.getElementById(
-            "languageButton"
-        ).onclick = () => {
-
-            language =
-                language === "ar"
-                    ? "en"
-                    : "ar";
-
-            updateLanguage();
-
-        };
-
-
-        /* =========================================
-           THEME
-        ========================================= */
-
-        let theme =
-            localStorage.getItem(
-                "vytfx-theme"
-            ) || "dark";
-
-
-        function updateTheme() {
-
-            document.documentElement
-                .dataset.theme =
-                theme;
-
-            document.getElementById(
-                "themeButton"
-            ).textContent =
-                theme === "dark"
-                    ? "☀️"
-                    : "🌙";
-
-            localStorage.setItem(
-                "vytfx-theme",
-                theme
-            );
-
-        }
-
-
-        document.getElementById(
-            "themeButton"
-        ).onclick = () => {
-
-            theme =
-                theme === "dark"
-                    ? "light"
-                    : "dark";
-
-            updateTheme();
-
-        };
-
-
-        updateLanguage();
-        updateTheme();
-
-
-        /* =========================================
-           PAGE SWITCHING
-        ========================================= */
-
-        const homePage =
-            document.getElementById(
-                "homePage"
-            );
-
-        const editorPage =
-            document.getElementById(
-                "editorPage"
-            );
-
-        const watermarkPage =
-            document.getElementById(
-                "watermarkPage"
-            );
-
-
-        function showPage(page) {
-
-            homePage.classList.remove(
-                "active"
-            );
-
-            editorPage.classList.remove(
-                "active"
-            );
-
-            watermarkPage.classList.remove(
-                "active"
-            );
-
-
-            page.classList.add(
-                "active"
-            );
-
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        }
-
-
-        document.getElementById(
-            "openEditor"
-        ).onclick = () => {
-
-            showPage(editorPage);
-
-        };
-
-
-        document.getElementById(
-            "openWatermark"
-        ).onclick = () => {
-
-            showPage(watermarkPage);
-
-        };
-
-
-        document.getElementById(
-            "backEditor"
-        ).onclick = () => {
-
-            showPage(homePage);
-
-        };
-
-
-        document.getElementById(
-            "backWatermark"
-        ).onclick = () => {
-
-            showPage(homePage);
-
-        };
-
-
-        /* =========================================
-           IMAGE EDITOR
-        ========================================= */
-
-        const editorInput =
-            document.getElementById(
-                "editorInput"
-            );
-
-        const editorUpload =
-            document.getElementById(
-                "editorUpload"
-            );
-
-        const imageStage =
-            document.getElementById(
-                "imageStage"
-            );
-
-        const editorImage =
-            document.getElementById(
-                "editorImage"
-            );
-
-
-        let editorImageURL = null;
-
-        let editorRotation = 0;
-
-        let editorFlipX = 1;
-
-        let editorFlipY = 1;
-
-
-        function loadEditorImage(file) {
-
-            if (
-                !file ||
-                !file.type.startsWith(
-                    "image/"
-                )
-            ) {
-                return;
-            }
-
-
-            if (editorImageURL) {
-
-                URL.revokeObjectURL(
-                    editorImageURL
-                );
-
-            }
-
-
-            editorImageURL =
-                URL.createObjectURL(
-                    file
-                );
-
-
-            editorImage.src =
-                editorImageURL;
-
-
-            editorUpload.style.display =
-                "none";
-
-            imageStage.classList.add(
-                "active"
-            );
-
-
-            resetEditorValues();
-
-        }
-
-
-        editorInput.onchange =
-            event => {
-
-                loadEditorImage(
-                    event.target.files[0]
-                );
-
-            };
-
-
-        function updateEditorImage() {
-
-            const brightness =
-                document.getElementById(
-                    "brightness"
-                ).value;
-
-            const contrast =
-                document.getElementById(
-                    "contrast"
-                ).value;
-
-            const saturation =
-                document.getElementById(
-                    "saturation"
-                ).value;
-
-            const filter =
-                document.getElementById(
-                    "filter"
-                ).value;
-
-
-            editorImage.style.filter =
-                `
-                brightness(${brightness}%)
-                contrast(${contrast}%)
-                saturate(${saturation}%)
-                ${filter}
-                `;
-
-
-            editorImage.style.transform =
-                `
-                rotate(${editorRotation}deg)
-                scaleX(${editorFlipX})
-                scaleY(${editorFlipY})
-                `;
-
-
-            document.getElementById(
-                "brightnessValue"
-            ).textContent =
-                brightness + "%";
-
-
-            document.getElementById(
-                "contrastValue"
-            ).textContent =
-                contrast + "%";
-
-
-            document.getElementById(
-                "saturationValue"
-            ).textContent =
-                saturation + "%";
-
-        }
-
-
-        [
-            "brightness",
-            "contrast",
-            "saturation",
-            "filter"
-        ].forEach(id => {
-
-            document.getElementById(
-                id
-            ).addEventListener(
-                "input",
-                updateEditorImage
-            );
-
-        });
-
-
-        document.getElementById(
-            "rotateLeft"
-        ).onclick = () => {
-
-            editorRotation -= 90;
-
-            updateEditorImage();
-
-        };
-
-
-        document.getElementById(
-            "rotateRight"
-        ).onclick = () => {
-
-            editorRotation += 90;
-
-            updateEditorImage();
-
-        };
-
-
-        document.getElementById(
-            "flipX"
-        ).onclick = () => {
-
-            editorFlipX *= -1;
-
-            updateEditorImage();
-
-        };
-
-
-        document.getElementById(
-            "flipY"
-        ).onclick = () => {
-
-            editorFlipY *= -1;
-
-            updateEditorImage();
-
-        };
-
-
-        function resetEditorValues() {
-
-            document.getElementById(
-                "brightness"
-            ).value = 100;
-
-            document.getElementById(
-                "contrast"
-            ).value = 100;
-
-            document.getElementById(
-                "saturation"
-            ).value = 100;
-
-            document.getElementById(
-                "filter"
-            ).value = "none";
-
-
-            editorRotation = 0;
-
-            editorFlipX = 1;
-
-            editorFlipY = 1;
-
-
-            updateEditorImage();
-
-        }
-
-
-        document.getElementById(
-            "resetEditor"
-        ).onclick =
-            resetEditorValues;
-
-
-        /* =========================================
-           SMOOTH IMAGE DOWNLOAD
-        ========================================= */
-
-        document.getElementById(
-            "downloadEdited"
-        ).onclick = async () => {
-
-            if (!editorImage.src) {
-                return;
-            }
-
-
-            const canvas =
-                document.createElement(
-                    "canvas"
-                );
-
-            const ctx =
-                canvas.getContext(
-                    "2d"
-                );
-
-
-            const image =
-                new Image();
-
-
-            image.onload = () => {
-
-                const rotated =
-                    Math.abs(
-                        editorRotation
-                    ) % 180 !== 0;
-
-
-                canvas.width =
-                    rotated
-                        ? image.height
-                        : image.width;
-
-
-                canvas.height =
-                    rotated
-                        ? image.width
-                        : image.height;
-
-
-                ctx.save();
-
-
-                ctx.translate(
-                    canvas.width / 2,
-                    canvas.height / 2
-                );
-
-
-                ctx.rotate(
-                    editorRotation *
-                    Math.PI /
-                    180
-                );
-
-
-                ctx.scale(
-                    editorFlipX,
-                    editorFlipY
-                );
-
-
-                ctx.filter =
-                    `
-                    brightness(${document.getElementById("brightness").value}%)
-                    contrast(${document.getElementById("contrast").value}%)
-                    saturate(${document.getElementById("saturation").value}%)
-                    ${document.getElementById("filter").value}
-                    `;
-
-
-                ctx.drawImage(
-                    image,
-                    -image.width / 2,
-                    -image.height / 2
-                );
-
-
-                ctx.restore();
-
-
-                canvas.toBlob(
-                    blob => {
-
-                        if (!blob) {
-                            return;
-                        }
-
-
-                        const url =
-                            URL.createObjectURL(
-                                blob
-                            );
-
-
-                        const link =
-                            document.createElement(
-                                "a"
-                            );
-
-
-                        link.href =
-                            url;
-
-                        link.download =
-                            "VideoYTFX-Edited.png";
-
-
-                        link.style.display =
-                            "none";
-
-
-                        document.body.appendChild(
-                            link
-                        );
-
-
-                        link.click();
-
-
-                        link.remove();
-
-
-                        setTimeout(
-                            () => {
-
-                                URL.revokeObjectURL(
-                                    url
-                                );
-
-                            },
-                            1000
-                        );
-
-                    },
-                    "image/png",
-                    1
-                );
-
-            };
-
-
-            image.src =
-                editorImage.src;
-
-        };
-
-
-        /* =========================================
-           EDITOR DRAG & DROP
-        ========================================= */
-
-        [
-            editorUpload
-        ].forEach(area => {
-
-            area.addEventListener(
-                "dragover",
-                event => {
-
-                    event.preventDefault();
-
-                    area.classList.add(
-                        "drag"
-                    );
-
-                }
-            );
-
-
-            area.addEventListener(
-                "dragleave",
-                () => {
-
-                    area.classList.remove(
-                        "drag"
-                    );
-
-                }
-            );
-
-
-            area.addEventListener(
-                "drop",
-                event => {
-
-                    event.preventDefault();
-
-                    area.classList.remove(
-                        "drag"
-                    );
-
-
-                    loadEditorImage(
-                        event.dataTransfer.files[0]
-                    );
-
-                }
-            );
-
-        });
-
-
-        /* =========================================
-           WATERMARK CLEANUP
-        ========================================= */
-
-        const watermarkInput =
-            document.getElementById(
-                "watermarkInput"
-            );
-
-        const watermarkUpload =
-            document.getElementById(
-                "watermarkUpload"
-            );
-
-        const watermarkArea =
-            document.getElementById(
-                "watermarkArea"
-            );
-
-        const watermarkCanvas =
-            document.getElementById(
-                "watermarkCanvas"
-            );
-
-        const selection =
-            document.getElementById(
-                "selection"
-            );
-
-
-        const wctx =
-            watermarkCanvas.getContext(
-                "2d"
-            );
-
-
-        let watermarkImage =
-            new Image();
-
-        let cleanupHistory = [];
-
-        let drawing = false;
-
-
-        watermarkInput.onchange =
-            event => {
-
-                const file =
-                    event.target.files[0];
-
-
-                if (
-                    !file ||
-                    !file.type.startsWith(
-                        "image/"
-                    )
-                ) {
-                    return;
-                }
-
-
-                const url =
-                    URL.createObjectURL(
-                        file
-                    );
-
-
-                watermarkImage =
-                    new Image();
-
-
-                watermarkImage.onload =
-                    () => {
-
-                        watermarkCanvas.width =
-                            watermarkImage.naturalWidth;
-
-                        watermarkCanvas.height =
-                            watermarkImage.naturalHeight;
-
-
-                        wctx.drawImage(
-                            watermarkImage,
-                            0,
-                            0
-                        );
-
-
-                        cleanupHistory = [];
-
-
-                        watermarkUpload.style.display =
-                            "none";
-
-                        watermarkArea.style.display =
-                            "flex";
-
-
-                        URL.revokeObjectURL(
-                            url
-                        );
-
-                    };
-
-
-                watermarkImage.src =
-                    url;
-
-            };
-
-
-        /* =========================
-           BRUSH
-        ========================= */
-
-        const brushSize =
-            document.getElementById(
-                "brushSize"
-            );
-
-
-        brushSize.oninput = () => {
-
-            document.getElementById(
-                "brushValue"
-            ).textContent =
-                brushSize.value;
-
-        };
-
-
-        function canvasPoint(event) {
-
-            const rect =
-                watermarkCanvas
-                    .getBoundingClientRect();
-
-
-            const scaleX =
-                watermarkCanvas.width /
-                rect.width;
-
-
-            const scaleY =
-                watermarkCanvas.height /
-                rect.height;
-
-
-            return {
-
-                x:
-                    (event.clientX -
-                        rect.left) *
-                    scaleX,
-
-                y:
-                    (event.clientY -
-                        rect.top) *
-                    scaleY
-
-            };
-
-        }
-
-
-        function saveHistory() {
-
-            cleanupHistory.push(
-                wctx.getImageData(
-                    0,
-                    0,
-                    watermarkCanvas.width,
-                    watermarkCanvas.height
-                )
-            );
-
-
-            if (
-                cleanupHistory.length >
-                10
-            ) {
-
-                cleanupHistory.shift();
-
-            }
-
-        }
-
-
-        watermarkCanvas.addEventListener(
-            "pointerdown",
-            event => {
-
-                drawing = true;
-
-                watermarkCanvas.setPointerCapture(
-                    event.pointerId
-                );
-
-
-                saveHistory();
-
-                cleanAt(
-                    event
-                );
-
-            }
-        );
-
-
-        watermarkCanvas.addEventListener(
-            "pointermove",
-            event => {
-
-                if (!drawing) {
-                    return;
-                }
-
-
-                cleanAt(
-                    event
-                );
-
-            }
-        );
-
-
-        watermarkCanvas.addEventListener(
-            "pointerup",
-            () => {
-
-                drawing = false;
-
-            }
-        );
-
-
-        watermarkCanvas.addEventListener(
-            "pointercancel",
-            () => {
-
-                drawing = false;
-
-            }
-        );
-
-
-        function cleanAt(event) {
-
-            const point =
-                canvasPoint(event);
-
-
-            const size =
-                Number(
-                    brushSize.value
-                );
-
-
-            const mode =
-                document.getElementById(
-                    "cleanupMode"
-                ).value;
-
-
-            if (
-                mode === "blur"
-            ) {
-
-                /*
-                 * Localized soft cleanup.
-                 * This modifies the selected area
-                 * without changing the original file.
-                 */
-
-                const x =
-                    Math.max(
-                        0,
-                        point.x - size
-                    );
-
-
-                const y =
-                    Math.max(
-                        0,
-                        point.y - size
-                    );
-
-
-                const width =
-                    Math.min(
-                        size * 2,
-                        watermarkCanvas.width - x
-                    );
-
-
-                const height =
-                    Math.min(
-                        size * 2,
-                        watermarkCanvas.height - y
-                    );
-
-
-                const temp =
-                    document.createElement(
-                        "canvas"
-                    );
-
-
-                temp.width =
-                    width;
-
-                temp.height =
-                    height;
-
-
-                const tctx =
-                    temp.getContext(
-                        "2d"
-                    );
-
-
-                tctx.filter =
-                    "blur(7px)";
-
-
-                tctx.drawImage(
-                    watermarkCanvas,
-                    x,
-                    y,
-                    width,
-                    height,
-                    0,
-                    0,
-                    width,
-                    height
-                );
-
-
-                wctx.drawImage(
-                    temp,
-                    x,
-                    y
-                );
-
-            } else {
-
-                /*
-                 * Local clone:
-                 * samples from a nearby clean area
-                 * and paints it over the selected area.
-                 */
-
-                const sourceX =
-                    Math.max(
-                        0,
-                        point.x -
-                        size * 2
-                    );
-
-
-                const sourceY =
-                    Math.max(
-                        0,
-                        point.y -
-                        size * 2
-                    );
-
-
-                const sourceSize =
-                    Math.min(
-                        size * 2,
-                        watermarkCanvas.width
-                    );
-
-
-                wctx.drawImage(
-                    watermarkCanvas,
-                    sourceX,
-                    sourceY,
-                    sourceSize,
-                    sourceSize,
-                    point.x - size,
-                    point.y - size,
-                    size * 2,
-                    size * 2
-                );
-
-            }
-
-        }
-
-
-        /* =========================================
-           UNDO
-        ========================================= */
-
-        document.getElementById(
-            "undoCleanup"
-        ).onclick = () => {
-
-            if (
-                cleanupHistory.length === 0
-            ) {
-                return;
-            }
-
-
-            const previous =
-                cleanupHistory.pop();
-
-
-            wctx.putImageData(
-                previous,
-                0,
-                0
-            );
-
-        };
-
-
-        /* =========================================
-           CLEAR
-        ========================================= */
-
-        document.getElementById(
-            "clearCleanup"
-        ).onclick = () => {
-
-            if (
-                !watermarkImage.src
-            ) {
-                return;
-            }
-
-
-            saveHistory();
-
-
-            wctx.clearRect(
-                0,
-                0,
-                watermarkCanvas.width,
-                watermarkCanvas.height
-            );
-
-
-            wctx.drawImage(
-                watermarkImage,
-                0,
-                0
-            );
-
-        };
-
-
-        /* =========================================
-           SMOOTH WATERMARK DOWNLOAD
-        ========================================= */
-
-        document.getElementById(
-            "downloadClean"
-        ).onclick = () => {
-
-            watermarkCanvas.toBlob(
-                blob => {
-
-                    if (!blob) {
-                        return;
-                    }
-
-
-                    const url =
-                        URL.createObjectURL(
-                            blob
-                        );
-
-
-                    const link =
-                        document.createElement(
-                            "a"
-                        );
-
-
-                    link.href =
-                        url;
-
-                    link.download =
-                        "VideoYTFX-Cleaned.png";
-
-
-                    link.style.display =
-                        "none";
-
-
-                    document.body.appendChild(
-                        link
-                    );
-
-
-                    link.click();
-
-
-                    link.remove();
-
-
-                    setTimeout(
-                        () => {
-
-                            URL.revokeObjectURL(
-                                url
-                            );
-
-                        },
-                        1000
-                    );
-
-                },
-                "image/png",
-                1
-            );
-
-        };
-
-
-        /* =========================================
-           WATERMARK DRAG & DROP
-        ========================================= */
-
-        watermarkUpload.addEventListener(
-            "dragover",
-            event => {
-
-                event.preventDefault();
-
-                watermarkUpload.classList.add(
-                    "drag"
-                );
-
-            }
-        );
-
-
-        watermarkUpload.addEventListener(
-            "dragleave",
-            () => {
-
-                watermarkUpload.classList.remove(
-                    "drag"
-                );
-
-            }
-        );
-
-
-        watermarkUpload.addEventListener(
-            "drop",
-            event => {
-
-                event.preventDefault();
-
-                watermarkUpload.classList.remove(
-                    "drag"
-                );
-
-
-                const file =
-                    event.dataTransfer.files[0];
-
-
-                if (
-                    file &&
-                    file.type.startsWith(
-                        "image/"
-                    )
-                ) {
-
-                    const dataTransfer =
-                        new DataTransfer();
-
-
-                    dataTransfer.items.add(
-                        file
-                    );
-
-
-                    watermarkInput.files =
-                        dataTransfer.files;
-
-
-                    watermarkInput.dispatchEvent(
-                        new Event("change")
-                    );
-
-                }
-
-            }
-        );
-
-    </script>
+        <canvas id="retouchCanvas"></canvas>
+      </div>
+    </div>
+
+    <aside class="panel sidebar">
+      <h3 data-ar="الأدوات" data-en="Tools">الأدوات</h3>
+
+      <div class="control">
+        <label data-ar="نوع الأداة" data-en="Tool">نوع الأداة</label>
+        <select id="retouchMode">
+          <option value="blur" data-ar="تمويه" data-en="Blur">تمويه</option>
+          <option value="clone" data-ar="نسخ منطقة مجاورة" data-en="Clone nearby area">نسخ منطقة مجاورة</option>
+        </select>
+      </div>
+
+      <div class="control">
+        <label><span data-ar="حجم الفرشاة" data-en="Brush size">حجم الفرشاة</span><span id="brushVal">30px</span></label>
+        <input id="brushSize" type="range" min="5" max="100" value="30">
+      </div>
+
+      <div class="control">
+        <label data-ar="مسافة النسخ" data-en="Clone offset">مسافة النسخ</label>
+        <input id="cloneOffset" type="range" min="10" max="150" value="50">
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- الرسم -->
+<section id="drawing" class="page">
+  <div class="editor-head">
+    <h1 data-ar="الرسم" data-en="Drawing">الرسم</h1>
+
+    <div class="actions">
+      <button class="btn" data-home data-ar="الرئيسية" data-en="Home">الرئيسية</button>
+      <button class="btn" id="undoDrawing" data-ar="تراجع" data-en="Undo">تراجع</button>
+      <button class="btn" id="clearDrawing" data-ar="مسح الرسم" data-en="Clear">مسح الرسم</button>
+      <button class="btn primary" id="exportDrawing" data-ar="تنزيل الرسم" data-en="Export drawing">تنزيل الرسم</button>
+    </div>
+  </div>
+
+  <div class="workspace">
+    <div class="panel">
+      <div class="stage-toolbar">
+        <span data-ar="لوحة الرسم" data-en="Drawing canvas">لوحة الرسم</span>
+        <button class="btn" id="drawingBackground" data-ar="تغيير الخلفية" data-en="Change background">تغيير الخلفية</button>
+      </div>
+
+      <div class="stage">
+        <canvas id="drawCanvas" width="1000" height="650" style="display:block;cursor:crosshair"></canvas>
+      </div>
+    </div>
+
+    <aside class="panel sidebar">
+      <h3 data-ar="أدوات الرسم" data-en="Drawing tools">أدوات الرسم</h3>
+
+      <div class="control">
+        <label data-ar="لون القلم" data-en="Pen color">لون القلم</label>
+        <input type="color" id="penColor" value="#111111">
+      </div>
+
+      <div class="control">
+        <label><span data-ar="حجم القلم" data-en="Pen size">حجم القلم</span><span id="penSizeVal">6px</span></label>
+        <input type="range" id="penSize" min="1" max="60" value="6">
+      </div>
+
+      <div class="control">
+        <label data-ar="الأداة" data-en="Tool">الأداة</label>
+        <select id="penTool">
+          <option value="pen" data-ar="قلم" data-en="Pen">قلم</option>
+          <option value="eraser" data-ar="ممحاة" data-en="Eraser">ممحاة</option>
+        </select>
+      </div>
+
+      <div class="control">
+        <label data-ar="لون الخلفية" data-en="Background color">لون الخلفية</label>
+        <input type="color" id="canvasBackground" value="#ffffff">
+      </div>
+
+      <button class="btn full" id="applyBackground" data-ar="تطبيق الخلفية" data-en="Apply background">تطبيق الخلفية</button>
+    </aside>
+  </div>
+</section>
+
+</main>
+
+<footer>VideoYTFX Studio</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = selector => document.querySelector(selector);
+const $$ = selector => [...document.querySelectorAll(selector)];
+
+let language = localStorage.getItem('vytfx-language') || 'ar';
+let theme = localStorage.getItem('vytfx-theme') || 'dark';
+
+function notify(ar,en) {
+  const toast = $('#toast');
+  toast.textContent = language === 'ar' ? ar : en;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+function setLanguage(lang) {
+  language = lang;
+  localStorage.setItem('vytfx-language', lang);
+
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+  $$('[data-ar][data-en]').forEach(el => {
+    el.textContent = el.dataset[lang];
+  });
+
+  $('#langBtn').textContent = lang === 'ar' ? '🌐 English' : '🌐 العربية';
+  $('#editorInfo').textContent = editorImage
+    ? `${editorImage.width} × ${editorImage.height} px`
+    : (lang === 'ar' ? 'لم يتم اختيار صورة' : 'No image selected');
+}
+
+function setTheme(value) {
+  theme = value;
+  document.documentElement.dataset.theme = value;
+  localStorage.setItem('vytfx-theme', value);
+  $('#themeBtn').textContent = value === 'dark' ? '☀️' : '🌙';
+}
+
+$('#langBtn').onclick = () => setLanguage(language === 'ar' ? 'en' : 'ar');
+$('#themeBtn').onclick = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+
+setLanguage(language);
+setTheme(theme);
+
+function showPage(id) {
+  $$('.page').forEach(page => page.classList.remove('active'));
+  $('#' + id).classList.add('active');
+}
+
+$$('[data-open]').forEach(card => {
+  card.onclick = () => showPage(card.dataset.open);
+});
+
+$$('[data-home]').forEach(button => {
+  button.onclick = () => showPage('home');
+});
+
+/* تحميل الصور */
+
+function loadImage(file, callback) {
+  if (!file || !file.type.startsWith('image/')) {
+    notify('اختر ملف صورة صالحًا', 'Choose a valid image file');
+    return;
+  }
+
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+
+  img.onload = () => {
+    callback(img, file.name);
+    URL.revokeObjectURL(url);
+  };
+
+  img.onerror = () => {
+    URL.revokeObjectURL(url);
+    notify('تعذر فتح الصورة', 'Could not open image');
+  };
+
+  img.src = url;
+}
+
+function downloadCanvas(canvas, name) {
+  const link = document.createElement('a');
+  link.download = name;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+/* محرر الصور */
+
+const ec = $('#imageCanvas');
+const ectx = ec.getContext('2d');
+
+let editorImage = null;
+let editorName = 'image';
+let editorRotation = 0;
+let editorFlip = false;
+let editorTexts = [];
+
+const defaultSettings = {
+  brightness:100,
+  contrast:100,
+  saturation:100,
+  blur:0,
+  filter:'none'
+};
+
+let settings = {...defaultSettings};
+
+function editorFilter() {
+  return `brightness(${settings.brightness}%)
+          contrast(${settings.contrast}%)
+          saturate(${settings.saturation}%)
+          blur(${settings.blur}px)
+          ${settings.filter}`;
+}
+
+function loadEditorImage(img, name) {
+  editorImage = img;
+  editorName = name.replace(/\.[^.]+$/, '') || 'image';
+  editorRotation = 0;
+  editorFlip = false;
+  editorTexts = [];
+  settings = {...defaultSettings};
+
+  ec.width = img.naturalWidth;
+  ec.height = img.naturalHeight;
+
+  $('#editorDrop').style.display = 'none';
+  ec.style.display = 'block';
+
+  $('#brightness').value = 100;
+  $('#contrast').value = 100;
+  $('#saturation').value = 100;
+  $('#blur').value = 0;
+  $('#filterSelect').value = 'none';
+
+  drawEditor();
+
+  $('#editorInfo').textContent = `${img.naturalWidth} × ${img.naturalHeight} px`;
+}
+
+function drawEditor() {
+  if (!editorImage) return;
+
+  const rotated = Math.abs(editorRotation % 180) === 90;
+  const sourceWidth = editorImage.naturalWidth;
+  const sourceHeight = editorImage.naturalHeight;
+
+  ec.width = rotated ? sourceHeight : sourceWidth;
+  ec.height = rotated ? sourceWidth : sourceHeight;
+
+  ectx.save();
+  ectx.clearRect(0,0,ec.width,ec.height);
+  ectx.filter = editorFilter();
+
+  ectx.translate(ec.width / 2, ec.height / 2);
+  ectx.rotate(editorRotation * Math.PI / 180);
+  ectx.scale(editorFlip ? -1 : 1, 1);
+
+  ectx.drawImage(
+    editorImage,
+    -sourceWidth / 2,
+    -sourceHeight / 2,
+    sourceWidth,
+    sourceHeight
+  );
+
+  ectx.restore();
+  ectx.filter = 'none';
+
+  editorTexts.forEach(item => {
+    ectx.save();
+    ectx.font = `bold ${item.size}px Tajawal, sans-serif`;
+    ectx.textAlign = 'center';
+    ectx.textBaseline = 'middle';
+    ectx.lineWidth = Math.max(2,item.size / 12);
+    ectx.strokeStyle = '#0009';
+    ectx.strokeText(item.text,item.x,item.y);
+    ectx.fillStyle = item.color;
+    ectx.fillText(item.text,item.x,item.y);
+    ectx.restore();
+  });
+}
+
+['brightness','contrast','saturation','blur'].forEach(key => {
+  $('#' + key).addEventListener('input', event => {
+    settings[key] = Number(event.target.value);
+
+    const suffix = key === 'blur' ? 'px' : '%';
+    $('#' + key + 'Val').textContent = event.target.value + suffix;
+
+    drawEditor();
+  });
+});
+
+$('#filterSelect').onchange = event => {
+  settings.filter = event.target.value;
+  drawEditor();
+};
+
+$('#chooseEditor').onclick = () => $('#editorFile').click();
+
+$('#editorFile').onchange = event => {
+  loadImage(event.target.files[0],loadEditorImage);
+};
+
+$('#rotateLeft').onclick = () => {
+  if (!editorImage) return;
+  editorRotation -= 90;
+  drawEditor();
+};
+
+$('#rotateRight').onclick = () => {
+  if (!editorImage) return;
+  editorRotation += 90;
+  drawEditor();
+};
+
+$('#flipImage').onclick = () => {
+  if (!editorImage) return;
+  editorFlip = !editorFlip;
+  drawEditor();
+};
+
+$('#addText').onclick = () => {
+  if (!editorImage) {
+    notify('اختر صورة أولًا','Choose an image first');
+    return;
+  }
+
+  const text = $('#textInput').value.trim();
+
+  if (!text) {
+    notify('اكتب النص أولًا','Enter some text first');
+    return;
+  }
+
+  editorTexts.push({
+    text,
+    x:ec.width / 2,
+    y:ec.height / 2,
+    size:Number($('#textSize').value) || 40,
+    color:$('#textColor').value
+  });
+
+  $('#textInput').value = '';
+  drawEditor();
+};
+
+$('#resetEditor').onclick = () => {
+  if (!editorImage) return;
+
+  settings = {...defaultSettings};
+  editorRotation = 0;
+  editorFlip = false;
+  editorTexts = [];
+
+  $('#brightness').value = 100;
+  $('#contrast').value = 100;
+  $('#saturation').value = 100;
+  $('#blur').value = 0;
+  $('#filterSelect').value = 'none';
+
+  ['brightness','contrast','saturation'].forEach(key => {
+    $('#' + key + 'Val').textContent = '100%';
+  });
+
+  $('#blurVal').textContent = '0px';
+  drawEditor();
+};
+
+$('#exportEditor').onclick = () => {
+  if (!editorImage) {
+    notify('اختر صورة أولًا','Choose an image first');
+    return;
+  }
+
+  drawEditor();
+  downloadCanvas(ec,`VideoYTFX-${editorName}.png`);
+};
+
+/* تنظيف الصور */
+
+const rc = $('#retouchCanvas');
+const rctx = rc.getContext('2d');
+
+let retouchImage = null;
+let retouchName = 'image';
+let retouchHistory = [];
+let painting = false;
+let lastPoint = null;
+
+function loadRetouchImage(img,name) {
+  retouchImage = img;
+  retouchName = name.replace(/\.[^.]+$/, '') || 'image';
+
+  rc.width = img.naturalWidth;
+  rc.height = img.naturalHeight;
+  rctx.drawImage(img,0,0);
+
+  $('#retouchDrop').style.display = 'none';
+  rc.style.display = 'block';
+
+  retouchHistory = [];
+}
+
+$('#chooseRetouch').onclick = () => $('#retouchFile').click();
+
+$('#retouchFile').onchange = event => {
+  loadImage(event.target.files[0],loadRetouchImage);
+};
+
+function retouchPoint(event) {
+  const rect = rc.getBoundingClientRect();
+
+  return {
+    x:(event.clientX - rect.left) * rc.width / rect.width,
+    y:(event.clientY - rect.top) * rc.height / rect.height
+  };
+}
+
+function saveRetouch() {
+  if (!rc.width) return;
+
+  retouchHistory.push(rctx.getImageData(0,0,rc.width,rc.height));
+
+  if (retouchHistory.length > 15) {
+    retouchHistory.shift();
+  }
+}
+
+function retouchAt(point) {
+  const size = Number($('#brushSize').value);
+  const mode = $('#retouchMode').value;
+
+  if (mode === 'blur') {
+    const x = Math.max(0,Math.floor(point.x-size));
+    const y = Math.max(0,Math.floor(point.y-size));
+    const w = Math.min(rc.width-x,size*2);
+    const h = Math.min(rc.height-y,size*2);
+
+    if (w <= 0 || h <= 0) return;
+
+    const temp = document.createElement('canvas');
+    temp.width = w;
+    temp.height = h;
+
+    const tempCtx = temp.getContext('2d');
+    tempCtx.filter = `blur(${Math.max(2,size/5)}px)`;
+    tempCtx.drawImage(rc,x,y,w,h,0,0,w,h);
+
+    rctx.save();
+    rctx.beginPath();
+    rctx.arc(point.x,point.y,size,0,Math.PI*2);
+    rctx.clip();
+    rctx.drawImage(temp,x,y,w,h);
+    rctx.restore();
+  } else {
+    const offset = Number($('#cloneOffset').value);
+    const sx = Math.max(0,Math.min(rc.width-size*2,point.x-offset-size));
+    const sy = Math.max(0,Math.min(rc.height-size*2,point.y-size));
+    const dx = Math.max(0,Math.min(rc.width-size*2,point.x-size));
+    const dy = Math.max(0,Math.min(rc.height-size*2,point.y-size));
+
+    const w = Math.min(size*2,rc.width-sx,rc.width-dx);
+    const h = Math.min(size*2,rc.height-sy,rc.height-dy);
+
+    if (w <= 0 || h <= 0) return;
+
+    const temp = document.createElement('canvas');
+    temp.width = w;
+    temp.height = h;
+
+    temp.getContext('2d').drawImage(rc,sx,sy,w,h,0,0,w,h);
+
+    rctx.save();
+    rctx.beginPath();
+    rctx.arc(point.x,point.y,size,0,Math.PI*2);
+    rctx.clip();
+    rctx.drawImage(temp,dx,dy,w,h);
+    rctx.restore();
+  }
+}
+
+$('#brushSize').oninput = () => {
+  $('#brushVal').textContent = $('#brushSize').value + 'px';
+};
+
+rc.addEventListener('pointerdown',event => {
+  if (!retouchImage) return;
+
+  painting = true;
+  rc.setPointerCapture(event.pointerId);
+  saveRetouch();
+
+  lastPoint = retouchPoint(event);
+  retouchAt(lastPoint);
+});
+
+rc.addEventListener('pointermove',event => {
+  if (!painting || !lastPoint) return;
+
+  const point = retouchPoint(event);
+  const distance = Math.hypot(point.x-lastPoint.x,point.y-lastPoint.y);
+  const step = Math.max(2,Number($('#brushSize').value)/4);
+  const count = Math.max(1,Math.ceil(distance/step));
+
+  for (let i=1;i<=count;i++) {
+    retouchAt({
+      x:lastPoint.x+(point.x-lastPoint.x)*i/count,
+      y:lastPoint.y+(point.y-lastPoint.y)*i/count
+    });
+  }
+
+  lastPoint = point;
+});
+
+['pointerup','pointercancel'].forEach(name => {
+  rc.addEventListener(name,() => {
+    painting = false;
+    lastPoint = null;
+  });
+});
+
+$('#retouchUndo').onclick = () => {
+  if (!retouchHistory.length) return;
+
+  rctx.putImageData(retouchHistory.pop(),0,0);
+};
+
+$('#retouchExport').onclick = () => {
+  if (!retouchImage) {
+    notify('اختر صورة أولًا','Choose an image first');
+    return;
+  }
+
+  downloadCanvas(rc,`VideoYTFX-${retouchName}-retouched.png`);
+};
+
+/* الرسم */
+
+const dc = $('#drawCanvas');
+const dctx = dc.getContext('2d');
+
+let drawing = false;
+let drawingHistory = [];
+let drawBackground = '#ffffff';
+
+function resetDrawingCanvas() {
+  dctx.save();
+  dctx.fillStyle = drawBackground;
+  dctx.fillRect(0,0,dc.width,dc.height);
+  dctx.restore();
+}
+
+function saveDrawing() {
+  drawingHistory.push(dctx.getImageData(0,0,dc.width,dc.height));
+
+  if (drawingHistory.length > 25) {
+    drawingHistory.shift();
+  }
+}
+
+resetDrawingCanvas();
+
+function drawPoint(event) {
+  const rect = dc.getBoundingClientRect();
+
+  return {
+    x:(event.clientX-rect.left)*dc.width/rect.width,
+    y:(event.clientY-rect.top)*dc.height/rect.height
+  };
+}
+
+dc.addEventListener('pointerdown',event => {
+  drawing = true;
+  dc.setPointerCapture(event.pointerId);
+  saveDrawing();
+
+  const p = drawPoint(event);
+
+  dctx.beginPath();
+  dctx.moveTo(p.x,p.y);
+  dctx.lineCap = 'round';
+  dctx.lineJoin = 'round';
+  dctx.lineWidth = Number($('#penSize').value);
+
+  if ($('#penTool').value === 'eraser') {
+    dctx.strokeStyle = drawBackground;
+  } else {
+    dctx.strokeStyle = $('#penColor').value;
+  }
+
+  dctx.lineTo(p.x+0.1,p.y+0.1);
+  dctx.stroke();
+});
+
+dc.addEventListener('pointermove',event => {
+  if (!drawing) return;
+
+  const p = drawPoint(event);
+
+  dctx.lineCap = 'round';
+  dctx.lineJoin = 'round';
+  dctx.lineWidth = Number($('#penSize').value);
+
+  dctx.strokeStyle = $('#penTool').value === 'eraser'
+    ? drawBackground
+    : $('#penColor').value;
+
+  dctx.lineTo(p.x,p.y);
+  dctx.stroke();
+});
+
+['pointerup','pointercancel','pointerleave'].forEach(name => {
+  dc.addEventListener(name,() => {
+    drawing = false;
+    dctx.beginPath();
+  });
+});
+
+$('#penSize').oninput = () => {
+  $('#penSizeVal').textContent = $('#penSize').value + 'px';
+};
+
+$('#undoDrawing').onclick = () => {
+  if (!drawingHistory.length) return;
+
+  dctx.putImageData(drawingHistory.pop(),0,0);
+};
+
+$('#clearDrawing').onclick = () => {
+  saveDrawing();
+  resetDrawingCanvas();
+};
+
+$('#drawingBackground').onclick = () => {
+  $('#canvasBackground').click();
+};
+
+$('#applyBackground').onclick = () => {
+  drawBackground = $('#canvasBackground').value;
+  saveDrawing();
+  resetDrawingCanvas();
+};
+
+$('#exportDrawing').onclick = () => {
+  downloadCanvas(dc,'VideoYTFX-Drawing.png');
+};
+
+/* السحب والإفلات للصور */
+
+function attachDrop(zone,callback) {
+  zone.addEventListener('dragover',event => {
+    event.preventDefault();
+    zone.style.borderColor = 'var(--secondary)';
+  });
+
+  zone.addEventListener('dragleave',() => {
+    zone.style.borderColor = 'var(--primary)';
+  });
+
+  zone.addEventListener('drop',event => {
+    event.preventDefault();
+    zone.style.borderColor = 'var(--primary)';
+
+    const file = event.dataTransfer.files[0];
+
+    if (file) loadImage(file,callback);
+  });
+
+  zone.addEventListener('click',() => {
+    if (zone.id === 'editorDrop') $('#editorFile').click();
+    if (zone.id === 'retouchDrop') $('#retouchFile').click();
+  });
+}
+
+attachDrop($('#editorDrop'),loadEditorImage);
+attachDrop($('#retouchDrop'),loadRetouchImage);
+</script>
 
 </body>
-
 </html>
