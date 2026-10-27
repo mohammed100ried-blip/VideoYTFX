@@ -1,235 +1,1283 @@
-<!-- استبدل قسم إعدادات التتبّع بهذا القسم -->
-<section class="panel">
-  <div class="panel-head">
-    <h3>إعدادات التتبّع</h3>
-  </div>
 
-  <div class="settings">
-    <div class="setting">
-      <label>مسافة السحب المطلوبة</label>
-      <div class="button-control">
-        <button class="btn secondary" id="thresholdMinus">−</button>
-        <output id="thresholdOut">0.10</output>
-        <button class="btn secondary" id="thresholdPlus">+</button>
-      </div>
-    </div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#030712">
+    <title>Gesture AI | VideoYTFX</title>
 
-    <div class="setting">
-      <label>تنعيم الحركة</label>
-      <div class="button-control">
-        <button class="btn secondary" id="smoothMinus">−</button>
-        <output id="smoothOut">متوسط</output>
-        <button class="btn secondary" id="smoothPlus">+</button>
-      </div>
-    </div>
-  </div>
-</section>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-<!-- استبدل قسم الإحصاءات بهذا القسم -->
-<section class="panel">
-  <div class="panel-head">
-    <h3>الإحصاءات</h3>
-    <span class="muted">الجلسة الحالية</span>
-  </div>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
 
-  <div class="stat-grid">
-    <div class="stat">
-      <div class="stat-label">إجمالي الإيماءات</div>
-      <div class="stat-value" id="total">0</div>
-      <div class="stat-sub">عدد الحركات المكتشفة</div>
-    </div>
+    <style>
+        :root {
+            --bg: #030712;
+            --panel: rgba(15, 23, 42, .78);
+            --panel-hover: rgba(30, 41, 59, .95);
+            --border: rgba(255, 255, 255, .09);
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --cyan: #22d3ee;
+            --green: #34d399;
+            --red: #fb7185;
+            --radius: 20px;
+        }
 
-    <div class="stat">
-      <div class="stat-label">آخر اتجاه</div>
-      <div class="stat-value" id="lastDirection">—</div>
-      <div class="stat-sub">آخر حركة مكتشفة</div>
-    </div>
-  </div>
+        [data-theme="light"] {
+            --bg: #f1f5f9;
+            --panel: rgba(255, 255, 255, .88);
+            --panel-hover: #ffffff;
+            --border: rgba(15, 23, 42, .10);
+            --text: #0f172a;
+            --muted: #64748b;
+        }
 
-  <div class="history" id="gestureCounts">
-    <div class="history-item"><span>👉 اليمين</span><strong id="countRight">0</strong></div>
-    <div class="history-item"><span>👈 اليسار</span><strong id="countLeft">0</strong></div>
-    <div class="history-item"><span>👆 الأعلى</span><strong id="countUp">0</strong></div>
-    <div class="history-item"><span>👇 الأسفل</span><strong id="countDown">0</strong></div>
-  </div>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  <div class="controls">
-    <button class="btn primary" id="saveBtn">💾 حفظ الإحصاءات</button>
-    <button class="btn secondary" id="resetBtn">↻ تصفير الإحصاءات</button>
-  </div>
-</section>
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Tajawal', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background .3s, color .3s;
+        }
 
-<style>
-.button-control {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
-  gap: 12px;
-  margin-top: 12px;
-}
+        button {
+            font: inherit;
+        }
 
-.button-control output {
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--cyan);
-}
+        .ambient {
+            position: fixed;
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: .18;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatGlow 12s ease-in-out infinite alternate;
+        }
 
-.button-control button {
-  min-height: 44px;
-  font-size: 22px;
-}
+        .glow-one {
+            top: -180px;
+            left: -100px;
+            background: #2563eb;
+        }
 
-#saveBtn {
-  background: linear-gradient(120deg, #168f70, #35c99b);
-  color: white;
-}
+        .glow-two {
+            right: -150px;
+            bottom: -120px;
+            background: #9333ea;
+            animation-delay: -4s;
+        }
 
-.history-item strong {
-  color: var(--cyan);
-  font-size: 17px;
-}
-</style>
+        @keyframes floatGlow {
+            to {
+                transform: translate(40px, 30px) scale(1.15);
+            }
+        }
 
-<script>
-/* أضف هذا الكود داخل سكربت الموقع الحالي،
-   واستبدل مستمعَي threshold و smooth القديمين به. */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 6%;
+            border-bottom: 1px solid var(--border);
+            background: var(--panel);
+            backdrop-filter: blur(20px);
+        }
 
-let thresholdValue = 0.10;
-let smoothValue = 3;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
 
-const gestureCounts = {
-  right: 0,
-  left: 0,
-  up: 0,
-  down: 0
-};
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            box-shadow: 0 0 24px rgba(59, 130, 246, .25);
+            color: white;
+        }
 
-function updateThreshold() {
-  thresholdValue = Math.max(0.04, Math.min(0.25, thresholdValue));
-  thresholdValue = Math.round(thresholdValue * 100) / 100;
+        .nav-actions {
+            display: flex;
+            gap: 8px;
+        }
 
-  $("thresholdOut").value = thresholdValue.toFixed(2);
-  $("sensitivity").textContent =
-    thresholdValue < 0.08 ? "عالية" :
-    thresholdValue > 0.16 ? "منخفضة" : "متوسطة";
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--panel);
+            color: var(--text);
+            cursor: pointer;
+            transition: transform .2s, border-color .2s, filter .2s;
+        }
 
-  $("threshold").value = thresholdValue;
-}
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            border-color: var(--blue);
+        }
 
-function updateSmooth() {
-  smoothValue = Math.max(1, Math.min(6, smoothValue));
-  $("smoothOut").value =
-    smoothValue <= 2 ? "خفيف" :
-    smoothValue >= 5 ? "قوي" : "متوسط";
+        .btn:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+        }
 
-  $("smooth").value = smoothValue;
-}
+        .btn-primary {
+            color: white;
+            border: none;
+            background: linear-gradient(120deg, var(--blue), var(--purple));
+            box-shadow: 0 8px 25px rgba(59, 130, 246, .2);
+        }
 
-$("thresholdMinus").addEventListener("click", () => {
-  thresholdValue -= 0.01;
-  updateThreshold();
-});
+        .btn-success {
+            color: white;
+            border: none;
+            background: linear-gradient(120deg, #059669, #34d399);
+        }
 
-$("thresholdPlus").addEventListener("click", () => {
-  thresholdValue += 0.01;
-  updateThreshold();
-});
+        .btn-danger {
+            color: white;
+            border: none;
+            background: linear-gradient(120deg, #e11d48, #fb7185);
+        }
 
-$("smoothMinus").addEventListener("click", () => {
-  smoothValue--;
-  updateSmooth();
-});
+        .hero {
+            padding: 40px 20px 25px;
+            text-align: center;
+            animation: fadeUp .7s both;
+        }
 
-$("smoothPlus").addEventListener("click", () => {
-  smoothValue++;
-  updateSmooth();
-});
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding: 6px 13px;
+            border: 1px solid rgba(34, 211, 238, .25);
+            border-radius: 30px;
+            background: rgba(34, 211, 238, .07);
+            color: var(--cyan);
+            font-weight: 800;
+            font-size: .85rem;
+        }
 
-/* في onResults، استمر باستخدام هاتين القيمتين:
-   const smoothValue = Number($("smooth").value);
-   const threshold = Number($("threshold").value);
-   سيظل الكود يعمل مع تحديث قيم الحقول أعلاه. */
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 12px var(--green);
+        }
 
-/* استبدل triggerGesture القديمة بهذه النسخة. */
-function triggerGesture(direction) {
-  lastGestureAt = performance.now();
+        .hero h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            line-height: 1.15;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(110deg, var(--text), #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-  const gesture = gestures[direction];
-  if (!gesture) return;
+        .hero p {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
 
-  total++;
-  gestureCounts[direction]++;
+        .workspace {
+            width: min(1250px, 94%);
+            margin: 0 auto;
+            padding-bottom: 65px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr);
+            gap: 20px;
+        }
 
-  $("total").textContent = total;
-  $("lastDirection").textContent = gesture.emoji;
-  $("gestureEmoji").textContent = gesture.emoji;
-  $("gestureName").textContent = gesture.name;
-  $("gestureDesc").textContent = gesture.desc;
-  $("screenLabel").textContent = gesture.name;
+        .panel {
+            min-width: 0;
+            padding: 23px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--panel);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .08);
+            animation: fadeUp .6s both;
+        }
 
-  const countElement = {
-    right: "countRight",
-    left: "countLeft",
-    up: "countUp",
-    down: "countDown"
-  }[direction];
+        .panel-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
 
-  $(countElement).textContent = gestureCounts[direction];
+        .panel-head h2,
+        .panel-head h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
 
-  historyItems.unshift({
-    direction,
-    time: new Date().toLocaleTimeString("ar", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit"
-    })
-  });
+        .muted {
+            color: var(--muted);
+            font-size: .88rem;
+        }
 
-  historyItems = historyItems.slice(0, 8);
-  renderHistory();
-}
+        .camera-box {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            aspect-ratio: 4 / 3;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background:
+                radial-gradient(circle at center, rgba(59, 130, 246, .12), transparent 55%),
+                #050a16;
+        }
 
-/* زر حفظ الإحصاءات في ملف JSON. */
-$("saveBtn").addEventListener("click", () => {
-  const report = {
-    application: "Gesture AI",
-    savedAt: new Date().toLocaleString("ar"),
-    totalGestures: total,
-    counts: {
-      right: gestureCounts.right,
-      left: gestureCounts.left,
-      up: gestureCounts.up,
-      down: gestureCounts.down
-    },
-    history: historyItems
-  };
+        #cameraVideo,
+        #outputCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+        }
 
-  const blob = new Blob(
-    [JSON.stringify(report, null, 2)],
-    { type: "application/json;charset=utf-8" }
-  );
+        #outputCanvas {
+            pointer-events: none;
+        }
 
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
+        .camera-placeholder {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            text-align: center;
+            color: #cbd5e1;
+            background: radial-gradient(circle, rgba(59, 130, 246, .08), transparent 70%);
+        }
 
-  link.href = url;
-  link.download = "Gesture-AI-Statistics.json";
-  link.click();
+        .camera-placeholder .camera-icon {
+            font-size: 3rem;
+            margin-bottom: 8px;
+        }
 
-  URL.revokeObjectURL(url);
-  toast("تم حفظ الإحصاءات بنجاح.");
-});
+        .camera-placeholder.hidden {
+            display: none;
+        }
 
-/* أضف هذه الأسطر إلى resetBtn الحالي لتصفير أعداد الاتجاهات أيضًا. */
-function resetGestureCounts() {
-  Object.keys(gestureCounts).forEach(direction => {
-    gestureCounts[direction] = 0;
-  });
+        .camera-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 13px;
+            color: var(--muted);
+            font-size: .9rem;
+        }
 
-  $("countRight").textContent = "0";
-  $("countLeft").textContent = "0";
-  $("countUp").textContent = "0";
-  $("countDown").textContent = "0";
-}
-</script>
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            background: var(--panel);
+        }
+
+        .status-pill.active {
+            color: var(--green);
+            border-color: rgba(52, 211, 153, .3);
+        }
+
+        .camera-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .camera-controls .btn {
+            flex: 1;
+        }
+
+        .side-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .gesture-display {
+            display: flex;
+            align-items: center;
+            gap: 17px;
+            padding: 17px;
+            border: 1px solid rgba(34, 211, 238, .2);
+            border-radius: 16px;
+            background: linear-gradient(130deg, rgba(34, 211, 238, .08), rgba(139, 92, 246, .08));
+        }
+
+        .gesture-emoji {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 70px;
+            height: 70px;
+            border-radius: 19px;
+            background: rgba(34, 211, 238, .1);
+            font-size: 2.5rem;
+            animation: iconPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        .gesture-name {
+            font-size: 1.25rem;
+            font-weight: 800;
+        }
+
+        .gesture-desc {
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        .settings {
+            display: grid;
+            gap: 19px;
+        }
+
+        .setting label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .button-control {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .button-control output {
+            text-align: center;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--cyan);
+        }
+
+        .button-control .btn {
+            min-height: 43px;
+            font-size: 1.3rem;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .stat {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: rgba(148, 163, 184, .04);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: .88rem;
+        }
+
+        .stat-value {
+            margin-top: 5px;
+            font-size: 2rem;
+            line-height: 1.25;
+            font-weight: 800;
+            color: var(--cyan);
+            overflow-wrap: anywhere;
+        }
+
+        .stat-sub {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: .8rem;
+        }
+
+        .history {
+            display: grid;
+            gap: 9px;
+            margin-top: 16px;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 11px 13px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(148, 163, 184, .035);
+        }
+
+        .history-item strong {
+            color: var(--cyan);
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 17px;
+        }
+
+        .controls .btn {
+            flex: 1;
+        }
+
+        .history-log {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .log-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 9px 11px;
+            border-bottom: 1px solid var(--border);
+            font-size: .9rem;
+        }
+
+        .log-item span:last-child {
+            color: var(--muted);
+            direction: ltr;
+            font-size: .8rem;
+        }
+
+        .empty-history {
+            padding: 16px 0;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .toast {
+            position: fixed;
+            z-index: 100;
+            bottom: 22px;
+            left: 50%;
+            transform: translate(-50%, 20px);
+            padding: 12px 19px;
+            border: 1px solid rgba(34, 211, 238, .3);
+            border-radius: 13px;
+            background: #0f172a;
+            color: #f8fafc;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, .3);
+            opacity: 0;
+            pointer-events: none;
+            transition: .25s ease;
+        }
+
+        .toast.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+
+        footer {
+            padding: 25px 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 850px) {
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .navbar {
+                padding: 12px 4%;
+            }
+
+            .brand {
+                font-size: .95rem;
+            }
+
+            .brand-icon {
+                width: 36px;
+                height: 36px;
+            }
+
+            .nav-actions {
+                gap: 5px;
+            }
+
+            .nav-actions .btn {
+                padding: 8px 9px;
+                font-size: .82rem;
+            }
+
+            .hero {
+                padding-top: 30px;
+            }
+
+            .panel {
+                padding: 16px;
+            }
+
+            .camera-controls {
+                flex-direction: column;
+            }
+
+            .stat-value {
+                font-size: 1.7rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ambient glow-one"></div>
+    <div class="ambient glow-two"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <span class="brand-icon">✋</span>
+            <span>VideoYTFX <span style="color:var(--cyan)">/ Gesture AI</span></span>
+        </a>
+
+        <div class="nav-actions">
+            <button class="btn" id="languageBtn" type="button">🌐 English</button>
+            <button class="btn" id="themeBtn" type="button">☀️</button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="eyebrow">
+            <span class="live-dot"></span>
+            <span data-ar="تتبّع اليد بالذكاء الاصطناعي" data-en="AI HAND TRACKING">تتبّع اليد بالذكاء الاصطناعي</span>
+        </div>
+        <h1>Gesture AI</h1>
+        <p data-ar="تحكّم بالحركة، تابع إحصاءاتك، واحفظ نتائج جلستك." data-en="Control movement, track your stats, and save your session.">
+            تحكّم بالحركة، تابع إحصاءاتك، واحفظ نتائج جلستك.
+        </p>
+    </header>
+
+    <main class="workspace">
+        <div class="main-column">
+            <section class="panel">
+                <div class="panel-head">
+                    <h2 data-ar="كاميرا تتبّع اليد" data-en="Hand Tracking Camera">كاميرا تتبّع اليد</h2>
+                    <span class="status-pill" id="statusPill">
+                        <span class="live-dot"></span>
+                        <span id="statusText">متوقفة</span>
+                    </span>
+                </div>
+
+                <div class="camera-box">
+                    <video id="cameraVideo" autoplay playsinline muted></video>
+                    <canvas id="outputCanvas"></canvas>
+
+                    <div class="camera-placeholder" id="cameraPlaceholder">
+                        <div>
+                            <div class="camera-icon">✋</div>
+                            <div data-ar="اضغط على تشغيل الكاميرا للبدء" data-en="Press Start Camera to begin">اضغط على تشغيل الكاميرا للبدء</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="camera-status">
+                    <span id="cameraMessage">الكاميرا غير مفعّلة</span>
+                    <span id="handStatus">لم يتم اكتشاف يد</span>
+                </div>
+
+                <div class="camera-controls">
+                    <button class="btn btn-primary" id="startBtn" type="button">▶ تشغيل الكاميرا</button>
+                    <button class="btn" id="stopBtn" type="button" disabled>■ إيقاف الكاميرا</button>
+                </div>
+            </section>
+
+            <section class="panel" style="margin-top:20px">
+                <div class="panel-head">
+                    <h3 data-ar="آخر إيماءة مكتشفة" data-en="Last Detected Gesture">آخر إيماءة مكتشفة</h3>
+                </div>
+
+                <div class="gesture-display">
+                    <div class="gesture-emoji" id="gestureEmoji">✋</div>
+                    <div>
+                        <div class="gesture-name" id="gestureName">بانتظار الحركة</div>
+                        <div class="gesture-desc" id="gestureDesc">حرّك يدك يمينًا أو يسارًا أو للأعلى أو للأسفل.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel" style="margin-top:20px">
+                <div class="panel-head">
+                    <h3 data-ar="سجل الحركات" data-en="Gesture History">سجل الحركات</h3>
+                    <span class="muted" id="historyLabel">آخر 8 حركات</span>
+                </div>
+                <div class="history-log" id="historyLog">
+                    <div class="empty-history">لم يتم تسجيل أي حركة بعد.</div>
+                </div>
+            </section>
+        </div>
+
+        <aside class="side-column">
+            <section class="panel">
+                <div class="panel-head">
+                    <h3 data-ar="إعدادات التتبّع" data-en="Tracking Settings">إعدادات التتبّع</h3>
+                </div>
+
+                <div class="settings">
+                    <div class="setting">
+                        <label data-ar="مسافة الحركة المطلوبة" data-en="Movement Threshold">مسافة الحركة المطلوبة</label>
+                        <div class="button-control">
+                            <button class="btn" id="thresholdMinus" type="button" aria-label="تقليل الحساسية">−</button>
+                            <output id="thresholdOut">0.10</output>
+                            <button class="btn" id="thresholdPlus" type="button" aria-label="زيادة الحساسية">+</button>
+                        </div>
+                    </div>
+
+                    <div class="setting">
+                        <label data-ar="تنعيم الحركة" data-en="Movement Smoothing">تنعيم الحركة</label>
+                        <div class="button-control">
+                            <button class="btn" id="smoothMinus" type="button" aria-label="تقليل التنعيم">−</button>
+                            <output id="smoothOut">متوسط</output>
+                            <button class="btn" id="smoothPlus" type="button" aria-label="زيادة التنعيم">+</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-head">
+                    <h3 data-ar="الإحصاءات" data-en="Statistics">الإحصاءات</h3>
+                    <span class="muted" data-ar="الجلسة الحالية" data-en="Current session">الجلسة الحالية</span>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat">
+                        <div class="stat-label" data-ar="إجمالي الحركات" data-en="Total Gestures">إجمالي الحركات</div>
+                        <div class="stat-value" id="total">0</div>
+                        <div class="stat-sub" data-ar="عدد الحركات المكتشفة" data-en="Detected movements">عدد الحركات المكتشفة</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-label" data-ar="آخر اتجاه" data-en="Last Direction">آخر اتجاه</div>
+                        <div class="stat-value" id="lastDirection">—</div>
+                        <div class="stat-sub" data-ar="آخر حركة مسجلة" data-en="Last registered movement">آخر حركة مسجلة</div>
+                    </div>
+                </div>
+
+                <div class="history">
+                    <div class="history-item"><span>👉 <span data-ar="اليمين" data-en="Right">اليمين</span></span><strong id="countRight">0</strong></div>
+                    <div class="history-item"><span>👈 <span data-ar="اليسار" data-en="Left">اليسار</span></span><strong id="countLeft">0</strong></div>
+                    <div class="history-item"><span>👆 <span data-ar="الأعلى" data-en="Up">الأعلى</span></span><strong id="countUp">0</strong></div>
+                    <div class="history-item"><span>👇 <span data-ar="الأسفل" data-en="Down">الأسفل</span></span><strong id="countDown">0</strong></div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-success" id="saveBtn" type="button">💾 حفظ الإحصاءات</button>
+                    <button class="btn btn-danger" id="resetBtn" type="button">↻ تصفير الإحصاءات</button>
+                </div>
+            </section>
+        </aside>
+    </main>
+
+    <footer>
+        © 2026 VideoYTFX · Gesture AI
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        const $ = id => document.getElementById(id);
+
+        let hands = null;
+        let cameraStream = null;
+        let running = false;
+        let processing = false;
+        let animationFrame = null;
+
+        let thresholdValue = 0.10;
+        let smoothValue = 3;
+
+        let total = 0;
+        let lastGestureAt = 0;
+        let lastDirection = null;
+        let previousWrist = null;
+        let movementSamples = [];
+
+        const cooldownMs = 650;
+
+        const gestureCounts = {
+            right: 0,
+            left: 0,
+            up: 0,
+            down: 0
+        };
+
+        let historyItems = [];
+
+        const gestures = {
+            right: {
+                emoji: "👉",
+                name: "اليمين",
+                nameEn: "Right",
+                desc: "تم اكتشاف حركة إلى اليمين."
+            },
+            left: {
+                emoji: "👈",
+                name: "اليسار",
+                nameEn: "Left",
+                desc: "تم اكتشاف حركة إلى اليسار."
+            },
+            up: {
+                emoji: "👆",
+                name: "الأعلى",
+                nameEn: "Up",
+                desc: "تم اكتشاف حركة إلى الأعلى."
+            },
+            down: {
+                emoji: "👇",
+                name: "الأسفل",
+                nameEn: "Down",
+                desc: "تم اكتشاف حركة إلى الأسفل."
+            }
+        };
+
+        let language = "ar";
+
+        function showToast(message) {
+            const toast = $("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+
+            clearTimeout(showToast.timer);
+            showToast.timer = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2600);
+        }
+
+        function updateThreshold() {
+            thresholdValue = Math.max(
+                0.04,
+                Math.min(0.25, Math.round(thresholdValue * 100) / 100)
+            );
+
+            $("thresholdOut").textContent = thresholdValue.toFixed(2);
+        }
+
+        function updateSmooth() {
+            smoothValue = Math.max(1, Math.min(6, smoothValue));
+
+            $("smoothOut").textContent = language === "ar"
+                ? smoothValue <= 2 ? "خفيف" : smoothValue >= 5 ? "قوي" : "متوسط"
+                : smoothValue <= 2 ? "Low" : smoothValue >= 5 ? "High" : "Medium";
+        }
+
+        $("thresholdMinus").addEventListener("click", () => {
+            thresholdValue -= 0.01;
+            updateThreshold();
+        });
+
+        $("thresholdPlus").addEventListener("click", () => {
+            thresholdValue += 0.01;
+            updateThreshold();
+        });
+
+        $("smoothMinus").addEventListener("click", () => {
+            smoothValue--;
+            updateSmooth();
+        });
+
+        $("smoothPlus").addEventListener("click", () => {
+            smoothValue++;
+            updateSmooth();
+        });
+
+        function setStatus(active, message) {
+            $("statusText").textContent = message;
+            $("statusPill").classList.toggle("active", active);
+            $("startBtn").disabled = active;
+            $("stopBtn").disabled = !active;
+        }
+
+        function updateCounts() {
+            $("total").textContent = total;
+            $("countRight").textContent = gestureCounts.right;
+            $("countLeft").textContent = gestureCounts.left;
+            $("countUp").textContent = gestureCounts.up;
+            $("countDown").textContent = gestureCounts.down;
+        }
+
+        function renderHistory() {
+            const container = $("historyLog");
+            container.replaceChildren();
+
+            if (!historyItems.length) {
+                const empty = document.createElement("div");
+                empty.className = "empty-history";
+                empty.textContent = language === "ar"
+                    ? "لم يتم تسجيل أي حركة بعد."
+                    : "No gestures recorded yet.";
+                container.appendChild(empty);
+                return;
+            }
+
+            historyItems.forEach(item => {
+                const row = document.createElement("div");
+                row.className = "log-item";
+
+                const name = document.createElement("span");
+                name.textContent = `${item.emoji} ${language === "ar" ? item.name : item.nameEn}`;
+
+                const time = document.createElement("span");
+                time.textContent = item.time;
+
+                row.append(name, time);
+                container.appendChild(row);
+            });
+        }
+
+        function triggerGesture(direction) {
+            const now = performance.now();
+
+            if (now - lastGestureAt < cooldownMs) return;
+
+            const gesture = gestures[direction];
+            if (!gesture) return;
+
+            lastGestureAt = now;
+            lastDirection = direction;
+            total++;
+            gestureCounts[direction]++;
+
+            $("gestureEmoji").textContent = gesture.emoji;
+            $("gestureName").textContent = language === "ar" ? gesture.name : gesture.nameEn;
+            $("gestureDesc").textContent = language === "ar"
+                ? gesture.desc
+                : `Movement detected: ${gesture.nameEn}.`;
+            $("lastDirection").textContent = gesture.emoji;
+
+            historyItems.unshift({
+                direction,
+                emoji: gesture.emoji,
+                name: gesture.name,
+                nameEn: gesture.nameEn,
+                time: new Date().toLocaleTimeString(language === "ar" ? "ar" : "en", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit"
+                })
+            });
+
+            historyItems = historyItems.slice(0, 8);
+            updateCounts();
+            renderHistory();
+        }
+
+        function drawHandResults(results) {
+            const canvas = $("outputCanvas");
+            const ctx = canvas.getContext("2d");
+            const video = $("cameraVideo");
+
+            if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
+                canvas.width = video.videoWidth || 640;
+                canvas.height = video.videoHeight || 480;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const hand = results.multiHandLandmarks && results.multiHandLandmarks[0];
+
+            if (!hand) {
+                previousWrist = null;
+                movementSamples = [];
+                $("handStatus").textContent = language === "ar"
+                    ? "لم يتم اكتشاف يد"
+                    : "No hand detected";
+                return;
+            }
+
+            $("handStatus").textContent = language === "ar"
+                ? "✋ تم اكتشاف اليد"
+                : "✋ Hand detected";
+
+            drawConnections(ctx, hand, canvas.width, canvas.height);
+
+            const wrist = hand[0];
+
+            if (previousWrist) {
+                const dx = wrist.x - previousWrist.x;
+                const dy = wrist.y - previousWrist.y;
+
+                movementSamples.push({ dx, dy });
+                movementSamples = movementSamples.slice(-smoothValue);
+
+                const avg = movementSamples.reduce(
+                    (acc, sample) => ({
+                        dx: acc.dx + sample.dx / movementSamples.length,
+                        dy: acc.dy + sample.dy / movementSamples.length
+                    }),
+                    { dx: 0, dy: 0 }
+                );
+
+                if (Math.max(Math.abs(avg.dx), Math.abs(avg.dy)) > thresholdValue * 0.13) {
+                    if (Math.abs(avg.dx) > Math.abs(avg.dy)) {
+                        // The video is mirrored to match the user's view.
+                        triggerGesture(avg.dx < 0 ? "right" : "left");
+                    } else {
+                        triggerGesture(avg.dy < 0 ? "up" : "down");
+                    }
+                }
+            }
+
+            previousWrist = { x: wrist.x, y: wrist.y };
+        }
+
+        function drawConnections(ctx, landmarks, width, height) {
+            const connections = [
+                [0,1],[1,2],[2,3],[3,4],
+                [0,5],[5,6],[6,7],[7,8],
+                [5,9],[9,10],[10,11],[11,12],
+                [9,13],[13,14],[14,15],[15,16],
+                [13,17],[17,18],[18,19],[19,20],
+                [0,17]
+            ];
+
+            ctx.lineWidth = Math.max(2, width / 320);
+            ctx.strokeStyle = "#22d3ee";
+            ctx.fillStyle = "#a78bfa";
+
+            connections.forEach(([a, b]) => {
+                ctx.beginPath();
+                ctx.moveTo(landmarks[a].x * width, landmarks[a].y * height);
+                ctx.lineTo(landmarks[b].x * width, landmarks[b].y * height);
+                ctx.stroke();
+            });
+
+            landmarks.forEach(point => {
+                ctx.beginPath();
+                ctx.arc(point.x * width, point.y * height, Math.max(3, width / 180), 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        async function startCamera() {
+            if (running) return;
+
+            if (typeof Hands === "undefined") {
+                showToast(language === "ar"
+                    ? "تعذّر تحميل مكتبة تتبّع اليد. تحقق من اتصال الإنترنت."
+                    : "Could not load hand tracking. Check your internet connection.");
+                return;
+            }
+
+            try {
+                setStatus(false, language === "ar" ? "جارٍ التشغيل..." : "Starting...");
+                $("cameraMessage").textContent = language === "ar"
+                    ? "جارٍ طلب إذن الكاميرا..."
+                    : "Requesting camera permission...";
+
+                cameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: "user",
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    },
+                    audio: false
+                });
+
+                const video = $("cameraVideo");
+                video.srcObject = cameraStream;
+                await video.play();
+
+                hands = new Hands({
+                    locateFile: file =>
+                        `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+                });
+
+                hands.setOptions({
+                    maxNumHands: 1,
+                    modelComplexity: 1,
+                    minDetectionConfidence: 0.65,
+                    minTrackingConfidence: 0.6
+                });
+
+                hands.onResults(drawHandResults);
+
+                running = true;
+                processing = false;
+                previousWrist = null;
+                movementSamples = [];
+
+                $("cameraPlaceholder").classList.add("hidden");
+                $("cameraMessage").textContent = language === "ar"
+                    ? "الكاميرا تعمل"
+                    : "Camera is running";
+
+                setStatus(true, language === "ar" ? "نشطة" : "Active");
+                processVideoFrame();
+            } catch (error) {
+                console.error(error);
+                stopCamera();
+
+                const message = error.name === "NotAllowedError"
+                    ? (language === "ar" ? "يرجى السماح باستخدام الكاميرا." : "Please allow camera access.")
+                    : (language === "ar" ? "تعذّر تشغيل الكاميرا." : "Could not start the camera.");
+
+                $("cameraMessage").textContent = message;
+                showToast(message);
+                setStatus(false, language === "ar" ? "متوقفة" : "Stopped");
+            }
+        }
+
+        async function processVideoFrame() {
+            if (!running) return;
+
+            const video = $("cameraVideo");
+
+            if (hands && video.readyState >= 2 && !processing) {
+                processing = true;
+
+                try {
+                    await hands.send({ image: video });
+                } catch (error) {
+                    console.error("Hand tracking error:", error);
+                } finally {
+                    processing = false;
+                }
+            }
+
+            if (running) {
+                animationFrame = requestAnimationFrame(processVideoFrame);
+            }
+        }
+
+        function stopCamera() {
+            running = false;
+
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = null;
+            }
+
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+
+            $("cameraVideo").srcObject = null;
+
+            const canvas = $("outputCanvas");
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            $("cameraPlaceholder").classList.remove("hidden");
+            $("cameraMessage").textContent = language === "ar"
+                ? "الكاميرا غير مفعّلة"
+                : "Camera is off";
+
+            $("handStatus").textContent = language === "ar"
+                ? "لم يتم اكتشاف يد"
+                : "No hand detected";
+
+            previousWrist = null;
+            movementSamples = [];
+
+            if (hands) {
+                hands.close();
+                hands = null;
+            }
+
+            setStatus(false, language === "ar" ? "متوقفة" : "Stopped");
+        }
+
+        function saveStatistics() {
+            const report = {
+                application: "Gesture AI",
+                savedAt: new Date().toISOString(),
+                totalGestures: total,
+                counts: { ...gestureCounts },
+                history: historyItems.map(item => ({ ...item }))
+            };
+
+            const blob = new Blob(
+                [JSON.stringify(report, null, 2)],
+                { type: "application/json;charset=utf-8" }
+            );
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+
+            link.href = url;
+            link.download = "Gesture-AI-Statistics.json";
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            showToast(language === "ar"
+                ? "تم حفظ الإحصاءات في ملف JSON."
+                : "Statistics saved as a JSON file.");
+        }
+
+        function resetStatistics() {
+            total = 0;
+            lastDirection = null;
+            lastGestureAt = 0;
+            historyItems = [];
+
+            Object.keys(gestureCounts).forEach(direction => {
+                gestureCounts[direction] = 0;
+            });
+
+            $("lastDirection").textContent = "—";
+            $("gestureEmoji").textContent = "✋";
+            $("gestureName").textContent = language === "ar" ? "بانتظار الحركة" : "Waiting for movement";
+            $("gestureDesc").textContent = language === "ar"
+                ? "حرّك يدك يمينًا أو يسارًا أو للأعلى أو للأسفل."
+                : "Move your hand right, left, up, or down.";
+
+            updateCounts();
+            renderHistory();
+            showToast(language === "ar" ? "تم تصفير الإحصاءات." : "Statistics reset.");
+        }
+
+        function setLanguage(nextLanguage) {
+            language = nextLanguage === "en" ? "en" : "ar";
+
+            document.documentElement.lang = language;
+            document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+
+            document.querySelectorAll("[data-ar][data-en]").forEach(element => {
+                element.textContent = element.dataset[language];
+            });
+
+            $("languageBtn").textContent = language === "ar" ? "🌐 English" : "🌐 العربية";
+            $("themeBtn").textContent =
+                document.documentElement.dataset.theme === "light" ? "🌙" : "☀️";
+
+            updateSmooth();
+            renderHistory();
+
+            if (!running) {
+                setStatus(false, language === "ar" ? "متوقفة" : "Stopped");
+                $("cameraMessage").textContent = language === "ar"
+                    ? "الكاميرا غير مفعّلة"
+                    : "Camera is off";
+                $("handStatus").textContent = language === "ar"
+                    ? "لم يتم اكتشاف يد"
+                    : "No hand detected";
+            }
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.dataset.theme || "dark";
+            const next = current === "dark" ? "light" : "dark";
+
+            document.documentElement.dataset.theme = next;
+            $("themeBtn").textContent = next === "light" ? "🌙" : "☀️";
+
+            const metaTheme = document.querySelector('meta[name="theme-color"]');
+            if (metaTheme) {
+                metaTheme.content = next === "light" ? "#f1f5f9" : "#030712";
+            }
+
+            try {
+                localStorage.setItem("gesture_theme", next);
+            } catch (error) {}
+        }
+
+        $("startBtn").addEventListener("click", startCamera);
+        $("stopBtn").addEventListener("click", stopCamera);
+        $("saveBtn").addEventListener("click", saveStatistics);
+        $("resetBtn").addEventListener("click", resetStatistics);
+
+        $("languageBtn").addEventListener("click", () => {
+            setLanguage(language === "ar" ? "en" : "ar");
+        });
+
+        $("themeBtn").addEventListener("click", toggleTheme);
+
+        // Restore theme preference.
+        try {
+            const savedTheme = localStorage.getItem("gesture_theme");
+            if (savedTheme === "light" || savedTheme === "dark") {
+                document.documentElement.dataset.theme = savedTheme;
+            }
+        } catch (error) {}
+
+        updateThreshold();
+        updateSmooth();
+        updateCounts();
+        renderHistory();
+        setStatus(false, "متوقفة");
+
+        window.addEventListener("beforeunload", stopCamera);
+    </script>
+</body>
+</html>
