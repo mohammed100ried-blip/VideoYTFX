@@ -1,564 +1,667 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
 
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>VideoYTFX</title>
+    <meta name="theme-color" content="#030712">
+    <title>VideoYTFX | Creative Studio</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap"
-        rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-base: #030712;
-            --bg-surface: rgba(17, 24, 39, 0.72);
-            --bg-surface-hover: rgba(31, 41, 55, 0.88);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(59, 130, 246, 0.55);
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --primary: #3b82f6;
-            --primary-glow: rgba(59, 130, 246, 0.35);
-            --accent: #8b5cf6;
-            --font-en: 'Plus Jakarta Sans', sans-serif;
-            --font-ar: 'Tajawal', sans-serif;
-            --radius-lg: 22px;
-            --radius-md: 14px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg: #030712;
+            --surface: rgba(15, 23, 42, .76);
+            --surface-hover: rgba(30, 41, 59, .92);
+            --border: rgba(255,255,255,.09);
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --cyan: #22d3ee;
+            --glow: rgba(59,130,246,.24);
+            --font: 'Plus Jakarta Sans', sans-serif;
+            --radius: 22px;
         }
 
         [data-theme="light"] {
-            --bg-base: #f8fafc;
-            --bg-surface: rgba(255, 255, 255, 0.88);
-            --bg-surface-hover: rgba(241, 245, 249, 1);
-            --border-color: rgba(0, 0, 0, 0.08);
-            --border-hover: rgba(59, 130, 246, 0.4);
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --primary-glow: rgba(59, 130, 246, 0.15);
+            --bg: #f1f5f9;
+            --surface: rgba(255,255,255,.85);
+            --surface-hover: #fff;
+            --border: rgba(15,23,42,.10);
+            --text: #0f172a;
+            --muted: #64748b;
+            --glow: rgba(59,130,246,.13);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             min-height: 100vh;
-            font-family: var(--font-en);
-            background: var(--bg-base);
-            color: var(--text-main);
-            line-height: 1.6;
             overflow-x: hidden;
-            position: relative;
-            transition: background-color 0.4s ease, color 0.4s ease;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            line-height: 1.6;
+            transition: background .35s, color .35s;
         }
 
-        html[dir="rtl"] body {
-            font-family: var(--font-ar);
-        }
+        html[dir="rtl"] body { font-family: 'Tajawal', sans-serif; }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+        a { text-decoration: none; color: inherit; }
+        button { font: inherit; }
 
-        button {
-            font-family: inherit;
-        }
-
-        .ambient-glow {
-            position: absolute;
-            width: 600px;
-            height: 600px;
+        .ambient {
+            position: fixed;
+            width: 420px;
+            height: 420px;
             border-radius: 50%;
-            filter: blur(140px);
+            filter: blur(120px);
             pointer-events: none;
             z-index: -1;
-            opacity: 0.5;
+            opacity: .25;
+            animation: floatGlow 12s ease-in-out infinite alternate;
         }
 
-        .glow-1 {
-            top: -200px;
-            left: -100px;
-            background: radial-gradient(circle, var(--primary), transparent 70%);
-        }
+        .glow-one { top: -180px; left: -130px; background: #2563eb; }
+        .glow-two { top: 35%; right: -200px; background: #9333ea; animation-delay: -4s; }
+        .glow-three { bottom: -220px; left: 25%; background: #0891b2; animation-delay: -7s; }
 
-        .glow-2 {
-            bottom: -100px;
-            right: -100px;
-            background: radial-gradient(circle, var(--accent), transparent 70%);
-        }
-
-        .glow-3 {
-            top: 45%;
-            left: 45%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(34, 197, 94, 0.16), transparent 70%);
+        @keyframes floatGlow {
+            from { transform: translate(0,0) scale(1); }
+            to { transform: translate(55px,35px) scale(1.18); }
         }
 
         .navbar {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 8%;
-            border-bottom: 1px solid var(--border-color);
-            background: var(--bg-surface);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 15px 7%;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            backdrop-filter: blur(22px);
         }
 
         .brand {
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 1.25rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            font-size: 1.2rem;
+            letter-spacing: -.5px;
         }
 
         .brand-icon {
-            width: 42px;
-            height: 42px;
             display: grid;
             place-items: center;
-            border-radius: var(--radius-md);
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: #fff;
-            font-weight: 800;
-            box-shadow: 0 4px 20px var(--primary-glow);
-            transition: var(--transition);
+            width: 43px;
+            height: 43px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: white;
+            box-shadow: 0 0 25px var(--glow);
+            transition: transform .3s;
         }
 
-        .brand:hover .brand-icon {
-            transform: rotate(-6deg) scale(1.05);
-        }
+        .brand:hover .brand-icon { transform: rotate(-8deg) scale(1.08); }
 
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .nav-actions { display: flex; gap: 9px; }
 
         .btn-ui {
-            border: 1px solid var(--border-color);
-            background: var(--bg-surface);
-            color: var(--text-main);
-            padding: 9px 16px;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: var(--transition);
-            display: flex;
+            display: inline-flex;
+            justify-content: center;
             align-items: center;
             gap: 7px;
+            padding: 9px 14px;
+            color: var(--text);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: .25s ease;
         }
 
         .btn-ui:hover {
-            background: var(--bg-surface-hover);
-            border-color: var(--border-hover);
             transform: translateY(-2px);
+            background: var(--surface-hover);
+            border-color: var(--blue);
         }
 
         .hero {
-            min-height: 68vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative;
+            min-height: 57vh;
+            display: grid;
+            place-items: center;
+            padding: 85px 20px 45px;
             text-align: center;
-            padding: 80px 20px 50px;
         }
 
-        .hero-content {
-            max-width: 850px;
+        .hero-content { max-width: 850px; }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 22px;
+            padding: 7px 14px;
+            border: 1px solid rgba(59,130,246,.3);
+            border-radius: 50px;
+            background: rgba(59,130,246,.09);
+            color: #60a5fa;
+            font-size: .82rem;
+            font-weight: 700;
+            animation: fadeUp .8s both;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #34d399;
+            box-shadow: 0 0 12px #34d399;
         }
 
         .hero h1 {
-            font-size: clamp(2.8rem, 7vw, 5rem);
+            margin-bottom: 17px;
+            font-size: clamp(3rem, 8vw, 6rem);
             font-weight: 800;
-            line-height: 1.05;
-            margin-bottom: 35px;
-            background: linear-gradient(180deg, var(--text-main) 0%, var(--text-muted) 100%);
+            letter-spacing: -3px;
+            line-height: 1.08;
+            background: linear-gradient(120deg, var(--text) 15%, #60a5fa 52%, #c084fc 85%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: fadeUp .8s .08s both;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: var(--muted);
+            font-size: 1.03rem;
+            animation: fadeUp .8s .16s both;
+        }
+
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 13px;
+            animation: fadeUp .8s .24s both;
+        }
+
+        .btn-primary, .btn-secondary {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 23px;
+            border-radius: 14px;
+            font-weight: 800;
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .btn-primary {
+            color: white;
+            background: linear-gradient(120deg, var(--blue), var(--purple));
+            box-shadow: 0 10px 30px var(--glow);
+        }
+
+        .btn-secondary {
+            color: var(--text);
+            background: var(--surface);
+            border: 1px solid var(--border);
+        }
+
+        .btn-primary:hover, .btn-secondary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px var(--glow);
+        }
+
+        .section-heading {
+            max-width: 1100px;
+            margin: 0 auto 25px;
+            padding: 0 20px;
+        }
+
+        .section-heading h2 { font-size: 1.7rem; font-weight: 800; }
+        .section-heading p { color: var(--muted); margin-top: 4px; }
+
+        .features {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 25px 20px 90px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            --card-accent: var(--blue);
+            position: relative;
+            isolation: isolate;
+            min-height: 270px;
+            padding: 28px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            backdrop-filter: blur(18px);
+            transition: transform .35s, border-color .35s, box-shadow .35s;
+            animation: fadeUp .65s both;
+        }
+
+        .card:nth-child(2) { animation-delay: .08s; }
+        .card:nth-child(3) { animation-delay: .16s; }
+        .card:nth-child(4) { animation-delay: .24s; }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            width: 210px;
+            height: 210px;
+            top: -110px;
+            right: -100px;
+            border-radius: 50%;
+            background: var(--card-accent);
+            opacity: .10;
+            filter: blur(15px);
+            transition: transform .45s, opacity .45s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: color-mix(in srgb, var(--card-accent) 65%, transparent);
+            box-shadow: 0 20px 55px rgba(0,0,0,.18), 0 0 25px color-mix(in srgb, var(--card-accent) 12%, transparent);
+        }
+
+        .card:hover::before { transform: scale(1.8); opacity: .2; }
+
+        .card-icon {
+            width: 57px;
+            height: 57px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 20px;
+            border-radius: 17px;
+            color: var(--card-accent);
+            background: color-mix(in srgb, var(--card-accent) 12%, transparent);
+            font-size: 1.7rem;
+            transition: transform .3s;
+        }
+
+        .card:hover .card-icon { transform: rotate(-6deg) scale(1.1); }
+
+        .card h3 { font-size: 1.35rem; margin-bottom: 8px; font-weight: 800; }
+        .card p { color: var(--muted); font-size: .94rem; }
+
+        .card-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+            color: var(--card-accent);
+            font-weight: 800;
+        }
+
+        .arrow-symbol { font-size: 1.45rem; transition: transform .25s; }
+        .card:hover .arrow-symbol { transform: translateX(6px); }
+        html[dir="rtl"] .card:hover .arrow-symbol { transform: translateX(-6px); }
+
+        /* Special Gesture AI card */
+        .gesture-card {
+            --card-accent: #22d3ee;
+            border-color: rgba(34,211,238,.32);
+            background:
+                radial-gradient(ellipse at 100% 0%, rgba(34,211,238,.13), transparent 55%),
+                radial-gradient(ellipse at 0% 100%, rgba(139,92,246,.12), transparent 60%),
+                var(--surface);
+        }
+
+        .gesture-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(34,211,238,.55), transparent 40%, rgba(139,92,246,.45));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .gesture-card:hover {
+            box-shadow: 0 0 35px rgba(34,211,238,.12), 0 20px 55px rgba(0,0,0,.2);
+        }
+
+        .gesture-card .card-icon {
+            color: #67e8f9;
+            background: rgba(34,211,238,.13);
+            box-shadow: 0 0 25px rgba(34,211,238,.12);
+        }
+
+        .gesture-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 14px;
+            padding: 5px 10px;
+            width: fit-content;
+            border: 1px solid rgba(34,211,238,.25);
+            border-radius: 30px;
+            color: #67e8f9;
+            background: rgba(34,211,238,.07);
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: .8px;
+        }
+
+        .gesture-card h3 {
+            background: linear-gradient(90deg, #67e8f9, #a78bfa);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
-        .cta-group {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
+        .gesture-card .card-arrow { color: #67e8f9; }
+
+        .gesture-orb {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            right: 25px;
+            bottom: 55px;
+            border: 1px solid rgba(34,211,238,.22);
+            border-radius: 50%;
+            opacity: .7;
+            pointer-events: none;
+            animation: orbitPulse 3.5s ease-in-out infinite;
         }
 
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 28px;
-            border-radius: var(--radius-md);
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: #fff;
-            font-weight: 700;
-            box-shadow: 0 10px 30px var(--primary-glow);
-            transition: var(--transition);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px var(--primary-glow);
-        }
-
-        .features {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px 100px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .card {
-            position: relative;
-            padding: 32px;
-            min-height: 245px;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
-            background: var(--bg-surface);
-            backdrop-filter: blur(20px);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
-        }
-
-        .card::before {
+        .gesture-orb::before, .gesture-orb::after {
             content: "";
             position: absolute;
-            width: 160px;
-            height: 160px;
-            top: -80px;
-            right: -80px;
+            inset: 12px;
+            border: 1px solid rgba(167,139,250,.3);
             border-radius: 50%;
-            background: var(--primary);
-            opacity: 0.04;
-            transition: var(--transition);
         }
 
-        .card:hover {
-            transform: translateY(-7px);
-            border-color: var(--border-hover);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+        .gesture-orb::after {
+            inset: 25px;
+            border-color: rgba(34,211,238,.45);
         }
 
-        .card:hover::before {
-            transform: scale(2);
+        @keyframes orbitPulse {
+            0%,100% { transform: scale(.92) rotate(0deg); opacity: .45; }
+            50% { transform: scale(1.08) rotate(35deg); opacity: .9; }
         }
 
-        .card-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: var(--radius-md);
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-            display: grid;
-            place-items: center;
-            font-size: 1.6rem;
-            margin-bottom: 20px;
-            transition: var(--transition);
-        }
-
-        .card:hover .card-icon {
-            transform: scale(1.08) rotate(-3deg);
-        }
-
-        .card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .card-arrow {
-            margin-top: 24px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            transition: var(--transition);
-        }
-
-        .card:hover .card-arrow {
-            transform: translateX(7px);
-        }
-
-        html[dir="rtl"] .card:hover .card-arrow {
-            transform: translateX(-7px);
-        }
+        html[dir="rtl"] .gesture-orb { right: auto; left: 25px; }
 
         footer {
+            padding: 28px 20px;
             text-align: center;
-            padding: 30px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
-            font-size: 0.875rem;
-            background: var(--bg-surface);
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--muted);
+            font-size: .88rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 640px) {
-            .navbar {
-                padding: 14px 5%;
-            }
+            .navbar { padding: 12px 4%; }
+            .brand { font-size: 1rem; gap: 8px; }
+            .brand-icon { width: 38px; height: 38px; }
+            .nav-actions { gap: 6px; }
+            .btn-ui { padding: 8px 10px; font-size: .84rem; }
+            .hero { min-height: auto; padding: 75px 18px 45px; }
+            .hero h1 { font-size: clamp(2.8rem, 13vw, 4rem); letter-spacing: -1.5px; }
+            .hero p { font-size: .95rem; }
+            .cta-group { flex-direction: column; }
+            .btn-primary, .btn-secondary { width: 100%; }
+            .features { grid-template-columns: 1fr; padding: 15px 18px 60px; }
+            .card { min-height: 235px; }
+            .gesture-orb { width: 78px; height: 78px; right: 18px; bottom: 45px; }
+            html[dir="rtl"] .gesture-orb { right: auto; left: 18px; }
+        }
 
-            .hero {
-                min-height: 60vh;
-                padding: 55px 20px 35px;
-            }
-
-            .hero h1 {
-                font-size: 3rem;
-            }
-
-            .cta-group {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .btn-primary,
-            .btn-ui {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .nav-actions {
-                gap: 7px;
-            }
-
-            .btn-ui {
-                padding: 8px 11px;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-                padding: 25px 18px 70px;
-            }
-
-            .card {
-                min-height: 220px;
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
             }
         }
     </style>
 </head>
 
 <body>
-
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
-    <div class="ambient-glow glow-3"></div>
+    <div class="ambient glow-one"></div>
+    <div class="ambient glow-two"></div>
+    <div class="ambient glow-three"></div>
 
     <nav class="navbar">
-        <a href="index.html" class="brand">
-            <div class="brand-icon">
-                V
-            </div>
-            <span>
-                VideoYTFX
-            </span>
+        <a href="index.html" class="brand" aria-label="VideoYTFX home">
+            <span class="brand-icon">V</span>
+            <span>VideoYTFX</span>
         </a>
 
         <div class="nav-actions">
-            <button
-                class="btn-ui"
-                id="languageBtn"
-                onclick="toggleLanguage()"
-            >
-                🌐
-                <span id="langLabel">
-                    العربية
-                </span>
+            <button class="btn-ui" id="languageBtn" onclick="toggleLanguage()" aria-label="Change language">
+                🌐 <span id="langLabel">العربية</span>
             </button>
-
-            <button
-                class="btn-ui"
-                id="themeBtn"
-                onclick="toggleTheme()"
-            >
-                ☀️
-            </button>
+            <button class="btn-ui" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1 data-i18n="heroTitle">
-                VideoYTFX
-            </h1>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <div class="eyebrow"><span class="live-dot"></span><span data-i18n="eyebrow">YOUR CREATIVE TOOLKIT</span></div>
+                <h1 data-i18n="heroTitle">VideoYTFX</h1>
+                <p data-i18n="heroDescription">One creative space for downloads, images, videos and gesture-powered experiments.</p>
 
-            <div class="cta-group">
-                <a
-                    class="btn-primary"
-                    href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe"
-                >
-                    ⬇️
-                    <span data-i18n="downloadText">
-                        Download for Windows
-                    </span>
-                </a>
+                <div class="cta-group">
+                    <a class="btn-primary" href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
+                        ⬇️ <span data-i18n="downloadText">Download for Windows</span>
+                    </a>
+                    <a class="btn-secondary" href="gesture.html">
+                        ✦ <span data-i18n="gestureButton">Explore Gesture AI</span>
+                    </a>
+                </div>
             </div>
+        </section>
+
+        <div class="section-heading reveal">
+            <h2 data-i18n="toolsTitle">Explore your tools</h2>
+            <p data-i18n="toolsSubtitle">Choose a studio and start creating.</p>
         </div>
-    </section>
 
-    <section class="features">
-        <a href="downloads.html" class="card">
-            <div>
-                <div class="card-icon">
-                    📥
+        <section class="features">
+            <a href="downloads.html" class="card">
+                <div>
+                    <div class="card-icon">📥</div>
+                    <h3 data-i18n="downloadsTitle">Downloads</h3>
+                    <p data-i18n="downloadsDescription">Download the latest stable version and builds of VideoYTFX.</p>
                 </div>
-                <h2 data-i18n="downloadsTitle">
-                    Downloads
-                </h2>
-                <p data-i18n="downloadsDescription">
-                    Download the latest stable version and builds of VideoYTFX.
-                </p>
-            </div>
-            <div class="card-arrow">
-                →
-            </div>
-        </a>
+                <div class="card-arrow"><span data-i18n="openTool">Open tool</span><span class="arrow-symbol">→</span></div>
+            </a>
 
-        <a href="image.html" class="card">
-            <div>
-                <div class="card-icon">
-                    🖼️
+            <a href="image.html" class="card">
+                <div>
+                    <div class="card-icon">🖼️</div>
+                    <h3 data-i18n="imageTitle">Image Studio</h3>
+                    <p data-i18n="imageDescription">Edit, enhance, filter and transform your images easily.</p>
                 </div>
-                <h2 data-i18n="imageTitle">
-                    Image Studio
-                </h2>
-                <p data-i18n="imageDescription">
-                    Edit, enhance, filter and transform your images easily.
-                </p>
-            </div>
-            <div class="card-arrow">
-                →
-            </div>
-        </a>
+                <div class="card-arrow"><span data-i18n="openTool">Open tool</span><span class="arrow-symbol">→</span></div>
+            </a>
 
-        <a href="video.html" class="card">
-            <div>
-                <div class="card-icon">
-                    🎬
+            <a href="video.html" class="card">
+                <div>
+                    <div class="card-icon">🎬</div>
+                    <h3 data-i18n="videoTitle">Video Studio</h3>
+                    <p data-i18n="videoDescription">Edit, trim, convert and enhance your videos in one place.</p>
                 </div>
-                <h2 data-i18n="videoTitle">
-                    Video Studio
-                </h2>
-                <p data-i18n="videoDescription">
-                    Edit, trim, convert and enhance your videos in one place.
-                </p>
-            </div>
-            <div class="card-arrow">
-                →
-            </div>
-        </a>
-    </section>
+                <div class="card-arrow"><span data-i18n="openTool">Open tool</span><span class="arrow-symbol">→</span></div>
+            </a>
+
+            <a href="gesture.html" class="card gesture-card">
+                <div class="gesture-orb"></div>
+                <div>
+                    <div class="gesture-tag"><span class="live-dot"></span><span data-i18n="gestureTag">AI • INTERACTIVE</span></div>
+                    <div class="card-icon">✋</div>
+                    <h3>Gesture AI</h3>
+                    <p data-i18n="gestureDescription">Control your experience with hand gestures. Open your dedicated Gesture AI workspace.</p>
+                </div>
+                <div class="card-arrow">
+                    <span data-i18n="launchGesture">Launch Gesture AI</span>
+                    <span class="arrow-symbol">↗</span>
+                </div>
+            </a>
+        </section>
+    </main>
 
     <footer>
-        <span data-i18n="footerText">
-            © 2026 VideoYTFX. All rights reserved.
-        </span>
+        <span data-i18n="footerText">© 2026 VideoYTFX. All rights reserved.</span>
     </footer>
 
     <script>
         const translations = {
             en: {
+                eyebrow: "YOUR CREATIVE TOOLKIT",
                 heroTitle: "VideoYTFX",
+                heroDescription: "One creative space for downloads, images, videos and gesture-powered experiments.",
                 downloadText: "Download for Windows",
+                gestureButton: "Explore Gesture AI",
+                toolsTitle: "Explore your tools",
+                toolsSubtitle: "Choose a studio and start creating.",
                 downloadsTitle: "Downloads",
                 downloadsDescription: "Download the latest stable version and builds of VideoYTFX.",
                 imageTitle: "Image Studio",
                 imageDescription: "Edit, enhance, filter and transform your images easily.",
                 videoTitle: "Video Studio",
                 videoDescription: "Edit, trim, convert and enhance your videos in one place.",
+                openTool: "Open tool",
+                gestureTag: "AI • INTERACTIVE",
+                gestureDescription: "Control your experience with hand gestures. Open your dedicated Gesture AI workspace.",
+                launchGesture: "Launch Gesture AI",
                 footerText: "© 2026 VideoYTFX. All rights reserved.",
                 langButton: "العربية"
             },
-
             ar: {
+                eyebrow: "أدواتك الإبداعية في مكان واحد",
                 heroTitle: "VideoYTFX",
-                downloadText: "تحميل لنظام الويندوز",
+                heroDescription: "مساحتك الإبداعية للتحميل والصور والفيديو وتجارب التحكم بالإيماءات.",
+                downloadText: "تحميل لنظام ويندوز",
+                gestureButton: "استكشف Gesture AI",
+                toolsTitle: "اكتشف أدواتك",
+                toolsSubtitle: "اختر الاستوديو وابدأ الإبداع.",
                 downloadsTitle: "التحميلات",
-                downloadsDescription: "قم بتنزيل أحدث الإصدارات المستقرة والملفات الخاصة بـ VideoYTFX.",
+                downloadsDescription: "حمّل أحدث الإصدارات المستقرة من VideoYTFX.",
                 imageTitle: "استوديو الصور",
-                imageDescription: "عدّل وحسّن وأضف الفلاتر والمؤثرات إلى صورك بسهولة.",
+                imageDescription: "عدّل صورك وحسّنها وأضف إليها الفلاتر والمؤثرات بسهولة.",
                 videoTitle: "استوديو الفيديو",
-                videoDescription: "عدّل واقصص وحوّل وحسّن فيديوهاتك في مكان واحد.",
+                videoDescription: "عدّل الفيديوهات واقصصها وحوّلها وحسّنها في مكان واحد.",
+                openTool: "افتح الأداة",
+                gestureTag: "ذكاء اصطناعي • تفاعلي",
+                gestureDescription: "تحكّم بالتجربة باستخدام إيماءات اليد وافتح مساحة Gesture AI الخاصة بك.",
+                launchGesture: "تشغيل Gesture AI",
                 footerText: "© 2026 VideoYTFX. جميع الحقوق محفوظة.",
                 langButton: "English"
             }
         };
 
         function setLanguage(lang) {
-            document
-                .querySelectorAll("[data-i18n]")
-                .forEach(element => {
-                    const key = element.getAttribute("data-i18n");
-                    if (translations[lang] && translations[lang][key]) {
-                        element.textContent = translations[lang][key];
-                    }
-                });
+            const selected = translations[lang] ? lang : "en";
 
-            document.getElementById("langLabel").textContent = translations[lang].langButton;
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-            localStorage.setItem("app_lang", lang);
+            document.querySelectorAll("[data-i18n]").forEach(element => {
+                const key = element.dataset.i18n;
+                if (translations[selected][key]) {
+                    element.textContent = translations[selected][key];
+                }
+            });
+
+            document.getElementById("langLabel").textContent = translations[selected].langButton;
+            document.documentElement.lang = selected;
+            document.documentElement.dir = selected === "ar" ? "rtl" : "ltr";
+
+            try { localStorage.setItem("app_lang", selected); } catch (error) {}
         }
 
         function toggleLanguage() {
-            const currentLang = localStorage.getItem("app_lang") || "en";
-            setLanguage(currentLang === "en" ? "ar" : "en");
+            const current = document.documentElement.lang || "en";
+            setLanguage(current === "en" ? "ar" : "en");
         }
 
         function setTheme(theme) {
-            document.documentElement.setAttribute("data-theme", theme);
-            document.getElementById("themeBtn").textContent = theme === "light" ? "🌙" : "☀️";
-            localStorage.setItem("app_theme", theme);
+            const selected = theme === "light" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", selected);
+            document.getElementById("themeBtn").textContent = selected === "light" ? "🌙" : "☀️";
+            document.querySelector('meta[name="theme-color"]').content =
+                selected === "light" ? "#f1f5f9" : "#030712";
+
+            try { localStorage.setItem("app_theme", selected); } catch (error) {}
         }
 
         function toggleTheme() {
-            const currentTheme = localStorage.getItem("app_theme") || "dark";
-            setTheme(currentTheme === "dark" ? "light" : "dark");
+            const current = document.documentElement.getAttribute("data-theme") || "dark";
+            setTheme(current === "dark" ? "light" : "dark");
         }
 
-        (function init() {
-            const savedLang = localStorage.getItem("app_lang") || "en";
-            const savedTheme = localStorage.getItem("app_theme") || "dark";
-            setLanguage(savedLang);
-            setTheme(savedTheme);
-        })();
+        function readPreference(key, fallback) {
+            try { return localStorage.getItem(key) || fallback; }
+            catch (error) { return fallback; }
+        }
+
+        function initPage() {
+            setLanguage(readPreference("app_lang", "en"));
+            setTheme(readPreference("app_theme", "dark"));
+
+            if ("IntersectionObserver" in window) {
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("visible");
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.12 });
+
+                document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
+            } else {
+                document.querySelectorAll(".reveal").forEach(element => element.classList.add("visible"));
+            }
+        }
+
+        initPage();
     </script>
-
 </body>
-
 </html>
