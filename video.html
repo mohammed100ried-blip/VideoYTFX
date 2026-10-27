@@ -1,2879 +1,589 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>VideoYTFX Studio</title>
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap');
-
-        :root {
-            --bg: #050816;
-            --panel: rgba(15, 23, 42, .78);
-            --panel2: rgba(30, 41, 59, .65);
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --line: rgba(255, 255, 255, .09);
-            --primary: #4f8cff;
-            --accent: #9b5cff;
-            --shadow: 0 24px 70px rgba(0, 0, 0, .35);
-            --radius: 22px;
-        }
-
-        [data-theme="light"] {
-            --bg: #f3f6fb;
-            --panel: rgba(255, 255, 255, .86);
-            --panel2: #eef2f7;
-            --text: #0f172a;
-            --muted: #64748b;
-            --line: rgba(15, 23, 42, .1);
-            --shadow: 0 24px 70px rgba(15, 23, 42, .12);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            min-height: 100vh;
-            background: var(--bg);
-            color: var(--text);
-            font-family: "Tajawal", "Plus Jakarta Sans", sans-serif;
-            overflow-x: hidden;
-        }
-
-        button,
-        input,
-        select {
-            font: inherit;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        /* =========================
-           BACKGROUND
-        ========================= */
-
-        .background {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: -2;
-            overflow: hidden;
-        }
-
-        .orb {
-            position: absolute;
-            width: 520px;
-            height: 520px;
-            border-radius: 50%;
-            filter: blur(110px);
-            opacity: .22;
-        }
-
-        .orb.one {
-            top: -250px;
-            left: -180px;
-            background: #326bff;
-        }
-
-        .orb.two {
-            right: -220px;
-            bottom: -250px;
-            background: #a23cff;
-        }
-
-        .grid-background {
-            position: absolute;
-            inset: 0;
-            opacity: .16;
-
-            background-image:
-                linear-gradient(var(--line) 1px, transparent 1px),
-                linear-gradient(90deg, var(--line) 1px, transparent 1px);
-
-            background-size: 42px 42px;
-        }
-
-        /* =========================
-           NAVBAR
-        ========================= */
-
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-
-            height: 70px;
-            padding: 0 5%;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            background: var(--panel);
-
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-
-            border-bottom: 1px solid var(--line);
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            font-weight: 800;
-        }
-
-        .brand-logo {
-            width: 42px;
-            height: 42px;
-
-            display: grid;
-            place-items: center;
-
-            border-radius: 14px;
-
-            color: white;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--accent)
-                );
-
-            box-shadow:
-                0 12px 30px rgba(79, 140, 255, .25);
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .nav-button,
-        .icon-button {
-            border: 1px solid var(--line);
-            background: var(--panel2);
-            color: var(--text);
-
-            border-radius: 12px;
-
-            padding: 9px 13px;
-
-            font-weight: 700;
-
-            transition: .2s;
-        }
-
-        .icon-button {
-            width: 42px;
-            padding: 9px;
-        }
-
-        .nav-button:hover,
-        .icon-button:hover {
-            border-color: rgba(79, 140, 255, .55);
-            transform: translateY(-1px);
-        }
-
-        /* =========================
-           MAIN
-        ========================= */
-
-        .container {
-            width: min(1250px, 94%);
-            margin: auto;
-
-            padding:
-                46px 0
-                70px;
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-
-            padding: 7px 12px;
-
-            border:
-                1px solid
-                var(--line);
-
-            background:
-                var(--panel);
-
-            border-radius: 999px;
-
-            color: var(--muted);
-
-            font-size: .82rem;
-
-            margin-bottom: 14px;
-        }
-
-        .hero h1 {
-            font-size:
-                clamp(
-                    2rem,
-                    5vw,
-                    3.6rem
-                );
-
-            line-height: 1.05;
-
-            margin-bottom: 12px;
-        }
-
-        .hero p {
-            color: var(--muted);
-            max-width: 700px;
-            margin: auto;
-        }
-
-        /* =========================
-           UPLOAD
-        ========================= */
-
-        .upload-box {
-            min-height: 245px;
-
-            border:
-                1px dashed
-                rgba(79, 140, 255, .55);
-
-            border-radius: var(--radius);
-
-            display: grid;
-            place-items: center;
-
-            text-align: center;
-
-            background:
-                var(--panel);
-
-            backdrop-filter: blur(20px);
-
-            box-shadow:
-                var(--shadow);
-
-            transition: .25s;
-
-            padding: 30px;
-        }
-
-        .upload-box.dragging {
-            border-color: var(--primary);
-
-            transform: scale(1.01);
-
-            background:
-                rgba(79, 140, 255, .08);
-        }
-
-        .upload-icon {
-            font-size: 45px;
-            margin-bottom: 10px;
-        }
-
-        .upload-box h2 {
-            margin-bottom: 7px;
-        }
-
-        .upload-box p {
-            color: var(--muted);
-            margin-bottom: 18px;
-        }
-
-        .primary-button {
-            border: 0;
-
-            color: white;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--accent)
-                );
-
-            box-shadow:
-                0 12px 30px
-                rgba(79, 140, 255, .22);
-
-            border-radius: 13px;
-
-            padding: 13px 20px;
-
-            font-weight: 800;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            gap: 8px;
-
-            transition: .2s;
-        }
-
-        .primary-button:hover {
-            transform: translateY(-2px);
-        }
-
-        #videoInput {
-            display: none;
-        }
-
-        /* =========================
-           EDITOR
-        ========================= */
-
-        .editor {
-            display: none;
-            margin-top: 24px;
-        }
-
-        .editor.active {
-            display: block;
-
-            animation:
-                editorAppear
-                .35s ease;
-        }
-
-        @keyframes editorAppear {
-
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .workspace {
-            display: grid;
-
-            grid-template-columns:
-                minmax(0, 1.65fr)
-                minmax(290px, .75fr);
-
-            gap: 18px;
-        }
-
-        .card {
-            background: var(--panel);
-
-            border:
-                1px solid
-                var(--line);
-
-            border-radius:
-                var(--radius);
-
-            backdrop-filter:
-                blur(20px);
-
-            box-shadow:
-                var(--shadow);
-        }
-
-        /* =========================
-           VIDEO
-        ========================= */
-
-        .preview {
-            padding: 14px;
-        }
-
-        .screen {
-            position: relative;
-
-            overflow: hidden;
-
-            background: #000;
-
-            border-radius: 16px;
-
-            min-height: 350px;
-
-            display: grid;
-            place-items: center;
-        }
-
-        video {
-            display: block;
-
-            width: 100%;
-
-            max-height: 620px;
-
-            background: #000;
-        }
-
-        #canvas {
-            display: none;
-        }
-
-        .video-meta {
-            display: flex;
-
-            justify-content:
-                space-between;
-
-            gap: 10px;
-
-            padding:
-                13px 4px 2px;
-
-            color: var(--muted);
-
-            font-size: .82rem;
-        }
-
-        /* =========================
-           TIMELINE
-        ========================= */
-
-        .timeline {
-            margin-top: 14px;
-            padding: 15px;
-        }
-
-        .timeline-head {
-            display: flex;
-
-            justify-content:
-                space-between;
-
-            color: var(--muted);
-
-            font-size: .82rem;
-
-            margin-bottom: 8px;
-        }
-
-        .range-wrap {
-            position: relative;
-            height: 30px;
-        }
-
-        .range-wrap input {
-            position: absolute;
-
-            inset: 0;
-        }
-
-        .range-wrap input[type="range"] {
-            pointer-events: none;
-        }
-
-        .range-wrap
-        input[type="range"]::-webkit-slider-thumb {
-            pointer-events: auto;
-        }
-
-        .range-wrap
-        input[type="range"]::-moz-range-thumb {
-            pointer-events: auto;
-        }
-
-        /* =========================
-           CONTROL PANEL
-        ========================= */
-
-        .panel {
-            padding: 17px;
-        }
-
-        .panel h3 {
-            font-size: 1rem;
-            margin-bottom: 14px;
-        }
-
-        .group {
-            padding: 13px 0;
-
-            border-bottom:
-                1px solid
-                var(--line);
-        }
-
-        .group:last-child {
-            border: 0;
-        }
-
-        .row {
-            display: flex;
-
-            align-items: center;
-
-            justify-content:
-                space-between;
-
-            gap: 10px;
-
-            margin-bottom: 8px;
-        }
-
-        .row label {
-            font-weight: 700;
-            font-size: .9rem;
-        }
-
-        .value {
-            color: var(--primary);
-            font-weight: 800;
-            font-size: .82rem;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            accent-color: var(--primary);
-        }
-
-        select,
-        input[type="text"],
-        input[type="number"] {
-            width: 100%;
-
-            padding:
-                10px 11px;
-
-            border:
-                1px solid
-                var(--line);
-
-            border-radius: 11px;
-
-            background:
-                var(--panel2);
-
-            color:
-                var(--text);
-
-            outline: none;
-        }
-
-        .grid-two {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 9px;
-        }
-
-        /* =========================
-           TOOL BUTTONS
-        ========================= */
-
-        .tool-strip {
-            display: flex;
-
-            gap: 7px;
-
-            flex-wrap: wrap;
-
-            margin-top: 12px;
-        }
-
-        .tool {
-            border:
-                1px solid
-                var(--line);
-
-            background:
-                var(--panel2);
-
-            color:
-                var(--text);
-
-            padding:
-                8px 10px;
-
-            border-radius: 10px;
-
-            font-weight: 700;
-
-            transition: .2s;
-        }
-
-        .tool:hover {
-            border-color:
-                rgba(79, 140, 255, .55);
-
-            transform:
-                translateY(-1px);
-        }
-
-        /* =========================
-           ACTIONS
-        ========================= */
-
-        .actions {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 9px;
-
-            margin-top: 14px;
-        }
-
-        .action {
-            border:
-                1px solid
-                var(--line);
-
-            background:
-                var(--panel2);
-
-            color:
-                var(--text);
-
-            padding:
-                11px;
-
-            border-radius:
-                12px;
-
-            font-weight:
-                800;
-
-            transition:
-                .2s;
-        }
-
-        .action:hover {
-            border-color:
-                rgba(79, 140, 255, .55);
-
-            transform:
-                translateY(-1px);
-        }
-
-        .action.primary {
-            border: 0;
-
-            color: white;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--accent)
-                );
-
-            box-shadow:
-                0 12px 30px
-                rgba(79, 140, 255, .22);
-        }
-
-        .wide {
-            grid-column:
-                1 / -1;
-        }
-
-        .status {
-            margin-top: 12px;
-
-            text-align: center;
-
-            color: var(--muted);
-
-            font-size: .82rem;
-
-            min-height: 22px;
-        }
-
-        /* =========================
-           BACK
-        ========================= */
-
-        .back {
-            display: block;
-
-            text-align: center;
-
-            margin-top: 25px;
-
-            color: var(--muted);
-
-            transition: .2s;
-        }
-
-        .back:hover {
-            color: var(--primary);
-        }
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        footer {
-            text-align: center;
-
-            border-top:
-                1px solid
-                var(--line);
-
-            padding: 24px;
-
-            color: var(--muted);
-
-            font-size: .82rem;
-        }
-
-        /* =========================
-           TOAST
-        ========================= */
-
-        .toast {
-            position: fixed;
-
-            bottom: 22px;
-
-            left: 50%;
-
-            transform:
-                translate(-50%, 20px);
-
-            opacity: 0;
-
-            pointer-events: none;
-
-            padding:
-                11px 16px;
-
-            border-radius: 12px;
-
-            background:
-                #0f172a;
-
-            color: white;
-
-            box-shadow:
-                var(--shadow);
-
-            z-index: 100;
-
-            transition: .25s;
-        }
-
-        .toast.show {
-            opacity: 1;
-
-            transform:
-                translate(-50%, 0);
-        }
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 900px) {
-
-            .workspace {
-                grid-template-columns:
-                    1fr;
-            }
-
-            .screen {
-                min-height: 250px;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .navbar {
-                height: 62px;
-                padding: 0 4%;
-            }
-
-            .brand span {
-                display: none;
-            }
-
-            .container {
-                padding-top: 32px;
-            }
-
-            .actions {
-                grid-template-columns:
-                    1fr;
-            }
-
-            .wide {
-                grid-column:
-                    auto;
-            }
-
-            .upload-box {
-                min-height: 215px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VideoYTFX Studio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap');
+:root{--bg:#050816;--panel:rgba(15,23,42,.78);--panel2:rgba(30,41,59,.65);--text:#f8fafc;--muted:#94a3b8;--line:rgba(255,255,255,.09);--primary:#4f8cff;--accent:#9b5cff;--shadow:0 24px 70px rgba(0,0,0,.35);--radius:22px}
+[data-theme="light"]{--bg:#f3f6fb;--panel:rgba(255,255,255,.86);--panel2:#eef2f7;--text:#0f172a;--muted:#64748b;--line:rgba(15,23,42,.1);--shadow:0 24px 70px rgba(15,23,42,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{min-height:100vh;background:var(--bg);color:var(--text);font-family:"Tajawal","Plus Jakarta Sans",sans-serif;overflow-x:hidden}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+a{color:inherit;text-decoration:none}
+.background{position:fixed;inset:0;pointer-events:none;z-index:-2;overflow:hidden}
+.orb{position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(110px);opacity:.22}
+.orb.one{top:-250px;left:-180px;background:#326bff}
+.orb.two{right:-220px;bottom:-250px;background:#a23cff}
+.grid-background{position:absolute;inset:0;opacity:.16;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:42px 42px}
+.navbar{position:sticky;top:0;z-index:50;height:70px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;background:var(--panel);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800}
+.brand-logo{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--accent));box-shadow:0 12px 30px rgba(79,140,255,.25)}
+.nav-actions{display:flex;gap:8px}
+.nav-button,.icon-button,.tool,.action{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:9px 13px;font-weight:700;transition:.2s}
+.icon-button{width:42px;padding:9px}
+.nav-button:hover,.icon-button:hover,.tool:hover:not(:disabled),.action:hover:not(:disabled){border-color:rgba(79,140,255,.55);transform:translateY(-1px)}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.container{width:min(1250px,94%);margin:auto;padding:46px 0 70px}
+.hero{text-align:center;margin-bottom:30px}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border:1px solid var(--line);background:var(--panel);border-radius:999px;color:var(--muted);font-size:.82rem;margin-bottom:14px}
+.hero h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.1;margin-bottom:12px}
+.hero p{color:var(--muted);max-width:700px;margin:auto}
+.upload-box{min-height:245px;border:1px dashed rgba(79,140,255,.55);border-radius:var(--radius);display:grid;place-items:center;text-align:center;background:var(--panel);backdrop-filter:blur(20px);box-shadow:var(--shadow);transition:.25s;padding:30px}
+.upload-box.dragging{border-color:var(--primary);transform:scale(1.01);background:rgba(79,140,255,.08)}
+.upload-icon{font-size:45px;margin-bottom:10px}
+.upload-box h2{margin-bottom:7px}
+.upload-box p{color:var(--muted);margin-bottom:18px}
+.primary-button{border:0;color:#fff;background:linear-gradient(135deg,var(--primary),var(--accent));box-shadow:0 12px 30px rgba(79,140,255,.22);border-radius:13px;padding:13px 20px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s;cursor:pointer}
+.primary-button:hover{transform:translateY(-2px)}
+#videoInput{display:none}
+.editor{display:none;margin-top:24px}
+.editor.active{display:block;animation:appear .35s ease}
+@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.workspace{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(290px,.75fr);gap:18px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(20px);box-shadow:var(--shadow)}
+.preview{padding:14px}
+.screen{position:relative;overflow:hidden;background:#000;border-radius:16px;min-height:350px;display:grid;place-items:center}
+video{display:block;width:100%;max-height:620px;background:#000;transition:transform .2s}
+#canvas{display:none}
+.video-meta{display:flex;justify-content:space-between;gap:10px;padding:13px 4px 2px;color:var(--muted);font-size:.82rem}
+.video-meta span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.timeline{margin-top:14px;padding:15px}
+.timeline-head{display:flex;justify-content:space-between;color:var(--muted);font-size:.82rem;margin-bottom:8px}
+.range-wrap{position:relative;height:30px;direction:ltr}
+.track{position:absolute;left:0;right:0;top:50%;height:6px;margin-top:-3px;border-radius:9px;background:var(--panel2)}
+.range-wrap input{position:absolute;inset:0;width:100%;background:none;pointer-events:none;-webkit-appearance:none;appearance:none}
+.range-wrap input::-webkit-slider-runnable-track{background:transparent}
+.range-wrap input::-moz-range-track{background:transparent}
+.range-wrap input::-webkit-slider-thumb{pointer-events:auto;-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--primary);border:2px solid #fff;cursor:grab}
+.range-wrap input::-moz-range-thumb{pointer-events:auto;width:14px;height:14px;border-radius:50%;background:var(--primary);border:2px solid #fff;cursor:grab}
+.trim-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.panel{padding:17px}
+.panel h3{font-size:1rem;margin-bottom:14px}
+.group{padding:13px 0;border-bottom:1px solid var(--line)}
+.group:last-of-type{border:0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.row label{font-weight:700;font-size:.9rem}
+.value{color:var(--primary);font-weight:800;font-size:.82rem}
+input[type=range]{width:100%;accent-color:var(--primary)}
+select{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:var(--text);outline:none}
+select option{background:#0f172a;color:#fff}
+.tool-strip{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.tool{padding:8px 10px;border-radius:10px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.action{padding:11px;font-weight:800}
+.action.primary{border:0;color:#fff;background:linear-gradient(135deg,var(--primary),var(--accent));box-shadow:0 12px 30px rgba(79,140,255,.22)}
+.action.cancel{background:#dc2626;border:0;color:#fff}
+.wide{grid-column:1/-1}
+.progress{height:6px;border-radius:9px;background:var(--panel2);margin-top:12px;overflow:hidden;display:none}
+.progress.on{display:block}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .15s}
+.status{margin-top:10px;text-align:center;color:var(--muted);font-size:.82rem;min-height:22px}
+.hint{margin-top:6px;text-align:center;color:var(--muted);font-size:.72rem}
+.back{display:block;text-align:center;margin-top:25px;color:var(--muted);transition:.2s}
+.back:hover{color:var(--primary)}
+footer{text-align:center;border-top:1px solid var(--line);padding:24px;color:var(--muted);font-size:.82rem}
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:11px 16px;border-radius:12px;background:#0f172a;color:#fff;box-shadow:var(--shadow);z-index:100;transition:.25s;max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:900px){.workspace{grid-template-columns:1fr}.screen{min-height:250px}}
+@media(max-width:600px){.navbar{height:62px;padding:0 4%}.brand span{display:none}.container{padding-top:32px}.actions{grid-template-columns:1fr}.wide{grid-column:auto}.upload-box{min-height:215px}}
+</style>
 </head>
-
 <body>
+<div class="background"><div class="orb one"></div><div class="orb two"></div><div class="grid-background"></div></div>
 
-    <!-- BACKGROUND -->
+<nav class="navbar">
+  <a href="index.html" class="brand"><div class="brand-logo">V</div><span>VideoYTFX Studio</span></a>
+  <div class="nav-actions">
+    <button class="nav-button" id="languageButton" type="button">🌐 English</button>
+    <button class="icon-button" id="themeButton" type="button" aria-label="Theme">☀️</button>
+  </div>
+</nav>
 
-    <div class="background">
-        <div class="orb one"></div>
-        <div class="orb two"></div>
-        <div class="grid-background"></div>
+<main class="container">
+  <header class="hero">
+    <div class="badge">⚡ Browser Video Engine</div>
+    <h1 data-i18n="title">VideoYTFX Studio</h1>
+    <p data-i18n="subtitle"></p>
+  </header>
+
+  <section class="upload-box" id="uploadBox">
+    <div>
+      <div class="upload-icon">🎬</div>
+      <h2 data-i18n="uploadTitle"></h2>
+      <p data-i18n="uploadText"></p>
+      <label class="primary-button" for="videoInput">📁 <span data-i18n="choose"></span></label>
+      <input type="file" id="videoInput" accept="video/*">
     </div>
+  </section>
 
-
-    <!-- NAVBAR -->
-
-    <nav class="navbar">
-
-        <a
-            href="index.html"
-            class="brand"
-        >
-
-            <div class="brand-logo">
-                V
-            </div>
-
-            <span>
-                VideoYTFX Studio
-            </span>
-
-        </a>
-
-
-        <div class="nav-actions">
-
-            <button
-                class="nav-button"
-                id="languageButton"
-                type="button"
-            >
-                🌐 English
-            </button>
-
-            <button
-                class="icon-button"
-                id="themeButton"
-                type="button"
-            >
-                ☀️
-            </button>
-
+  <section class="editor" id="editor">
+    <div class="workspace">
+      <div>
+        <div class="card preview">
+          <div class="screen"><video id="video" playsinline controls></video><canvas id="canvas"></canvas></div>
+          <div class="video-meta"><span id="fileName">—</span><span id="videoInfo">—</span></div>
         </div>
 
-    </nav>
-
-
-    <!-- MAIN -->
-
-    <main class="container">
-
-        <header class="hero">
-
-            <div class="badge">
-                ⚡ Browser Video Engine
-            </div>
-
-            <h1 data-i18n="title">
-                VideoYTFX Studio
-            </h1>
-
-            <p data-i18n="subtitle">
-                قص، حسّن، دوّر، اضبط الألوان والسرعة، ثم صدّر النتيجة مباشرة من المتصفح.
-            </p>
-
-        </header>
-
-
-        <!-- UPLOAD -->
-
-        <section
-            class="upload-box"
-            id="uploadBox"
-        >
-
-            <div>
-
-                <div class="upload-icon">
-                    🎬
-                </div>
-
-                <h2 data-i18n="uploadTitle">
-                    ابدأ بفيديو
-                </h2>
-
-                <p data-i18n="uploadText">
-                    اسحب الفيديو هنا أو اختر ملفاً من جهازك.
-                </p>
-
-                <label
-                    class="primary-button"
-                    for="videoInput"
-                >
-                    📁
-
-                    <span data-i18n="choose">
-                        اختيار فيديو
-                    </span>
-                </label>
-
-                <input
-                    type="file"
-                    id="videoInput"
-                    accept="video/*"
-                >
-
-            </div>
-
-        </section>
-
-
-        <!-- EDITOR -->
-
-        <section
-            class="editor"
-            id="editor"
-        >
-
-            <div class="workspace">
-
-                <!-- LEFT -->
-
-                <div>
-
-                    <div class="card preview">
-
-                        <div class="screen">
-
-                            <video
-                                id="video"
-                                playsinline
-                                controls
-                            ></video>
-
-                            <canvas
-                                id="canvas"
-                            ></canvas>
-
-                        </div>
-
-
-                        <div class="video-meta">
-
-                            <span id="fileName">
-                                —
-                            </span>
-
-                            <span id="videoInfo">
-                                —
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- TIMELINE -->
-
-                    <div class="card timeline">
-
-                        <div class="timeline-head">
-
-                            <span>
-                                ✂️
-
-                                <b data-i18n="trim">
-                                    قص الفيديو
-                                </b>
-
-                            </span>
-
-                            <span id="trimText">
-                                0:00 → 0:00
-                            </span>
-
-                        </div>
-
-
-                        <div class="range-wrap">
-
-                            <input
-                                id="start"
-                                type="range"
-                                min="0"
-                                max="0"
-                                step=".01"
-                                value="0"
-                            >
-
-                            <input
-                                id="end"
-                                type="range"
-                                min="0"
-                                max="0"
-                                step=".01"
-                                value="0"
-                            >
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- RIGHT -->
-
-                <aside class="card panel">
-
-                    <h3>
-                        🎛️
-
-                        <span data-i18n="controls">
-                            التحكم
-                        </span>
-                    </h3>
-
-
-                    <!-- BRIGHTNESS -->
-
-                    <div class="group">
-
-                        <div class="row">
-
-                            <label data-i18n="brightness">
-                                السطوع
-                            </label>
-
-                            <span
-                                class="value"
-                                id="brightnessValue"
-                            >
-                                100%
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="brightness"
-                            type="range"
-                            min="50"
-                            max="150"
-                            value="100"
-                        >
-
-                    </div>
-
-
-                    <!-- CONTRAST -->
-
-                    <div class="group">
-
-                        <div class="row">
-
-                            <label data-i18n="contrast">
-                                التباين
-                            </label>
-
-                            <span
-                                class="value"
-                                id="contrastValue"
-                            >
-                                100%
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="contrast"
-                            type="range"
-                            min="50"
-                            max="180"
-                            value="100"
-                        >
-
-                    </div>
-
-
-                    <!-- SATURATION -->
-
-                    <div class="group">
-
-                        <div class="row">
-
-                            <label data-i18n="saturation">
-                                التشبع
-                            </label>
-
-                            <span
-                                class="value"
-                                id="saturationValue"
-                            >
-                                100%
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="saturation"
-                            type="range"
-                            min="0"
-                            max="200"
-                            value="100"
-                        >
-
-                    </div>
-
-
-                    <!-- SPEED -->
-
-                    <div class="group">
-
-                        <div class="row">
-
-                            <label data-i18n="speed">
-                                السرعة
-                            </label>
-
-                            <span
-                                class="value"
-                                id="speedValue"
-                            >
-                                1x
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="speed"
-                            type="range"
-                            min=".25"
-                            max="2"
-                            step=".05"
-                            value="1"
-                        >
-
-                    </div>
-
-
-                    <!-- VOLUME -->
-
-                    <div class="group">
-
-                        <div class="row">
-
-                            <label data-i18n="audio">
-                                الصوت
-                            </label>
-
-                            <span
-                                class="value"
-                                id="volumeValue"
-                            >
-                                100%
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="volume"
-                            type="range"
-                            min="0"
-                            max="1"
-                            step=".01"
-                            value="1"
-                        >
-
-                    </div>
-
-
-                    <!-- FILTER -->
-
-                    <div class="group">
-
-                        <div class="row">
-
-                            <label data-i18n="filter">
-                                الفلتر
-                            </label>
-
-                        </div>
-
-                        <select id="filter">
-
-                            <option value="none">
-                                Original
-                            </option>
-
-                            <option value="grayscale(1)">
-                                Grayscale
-                            </option>
-
-                            <option value="sepia(1)">
-                                Sepia
-                            </option>
-
-                            <option value="saturate(1.8)">
-                                Vivid
-                            </option>
-
-                            <option value="contrast(1.25) saturate(.8)">
-                                Cinematic
-                            </option>
-
-                            <option value="brightness(1.08) saturate(1.25)">
-                                Warm
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- FORMAT -->
-
-                    <div class="group">
-
-                        <div class="row">
-
-                            <label data-i18n="format">
-                                صيغة التصدير
-                            </label>
-
-                        </div>
-
-                        <select id="format">
-
-                            <option value="webm">
-                                WebM • Browser Native
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- TOOLS -->
-
-                    <div class="tool-strip">
-
-                        <button
-                            class="tool"
-                            id="rotateButton"
-                            type="button"
-                        >
-                            ↻ 90°
-                        </button>
-
-                        <button
-                            class="tool"
-                            id="flipButton"
-                            type="button"
-                        >
-                            ↔ Flip
-                        </button>
-
-                        <button
-                            class="tool"
-                            id="muteButton"
-                            type="button"
-                        >
-                            🔊
-                        </button>
-
-                        <button
-                            class="tool"
-                            id="resetButton"
-                            type="button"
-                        >
-                            ↩ Reset
-                        </button>
-
-                    </div>
-
-
-                    <!-- ACTIONS -->
-
-                    <div class="actions">
-
-                        <button
-                            class="action"
-                            id="snapshotButton"
-                            type="button"
-                        >
-                            📸
-
-                            <span data-i18n="snapshot">
-                                لقطة
-                            </span>
-                        </button>
-
-
-                        <button
-                            class="action"
-                            id="fullscreenButton"
-                            type="button"
-                        >
-                            ⛶
-
-                            <span data-i18n="fullscreen">
-                                ملء الشاشة
-                            </span>
-                        </button>
-
-
-                        <button
-                            class="action primary wide"
-                            id="exportButton"
-                            type="button"
-                        >
-                            ⬇️
-
-                            <span data-i18n="export">
-                                تصدير الفيديو المعدل
-                            </span>
-                        </button>
-
-                    </div>
-
-
-                    <div
-                        class="status"
-                        id="status"
-                    ></div>
-
-                </aside>
-
-            </div>
-
-        </section>
-
-
-        <a
-            href="index.html"
-            class="back"
-        >
-            ←
-
-            <span data-i18n="back">
-                العودة للرئيسية
-            </span>
-        </a>
-
-    </main>
-
-
-    <footer>
-        © 2026 VideoYTFX. All rights reserved.
-    </footer>
-
-
-    <div
-        class="toast"
-        id="toast"
-    ></div>
-
-
-    <script>
-
-        /* =========================================
-           STATE
-        ========================================= */
-
-        let videoFile = null;
-        let videoURL = null;
-
-        let duration = 0;
-
-        let rotation = 0;
-
-        let flip = 1;
-
-        let exporting = false;
-
-
-        const defaults = {
-
-            brightness: 100,
-            contrast: 100,
-            saturation: 100,
-            speed: 1,
-            volume: 1
-
-        };
-
-
-        /* =========================================
-           ELEMENTS
-        ========================================= */
-
-        const videoInput =
-            document.getElementById(
-                "videoInput"
-            );
-
-        const uploadBox =
-            document.getElementById(
-                "uploadBox"
-            );
-
-        const editor =
-            document.getElementById(
-                "editor"
-            );
-
-        const video =
-            document.getElementById(
-                "video"
-            );
-
-        const canvas =
-            document.getElementById(
-                "canvas"
-            );
-
-        const status =
-            document.getElementById(
-                "status"
-            );
-
-        const toastElement =
-            document.getElementById(
-                "toast"
-            );
-
-
-        /* =========================================
-           TRANSLATIONS
-        ========================================= */
-
-        const translations = {
-
-            ar: {
-
-                title:
-                    "VideoYTFX Studio",
-
-                subtitle:
-                    "قص، حسّن، دوّر، اضبط الألوان والسرعة، ثم صدّر النتيجة مباشرة من المتصفح.",
-
-                uploadTitle:
-                    "ابدأ بفيديو",
-
-                uploadText:
-                    "اسحب الفيديو هنا أو اختر ملفاً من جهازك.",
-
-                choose:
-                    "اختيار فيديو",
-
-                trim:
-                    "قص الفيديو",
-
-                controls:
-                    "التحكم",
-
-                brightness:
-                    "السطوع",
-
-                contrast:
-                    "التباين",
-
-                saturation:
-                    "التشبع",
-
-                speed:
-                    "السرعة",
-
-                audio:
-                    "الصوت",
-
-                filter:
-                    "الفلتر",
-
-                format:
-                    "صيغة التصدير",
-
-                snapshot:
-                    "لقطة",
-
-                fullscreen:
-                    "ملء الشاشة",
-
-                export:
-                    "تصدير الفيديو المعدل",
-
-                back:
-                    "العودة للرئيسية",
-
-                ready:
-                    "جاهز",
-
-                bad:
-                    "اختر ملف فيديو صالحاً.",
-
-                exporting:
-                    "جاري إنشاء الفيديو المعدل…",
-
-                done:
-                    "تم التصدير بنجاح."
-
-            },
-
-            en: {
-
-                title:
-                    "VideoYTFX Studio",
-
-                subtitle:
-                    "Trim, enhance, rotate, tune color and speed, then export directly in your browser.",
-
-                uploadTitle:
-                    "Start with a video",
-
-                uploadText:
-                    "Drag a video here or choose a file from your device.",
-
-                choose:
-                    "Choose Video",
-
-                trim:
-                    "Trim video",
-
-                controls:
-                    "Controls",
-
-                brightness:
-                    "Brightness",
-
-                contrast:
-                    "Contrast",
-
-                saturation:
-                    "Saturation",
-
-                speed:
-                    "Speed",
-
-                audio:
-                    "Audio",
-
-                filter:
-                    "Filter",
-
-                format:
-                    "Export format",
-
-                snapshot:
-                    "Snapshot",
-
-                fullscreen:
-                    "Fullscreen",
-
-                export:
-                    "Export edited video",
-
-                back:
-                    "Back to Home",
-
-                ready:
-                    "Ready",
-
-                bad:
-                    "Choose a valid video file.",
-
-                exporting:
-                    "Rendering edited video…",
-
-                done:
-                    "Export completed."
-
-            }
-
-        };
-
-
-        /* =========================================
-           LANGUAGE
-        ========================================= */
-
-        function getLanguage() {
-
-            return (
-                localStorage.getItem(
-                    "vytfx_lang"
-                ) || "ar"
-            );
-
-        }
-
-
-        function setLanguage(language) {
-
-            document.documentElement.lang =
-                language;
-
-            document.documentElement.dir =
-                language === "ar"
-                    ? "rtl"
-                    : "ltr";
-
-
-            document
-                .querySelectorAll(
-                    "[data-i18n]"
-                )
-                .forEach(
-                    element => {
-
-                        const key =
-                            element.dataset.i18n;
-
-                        if (
-                            translations[
-                                language
-                            ][key]
-                        ) {
-
-                            element.textContent =
-                                translations[
-                                    language
-                                ][key];
-
-                        }
-
-                    }
-                );
-
-
-            document.getElementById(
-                "languageButton"
-            ).textContent =
-                language === "ar"
-                    ? "🌐 English"
-                    : "🌐 العربية";
-
-
-            localStorage.setItem(
-                "vytfx_lang",
-                language
-            );
-
-        }
-
-
-        document.getElementById(
-            "languageButton"
-        ).onclick = () => {
-
-            setLanguage(
-                getLanguage() === "ar"
-                    ? "en"
-                    : "ar"
-            );
-
-        };
-
-
-        /* =========================================
-           THEME
-        ========================================= */
-
-        function setTheme(theme) {
-
-            document.documentElement
-                .setAttribute(
-                    "data-theme",
-                    theme
-                );
-
-
-            document.getElementById(
-                "themeButton"
-            ).textContent =
-                theme === "light"
-                    ? "🌙"
-                    : "☀️";
-
-
-            localStorage.setItem(
-                "vytfx_theme",
-                theme
-            );
-
-        }
-
-
-        document.getElementById(
-            "themeButton"
-        ).onclick = () => {
-
-            const current =
-                localStorage.getItem(
-                    "vytfx_theme"
-                ) || "dark";
-
-
-            setTheme(
-                current === "dark"
-                    ? "light"
-                    : "dark"
-            );
-
-        };
-
-
-        /* =========================================
-           HELPERS
-        ========================================= */
-
-        function formatTime(seconds) {
-
-            if (!isFinite(seconds)) {
-                return "0:00";
-            }
-
-            seconds =
-                Math.max(
-                    0,
-                    seconds
-                );
-
-
-            const minutes =
-                Math.floor(
-                    seconds / 60
-                );
-
-
-            const remaining =
-                Math.floor(
-                    seconds % 60
-                );
-
-
-            return (
-                minutes +
-                ":" +
-                String(
-                    remaining
-                ).padStart(
-                    2,
-                    "0"
-                )
-            );
-
-        }
-
-
-        function showToast(message) {
-
-            toastElement.textContent =
-                message;
-
-            toastElement.classList.add(
-                "show"
-            );
-
-
-            setTimeout(
-                () => {
-
-                    toastElement.classList.remove(
-                        "show"
-                    );
-
-                },
-                2400
-            );
-
-        }
-
-
-        function showStatus(message) {
-
-            status.textContent =
-                message;
-
-        }
-
-
-        /* =========================================
-           LOAD VIDEO
-        ========================================= */
-
-        function loadVideo(file) {
-
-            if (
-                !file ||
-                !file.type.startsWith(
-                    "video/"
-                )
-            ) {
-
-                showToast(
-                    translations[
-                        getLanguage()
-                    ].bad
-                );
-
-                return;
-
-            }
-
-
-            if (videoURL) {
-
-                URL.revokeObjectURL(
-                    videoURL
-                );
-
-            }
-
-
-            videoFile = file;
-
-
-            videoURL =
-                URL.createObjectURL(
-                    file
-                );
-
-
-            video.src =
-                videoURL;
-
-
-            uploadBox.style.display =
-                "none";
-
-
-            editor.classList.add(
-                "active"
-            );
-
-
-            document.getElementById(
-                "fileName"
-            ).textContent =
-                file.name;
-
-
-            video.onloadedmetadata =
-                () => {
-
-                    duration =
-                        video.duration;
-
-
-                    const start =
-                        document.getElementById(
-                            "start"
-                        );
-
-                    const end =
-                        document.getElementById(
-                            "end"
-                        );
-
-
-                    start.max =
-                        duration;
-
-                    end.max =
-                        duration;
-
-
-                    start.value =
-                        0;
-
-                    end.value =
-                        duration;
-
-
-                    document.getElementById(
-                        "videoInfo"
-                    ).textContent =
-                        `${formatTime(duration)} • ${video.videoWidth}×${video.videoHeight}`;
-
-
-                    updateTrim();
-
-
-                    showStatus(
-                        translations[
-                            getLanguage()
-                        ].ready
-                    );
-
-                };
-
-        }
-
-
-        videoInput.addEventListener(
-            "change",
-            event => {
-
-                loadVideo(
-                    event.target.files[0]
-                );
-
-            }
-        );
-
-
-        /* =========================================
-           DRAG & DROP
-        ========================================= */
-
-        uploadBox.addEventListener(
-            "dragover",
-            event => {
-
-                event.preventDefault();
-
-                uploadBox.classList.add(
-                    "dragging"
-                );
-
-            }
-        );
-
-
-        uploadBox.addEventListener(
-            "dragleave",
-            () => {
-
-                uploadBox.classList.remove(
-                    "dragging"
-                );
-
-            }
-        );
-
-
-        uploadBox.addEventListener(
-            "drop",
-            event => {
-
-                event.preventDefault();
-
-                uploadBox.classList.remove(
-                    "dragging"
-                );
-
-
-                loadVideo(
-                    event.dataTransfer.files[0]
-                );
-
-            }
-        );
-
-
-        /* =========================================
-           CONTROLS
-        ========================================= */
-
-        const brightness =
-            document.getElementById(
-                "brightness"
-            );
-
-        const contrast =
-            document.getElementById(
-                "contrast"
-            );
-
-        const saturation =
-            document.getElementById(
-                "saturation"
-            );
-
-        const speed =
-            document.getElementById(
-                "speed"
-            );
-
-        const volume =
-            document.getElementById(
-                "volume"
-            );
-
-        const filter =
-            document.getElementById(
-                "filter"
-            );
-
-
-        function updateVideo() {
-
-            const b =
-                brightness.value;
-
-            const c =
-                contrast.value;
-
-            const s =
-                saturation.value;
-
-            const sp =
-                speed.value;
-
-            const vol =
-                volume.value;
-
-            const selectedFilter =
-                filter.value;
-
-
-            video.style.filter =
-                `
-                brightness(${b}%)
-                contrast(${c}%)
-                saturate(${s}%)
-                ${selectedFilter}
-                `;
-
-
-            video.style.transform =
-                `
-                rotate(${rotation}deg)
-                scaleX(${flip})
-                `;
-
-
-            video.playbackRate =
-                Number(sp);
-
-
-            video.volume =
-                Number(vol);
-
-
-            document.getElementById(
-                "brightnessValue"
-            ).textContent =
-                `${b}%`;
-
-
-            document.getElementById(
-                "contrastValue"
-            ).textContent =
-                `${c}%`;
-
-
-            document.getElementById(
-                "saturationValue"
-            ).textContent =
-                `${s}%`;
-
-
-            document.getElementById(
-                "speedValue"
-            ).textContent =
-                `${sp}x`;
-
-
-            document.getElementById(
-                "volumeValue"
-            ).textContent =
-                `${Math.round(vol * 100)}%`;
-
-        }
-
-
-        [
-            brightness,
-            contrast,
-            saturation,
-            speed,
-            volume,
-            filter
-        ].forEach(
-            element => {
-
-                element.addEventListener(
-                    "input",
-                    updateVideo
-                );
-
-            }
-        );
-
-
-        /* =========================================
-           ROTATE
-        ========================================= */
-
-        document.getElementById(
-            "rotateButton"
-        ).onclick = () => {
-
-            rotation =
-                (rotation + 90) % 360;
-
-            updateVideo();
-
-        };
-
-
-        /* =========================================
-           FLIP
-        ========================================= */
-
-        document.getElementById(
-            "flipButton"
-        ).onclick = () => {
-
-            flip *= -1;
-
-            updateVideo();
-
-        };
-
-
-        /* =========================================
-           MUTE
-        ========================================= */
-
-        document.getElementById(
-            "muteButton"
-        ).onclick = () => {
-
-            video.muted =
-                !video.muted;
-
-
-            document.getElementById(
-                "muteButton"
-            ).textContent =
-                video.muted
-                    ? "🔇"
-                    : "🔊";
-
-        };
-
-
-        /* =========================================
-           RESET
-        ========================================= */
-
-        document.getElementById(
-            "resetButton"
-        ).onclick = () => {
-
-            brightness.value =
-                defaults.brightness;
-
-            contrast.value =
-                defaults.contrast;
-
-            saturation.value =
-                defaults.saturation;
-
-            speed.value =
-                defaults.speed;
-
-            volume.value =
-                defaults.volume;
-
-            filter.value =
-                "none";
-
-
-            rotation = 0;
-
-            flip = 1;
-
-            video.muted =
-                false;
-
-
-            document.getElementById(
-                "muteButton"
-            ).textContent =
-                "🔊";
-
-
-            updateVideo();
-
-        };
-
-
-        /* =========================================
-           TRIM
-        ========================================= */
-
-        const start =
-            document.getElementById(
-                "start"
-            );
-
-        const end =
-            document.getElementById(
-                "end"
-            );
-
-
-        function updateTrim() {
-
-            let startTime =
-                Number(
-                    start.value
-                );
-
-            let endTime =
-                Number(
-                    end.value
-                );
-
-
-            if (
-                startTime >= endTime
-            ) {
-
-                if (
-                    document.activeElement ===
-                    start
-                ) {
-
-                    start.value =
-                        Math.max(
-                            0,
-                            endTime - .05
-                        );
-
-                } else {
-
-                    end.value =
-                        Math.min(
-                            duration,
-                            startTime + .05
-                        );
-
-                }
-
-            }
-
-
-            document.getElementById(
-                "trimText"
-            ).textContent =
-                `${formatTime(Number(start.value))} → ${formatTime(Number(end.value))}`;
-
-        }
-
-
-        start.addEventListener(
-            "input",
-            updateTrim
-        );
-
-
-        end.addEventListener(
-            "input",
-            updateTrim
-        );
-
-
-        video.addEventListener(
-            "timeupdate",
-            () => {
-
-                if (
-                    video.currentTime >=
-                    Number(end.value)
-                ) {
-
-                    if (
-                        !video.paused
-                    ) {
-
-                        video.pause();
-
-                    }
-
-                }
-
-            }
-        );
-
-
-        /* =========================================
-           SNAPSHOT
-        ========================================= */
-
-        document.getElementById(
-            "snapshotButton"
-        ).onclick = () => {
-
-            if (!videoFile) {
-                return;
-            }
-
-
-            const ctx =
-                canvas.getContext(
-                    "2d"
-                );
-
-
-            canvas.width =
-                video.videoWidth;
-
-            canvas.height =
-                video.videoHeight;
-
-
-            ctx.save();
-
-
-            ctx.translate(
-                canvas.width / 2,
-                canvas.height / 2
-            );
-
-
-            ctx.rotate(
-                rotation *
-                Math.PI /
-                180
-            );
-
-
-            ctx.scale(
-                flip,
-                1
-            );
-
-
-            ctx.filter =
-                `
-                brightness(${brightness.value}%)
-                contrast(${contrast.value}%)
-                saturate(${saturation.value}%)
-                ${filter.value}
-                `;
-
-
-            const width =
-                rotation % 180 === 0
-                    ? video.videoWidth
-                    : video.videoHeight;
-
-
-            const height =
-                rotation % 180 === 0
-                    ? video.videoHeight
-                    : video.videoWidth;
-
-
-            ctx.drawImage(
-                video,
-                -width / 2,
-                -height / 2,
-                width,
-                height
-            );
-
-
-            ctx.restore();
-
-
-            canvas.toBlob(
-                blob => {
-
-                    const imageURL =
-                        URL.createObjectURL(
-                            blob
-                        );
-
-
-                    const link =
-                        document.createElement(
-                            "a"
-                        );
-
-
-                    link.href =
-                        imageURL;
-
-                    link.download =
-                        "VideoYTFX-Snapshot.png";
-
-
-                    link.click();
-
-
-                    URL.revokeObjectURL(
-                        imageURL
-                    );
-
-                },
-                "image/png"
-            );
-
-        };
-
-
-        /* =========================================
-           FULLSCREEN
-        ========================================= */
-
-        document.getElementById(
-            "fullscreenButton"
-        ).onclick = () => {
-
-            if (
-                video.requestFullscreen
-            ) {
-
-                video.requestFullscreen();
-
-            }
-
-        };
-
-
-        /* =========================================
-           EXPORT
-        ========================================= */
-
-        async function exportVideo() {
-
-            if (
-                !videoFile ||
-                exporting
-            ) {
-
-                return;
-
-            }
-
-
-            if (
-                !window.MediaRecorder
-            ) {
-
-                showToast(
-                    "MediaRecorder غير مدعوم في هذا المتصفح."
-                );
-
-                return;
-
-            }
-
-
-            exporting =
-                true;
-
-
-            showStatus(
-                translations[
-                    getLanguage()
-                ].exporting
-            );
-
-
-            const startTime =
-                Number(
-                    start.value
-                );
-
-
-            const endTime =
-                Number(
-                    end.value
-                );
-
-
-            canvas.width =
-                video.videoWidth;
-
-            canvas.height =
-                video.videoHeight;
-
-
-            const ctx =
-                canvas.getContext(
-                    "2d"
-                );
-
-
-            const stream =
-                canvas.captureStream(
-                    30
-                );
-
-
-            let audioContext = null;
-
-            let audioSource = null;
-
-            let audioDestination = null;
-
-
-            try {
-
-                audioContext =
-                    new (
-                        window.AudioContext ||
-                        window.webkitAudioContext
-                    )();
-
-
-                audioSource =
-                    audioContext
-                        .createMediaElementSource(
-                            video
-                        );
-
-
-                audioDestination =
-                    audioContext
-                        .createMediaStreamDestination();
-
-
-                audioSource.connect(
-                    audioDestination
-                );
-
-
-                audioSource.connect(
-                    audioContext.destination
-                );
-
-
-                const audioTrack =
-                    audioDestination
-                        .stream
-                        .getAudioTracks()[0];
-
-
-                if (audioTrack) {
-
-                    stream.addTrack(
-                        audioTrack
-                    );
-
-                }
-
-            } catch (error) {
-
-                console.warn(
-                    "Audio capture unavailable:",
-                    error
-                );
-
-            }
-
-
-            const chunks = [];
-
-
-            const recorder =
-                new MediaRecorder(
-                    stream,
-                    {
-                        mimeType:
-                            "video/webm;codecs=vp9,opus"
-                    }
-                );
-
-
-            recorder.ondataavailable =
-                event => {
-
-                    if (
-                        event.data.size
-                    ) {
-
-                        chunks.push(
-                            event.data
-                        );
-
-                    }
-
-                };
-
-
-            const finished =
-                new Promise(
-                    resolve => {
-
-                        recorder.onstop =
-                            resolve;
-
-                    }
-                );
-
-
-            recorder.start(
-                200
-            );
-
-
-            video.currentTime =
-                startTime;
-
-
-            video.muted =
-                false;
-
-
-            video.playbackRate =
-                Number(
-                    speed.value
-                );
-
-
-            await video.play();
-
-
-            function drawFrame() {
-
-                if (!exporting) {
-                    return;
-                }
-
-
-                ctx.save();
-
-
-                ctx.clearRect(
-                    0,
-                    0,
-                    canvas.width,
-                    canvas.height
-                );
-
-
-                ctx.translate(
-                    canvas.width / 2,
-                    canvas.height / 2
-                );
-
-
-                ctx.rotate(
-                    rotation *
-                    Math.PI /
-                    180
-                );
-
-
-                ctx.scale(
-                    flip,
-                    1
-                );
-
-
-                ctx.filter =
-                    `
-                    brightness(${brightness.value}%)
-                    contrast(${contrast.value}%)
-                    saturate(${saturation.value}%)
-                    ${filter.value}
-                    `;
-
-
-                const width =
-                    rotation % 180 === 0
-                        ? canvas.width
-                        : canvas.height;
-
-
-                const height =
-                    rotation % 180 === 0
-                        ? canvas.height
-                        : canvas.width;
-
-
-                ctx.drawImage(
-                    video,
-                    -width / 2,
-                    -height / 2,
-                    width,
-                    height
-                );
-
-
-                ctx.restore();
-
-
-                if (
-                    video.currentTime <
-                        endTime &&
-                    !video.ended
-                ) {
-
-                    requestAnimationFrame(
-                        drawFrame
-                    );
-
-                } else {
-
-                    exporting =
-                        false;
-
-                    video.pause();
-
-                    recorder.stop();
-
-                }
-
-            }
-
-
-            drawFrame();
-
-
-            await finished;
-
-
-            const blob =
-                new Blob(
-                    chunks,
-                    {
-                        type:
-                            "video/webm"
-                    }
-                );
-
-
-            const outputURL =
-                URL.createObjectURL(
-                    blob
-                );
-
-
-            const link =
-                document.createElement(
-                    "a"
-                );
-
-
-            const originalName =
-                videoFile.name
-                    .replace(
-                        /\.[^/.]+$/,
-                        ""
-                    );
-
-
-            link.href =
-                outputURL;
-
-
-            link.download =
-                `${originalName}-VideoYTFX.webm`;
-
-
-            document.body.appendChild(
-                link
-            );
-
-
-            link.click();
-
-
-            link.remove();
-
-
-            URL.revokeObjectURL(
-                outputURL
-            );
-
-
-            if (
-                audioContext
-            ) {
-
-                try {
-
-                    await audioContext.close();
-
-                } catch (error) {}
-
-            }
-
-
-            showStatus(
-                translations[
-                    getLanguage()
-                ].done
-            );
-
-
-            showToast(
-                translations[
-                    getLanguage()
-                ].done
-            );
-
-        }
-
-
-        document.getElementById(
-            "exportButton"
-        ).onclick =
-            exportVideo;
-
-
-        /* =========================================
-           INITIALIZE
-        ========================================= */
-
-        setLanguage(
-            localStorage.getItem(
-                "vytfx_lang"
-            ) || "ar"
-        );
-
-
-        setTheme(
-            localStorage.getItem(
-                "vytfx_theme"
-            ) || "dark"
-        );
-
-
-    </script>
-
+        <div class="card timeline">
+          <div class="timeline-head">
+            <span>✂️ <b data-i18n="trim"></b></span>
+            <span id="trimText" dir="ltr">0:00 → 0:00</span>
+          </div>
+          <div class="range-wrap">
+            <div class="track" id="track"></div>
+            <input id="start" type="range" min="0" max="0" step=".01" value="0" aria-label="Start">
+            <input id="end" type="range" min="0" max="0" step=".01" value="0" aria-label="End">
+          </div>
+          <div class="trim-tools">
+            <button class="tool" id="setStart" type="button" data-i18n="setStart"></button>
+            <button class="tool" id="setEnd" type="button" data-i18n="setEnd"></button>
+            <button class="tool" id="playTrim" type="button" data-i18n="playTrim"></button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="card panel">
+        <h3>🎛️ <span data-i18n="controls"></span></h3>
+
+        <div class="group"><div class="row"><label for="brightness" data-i18n="brightness"></label><span class="value" id="brightnessValue">100%</span></div>
+          <input id="brightness" type="range" min="50" max="150" value="100"></div>
+
+        <div class="group"><div class="row"><label for="contrast" data-i18n="contrast"></label><span class="value" id="contrastValue">100%</span></div>
+          <input id="contrast" type="range" min="50" max="180" value="100"></div>
+
+        <div class="group"><div class="row"><label for="saturation" data-i18n="saturation"></label><span class="value" id="saturationValue">100%</span></div>
+          <input id="saturation" type="range" min="0" max="200" value="100"></div>
+
+        <div class="group"><div class="row"><label for="speed" data-i18n="speed"></label><span class="value" id="speedValue">1x</span></div>
+          <input id="speed" type="range" min=".25" max="2" step=".05" value="1"></div>
+
+        <div class="group"><div class="row"><label for="volume" data-i18n="audio"></label><span class="value" id="volumeValue">100%</span></div>
+          <input id="volume" type="range" min="0" max="1" step=".01" value="1"></div>
+
+        <div class="group"><div class="row"><label for="filter" data-i18n="filter"></label></div>
+          <select id="filter">
+            <option value="none" data-i18n="fOriginal"></option>
+            <option value="grayscale(1)" data-i18n="fGray"></option>
+            <option value="sepia(1)" data-i18n="fSepia"></option>
+            <option value="saturate(1.8)" data-i18n="fVivid"></option>
+            <option value="contrast(1.25) saturate(.8)" data-i18n="fCinema"></option>
+            <option value="brightness(1.08) saturate(1.25)" data-i18n="fWarm"></option>
+          </select></div>
+
+        <div class="group"><div class="row"><label for="format" data-i18n="format"></label></div>
+          <select id="format"></select></div>
+
+        <div class="tool-strip">
+          <button class="tool" id="rotateButton" type="button">↻ 90°</button>
+          <button class="tool" id="flipButton" type="button" data-i18n="flip"></button>
+          <button class="tool" id="muteButton" type="button">🔊</button>
+          <button class="tool" id="resetButton" type="button" data-i18n="reset"></button>
+          <button class="tool" id="changeButton" type="button" data-i18n="change"></button>
+        </div>
+
+        <div class="actions">
+          <button class="action" id="snapshotButton" type="button">📸 <span data-i18n="snapshot"></span></button>
+          <button class="action" id="fullscreenButton" type="button">⛶ <span data-i18n="fullscreen"></span></button>
+          <button class="action primary wide" id="exportButton" type="button">⬇️ <span id="exportLabel" data-i18n="export"></span></button>
+        </div>
+
+        <div class="progress" id="progress"><i id="bar"></i></div>
+        <div class="status" id="statusText"></div>
+        <div class="hint" data-i18n="hint"></div>
+      </aside>
+    </div>
+  </section>
+
+  <a href="index.html" class="back">← <span data-i18n="back"></span></a>
+</main>
+
+<footer>© 2026 VideoYTFX. All rights reserved.</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const video = $("video"), canvas = $("canvas"), videoInput = $("videoInput");
+const uploadBox = $("uploadBox"), editor = $("editor");
+const startEl = $("start"), endEl = $("end");
+const brightness = $("brightness"), contrast = $("contrast"), saturation = $("saturation");
+const speed = $("speed"), volume = $("volume"), filterEl = $("filter");
+
+let videoFile = null, videoURL = null, duration = 0;
+let rotation = 0, flip = 1;
+let exporting = false, cancelExport = false;
+let actx = null, monitor = null, dest = null;
+
+const translations = {
+  ar: {
+    title: "VideoYTFX Studio",
+    subtitle: "قص، حسّن، دوّر، اضبط الألوان والسرعة، ثم صدّر النتيجة مباشرة من المتصفح.",
+    uploadTitle: "ابدأ بفيديو", uploadText: "اسحب الفيديو هنا أو اختر ملفاً من جهازك.", choose: "اختيار فيديو",
+    trim: "قص الفيديو", setStart: "[ البداية هنا", setEnd: "النهاية هنا ]", playTrim: "▶ معاينة المقطع",
+    controls: "التحكم", brightness: "السطوع", contrast: "التباين", saturation: "التشبع", speed: "السرعة",
+    audio: "الصوت", filter: "الفلتر", format: "صيغة التصدير",
+    fOriginal: "الأصلي", fGray: "أبيض وأسود", fSepia: "سيبيا", fVivid: "زاهٍ", fCinema: "سينمائي", fWarm: "دافئ",
+    flip: "↔ قلب", reset: "↩ إعادة", change: "🔄 فيديو آخر",
+    snapshot: "لقطة", fullscreen: "ملء الشاشة", export: "تصدير الفيديو المعدل", cancel: "إلغاء التصدير",
+    hint: "اختصارات: مسافة = تشغيل • ← → = تقديم/تأخير 5 ثوانٍ",
+    back: "العودة للرئيسية", ready: "جاهز", bad: "اختر ملف فيديو صالحاً.",
+    exporting: "جاري إنشاء الفيديو المعدل…", done: "تم التصدير بنجاح.", canceled: "تم إلغاء التصدير.",
+    noRec: "المتصفح لا يدعم تصدير الفيديو (MediaRecorder).", fail: "فشل التصدير، جرّب متصفحاً آخر.",
+    noFilter: "متصفحك لا يدعم تطبيق الألوان في التصدير واللقطات (مثل Safari)، استخدم Chrome أو Firefox."
+  },
+  en: {
+    title: "VideoYTFX Studio",
+    subtitle: "Trim, enhance, rotate, tune color and speed, then export directly in your browser.",
+    uploadTitle: "Start with a video", uploadText: "Drag a video here or choose a file from your device.", choose: "Choose Video",
+    trim: "Trim video", setStart: "[ Start here", setEnd: "End here ]", playTrim: "▶ Preview clip",
+    controls: "Controls", brightness: "Brightness", contrast: "Contrast", saturation: "Saturation", speed: "Speed",
+    audio: "Audio", filter: "Filter", format: "Export format",
+    fOriginal: "Original", fGray: "Grayscale", fSepia: "Sepia", fVivid: "Vivid", fCinema: "Cinematic", fWarm: "Warm",
+    flip: "↔ Flip", reset: "↩ Reset", change: "🔄 New video",
+    snapshot: "Snapshot", fullscreen: "Fullscreen", export: "Export edited video", cancel: "Cancel export",
+    hint: "Shortcuts: Space = play • ← → = seek 5s",
+    back: "Back to Home", ready: "Ready", bad: "Choose a valid video file.",
+    exporting: "Rendering edited video…", done: "Export completed.", canceled: "Export canceled.",
+    noRec: "This browser does not support video export (MediaRecorder).", fail: "Export failed, try another browser.",
+    noFilter: "Your browser can't apply color effects to exports/snapshots (e.g. Safari). Use Chrome or Firefox."
+  }
+};
+
+const getLanguage = () => localStorage.getItem("vytfx_lang") || "ar";
+const t = k => translations[getLanguage()][k] || k;
+
+function setLanguage(lang) {
+  try { localStorage.setItem("vytfx_lang", lang); } catch (e) {}
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const v = translations[lang][el.dataset.i18n];
+    if (v) el.textContent = v;
+  });
+  $("languageButton").textContent = lang === "ar" ? "🌐 English" : "🌐 العربية";
+  if (exporting) $("exportLabel").textContent = t("cancel");
+}
+$("languageButton").onclick = () => setLanguage(getLanguage() === "ar" ? "en" : "ar");
+
+function setTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  $("themeButton").textContent = theme === "light" ? "🌙" : "☀️";
+  try { localStorage.setItem("vytfx_theme", theme); } catch (e) {}
+}
+$("themeButton").onclick = () =>
+  setTheme(document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light");
+
+function formatTime(s) {
+  if (!isFinite(s)) return "0:00";
+  s = Math.max(0, s);
+  return Math.floor(s / 60) + ":" + String(Math.floor(s % 60)).padStart(2, "0");
+}
+let toastTimer;
+function showToast(msg) {
+  const el = $("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
+}
+const showStatus = msg => { $("statusText").textContent = msg; };
+
+/* ---------- Load video ---------- */
+function loadVideo(file) {
+  if (!file || !file.type.startsWith("video/")) { showToast(t("bad")); return; }
+  if (exporting) return;
+  if (videoURL) URL.revokeObjectURL(videoURL);
+  videoFile = file;
+  videoURL = URL.createObjectURL(file);
+  rotation = 0; flip = 1;
+
+  video.onloadedmetadata = () => {
+    duration = video.duration;
+    startEl.max = endEl.max = duration;
+    startEl.value = 0;
+    endEl.value = duration;
+    $("videoInfo").textContent = `${formatTime(duration)} • ${video.videoWidth}×${video.videoHeight}`;
+    updateTrim();
+    updateVideo();
+    showStatus(t("ready"));
+  };
+  video.onerror = () => { showToast(t("bad")); };
+  video.src = videoURL;
+  uploadBox.style.display = "none";
+  editor.classList.add("active");
+  $("fileName").textContent = file.name;
+}
+videoInput.addEventListener("change", e => { loadVideo(e.target.files[0]); videoInput.value = ""; });
+$("changeButton").onclick = () => videoInput.click();
+
+["dragover", "dragenter"].forEach(ev => document.addEventListener(ev, e => {
+  e.preventDefault(); uploadBox.classList.add("dragging");
+}));
+["dragleave", "drop"].forEach(ev => document.addEventListener(ev, e => {
+  e.preventDefault(); uploadBox.classList.remove("dragging");
+  if (ev === "drop") loadVideo(e.dataTransfer.files[0]);
+}));
+
+/* ---------- Effects ---------- */
+function cssFilter() {
+  const base = `brightness(${brightness.value}%) contrast(${contrast.value}%) saturate(${saturation.value}%)`;
+  return filterEl.value === "none" ? base : `${base} ${filterEl.value}`;
+}
+
+function updateVideo() {
+  video.style.filter = cssFilter();
+  let scale = 1;
+  if (rotation % 180 !== 0 && video.clientHeight > video.clientWidth) {
+    scale = video.clientWidth / video.clientHeight;
+  }
+  video.style.transform = `rotate(${rotation}deg) scaleX(${flip}) scale(${scale})`;
+  video.playbackRate = Number(speed.value);
+  video.volume = Number(volume.value);
+  $("brightnessValue").textContent = brightness.value + "%";
+  $("contrastValue").textContent = contrast.value + "%";
+  $("saturationValue").textContent = saturation.value + "%";
+  $("speedValue").textContent = speed.value + "x";
+  $("volumeValue").textContent = Math.round(volume.value * 100) + "%";
+}
+[brightness, contrast, saturation, speed, volume, filterEl].forEach(el => el.addEventListener("input", updateVideo));
+
+$("rotateButton").onclick = () => { rotation = (rotation + 90) % 360; updateVideo(); };
+$("flipButton").onclick = () => { flip *= -1; updateVideo(); };
+$("muteButton").onclick = () => {
+  video.muted = !video.muted;
+  $("muteButton").textContent = video.muted ? "🔇" : "🔊";
+};
+$("resetButton").onclick = () => {
+  brightness.value = 100; contrast.value = 100; saturation.value = 100;
+  speed.value = 1; volume.value = 1; filterEl.value = "none";
+  rotation = 0; flip = 1; video.muted = false;
+  $("muteButton").textContent = "🔊";
+  updateVideo();
+};
+
+/* ---------- Trim ---------- */
+function updateTrim(e) {
+  let s = Number(startEl.value), en = Number(endEl.value);
+  if (s >= en) {
+    if (e && e.target === endEl) endEl.value = en = Math.min(duration, s + .05);
+    else startEl.value = s = Math.max(0, en - .05);
+  }
+  $("trimText").textContent = `${formatTime(s)} → ${formatTime(en)}`;
+  const a = duration ? (s / duration) * 100 : 0, b = duration ? (en / duration) * 100 : 100;
+  $("track").style.background =
+    `linear-gradient(90deg,var(--panel2) ${a}%,var(--primary) ${a}%,var(--accent) ${b}%,var(--panel2) ${b}%)`;
+}
+startEl.addEventListener("input", e => { updateTrim(e); if (!exporting) video.currentTime = Number(startEl.value); });
+endEl.addEventListener("input", e => { updateTrim(e); if (!exporting) video.currentTime = Math.max(0, Number(endEl.value) - .1); });
+
+$("setStart").onclick = () => { startEl.value = Math.min(video.currentTime, Number(endEl.value) - .05); updateTrim(); };
+$("setEnd").onclick = () => { endEl.value = Math.max(video.currentTime, Number(startEl.value) + .05); updateTrim(); };
+$("playTrim").onclick = () => { video.currentTime = Number(startEl.value); video.play().catch(() => {}); };
+
+video.addEventListener("play", () => {
+  if (exporting) return;
+  if (video.currentTime >= Number(endEl.value) - .05 || video.currentTime < Number(startEl.value)) {
+    video.currentTime = Number(startEl.value);
+  }
+});
+video.addEventListener("timeupdate", () => {
+  if (!exporting && !video.paused && video.currentTime >= Number(endEl.value)) {
+    video.pause();
+    video.currentTime = Number(endEl.value);
+  }
+});
+
+document.addEventListener("keydown", e => {
+  if (!videoFile || /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName) && document.activeElement.type !== "range") return;
+  if (e.code === "Space") { e.preventDefault(); video.paused ? video.play().catch(() => {}) : video.pause(); }
+  else if (e.code === "ArrowRight") video.currentTime = Math.min(duration, video.currentTime + 5);
+  else if (e.code === "ArrowLeft") video.currentTime = Math.max(0, video.currentTime - 5);
+});
+
+/* ---------- Drawing (shared by snapshot + export) ---------- */
+function filterSupported(ctx) {
+  ctx.filter = "blur(1px)";
+  const ok = ctx.filter === "blur(1px)";
+  ctx.filter = "none";
+  return ok;
+}
+function sizeCanvas() {
+  const sw = rotation % 180 !== 0;
+  canvas.width = sw ? video.videoHeight : video.videoWidth;
+  canvas.height = sw ? video.videoWidth : video.videoHeight;
+}
+function drawFrame(ctx) {
+  ctx.save();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate(rotation * Math.PI / 180);
+  ctx.scale(flip, 1);
+  ctx.filter = cssFilter();
+  ctx.drawImage(video, -video.videoWidth / 2, -video.videoHeight / 2, video.videoWidth, video.videoHeight);
+  ctx.restore();
+}
+function download(url, name) {
+  const a = document.createElement("a");
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+$("snapshotButton").onclick = () => {
+  if (!videoFile) return;
+  sizeCanvas();
+  const ctx = canvas.getContext("2d");
+  if (!filterSupported(ctx)) showToast(t("noFilter"));
+  drawFrame(ctx);
+  canvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    download(url, "VideoYTFX-Snapshot.png");
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  }, "image/png");
+};
+
+$("fullscreenButton").onclick = () => {
+  const el = video.requestFullscreen ? video : null;
+  if (el) el.requestFullscreen();
+  else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+};
+
+/* ---------- Export formats ---------- */
+(function buildFormats() {
+  const list = [
+    ["video/webm;codecs=vp9,opus", "WebM (VP9)"],
+    ["video/webm;codecs=vp8,opus", "WebM (VP8)"],
+    ["video/webm", "WebM"],
+    ["video/mp4;codecs=avc1,mp4a.40.2", "MP4 (H.264)"],
+    ["video/mp4", "MP4"]
+  ];
+  const sel = $("format");
+  const seen = new Set();
+  if (!window.MediaRecorder) return;
+  list.forEach(([mime, label]) => {
+    if (MediaRecorder.isTypeSupported(mime) && !seen.has(label.split(" ")[0] + (mime.includes("vp8") ? "8" : ""))) {
+      seen.add(label.split(" ")[0] + (mime.includes("vp8") ? "8" : ""));
+      const o = document.createElement("option");
+      o.value = mime; o.textContent = label; sel.appendChild(o);
+    }
+  });
+})();
+
+/* ---------- Audio graph (created once) ---------- */
+function ensureAudio() {
+  if (actx) return;
+  actx = new (window.AudioContext || window.webkitAudioContext)();
+  const src = actx.createMediaElementSource(video);
+  monitor = actx.createGain();
+  dest = actx.createMediaStreamDestination();
+  src.connect(monitor); monitor.connect(actx.destination);
+  src.connect(dest);
+}
+
+/* ---------- Export ---------- */
+function setExportUI(on) {
+  exporting = on;
+  $("exportLabel").textContent = on ? t("cancel") : t("export");
+  $("exportButton").classList.toggle("cancel", on);
+  $("exportButton").classList.toggle("primary", !on);
+  $("progress").classList.toggle("on", on);
+  $("bar").style.width = "0%";
+  ["snapshotButton", "changeButton", "rotateButton", "flipButton", "resetButton", "setStart", "setEnd", "playTrim"]
+    .forEach(id => $(id).disabled = on);
+  [startEl, endEl, brightness, contrast, saturation, speed, filterEl, $("format")].forEach(el => el.disabled = on);
+}
+
+async function exportVideo() {
+  if (exporting) { cancelExport = true; return; }
+  if (!videoFile) return;
+  if (!window.MediaRecorder || !canvas.captureStream) { showToast(t("noRec")); return; }
+
+  const s = Number(startEl.value), e = Number(endEl.value);
+  const mime = $("format").value;
+  const ext = mime.includes("mp4") ? "mp4" : "webm";
+  cancelExport = false;
+  setExportUI(true);
+  showStatus(t("exporting"));
+  video.pause();
+
+  sizeCanvas();
+  const ctx = canvas.getContext("2d");
+  if (!filterSupported(ctx)) showToast(t("noFilter"));
+  const stream = canvas.captureStream(30);
+
+  try {
+    ensureAudio();
+    await actx.resume();
+    monitor.gain.value = 0;
+    dest.stream.getAudioTracks().forEach(tr => stream.addTrack(tr));
+  } catch (err) { console.warn("Audio capture unavailable:", err); }
+
+  const chunks = [];
+  let recorder;
+  try {
+    recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8000000 });
+  } catch (err) {
+    console.error(err); showToast(t("fail")); cleanup(); return;
+  }
+  recorder.ondataavailable = ev => { if (ev.data.size) chunks.push(ev.data); };
+  const stopped = new Promise(r => { recorder.onstop = r; });
+
+  function cleanup() {
+    video.pause();
+    if (monitor) monitor.gain.value = 1;
+    setExportUI(false);
+    updateVideo();
+  }
+
+  try {
+    video.currentTime = s;
+    await new Promise(r => video.addEventListener("seeked", r, { once: true }));
+    video.playbackRate = Number(speed.value);
+    recorder.start(250);
+    await video.play();
+
+    await new Promise(resolve => {
+      (function loop() {
+        drawFrame(ctx);
+        const p = Math.min(100, ((video.currentTime - s) / (e - s)) * 100);
+        $("bar").style.width = p + "%";
+        if (cancelExport || video.currentTime >= e || video.ended) resolve();
+        else requestAnimationFrame(loop);
+      })();
+    });
+
+    video.pause();
+    if (recorder.state !== "inactive") recorder.stop();
+    await stopped;
+
+    if (cancelExport) {
+      showStatus(t("canceled")); showToast(t("canceled"));
+    } else {
+      const blob = new Blob(chunks, { type: ext === "mp4" ? "video/mp4" : "video/webm" });
+      const url = URL.createObjectURL(blob);
+      download(url, `${videoFile.name.replace(/\.[^/.]+$/, "")}-VideoYTFX.${ext}`);
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+      showStatus(t("done")); showToast(t("done"));
+    }
+  } catch (err) {
+    console.error(err);
+    if (recorder.state !== "inactive") recorder.stop();
+    showStatus(t("fail")); showToast(t("fail"));
+  } finally {
+    cleanup();
+  }
+}
+$("exportButton").onclick = exportVideo;
+
+window.addEventListener("resize", () => { if (videoFile) updateVideo(); });
+window.addEventListener("beforeunload", e => { if (exporting) { e.preventDefault(); e.returnValue = ""; } });
+
+/* ---------- Init ---------- */
+setLanguage(getLanguage());
+setTheme((() => { try { return localStorage.getItem("vytfx_theme"); } catch (e) { return null; } })() || "dark");
+</script>
 </body>
-
 </html>
