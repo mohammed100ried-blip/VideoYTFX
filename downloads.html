@@ -1,1195 +1,801 @@
+
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Downloads - VideoYTFX</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <style>
-        :root {
-            --bg: #030712;
-            --surface: rgba(17, 24, 39, .72);
-            --surface-hover: rgba(31, 41, 55, .9);
-            --border: rgba(255, 255, 255, .08);
-            --border-hover: rgba(59, 130, 246, .55);
-
-            --text: #f9fafb;
-            --muted: #9ca3af;
-
-            --primary: #3b82f6;
-            --accent: #8b5cf6;
-            --glow: rgba(59, 130, 246, .32);
-
-            --radius-lg: 24px;
-            --radius-md: 14px;
-
-            --font-en: "Plus Jakarta Sans", sans-serif;
-            --font-ar: "Tajawal", sans-serif;
-
-            --transition: .3s cubic-bezier(.4, 0, .2, 1);
-        }
-
-        [data-theme="light"] {
-            --bg: #f8fafc;
-            --surface: rgba(255, 255, 255, .88);
-            --surface-hover: #f1f5f9;
-            --border: rgba(0, 0, 0, .08);
-            --border-hover: rgba(59, 130, 246, .4);
-
-            --text: #0f172a;
-            --muted: #64748b;
-
-            --glow: rgba(59, 130, 246, .15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-
-            font-family: var(--font-en);
-            color: var(--text);
-            background: var(--bg);
-
-            overflow-x: hidden;
-
-            transition:
-                background-color .4s ease,
-                color .4s ease;
-        }
-
-        html[dir="rtl"] body {
-            font-family: var(--font-ar);
-        }
-
-        button,
-        a {
-            font: inherit;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button {
-            border: 0;
-        }
-
-
-        /* ================================
-           BACKGROUND
-        ================================= */
-
-        .ambient-glow {
-            position: fixed;
-            width: 500px;
-            height: 500px;
-
-            border-radius: 50%;
-            filter: blur(140px);
-
-            pointer-events: none;
-            z-index: -1;
-
-            opacity: .35;
-        }
-
-        .glow-1 {
-            top: -150px;
-            left: -120px;
-
-            background:
-                radial-gradient(
-                    circle,
-                    var(--primary),
-                    transparent 70%
-                );
-        }
-
-        .glow-2 {
-            right: -150px;
-            bottom: -150px;
-
-            background:
-                radial-gradient(
-                    circle,
-                    var(--accent),
-                    transparent 70%
-                );
-        }
-
-
-        /* ================================
-           NAVBAR
-        ================================= */
-
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-
-            width: 100%;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 15px 8%;
-
-            background: var(--surface);
-
-            border-bottom:
-                1px solid var(--border);
-
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
-            font-size: 1.2rem;
-            font-weight: 800;
-        }
-
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-
-            display: grid;
-            place-items: center;
-
-            border-radius: 13px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--accent)
-                );
-
-            color: white;
-
-            box-shadow:
-                0 8px 25px var(--glow);
-
-            transition: var(--transition);
-        }
-
-        .brand:hover .brand-icon {
-            transform:
-                rotate(-5deg)
-                scale(1.05);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-ui {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-
-            padding: 9px 15px;
-
-            border-radius: 12px;
-
-            border:
-                1px solid var(--border);
-
-            background:
-                var(--surface);
-
-            color:
-                var(--text);
-
-            cursor: pointer;
-
-            font-weight: 600;
-
-            transition:
-                var(--transition);
-        }
-
-        .btn-ui:hover {
-            transform: translateY(-2px);
-
-            background:
-                var(--surface-hover);
-
-            border-color:
-                var(--border-hover);
-        }
-
-
-        /* ================================
-           MAIN
-        ================================= */
-
-        .container {
-            width: 100%;
-            max-width: 1000px;
-
-            margin: auto;
-
-            padding:
-                70px 20px 60px;
-
-            text-align: center;
-        }
-
-        .header-section {
-            margin-bottom: 42px;
-        }
-
-        .logo {
-            width: 82px;
-            height: 82px;
-
-            display: grid;
-            place-items: center;
-
-            margin:
-                0 auto 22px;
-
-            border-radius: 23px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--accent)
-                );
-
-            color: white;
-
-            font-size: 40px;
-            font-weight: 800;
-
-            box-shadow:
-                0 18px 40px var(--glow);
-
-            animation:
-                floating 4s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-6px);
-            }
-        }
-
-        h1 {
-            font-size:
-                clamp(2rem, 5vw, 3.2rem);
-
-            line-height: 1.1;
-
-            font-weight: 800;
-
-            margin-bottom: 12px;
-        }
-
-        .subtitle {
-            max-width: 620px;
-
-            margin:
-                0 auto;
-
-            color:
-                var(--muted);
-
-            font-size:
-                1.05rem;
-        }
-
-
-        /* ================================
-           DOWNLOAD GRID
-        ================================= */
-
-        .download-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(290px, 1fr)
-                );
-
-            gap: 24px;
-
-            margin-bottom: 35px;
-        }
-
-        .download-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-
-            min-height: 330px;
-
-            padding: 30px;
-
-            text-align: start;
-
-            border-radius:
-                var(--radius-lg);
-
-            border:
-                1px solid var(--border);
-
-            background:
-                var(--surface);
-
-            backdrop-filter:
-                blur(20px);
-
-            box-shadow:
-                0 20px 45px rgba(0, 0, 0, .22);
-
-            transition:
-                var(--transition);
-
-            position: relative;
-            overflow: hidden;
-        }
-
-        .download-card::before {
-            content: "";
-
-            position: absolute;
-
-            width: 180px;
-            height: 180px;
-
-            top: -100px;
-            right: -100px;
-
-            border-radius: 50%;
-
-            background:
-                var(--primary);
-
-            opacity: .05;
-
-            transition:
-                var(--transition);
-        }
-
-        .download-card:hover {
-            transform:
-                translateY(-7px);
-
-            border-color:
-                var(--border-hover);
-
-            box-shadow:
-                0 28px 60px rgba(0, 0, 0, .3);
-        }
-
-        .download-card:hover::before {
-            transform:
-                scale(1.8);
-        }
-
-        html[dir="rtl"]
-        .download-card {
-            text-align: right;
-        }
-
-
-        /* ================================
-           CARD HEADER
-        ================================= */
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            margin-bottom: 18px;
-        }
-
-        .card-icon {
-            font-size: 1.8rem;
-        }
-
-        .card-badge {
-            display: inline-flex;
-            align-items: center;
-
-            padding:
-                5px 12px;
-
-            border-radius:
-                20px;
-
-            background:
-                rgba(59, 130, 246, .12);
-
-            border:
-                1px solid
-                rgba(59, 130, 246, .25);
-
-            color:
-                var(--primary);
-
-            font-size:
-                .78rem;
-
-            font-weight:
-                800;
-        }
-
-        .download-card h2 {
-            font-size:
-                1.4rem;
-
-            margin-bottom:
-                10px;
-
-            font-weight:
-                700;
-        }
-
-        .download-card p {
-            color:
-                var(--muted);
-
-            font-size:
-                .95rem;
-
-            line-height:
-                1.7;
-
-            margin-bottom:
-                25px;
-        }
-
-
-        /* ================================
-           DOWNLOAD BUTTON
-        ================================= */
-
-        .download-btn {
-            width: 100%;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            gap: 9px;
-
-            padding:
-                14px 20px;
-
-            border-radius:
-                var(--radius-md);
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--accent)
-                );
-
-            color:
-                white;
-
-            font-weight:
-                700;
-
-            box-shadow:
-                0 10px 28px var(--glow);
-
-            transition:
-                var(--transition);
-        }
-
-        .download-btn:hover {
-            transform:
-                translateY(-3px);
-
-            box-shadow:
-                0 15px 35px var(--glow);
-        }
-
-        .download-btn.secondary {
-            background:
-                var(--surface-hover);
-
-            border:
-                1px solid var(--border);
-
-            color:
-                var(--text);
-
-            box-shadow:
-                none;
-        }
-
-        .download-btn.secondary:hover {
-            border-color:
-                var(--border-hover);
-
-            background:
-                rgba(59, 130, 246, .12);
-        }
-
-
-        /* ================================
-           VERSION
-        ================================= */
-
-        .version-info {
-            display: flex;
-            align-items: center;
-
-            gap: 7px;
-
-            margin-top: 14px;
-
-            color:
-                var(--muted);
-
-            font-size:
-                .82rem;
-        }
-
-
-        /* ================================
-           BACK
-        ================================= */
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-
-            margin-top: 8px;
-
-            color:
-                var(--muted);
-
-            font-weight:
-                600;
-
-            transition:
-                var(--transition);
-        }
-
-        .back-link:hover {
-            color:
-                var(--primary);
-
-            transform:
-                translateX(-4px);
-        }
-
-        html[dir="rtl"]
-        .back-link:hover {
-            transform:
-                translateX(4px);
-        }
-
-
-        /* ================================
-           FOOTER
-        ================================= */
-
-        footer {
-            width: 100%;
-
-            padding: 24px;
-
-            text-align: center;
-
-            border-top:
-                1px solid var(--border);
-
-            background:
-                var(--surface);
-
-            color:
-                var(--muted);
-
-            font-size:
-                .85rem;
-        }
-
-
-        /* ================================
-           MOBILE
-        ================================= */
-
-        @media (max-width: 650px) {
-
-            .navbar {
-                padding:
-                    13px 5%;
-            }
-
-            .brand {
-                font-size:
-                    1rem;
-            }
-
-            .brand-icon {
-                width:
-                    38px;
-
-                height:
-                    38px;
-            }
-
-            .nav-actions {
-                gap:
-                    6px;
-            }
-
-            .btn-ui {
-                padding:
-                    8px 10px;
-            }
-
-            .container {
-                padding:
-                    50px 16px 45px;
-            }
-
-            .download-grid {
-                grid-template-columns:
-                    1fr;
-            }
-
-            .download-card {
-                min-height:
-                    300px;
-            }
-
-            .subtitle {
-                font-size:
-                    .95rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#030712">
+<title>VideoYTFX | Downloads & Snake</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#030712;
+  --card:rgba(15,23,42,.82);
+  --text:#f8fafc;
+  --muted:#9ca3af;
+  --border:rgba(148,163,184,.18);
+  --blue:#3b82f6;
+  --purple:#8b5cf6;
+  --cyan:#22d3ee;
+}
+[data-theme="light"] {
+  --bg:#f3f6ff;
+  --card:rgba(255,255,255,.88);
+  --text:#111827;
+  --muted:#64748b;
+  --border:rgba(15,23,42,.13);
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body {
+  min-height:100vh;
+  overflow-x:hidden;
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Tajawal",sans-serif;
+  transition:background .4s,color .4s;
+}
+button,a { font:inherit; }
+a { color:inherit; text-decoration:none; }
+button { cursor:pointer; }
+button:focus-visible,a:focus-visible {
+  outline:3px solid var(--cyan);
+  outline-offset:3px;
+}
+
+/* خلفية متحركة */
+.background {
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(148,163,184,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(148,163,184,.035) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.orb {
+  position:fixed;
+  width:380px;
+  height:380px;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:.28;
+  z-index:-1;
+  pointer-events:none;
+  animation:drift 12s ease-in-out infinite alternate;
+}
+.orb.one { background:#2563eb;top:-160px;right:-100px; }
+.orb.two { background:#7c3aed;bottom:-150px;left:-120px;animation-delay:-5s; }
+@keyframes drift {
+  from { transform:translate(0,0) scale(.9); }
+  to { transform:translate(-55px,45px) scale(1.2); }
+}
+
+/* الشريط العلوي */
+nav {
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 7%;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(18px);
+  animation:slideDown .7s both;
+}
+@keyframes slideDown {
+  from { opacity:0;transform:translateY(-20px); }
+  to { opacity:1;transform:translateY(0); }
+}
+.brand {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:"Plus Jakarta Sans",sans-serif;
+  font-weight:800;
+  direction:ltr;
+}
+.brand-icon {
+  display:grid;
+  place-items:center;
+  width:40px;
+  height:40px;
+  border-radius:13px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  color:white;
+  box-shadow:0 0 25px #3b82f655;
+  animation:glow 3s infinite;
+}
+@keyframes glow {
+  50% { box-shadow:0 0 38px #8b5cf677; }
+}
+.nav-buttons { display:flex;gap:8px; }
+.nav-btn {
+  padding:9px 13px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--card);
+  color:var(--text);
+  transition:.25s;
+}
+.nav-btn:hover { transform:translateY(-3px);border-color:var(--blue); }
+
+/* العنوان */
+main { width:min(1080px,100%);margin:auto;padding:55px 20px; }
+.hero {
+  text-align:center;
+  margin-bottom:40px;
+  animation:rise .8s .1s both;
+}
+@keyframes rise {
+  from { opacity:0;transform:translateY(25px); }
+  to { opacity:1;transform:translateY(0); }
+}
+.logo {
+  position:relative;
+  display:grid;
+  place-items:center;
+  width:82px;
+  height:82px;
+  margin:0 auto 23px;
+  border-radius:25px;
+  background:linear-gradient(135deg,var(--blue),var(--purple),var(--cyan));
+  color:white;
+  font:800 40px "Plus Jakarta Sans",sans-serif;
+  box-shadow:0 15px 45px #3b82f644;
+  animation:float 4s ease-in-out infinite;
+}
+.logo:after {
+  content:"";
+  position:absolute;
+  inset:-7px;
+  border:1px solid #60a5fa66;
+  border-radius:30px;
+  animation:ring 3s infinite;
+}
+@keyframes float {
+  50% { transform:translateY(-9px) rotate(3deg); }
+}
+@keyframes ring {
+  from { transform:scale(.95);opacity:.8; }
+  to { transform:scale(1.2);opacity:0; }
+}
+h1 {
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:800;
+  line-height:1.2;
+}
+.gradient {
+  background:linear-gradient(90deg,var(--blue),var(--purple),var(--cyan),var(--blue));
+  background-size:250%;
+  color:transparent;
+  background-clip:text;
+  -webkit-background-clip:text;
+  animation:gradient 6s linear infinite;
+}
+@keyframes gradient { to { background-position:250%; } }
+.subtitle {
+  max-width:650px;
+  margin:13px auto 0;
+  color:var(--muted);
+  font-size:1.08rem;
+  line-height:1.9;
+}
+
+/* البطاقات */
+.cards {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px;
+}
+.card {
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:22px;
+  min-height:300px;
+  padding:26px;
+  border:1px solid var(--border);
+  border-radius:24px;
+  background:var(--card);
+  backdrop-filter:blur(18px);
+  box-shadow:0 20px 55px #0002;
+  animation:rise .8s both;
+  transition:transform .35s,border-color .35s,box-shadow .35s;
+}
+.card:nth-child(1) { animation-delay:.15s; }
+.card:nth-child(2) { animation-delay:.3s; }
+.card:nth-child(3) { animation-delay:.45s; }
+.card:hover {
+  transform:translateY(-8px);
+  border-color:#60a5fa99;
+  box-shadow:0 28px 65px #0003,0 0 25px #3b82f622;
+}
+.card:before {
+  content:"";
+  position:absolute;
+  top:-100px;
+  left:-100px;
+  width:210px;
+  height:210px;
+  border-radius:50%;
+  background:var(--purple);
+  opacity:.09;
+  transition:transform .5s;
+  pointer-events:none;
+}
+.card:hover:before { transform:scale(1.7); }
+.card-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+.card-icon {
+  display:grid;
+  place-items:center;
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  background:#3b82f622;
+  border:1px solid #60a5fa33;
+  font-size:28px;
+  animation:float 4s ease-in-out infinite;
+}
+.badge {
+  padding:6px 12px;
+  border:1px solid #22d3ee44;
+  border-radius:30px;
+  color:var(--cyan);
+  background:#22d3ee12;
+  font-size:.8rem;
+  font-weight:800;
+}
+.card h2 { font-size:1.5rem;margin-bottom:10px; }
+.card p { color:var(--muted);line-height:1.9;margin-bottom:12px; }
+.btn {
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  padding:15px;
+  border:1px solid transparent;
+  border-radius:14px;
+  color:white;
+  background:linear-gradient(110deg,#2563eb,#7c3aed,#2563eb);
+  background-size:220%;
+  font-weight:800;
+  transition:transform .25s,box-shadow .25s;
+  animation:buttonGradient 6s linear infinite;
+}
+@keyframes buttonGradient { to { background-position:220%; } }
+.btn:after {
+  content:"";
+  position:absolute;
+  top:0;bottom:0;
+  width:45%;
+  left:-70%;
+  background:linear-gradient(90deg,transparent,#ffffff55,transparent);
+  transform:skewX(-20deg);
+  animation:shine 4s infinite;
+}
+@keyframes shine {
+  0%,60% { left:-70%; }
+  90%,100% { left:140%; }
+}
+.btn:hover { transform:translateY(-3px);box-shadow:0 12px 30px #3b82f655; }
+.btn.secondary {
+  color:var(--text);
+  background:rgba(100,116,139,.12);
+  border-color:var(--border);
+  animation:none;
+}
+.meta { margin-top:13px;color:var(--muted);font-size:.85rem; }
+.snake-card {
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:1fr 1.05fr;
+  align-items:center;
+  gap:25px;
+}
+.stats { display:flex;gap:10px;flex-wrap:wrap;margin:18px 0; }
+.stat {
+  padding:10px 15px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#64748b12;
+  color:var(--muted);
+}
+.stat strong { color:var(--text);margin-inline-start:5px; }
+
+/* اللعبة */
+.game {
+  padding:13px;
+  border:1px solid #22d3ee44;
+  border-radius:20px;
+  background:linear-gradient(145deg,#070d20,#171337);
+  box-shadow:inset 0 0 35px #22d3ee0b,0 15px 45px #0003;
+}
+.game-header {
+  display:flex;
+  justify-content:space-between;
+  color:#a5f3fc;
+  font:700 .75rem "Plus Jakarta Sans",sans-serif;
+  padding:5px 4px 12px;
+  direction:ltr;
+}
+.live { color:#6ee7b7; }
+.live:before {
+  content:"";
+  display:inline-block;
+  width:7px;height:7px;
+  margin-right:7px;
+  border-radius:50%;
+  background:#34d399;
+  box-shadow:0 0 10px #34d399;
+  animation:glow 1.5s infinite;
+}
+canvas {
+  display:block;
+  width:100%;
+  aspect-ratio:1.35/1;
+  border:1px solid #22d3ee33;
+  border-radius:12px;
+  background:#050b19;
+  touch-action:none;
+}
+.game-bottom {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:12px;
+}
+#message { color:#a5f3fc;font-size:.85rem;line-height:1.6; }
+.game-actions { display:flex;gap:7px; }
+.small-btn {
+  padding:9px 12px;
+  border:1px solid #22d3ee44;
+  border-radius:10px;
+  background:#22d3ee13;
+  color:#cffafe;
+  font-weight:700;
+}
+.small-btn:hover { background:#22d3ee30; }
+.dpad {
+  display:none;
+  grid-template-columns:repeat(3,42px);
+  grid-template-rows:repeat(2,38px);
+  justify-content:center;
+  gap:5px;
+  margin-top:12px;
+}
+.dpad button {
+  border:1px solid #22d3ee44;
+  border-radius:9px;
+  color:#cffafe;
+  background:#22d3ee13;
+  touch-action:manipulation;
+}
+.up { grid-column:2;grid-row:1; }
+.left { grid-column:1;grid-row:2; }
+.down { grid-column:2;grid-row:2; }
+.right { grid-column:3;grid-row:2; }
+.back { display:block;text-align:center;margin-top:30px;color:var(--muted);font-weight:700; }
+.back:hover { color:var(--cyan); }
+footer {
+  padding:23px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  color:var(--muted);
+  background:var(--card);
+  font-size:.85rem;
+}
+@media(max-width:760px) {
+  nav { padding:12px 15px; }
+  main { padding:42px 15px; }
+  .cards { grid-template-columns:1fr; }
+  .snake-card { grid-column:auto;grid-template-columns:1fr; }
+  .card { min-height:unset;padding:22px; }
+  .dpad { display:grid; }
+}
+@media(max-width:400px) {
+  .nav-btn { padding:8px 9px; }
+  .brand { font-size:.9rem; }
+  .game-bottom { flex-direction:column;align-items:stretch; }
+  .game-actions button { flex:1; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+    transition-duration:.01ms!important;
+  }
+}
+</style>
 </head>
 
-
 <body>
+<div class="background"></div>
+<div class="orb one"></div>
+<div class="orb two"></div>
 
-    <!-- BACKGROUND -->
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
+<nav>
+  <a href="index.html" class="brand">
+    <span class="brand-icon">V</span>
+    <span>VideoYTFX</span>
+  </a>
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="toggleLanguage()" id="langBtn">🌐 English</button>
+    <button class="nav-btn" onclick="toggleTheme()" id="themeBtn">☀️</button>
+  </div>
+</nav>
 
+<main>
+  <header class="hero">
+    <div class="logo">V</div>
+    <h1><span class="gradient" data-t="title">التحميل واللعب</span></h1>
+    <p class="subtitle" data-t="subtitle">
+      حمّل VideoYTFX للكمبيوتر، ثم خذ استراحة مع لعبة الثعبان النيون.
+    </p>
+  </header>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-
-        <a href="index.html" class="brand">
-
-            <div class="brand-icon">
-                V
-            </div>
-
-            <span>
-                VideoYTFX
-            </span>
-
-        </a>
-
-
-        <div class="nav-actions">
-
-            <button
-                class="btn-ui"
-                id="languageBtn"
-                type="button"
-                onclick="toggleLanguage()"
-            >
-                🌐
-                <span id="langLabel">
-                    العربية
-                </span>
-            </button>
-
-
-            <button
-                class="btn-ui"
-                id="themeBtn"
-                type="button"
-                onclick="toggleTheme()"
-                aria-label="Toggle theme"
-            >
-                ☀️
-            </button>
-
+  <section class="cards">
+    <!-- الخانة الأولى: تحميل EXE فقط -->
+    <article class="card">
+      <div>
+        <div class="card-top">
+          <span class="badge">WINDOWS • EXE</span>
+          <span class="card-icon">💿</span>
         </div>
-
-    </nav>
-
-
-    <!-- MAIN -->
-    <main class="container">
-
-        <section class="header-section">
-
-            <div class="logo">
-                V
-            </div>
-
-
-            <h1 data-i18n="pageTitle">
-                VideoYTFX Downloads
-            </h1>
-
-
-            <p
-                class="subtitle"
-                data-i18n="pageSubtitle"
-            >
-                Choose your preferred format to download VideoYTFX for Windows.
-            </p>
-
-        </section>
-
-
-        <!-- DOWNLOAD CARDS -->
-        <section class="download-grid">
-
-
-            <!-- EXE -->
-            <article class="download-card">
-
-                <div>
-
-                    <div class="card-header">
-
-                        <span class="card-badge">
-                            .EXE
-                        </span>
-
-                        <span class="card-icon">
-                            💿
-                        </span>
-
-                    </div>
-
-
-                    <h2 data-i18n="exeTitle">
-                        Windows Installer
-                    </h2>
-
-
-                    <p data-i18n="exeDesc">
-                        Standard executable file. Recommended for easy setup and direct installation on Windows.
-                    </p>
-
-                </div>
-
-
-                <div>
-
-                    <a
-                        class="download-btn"
-                        href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe"
-                        download
-                    >
-                        ⬇️
-                        <span data-i18n="downloadExe">
-                            Download EXE
-                        </span>
-                    </a>
-
-
-                    <div class="version-info">
-                        📌
-                        <span data-i18n="exeInfo">
-                            Latest Version • Installer
-                        </span>
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- ZIP -->
-            <article class="download-card">
-
-                <div>
-
-                    <div class="card-header">
-
-                        <span class="card-badge">
-                            .ZIP
-                        </span>
-
-                        <span class="card-icon">
-                            📦
-                        </span>
-
-                    </div>
-
-
-                    <h2 data-i18n="zipTitle">
-                        Portable Package
-                    </h2>
-
-
-                    <p data-i18n="zipDesc">
-                        Compressed archive format. Ideal for portable usage without running an installer package.
-                    </p>
-
-                </div>
-
-
-                <div>
-
-                    <a
-                        class="download-btn secondary"
-                        href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.zip"
-                        download
-                    >
-                        ⬇️
-                        <span data-i18n="downloadZip">
-                            Download ZIP
-                        </span>
-                    </a>
-
-
-                    <div class="version-info">
-                        📌
-                        <span data-i18n="zipInfo">
-                            Latest Version • Portable
-                        </span>
-                    </div>
-
-                </div>
-
-            </article>
-
-
-        </section>
-
-
-        <!-- BACK HOME -->
-        <a
-            class="back-link"
-            href="index.html"
-        >
-
-            <span id="backArrow">
-                ←
-            </span>
-
-            <span data-i18n="backHome">
-                Back to Home
-            </span>
-
+        <h2 data-t="downloadTitle">تحميل VideoYTFX</h2>
+        <p data-t="downloadDesc">
+          حمّل ملف EXE الخاص بويندوز. لا يوجد خيار ZIP في هذه الصفحة.
+        </p>
+      </div>
+      <div>
+        <a class="btn" href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
+          <span>⬇️</span><span data-t="downloadBtn">تحميل VideoYTFX.exe</span>
         </a>
-
-    </main>
-
-
-    <!-- FOOTER -->
-    <footer>
-
-        <span data-i18n="footerText">
-            © 2026 VideoYTFX. All rights reserved.
-        </span>
-
-    </footer>
-
-
-    <script>
-
-        /* ==========================================
-           TRANSLATIONS
-        ========================================== */
-
-        const translations = {
-
-            en: {
-
-                pageTitle:
-                    "VideoYTFX Downloads",
-
-                pageSubtitle:
-                    "Choose your preferred format to download VideoYTFX for Windows.",
-
-                exeTitle:
-                    "Windows Installer (.EXE)",
-
-                exeDesc:
-                    "Standard executable file. Recommended for easy setup and direct installation on Windows.",
-
-                downloadExe:
-                    "Download EXE",
-
-                exeInfo:
-                    "Latest Version • Installer",
-
-                zipTitle:
-                    "Portable Package (.ZIP)",
-
-                zipDesc:
-                    "Compressed archive format. Ideal for portable usage without running an installer package.",
-
-                downloadZip:
-                    "Download ZIP",
-
-                zipInfo:
-                    "Latest Version • Portable",
-
-                backHome:
-                    "Back to Home",
-
-                footerText:
-                    "© 2026 VideoYTFX. All rights reserved.",
-
-                langButton:
-                    "العربية"
-            },
-
-
-            ar: {
-
-                pageTitle:
-                    "تحميلات VideoYTFX",
-
-                pageSubtitle:
-                    "اختر الصيغة المناسبة لتنزيل برنامج VideoYTFX على نظام ويندوز.",
-
-                exeTitle:
-                    "ملف التثبيت (.EXE)",
-
-                exeDesc:
-                    "ملف تثبيت مباشر. المفضل للتثبيت السريع والتلقائي على الكمبيوتر.",
-
-                downloadExe:
-                    "تحميل بصيغة EXE",
-
-                exeInfo:
-                    "أحدث إصدار • مثبت تلقائي",
-
-                zipTitle:
-                    "النسخة المحمولة (.ZIP)",
-
-                zipDesc:
-                    "ملف مضغوط محمول. مثالي للتشغيل المباشر بدون الحاجة للتثبيت.",
-
-                downloadZip:
-                    "تحميل بصيغة ZIP",
-
-                zipInfo:
-                    "أحدث إصدار • ملف محمول",
-
-                backHome:
-                    "العودة للرئيسية",
-
-                footerText:
-                    "© 2026 VideoYTFX. جميع الحقوق محفوظة.",
-
-                langButton:
-                    "English"
-            }
-
-        };
-
-
-        /* ==========================================
-           LANGUAGE
-        ========================================== */
-
-        function setLanguage(lang) {
-
-            const dictionary =
-                translations[lang] ||
-                translations.en;
-
-
-            document
-                .querySelectorAll("[data-i18n]")
-                .forEach(element => {
-
-                    const key =
-                        element.getAttribute(
-                            "data-i18n"
-                        );
-
-
-                    if (
-                        dictionary[key]
-                    ) {
-
-                        element.textContent =
-                            dictionary[key];
-
-                    }
-
-                });
-
-
-            document
-                .getElementById("langLabel")
-                .textContent =
-                dictionary.langButton;
-
-
-            document.documentElement.lang =
-                lang;
-
-
-            document.documentElement.dir =
-                lang === "ar"
-                    ? "rtl"
-                    : "ltr";
-
-
-            localStorage.setItem(
-                "app_lang",
-                lang
-            );
-
-        }
-
-
-        function toggleLanguage() {
-
-            const current =
-                localStorage.getItem(
-                    "app_lang"
-                ) || "en";
-
-
-            setLanguage(
-                current === "en"
-                    ? "ar"
-                    : "en"
-            );
-
-        }
-
-
-        /* ==========================================
-           THEME
-        ========================================== */
-
-        function setTheme(theme) {
-
-            const validTheme =
-                theme === "light"
-                    ? "light"
-                    : "dark";
-
-
-            document.documentElement
-                .setAttribute(
-                    "data-theme",
-                    validTheme
-                );
-
-
-            document
-                .getElementById("themeBtn")
-                .textContent =
-                validTheme === "light"
-                    ? "🌙"
-                    : "☀️";
-
-
-            localStorage.setItem(
-                "app_theme",
-                validTheme
-            );
-
-        }
-
-
-        function toggleTheme() {
-
-            const current =
-                localStorage.getItem(
-                    "app_theme"
-                ) || "dark";
-
-
-            setTheme(
-                current === "dark"
-                    ? "light"
-                    : "dark"
-            );
-
-        }
-
-
-        /* ==========================================
-           INITIALIZE
-        ========================================== */
-
-        function initialize() {
-
-            const savedLanguage =
-                localStorage.getItem(
-                    "app_lang"
-                ) || "en";
-
-
-            const savedTheme =
-                localStorage.getItem(
-                    "app_theme"
-                ) || "dark";
-
-
-            setLanguage(
-                savedLanguage
-            );
-
-
-            setTheme(
-                savedTheme
-            );
-
-        }
-
-
-        initialize();
-
-    </script>
-
+        <div class="meta">🟢 <span data-t="downloadMeta">أحدث إصدار • ويندوز</span></div>
+      </div>
+    </article>
+
+    <!-- الخانة الثانية: لعبة الثعبان -->
+    <article class="card">
+      <div>
+        <div class="card-top">
+          <span class="badge" data-t="quickGame">لعبة سريعة</span>
+          <span class="card-icon">🐍</span>
+        </div>
+        <h2 data-t="snakeTitle">الثعبان النيون</h2>
+        <p data-t="snakeDesc">
+          اجمع الطعام المضيء، وكبّر الثعبان، وحاول تحطيم أفضل نتيجة.
+        </p>
+      </div>
+      <div>
+        <button class="btn secondary" onclick="startGame()">
+          ▶ <span data-t="play">العب الآن</span>
+        </button>
+        <div class="meta" data-t="controls">⌨️ الأسهم أو WASD • أزرار للموبايل</div>
+      </div>
+    </article>
+
+    <!-- الخانة الثالثة: ساحة اللعب -->
+    <article class="card snake-card" id="snakeGame">
+      <div>
+        <div class="card-top">
+          <span class="badge">ARCADE MODE</span>
+          <span class="card-icon">⚡</span>
+        </div>
+        <h2 data-t="arenaTitle">ادخل ساحة النيون</h2>
+        <p data-t="arenaDesc">
+          حرّك الثعبان واجمع الكرات السماوية. تجنب الجدران وجسم الثعبان نفسه، وحاول تسجيل أعلى نتيجة.
+        </p>
+        <div class="stats">
+          <div class="stat"><span data-t="score">النقاط</span><strong id="score">0</strong></div>
+          <div class="stat"><span data-t="best">أفضل نتيجة</span><strong id="best">0</strong></div>
+        </div>
+        <button class="btn" onclick="startGame()">✦ <span data-t="play">العب الآن</span></button>
+      </div>
+
+      <div class="game">
+        <div class="game-header">
+          <span>VIDEOYTFX // SNAKE</span>
+          <span class="live">LIVE GAME</span>
+        </div>
+        <canvas id="board" width="540" height="400" aria-label="Snake game"></canvas>
+        <div class="game-bottom">
+          <span id="message">اضغط «العب الآن» للبدء.</span>
+          <div class="game-actions">
+            <button class="small-btn" id="pauseBtn" onclick="togglePause()">إيقاف</button>
+            <button class="small-btn" onclick="resetGame()">إعادة ↻</button>
+          </div>
+        </div>
+        <div class="dpad" aria-label="أزرار تحريك الثعبان">
+          <button class="up" onclick="setDirection(0,-1)" aria-label="أعلى">▲</button>
+          <button class="left" onclick="setDirection(-1,0)" aria-label="يسار">◀</button>
+          <button class="down" onclick="setDirection(0,1)" aria-label="أسفل">▼</button>
+          <button class="right" onclick="setDirection(1,0)" aria-label="يمين">▶</button>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <a href="index.html" class="back">← <span data-t="back">العودة إلى الرئيسية</span></a>
+</main>
+
+<footer data-t="footer">© 2026 VideoYTFX. جميع الحقوق محفوظة.</footer>
+
+<script>
+const words = {
+  ar: {
+    title:"التحميل واللعب",
+    subtitle:"حمّل VideoYTFX للكمبيوتر، ثم خذ استراحة مع لعبة الثعبان النيون.",
+    downloadTitle:"تحميل VideoYTFX",
+    downloadDesc:"حمّل ملف EXE الخاص بويندوز. لا يوجد خيار ZIP في هذه الصفحة.",
+    downloadBtn:"تحميل VideoYTFX.exe",
+    downloadMeta:"أحدث إصدار • ويندوز",
+    quickGame:"لعبة سريعة",
+    snakeTitle:"الثعبان النيون",
+    snakeDesc:"اجمع الطعام المضيء، وكبّر الثعبان، وحاول تحطيم أفضل نتيجة.",
+    play:"العب الآن",
+    controls:"⌨️ الأسهم أو WASD • أزرار للموبايل",
+    arenaTitle:"ادخل ساحة النيون",
+    arenaDesc:"حرّك الثعبان واجمع الكرات السماوية. تجنب الجدران وجسم الثعبان نفسه، وحاول تسجيل أعلى نتيجة.",
+    score:"النقاط",best:"أفضل نتيجة",back:"العودة إلى الرئيسية",
+    footer:"© 2026 VideoYTFX. جميع الحقوق محفوظة.",
+    ready:"اضغط «العب الآن» للبدء.",gameOver:"انتهت اللعبة! اضغط إعادة للمحاولة.",
+    paused:"اللعبة متوقفة مؤقتًا.",playing:"اللعبة مستمرة، واصل!",
+    pause:"إيقاف",resume:"متابعة",language:"🌐 English"
+  },
+  en: {
+    title:"Downloads & Play",
+    subtitle:"Download VideoYTFX for Windows, then take a break with neon Snake.",
+    downloadTitle:"Download VideoYTFX",
+    downloadDesc:"Download the Windows EXE file. No ZIP option on this page.",
+    downloadBtn:"Download VideoYTFX.exe",
+    downloadMeta:"Latest release • Windows",
+    quickGame:"QUICK GAME",
+    snakeTitle:"Neon Snake",
+    snakeDesc:"Eat the glowing food, grow longer, and try to beat your best score.",
+    play:"Play now",
+    controls:"⌨️ Arrow keys or WASD • Mobile buttons",
+    arenaTitle:"Enter the Neon Arena",
+    arenaDesc:"Guide your snake, collect cyan orbs, avoid the walls and your own tail, and chase your high score.",
+    score:"Score",best:"Best score",back:"Back to Home",
+    footer:"© 2026 VideoYTFX. All rights reserved.",
+    ready:"Press Play to start.",gameOver:"Game over! Press Restart to try again.",
+    paused:"Game paused.",playing:"Game in progress. Keep going!",
+    pause:"Pause",resume:"Resume",language:"🌐 العربية"
+  }
+};
+
+function getStore(key, fallback) {
+  try { return localStorage.getItem(key) || fallback; }
+  catch (e) { return fallback; }
+}
+function saveStore(key, value) {
+  try { localStorage.setItem(key, value); } catch (e) {}
+}
+function currentLang() { return getStore("app_lang", "ar"); }
+function t(key) { return (words[currentLang()] || words.ar)[key] || words.ar[key] || key; }
+
+function setLanguage(lang) {
+  lang = words[lang] ? lang : "ar";
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-t]").forEach(el => {
+    const key = el.dataset.t;
+    if (words[lang][key]) el.textContent = words[lang][key];
+  });
+  document.getElementById("langBtn").textContent = words[lang].language;
+  saveStore("app_lang", lang);
+  updateMessage();
+}
+function toggleLanguage() {
+  setLanguage(currentLang() === "ar" ? "en" : "ar");
+}
+function setTheme(theme) {
+  theme = theme === "light" ? "light" : "dark";
+  document.documentElement.dataset.theme = theme;
+  document.getElementById("themeBtn").textContent = theme === "dark" ? "☀️" : "🌙";
+  saveStore("app_theme", theme);
+}
+function toggleTheme() {
+  setTheme(getStore("app_theme", "dark") === "dark" ? "light" : "dark");
+}
+
+/* لعبة الثعبان */
+const canvas = document.getElementById("board");
+const ctx = canvas.getContext("2d");
+const cell = 20, cols = 27, rows = 20;
+let snake, food, dir, nextDir, score = 0;
+let running = false, paused = false, over = false, loop = null;
+let best = Number(getStore("snake_best", "0")) || 0;
+document.getElementById("best").textContent = best;
+
+function resetState() {
+  clearInterval(loop);
+  snake = [
+    {x:7,y:10},{x:6,y:10},{x:5,y:10},{x:4,y:10}
+  ];
+  dir = {x:1,y:0};
+  nextDir = {x:1,y:0};
+  score = 0;
+  running = false;
+  paused = false;
+  over = false;
+  document.getElementById("score").textContent = "0";
+  document.getElementById("pauseBtn").textContent = t("pause");
+  placeFood();
+  draw();
+  updateMessage();
+}
+function placeFood() {
+  do {
+    food = {x:Math.floor(Math.random()*cols),y:Math.floor(Math.random()*rows)};
+  } while (snake.some(p => p.x === food.x && p.y === food.y));
+}
+function roundedRect(x,y,w,h,r) {
+  ctx.beginPath();
+  ctx.roundRect(x,y,w,h,r);
+  ctx.fill();
+}
+function draw() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const bg = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+  bg.addColorStop(0,"#050b19");
+  bg.addColorStop(1,"#11102e");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.strokeStyle = "rgba(86,160,190,.12)";
+  ctx.lineWidth = 1;
+  for (let x=0;x<=canvas.width;x+=cell) {
+    ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();
+  }
+  for (let y=0;y<=canvas.height;y+=cell) {
+    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();
+  }
+
+  if (food) {
+    ctx.save();
+    ctx.shadowColor = "#22d3ee";
+    ctx.shadowBlur = 22;
+    ctx.fillStyle = "#67e8f9";
+    ctx.beginPath();
+    ctx.arc(food.x*cell+10,food.y*cell+10,6,0,Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  snake.forEach((p,i) => {
+    const x=p.x*cell+2,y=p.y*cell+2;
+    ctx.save();
+    ctx.shadowColor = i===0 ? "#a78bfa" : "#22d3ee";
+    ctx.shadowBlur = i===0 ? 15 : 8;
+    ctx.fillStyle = i===0 ? "#c4b5fd" : `hsl(${185-i*2},88%,${Math.max(45,68-i)}%)`;
+    roundedRect(x,y,cell-4,cell-4,i===0?6:5);
+    ctx.restore();
+
+    if (i===0) {
+      ctx.fillStyle="#07111f";
+      let ex=x+(dir.x===1?12:dir.x===-1?4:7);
+      let ey=y+(dir.y===1?12:dir.y===-1?4:6);
+      ctx.beginPath();
+      ctx.arc(ex,ey,1.8,0,Math.PI*2);
+      ctx.arc(ex+4,ey+4,1.8,0,Math.PI*2);
+      ctx.fill();
+    }
+  });
+
+  if (!running) {
+    ctx.fillStyle="rgba(3,7,18,.52)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.textAlign="center";
+    ctx.fillStyle="#e0f2fe";
+    ctx.font="800 25px sans-serif";
+    ctx.fillText(over?"GAME OVER":paused?"PAUSED":"NEON SNAKE",canvas.width/2,canvas.height/2);
+    ctx.fillStyle="#67e8f9";
+    ctx.font="700 12px sans-serif";
+    ctx.fillText(over?"RESTART TO PLAY":paused?"PRESS RESUME":"PRESS PLAY",canvas.width/2,canvas.height/2+25);
+  }
+}
+function tick() {
+  if (!running || paused || over) return;
+  dir = nextDir;
+  const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+  if (head.x<0 || head.x>=cols || head.y<0 || head.y>=rows ||
+      snake.some((p,i)=>i>0 && p.x===head.x && p.y===head.y)) {
+    running=false;over=true;clearInterval(loop);updateMessage();draw();return;
+  }
+  snake.unshift(head);
+  if (head.x===food.x && head.y===food.y) {
+    score+=10;
+    document.getElementById("score").textContent=score;
+    if(score>best) {
+      best=score;
+      document.getElementById("best").textContent=best;
+      saveStore("snake_best",String(best));
+    }
+    placeFood();
+  } else {
+    snake.pop();
+  }
+  draw();
+}
+function startGame() {
+  if(over) resetState();
+  running=true;paused=false;over=false;
+  clearInterval(loop);
+  loop=setInterval(tick,115);
+  document.getElementById("pauseBtn").textContent=t("pause");
+  updateMessage();draw();
+  document.getElementById("snakeGame").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function resetGame() { resetState(); }
+function togglePause() {
+  if(over || !running) { startGame();return; }
+  paused=!paused;
+  document.getElementById("pauseBtn").textContent=t(paused?"resume":"pause");
+  updateMessage();draw();
+}
+function setDirection(x,y) {
+  if(x===-dir.x && y===-dir.y) return;
+  nextDir={x,y};
+  if(!running && !over) startGame();
+}
+function updateMessage() {
+  const key=over?"gameOver":paused?"paused":running?"playing":"ready";
+  document.getElementById("message").textContent=t(key);
+  document.getElementById("pauseBtn").textContent=t(paused?"resume":"pause");
+}
+document.addEventListener("keydown", e => {
+  const key=e.key.toLowerCase();
+  const controls={
+    arrowup:[0,-1],w:[0,-1],
+    arrowdown:[0,1],s:[0,1],
+    arrowleft:[-1,0],a:[-1,0],
+    arrowright:[1,0],d:[1,0]
+  };
+  if(controls[key]) {
+    e.preventDefault();
+    setDirection(...controls[key]);
+  }
+  if(key===" " && !["INPUT","TEXTAREA"].includes(document.activeElement.tagName)) {
+    e.preventDefault();togglePause();
+  }
+});
+let touchStart=null;
+canvas.addEventListener("touchstart",e=>{
+  const p=e.changedTouches[0];touchStart={x:p.clientX,y:p.clientY};
+},{passive:true});
+canvas.addEventListener("touchend",e=>{
+  if(!touchStart)return;
+  const p=e.changedTouches[0],dx=p.clientX-touchStart.x,dy=p.clientY-touchStart.y;
+  if(Math.max(Math.abs(dx),Math.abs(dy))>18) {
+    if(Math.abs(dx)>Math.abs(dy))setDirection(dx>0?1:-1,0);
+    else setDirection(0,dy>0?1:-1);
+  }
+  touchStart=null;
+},{passive:true});
+
+setLanguage(getStore("app_lang","ar"));
+setTheme(getStore("app_theme","dark"));
+resetState();
+</script>
 </body>
-
 </html>
