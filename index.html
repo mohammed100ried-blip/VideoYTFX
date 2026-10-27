@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>VideoYTFX - Ultimate Video Downloader & Companion</title>
+    <title>VideoYTFX</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -191,36 +191,15 @@
             max-width: 850px;
         }
 
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 7px 17px;
-            border-radius: 30px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            color: var(--primary);
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 24px;
-        }
-
         .hero h1 {
             font-size: clamp(2.8rem, 7vw, 5rem);
             font-weight: 800;
             line-height: 1.05;
-            margin-bottom: 22px;
+            margin-bottom: 35px;
             background: linear-gradient(180deg, var(--text-main) 0%, var(--text-muted) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            max-width: 650px;
-            margin: 0 auto 36px;
         }
 
         .cta-group {
@@ -363,10 +342,6 @@
                 font-size: 3rem;
             }
 
-            .hero p {
-                font-size: 1rem;
-            }
-
             .cta-group {
                 flex-direction: column;
                 width: 100%;
@@ -438,20 +413,9 @@
 
     <section class="hero">
         <div class="hero-content">
-            <div
-                class="hero-badge"
-                data-i18n="badge"
-            >
-                ✨ Next-Gen Media Downloader
-            </div>
-
             <h1 data-i18n="heroTitle">
                 VideoYTFX
             </h1>
-
-            <p data-i18n="heroDescription">
-                A simple, ultra-fast, and powerful video downloading experience powered by advanced technology.
-            </p>
 
             <div class="cta-group">
                 <a
@@ -529,9 +493,7 @@
     <script>
         const translations = {
             en: {
-                badge: "✨ Next-Gen Media Downloader",
                 heroTitle: "VideoYTFX",
-                heroDescription: "A simple, ultra-fast, and powerful video downloading experience powered by advanced technology.",
                 downloadText: "Download for Windows",
                 downloadsTitle: "Downloads",
                 downloadsDescription: "Download the latest stable version and builds of VideoYTFX.",
@@ -544,9 +506,7 @@
             },
 
             ar: {
-                badge: "✨ أداة تنزيل وسائط من الجيل الجديد",
                 heroTitle: "VideoYTFX",
-                heroDescription: "تجربة فائقة السرعة والقوة لتحميل الفيديوهات بأسلوب عصري ومتطور.",
                 downloadText: "تحميل لنظام الويندوز",
                 downloadsTitle: "التحميلات",
                 downloadsDescription: "قم بتنزيل أحدث الإصدارات المستقرة والملفات الخاصة بـ VideoYTFX.",
