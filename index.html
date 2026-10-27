@@ -1,666 +1,513 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#030712">
-    <title>VideoYTFX | Creative Studio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#030712">
+<title>VideoYTFX</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --bg: #030712;
-            --surface: rgba(15, 23, 42, .76);
-            --surface-hover: rgba(30, 41, 59, .92);
-            --border: rgba(255,255,255,.09);
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --blue: #3b82f6;
-            --purple: #8b5cf6;
-            --cyan: #22d3ee;
-            --glow: rgba(59,130,246,.24);
-            --font: 'Plus Jakarta Sans', sans-serif;
-            --radius: 22px;
-        }
+<style>
+:root {
+    --bg:#030712;
+    --surface:rgba(15,23,42,.76);
+    --surface-hover:rgba(30,41,59,.92);
+    --border:rgba(255,255,255,.09);
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --blue:#3b82f6;
+    --purple:#8b5cf6;
+    --glow:rgba(59,130,246,.24);
+    --radius:22px;
+}
 
-        [data-theme="light"] {
-            --bg: #f1f5f9;
-            --surface: rgba(255,255,255,.85);
-            --surface-hover: #fff;
-            --border: rgba(15,23,42,.10);
-            --text: #0f172a;
-            --muted: #64748b;
-            --glow: rgba(59,130,246,.13);
-        }
+[data-theme="light"] {
+    --bg:#f1f5f9;
+    --surface:rgba(255,255,255,.85);
+    --surface-hover:#fff;
+    --border:rgba(15,23,42,.10);
+    --text:#0f172a;
+    --muted:#64748b;
+    --glow:rgba(59,130,246,.13);
+}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        html { scroll-behavior: smooth; }
+html { scroll-behavior:smooth; }
 
-        body {
-            min-height: 100vh;
-            overflow-x: hidden;
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--font);
-            line-height: 1.6;
-            transition: background .35s, color .35s;
-        }
+body {
+    min-height:100vh;
+    overflow-x:hidden;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Plus Jakarta Sans',sans-serif;
+    transition:background .35s,color .35s;
+}
 
-        html[dir="rtl"] body { font-family: 'Tajawal', sans-serif; }
+html[dir="rtl"] body { font-family:'Tajawal',sans-serif; }
 
-        a { text-decoration: none; color: inherit; }
-        button { font: inherit; }
+a { text-decoration:none; color:inherit; }
+button { font:inherit; }
 
-        .ambient {
-            position: fixed;
-            width: 420px;
-            height: 420px;
-            border-radius: 50%;
-            filter: blur(120px);
-            pointer-events: none;
-            z-index: -1;
-            opacity: .25;
-            animation: floatGlow 12s ease-in-out infinite alternate;
-        }
+.ambient {
+    position:fixed;
+    width:420px;
+    height:420px;
+    border-radius:50%;
+    filter:blur(120px);
+    pointer-events:none;
+    z-index:-1;
+    opacity:.25;
+    animation:floatGlow 12s ease-in-out infinite alternate;
+}
 
-        .glow-one { top: -180px; left: -130px; background: #2563eb; }
-        .glow-two { top: 35%; right: -200px; background: #9333ea; animation-delay: -4s; }
-        .glow-three { bottom: -220px; left: 25%; background: #0891b2; animation-delay: -7s; }
+.glow-one { top:-180px; left:-130px; background:#2563eb; }
+.glow-two { top:35%; right:-200px; background:#9333ea; animation-delay:-4s; }
+.glow-three { bottom:-220px; left:25%; background:#0891b2; animation-delay:-7s; }
 
-        @keyframes floatGlow {
-            from { transform: translate(0,0) scale(1); }
-            to { transform: translate(55px,35px) scale(1.18); }
-        }
+@keyframes floatGlow {
+    from { transform:translate(0,0) scale(1); }
+    to { transform:translate(55px,35px) scale(1.18); }
+}
 
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-            padding: 15px 7%;
-            border-bottom: 1px solid var(--border);
-            background: var(--surface);
-            backdrop-filter: blur(22px);
-        }
+.navbar {
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    padding:15px 7%;
+    border-bottom:1px solid var(--border);
+    background:var(--surface);
+    backdrop-filter:blur(22px);
+}
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 800;
-            font-size: 1.2rem;
-            letter-spacing: -.5px;
-        }
+.brand {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-weight:800;
+    font-size:1.2rem;
+    letter-spacing:-.5px;
+}
 
-        .brand-icon {
-            display: grid;
-            place-items: center;
-            width: 43px;
-            height: 43px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--blue), var(--purple));
-            color: white;
-            box-shadow: 0 0 25px var(--glow);
-            transition: transform .3s;
-        }
+.brand-icon {
+    display:grid;
+    place-items:center;
+    width:43px;
+    height:43px;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    color:white;
+    box-shadow:0 0 25px var(--glow);
+    transition:transform .3s;
+}
 
-        .brand:hover .brand-icon { transform: rotate(-8deg) scale(1.08); }
+.brand:hover .brand-icon {
+    transform:rotate(-8deg) scale(1.08);
+}
 
-        .nav-actions { display: flex; gap: 9px; }
+.nav-actions { display:flex; gap:9px; }
 
-        .btn-ui {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            gap: 7px;
-            padding: 9px 14px;
-            color: var(--text);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 13px;
-            cursor: pointer;
-            transition: .25s ease;
-        }
+.btn-ui {
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    gap:7px;
+    padding:9px 14px;
+    color:var(--text);
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:13px;
+    cursor:pointer;
+    transition:.25s ease;
+}
 
-        .btn-ui:hover {
-            transform: translateY(-2px);
-            background: var(--surface-hover);
-            border-color: var(--blue);
-        }
+.btn-ui:hover {
+    transform:translateY(-2px);
+    background:var(--surface-hover);
+    border-color:var(--blue);
+}
 
-        .hero {
-            position: relative;
-            min-height: 57vh;
-            display: grid;
-            place-items: center;
-            padding: 85px 20px 45px;
-            text-align: center;
-        }
+.hero {
+    position:relative;
+    min-height:48vh;
+    display:grid;
+    place-items:center;
+    padding:70px 20px 45px;
+    text-align:center;
+}
 
-        .hero-content { max-width: 850px; }
+.hero-content { max-width:850px; }
 
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 22px;
-            padding: 7px 14px;
-            border: 1px solid rgba(59,130,246,.3);
-            border-radius: 50px;
-            background: rgba(59,130,246,.09);
-            color: #60a5fa;
-            font-size: .82rem;
-            font-weight: 700;
-            animation: fadeUp .8s both;
-        }
+.hero h1 {
+    margin-bottom:30px;
+    font-size:clamp(3rem,8vw,6rem);
+    font-weight:800;
+    letter-spacing:-3px;
+    line-height:1.12;
+    background:linear-gradient(120deg,var(--text) 15%,#60a5fa 52%,#c084fc 85%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:fadeUp .8s both;
+}
 
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #34d399;
-            box-shadow: 0 0 12px #34d399;
-        }
+.cta-group {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:13px;
+    animation:fadeUp .8s .15s both;
+}
 
-        .hero h1 {
-            margin-bottom: 17px;
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 800;
-            letter-spacing: -3px;
-            line-height: 1.08;
-            background: linear-gradient(120deg, var(--text) 15%, #60a5fa 52%, #c084fc 85%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: fadeUp .8s .08s both;
-        }
+.btn-primary,.btn-secondary {
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    padding:13px 23px;
+    border-radius:14px;
+    font-weight:800;
+    transition:transform .25s,box-shadow .25s;
+}
 
-        .hero p {
-            max-width: 600px;
-            margin: 0 auto 30px;
-            color: var(--muted);
-            font-size: 1.03rem;
-            animation: fadeUp .8s .16s both;
-        }
+.btn-primary {
+    color:white;
+    background:linear-gradient(120deg,var(--blue),var(--purple));
+    box-shadow:0 10px 30px var(--glow);
+}
 
-        .cta-group {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 13px;
-            animation: fadeUp .8s .24s both;
-        }
+.btn-secondary {
+    color:var(--text);
+    background:var(--surface);
+    border:1px solid var(--border);
+}
 
-        .btn-primary, .btn-secondary {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            padding: 13px 23px;
-            border-radius: 14px;
-            font-weight: 800;
-            transition: transform .25s, box-shadow .25s;
-        }
+.btn-primary:hover,.btn-secondary:hover {
+    transform:translateY(-4px);
+    box-shadow:0 15px 35px var(--glow);
+}
 
-        .btn-primary {
-            color: white;
-            background: linear-gradient(120deg, var(--blue), var(--purple));
-            box-shadow: 0 10px 30px var(--glow);
-        }
+.features {
+    max-width:1140px;
+    margin:0 auto;
+    padding:25px 20px 90px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(255px,1fr));
+    gap:20px;
+}
 
-        .btn-secondary {
-            color: var(--text);
-            background: var(--surface);
-            border: 1px solid var(--border);
-        }
+.card {
+    --card-accent:var(--blue);
+    position:relative;
+    isolation:isolate;
+    min-height:225px;
+    padding:28px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--surface);
+    backdrop-filter:blur(18px);
+    transition:transform .35s,border-color .35s,box-shadow .35s;
+    animation:fadeUp .65s both;
+}
 
-        .btn-primary:hover, .btn-secondary:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 35px var(--glow);
-        }
+.card:nth-child(2) { animation-delay:.08s; }
+.card:nth-child(3) { animation-delay:.16s; }
+.card:nth-child(4) { animation-delay:.24s; }
 
-        .section-heading {
-            max-width: 1100px;
-            margin: 0 auto 25px;
-            padding: 0 20px;
-        }
+.card::before {
+    content:"";
+    position:absolute;
+    z-index:-1;
+    width:210px;
+    height:210px;
+    top:-110px;
+    right:-100px;
+    border-radius:50%;
+    background:var(--card-accent);
+    opacity:.10;
+    filter:blur(15px);
+    transition:transform .45s,opacity .45s;
+}
 
-        .section-heading h2 { font-size: 1.7rem; font-weight: 800; }
-        .section-heading p { color: var(--muted); margin-top: 4px; }
+.card:hover {
+    transform:translateY(-8px);
+    border-color:var(--card-accent);
+    box-shadow:0 20px 55px rgba(0,0,0,.18);
+}
 
-        .features {
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 25px 20px 90px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
-            gap: 20px;
-        }
+.card:hover::before {
+    transform:scale(1.8);
+    opacity:.2;
+}
 
-        .card {
-            --card-accent: var(--blue);
-            position: relative;
-            isolation: isolate;
-            min-height: 270px;
-            padding: 28px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--surface);
-            backdrop-filter: blur(18px);
-            transition: transform .35s, border-color .35s, box-shadow .35s;
-            animation: fadeUp .65s both;
-        }
+.card-icon {
+    width:57px;
+    height:57px;
+    display:grid;
+    place-items:center;
+    margin-bottom:20px;
+    border-radius:17px;
+    color:var(--card-accent);
+    background:color-mix(in srgb,var(--card-accent) 12%,transparent);
+    font-size:1.7rem;
+    transition:transform .3s;
+}
 
-        .card:nth-child(2) { animation-delay: .08s; }
-        .card:nth-child(3) { animation-delay: .16s; }
-        .card:nth-child(4) { animation-delay: .24s; }
+.card:hover .card-icon {
+    transform:rotate(-6deg) scale(1.1);
+}
 
-        .card::before {
-            content: "";
-            position: absolute;
-            z-index: -1;
-            width: 210px;
-            height: 210px;
-            top: -110px;
-            right: -100px;
-            border-radius: 50%;
-            background: var(--card-accent);
-            opacity: .10;
-            filter: blur(15px);
-            transition: transform .45s, opacity .45s;
-        }
+.card h3 {
+    font-size:1.35rem;
+    font-weight:800;
+}
 
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: color-mix(in srgb, var(--card-accent) 65%, transparent);
-            box-shadow: 0 20px 55px rgba(0,0,0,.18), 0 0 25px color-mix(in srgb, var(--card-accent) 12%, transparent);
-        }
+.image-card { --card-accent:#a78bfa; }
+.video-card { --card-accent:#34d399; }
 
-        .card:hover::before { transform: scale(1.8); opacity: .2; }
+.gesture-card {
+    --card-accent:#22d3ee;
+    border-color:rgba(34,211,238,.32);
+    background:
+        radial-gradient(ellipse at 100% 0%,rgba(34,211,238,.13),transparent 55%),
+        radial-gradient(ellipse at 0% 100%,rgba(139,92,246,.12),transparent 60%),
+        var(--surface);
+}
 
-        .card-icon {
-            width: 57px;
-            height: 57px;
-            display: grid;
-            place-items: center;
-            margin-bottom: 20px;
-            border-radius: 17px;
-            color: var(--card-accent);
-            background: color-mix(in srgb, var(--card-accent) 12%, transparent);
-            font-size: 1.7rem;
-            transition: transform .3s;
-        }
+.gesture-card:hover {
+    box-shadow:0 0 35px rgba(34,211,238,.12),0 20px 55px rgba(0,0,0,.2);
+}
 
-        .card:hover .card-icon { transform: rotate(-6deg) scale(1.1); }
+.gesture-card .card-icon {
+    color:#67e8f9;
+    background:rgba(34,211,238,.13);
+    box-shadow:0 0 25px rgba(34,211,238,.12);
+}
 
-        .card h3 { font-size: 1.35rem; margin-bottom: 8px; font-weight: 800; }
-        .card p { color: var(--muted); font-size: .94rem; }
+.gesture-card h3 {
+    background:linear-gradient(90deg,#67e8f9,#a78bfa);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
 
-        .card-arrow {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 24px;
-            color: var(--card-accent);
-            font-weight: 800;
-        }
+.gesture-orb {
+    position:absolute;
+    width:100px;
+    height:100px;
+    right:25px;
+    bottom:30px;
+    border:1px solid rgba(34,211,238,.22);
+    border-radius:50%;
+    opacity:.7;
+    pointer-events:none;
+    animation:orbitPulse 3.5s ease-in-out infinite;
+}
 
-        .arrow-symbol { font-size: 1.45rem; transition: transform .25s; }
-        .card:hover .arrow-symbol { transform: translateX(6px); }
-        html[dir="rtl"] .card:hover .arrow-symbol { transform: translateX(-6px); }
+.gesture-orb::before,.gesture-orb::after {
+    content:"";
+    position:absolute;
+    inset:12px;
+    border:1px solid rgba(167,139,250,.3);
+    border-radius:50%;
+}
 
-        /* Special Gesture AI card */
-        .gesture-card {
-            --card-accent: #22d3ee;
-            border-color: rgba(34,211,238,.32);
-            background:
-                radial-gradient(ellipse at 100% 0%, rgba(34,211,238,.13), transparent 55%),
-                radial-gradient(ellipse at 0% 100%, rgba(139,92,246,.12), transparent 60%),
-                var(--surface);
-        }
+.gesture-orb::after {
+    inset:25px;
+    border-color:rgba(34,211,238,.45);
+}
 
-        .gesture-card::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            padding: 1px;
-            background: linear-gradient(135deg, rgba(34,211,238,.55), transparent 40%, rgba(139,92,246,.45));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-        }
+@keyframes orbitPulse {
+    0%,100% { transform:scale(.92) rotate(0deg); opacity:.45; }
+    50% { transform:scale(1.08) rotate(35deg); opacity:.9; }
+}
 
-        .gesture-card:hover {
-            box-shadow: 0 0 35px rgba(34,211,238,.12), 0 20px 55px rgba(0,0,0,.2);
-        }
+html[dir="rtl"] .gesture-orb {
+    right:auto;
+    left:25px;
+}
 
-        .gesture-card .card-icon {
-            color: #67e8f9;
-            background: rgba(34,211,238,.13);
-            box-shadow: 0 0 25px rgba(34,211,238,.12);
-        }
+footer {
+    padding:25px 20px;
+    text-align:center;
+    border-top:1px solid var(--border);
+    background:var(--surface);
+    color:var(--muted);
+    font-size:.88rem;
+}
 
-        .gesture-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            margin-bottom: 14px;
-            padding: 5px 10px;
-            width: fit-content;
-            border: 1px solid rgba(34,211,238,.25);
-            border-radius: 30px;
-            color: #67e8f9;
-            background: rgba(34,211,238,.07);
-            font-size: .72rem;
-            font-weight: 800;
-            letter-spacing: .8px;
-        }
+@keyframes fadeUp {
+    from { opacity:0; transform:translateY(18px); }
+    to { opacity:1; transform:translateY(0); }
+}
 
-        .gesture-card h3 {
-            background: linear-gradient(90deg, #67e8f9, #a78bfa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+@media(max-width:640px) {
+    .navbar { padding:12px 4%; }
+    .brand { font-size:1rem; gap:8px; }
+    .brand-icon { width:38px; height:38px; }
+    .nav-actions { gap:6px; }
+    .btn-ui { padding:8px 10px; font-size:.84rem; }
+    .hero { min-height:auto; padding:70px 18px 40px; }
+    .hero h1 { font-size:clamp(2.8rem,13vw,4rem); letter-spacing:-1.5px; }
+    .cta-group { flex-direction:column; width:100%; }
+    .btn-primary,.btn-secondary { width:100%; }
+    .features { grid-template-columns:1fr; padding:15px 18px 60px; }
+    .card { min-height:190px; }
+    .gesture-orb { width:78px; height:78px; right:18px; bottom:25px; }
+    html[dir="rtl"] .gesture-orb { right:auto; left:18px; }
+}
 
-        .gesture-card .card-arrow { color: #67e8f9; }
-
-        .gesture-orb {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            right: 25px;
-            bottom: 55px;
-            border: 1px solid rgba(34,211,238,.22);
-            border-radius: 50%;
-            opacity: .7;
-            pointer-events: none;
-            animation: orbitPulse 3.5s ease-in-out infinite;
-        }
-
-        .gesture-orb::before, .gesture-orb::after {
-            content: "";
-            position: absolute;
-            inset: 12px;
-            border: 1px solid rgba(167,139,250,.3);
-            border-radius: 50%;
-        }
-
-        .gesture-orb::after {
-            inset: 25px;
-            border-color: rgba(34,211,238,.45);
-        }
-
-        @keyframes orbitPulse {
-            0%,100% { transform: scale(.92) rotate(0deg); opacity: .45; }
-            50% { transform: scale(1.08) rotate(35deg); opacity: .9; }
-        }
-
-        html[dir="rtl"] .gesture-orb { right: auto; left: 25px; }
-
-        footer {
-            padding: 28px 20px;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--muted);
-            font-size: .88rem;
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(18px);
-            transition: opacity .7s ease, transform .7s ease;
-        }
-
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(18px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 640px) {
-            .navbar { padding: 12px 4%; }
-            .brand { font-size: 1rem; gap: 8px; }
-            .brand-icon { width: 38px; height: 38px; }
-            .nav-actions { gap: 6px; }
-            .btn-ui { padding: 8px 10px; font-size: .84rem; }
-            .hero { min-height: auto; padding: 75px 18px 45px; }
-            .hero h1 { font-size: clamp(2.8rem, 13vw, 4rem); letter-spacing: -1.5px; }
-            .hero p { font-size: .95rem; }
-            .cta-group { flex-direction: column; }
-            .btn-primary, .btn-secondary { width: 100%; }
-            .features { grid-template-columns: 1fr; padding: 15px 18px 60px; }
-            .card { min-height: 235px; }
-            .gesture-orb { width: 78px; height: 78px; right: 18px; bottom: 45px; }
-            html[dir="rtl"] .gesture-orb { right: auto; left: 18px; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                scroll-behavior: auto !important;
-                animation-duration: .01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: .01ms !important;
-            }
-        }
-    </style>
+@media(prefers-reduced-motion:reduce) {
+    *,*::before,*::after {
+        scroll-behavior:auto!important;
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important;
+    }
+}
+</style>
 </head>
 
 <body>
-    <div class="ambient glow-one"></div>
-    <div class="ambient glow-two"></div>
-    <div class="ambient glow-three"></div>
 
-    <nav class="navbar">
-        <a href="index.html" class="brand" aria-label="VideoYTFX home">
-            <span class="brand-icon">V</span>
-            <span>VideoYTFX</span>
+<div class="ambient glow-one"></div>
+<div class="ambient glow-two"></div>
+<div class="ambient glow-three"></div>
+
+<nav class="navbar">
+    <a href="index.html" class="brand" aria-label="VideoYTFX">
+        <span class="brand-icon">V</span>
+        <span>VideoYTFX</span>
+    </a>
+
+    <div class="nav-actions">
+        <button class="btn-ui" id="languageBtn" onclick="toggleLanguage()">
+            🌐 <span id="langLabel">العربية</span>
+        </button>
+        <button class="btn-ui" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+    </div>
+</nav>
+
+<main>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>VideoYTFX</h1>
+
+            <div class="cta-group">
+                <a class="btn-primary" href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
+                    ⬇️ <span data-en="Download" data-ar="تحميل">Download</span>
+                </a>
+
+                <a class="btn-secondary" href="gesture.html">
+                    ✦ <span data-en="Gesture AI" data-ar="Gesture AI">Gesture AI</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+
+        <a href="downloads.html" class="card">
+            <div class="card-icon">📥</div>
+            <h3 data-en="Downloads" data-ar="التحميلات">Downloads</h3>
         </a>
 
-        <div class="nav-actions">
-            <button class="btn-ui" id="languageBtn" onclick="toggleLanguage()" aria-label="Change language">
-                🌐 <span id="langLabel">العربية</span>
-            </button>
-            <button class="btn-ui" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
-        </div>
-    </nav>
+        <a href="image.html" class="card image-card">
+            <div class="card-icon">🖼️</div>
+            <h3 data-en="Image Studio" data-ar="استوديو الصور">Image Studio</h3>
+        </a>
 
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <div class="eyebrow"><span class="live-dot"></span><span data-i18n="eyebrow">YOUR CREATIVE TOOLKIT</span></div>
-                <h1 data-i18n="heroTitle">VideoYTFX</h1>
-                <p data-i18n="heroDescription">One creative space for downloads, images, videos and gesture-powered experiments.</p>
+        <a href="video.html" class="card video-card">
+            <div class="card-icon">🎬</div>
+            <h3 data-en="Video Studio" data-ar="استوديو الفيديو">Video Studio</h3>
+        </a>
 
-                <div class="cta-group">
-                    <a class="btn-primary" href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
-                        ⬇️ <span data-i18n="downloadText">Download for Windows</span>
-                    </a>
-                    <a class="btn-secondary" href="gesture.html">
-                        ✦ <span data-i18n="gestureButton">Explore Gesture AI</span>
-                    </a>
-                </div>
-            </div>
-        </section>
+        <a href="gesture.html" class="card gesture-card">
+            <div class="gesture-orb"></div>
+            <div class="card-icon">✋</div>
+            <h3>Gesture AI</h3>
+        </a>
 
-        <div class="section-heading reveal">
-            <h2 data-i18n="toolsTitle">Explore your tools</h2>
-            <p data-i18n="toolsSubtitle">Choose a studio and start creating.</p>
-        </div>
+    </section>
+</main>
 
-        <section class="features">
-            <a href="downloads.html" class="card">
-                <div>
-                    <div class="card-icon">📥</div>
-                    <h3 data-i18n="downloadsTitle">Downloads</h3>
-                    <p data-i18n="downloadsDescription">Download the latest stable version and builds of VideoYTFX.</p>
-                </div>
-                <div class="card-arrow"><span data-i18n="openTool">Open tool</span><span class="arrow-symbol">→</span></div>
-            </a>
+<footer>
+    <span>© 2026 VideoYTFX</span>
+</footer>
 
-            <a href="image.html" class="card">
-                <div>
-                    <div class="card-icon">🖼️</div>
-                    <h3 data-i18n="imageTitle">Image Studio</h3>
-                    <p data-i18n="imageDescription">Edit, enhance, filter and transform your images easily.</p>
-                </div>
-                <div class="card-arrow"><span data-i18n="openTool">Open tool</span><span class="arrow-symbol">→</span></div>
-            </a>
+<script>
+function setLanguage(lang) {
+    const selected = lang === "ar" ? "ar" : "en";
 
-            <a href="video.html" class="card">
-                <div>
-                    <div class="card-icon">🎬</div>
-                    <h3 data-i18n="videoTitle">Video Studio</h3>
-                    <p data-i18n="videoDescription">Edit, trim, convert and enhance your videos in one place.</p>
-                </div>
-                <div class="card-arrow"><span data-i18n="openTool">Open tool</span><span class="arrow-symbol">→</span></div>
-            </a>
+    document.documentElement.lang = selected;
+    document.documentElement.dir = selected === "ar" ? "rtl" : "ltr";
 
-            <a href="gesture.html" class="card gesture-card">
-                <div class="gesture-orb"></div>
-                <div>
-                    <div class="gesture-tag"><span class="live-dot"></span><span data-i18n="gestureTag">AI • INTERACTIVE</span></div>
-                    <div class="card-icon">✋</div>
-                    <h3>Gesture AI</h3>
-                    <p data-i18n="gestureDescription">Control your experience with hand gestures. Open your dedicated Gesture AI workspace.</p>
-                </div>
-                <div class="card-arrow">
-                    <span data-i18n="launchGesture">Launch Gesture AI</span>
-                    <span class="arrow-symbol">↗</span>
-                </div>
-            </a>
-        </section>
-    </main>
+    document.getElementById("langLabel").textContent =
+        selected === "en" ? "العربية" : "English";
 
-    <footer>
-        <span data-i18n="footerText">© 2026 VideoYTFX. All rights reserved.</span>
-    </footer>
+    document.querySelectorAll("[data-en][data-ar]").forEach(element => {
+        element.textContent = element.dataset[selected];
+    });
 
-    <script>
-        const translations = {
-            en: {
-                eyebrow: "YOUR CREATIVE TOOLKIT",
-                heroTitle: "VideoYTFX",
-                heroDescription: "One creative space for downloads, images, videos and gesture-powered experiments.",
-                downloadText: "Download for Windows",
-                gestureButton: "Explore Gesture AI",
-                toolsTitle: "Explore your tools",
-                toolsSubtitle: "Choose a studio and start creating.",
-                downloadsTitle: "Downloads",
-                downloadsDescription: "Download the latest stable version and builds of VideoYTFX.",
-                imageTitle: "Image Studio",
-                imageDescription: "Edit, enhance, filter and transform your images easily.",
-                videoTitle: "Video Studio",
-                videoDescription: "Edit, trim, convert and enhance your videos in one place.",
-                openTool: "Open tool",
-                gestureTag: "AI • INTERACTIVE",
-                gestureDescription: "Control your experience with hand gestures. Open your dedicated Gesture AI workspace.",
-                launchGesture: "Launch Gesture AI",
-                footerText: "© 2026 VideoYTFX. All rights reserved.",
-                langButton: "العربية"
-            },
-            ar: {
-                eyebrow: "أدواتك الإبداعية في مكان واحد",
-                heroTitle: "VideoYTFX",
-                heroDescription: "مساحتك الإبداعية للتحميل والصور والفيديو وتجارب التحكم بالإيماءات.",
-                downloadText: "تحميل لنظام ويندوز",
-                gestureButton: "استكشف Gesture AI",
-                toolsTitle: "اكتشف أدواتك",
-                toolsSubtitle: "اختر الاستوديو وابدأ الإبداع.",
-                downloadsTitle: "التحميلات",
-                downloadsDescription: "حمّل أحدث الإصدارات المستقرة من VideoYTFX.",
-                imageTitle: "استوديو الصور",
-                imageDescription: "عدّل صورك وحسّنها وأضف إليها الفلاتر والمؤثرات بسهولة.",
-                videoTitle: "استوديو الفيديو",
-                videoDescription: "عدّل الفيديوهات واقصصها وحوّلها وحسّنها في مكان واحد.",
-                openTool: "افتح الأداة",
-                gestureTag: "ذكاء اصطناعي • تفاعلي",
-                gestureDescription: "تحكّم بالتجربة باستخدام إيماءات اليد وافتح مساحة Gesture AI الخاصة بك.",
-                launchGesture: "تشغيل Gesture AI",
-                footerText: "© 2026 VideoYTFX. جميع الحقوق محفوظة.",
-                langButton: "English"
-            }
-        };
+    try {
+        localStorage.setItem("app_lang", selected);
+    } catch (error) {}
+}
 
-        function setLanguage(lang) {
-            const selected = translations[lang] ? lang : "en";
+function toggleLanguage() {
+    const current = document.documentElement.lang;
+    setLanguage(current === "en" ? "ar" : "en");
+}
 
-            document.querySelectorAll("[data-i18n]").forEach(element => {
-                const key = element.dataset.i18n;
-                if (translations[selected][key]) {
-                    element.textContent = translations[selected][key];
-                }
-            });
+function setTheme(theme) {
+    const selected = theme === "light" ? "light" : "dark";
 
-            document.getElementById("langLabel").textContent = translations[selected].langButton;
-            document.documentElement.lang = selected;
-            document.documentElement.dir = selected === "ar" ? "rtl" : "ltr";
+    document.documentElement.setAttribute("data-theme", selected);
 
-            try { localStorage.setItem("app_lang", selected); } catch (error) {}
-        }
+    document.getElementById("themeBtn").textContent =
+        selected === "light" ? "🌙" : "☀️";
 
-        function toggleLanguage() {
-            const current = document.documentElement.lang || "en";
-            setLanguage(current === "en" ? "ar" : "en");
-        }
+    document.querySelector('meta[name="theme-color"]').content =
+        selected === "light" ? "#f1f5f9" : "#030712";
 
-        function setTheme(theme) {
-            const selected = theme === "light" ? "light" : "dark";
-            document.documentElement.setAttribute("data-theme", selected);
-            document.getElementById("themeBtn").textContent = selected === "light" ? "🌙" : "☀️";
-            document.querySelector('meta[name="theme-color"]').content =
-                selected === "light" ? "#f1f5f9" : "#030712";
+    try {
+        localStorage.setItem("app_theme", selected);
+    } catch (error) {}
+}
 
-            try { localStorage.setItem("app_theme", selected); } catch (error) {}
-        }
+function toggleTheme() {
+    const current = document.documentElement.getAttribute("data-theme");
+    setTheme(current === "dark" ? "light" : "dark");
+}
 
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute("data-theme") || "dark";
-            setTheme(current === "dark" ? "light" : "dark");
-        }
+function readPreference(key, fallback) {
+    try {
+        return localStorage.getItem(key) || fallback;
+    } catch (error) {
+        return fallback;
+    }
+}
 
-        function readPreference(key, fallback) {
-            try { return localStorage.getItem(key) || fallback; }
-            catch (error) { return fallback; }
-        }
+setLanguage(readPreference("app_lang", "en"));
+setTheme(readPreference("app_theme", "dark"));
+</script>
 
-        function initPage() {
-            setLanguage(readPreference("app_lang", "en"));
-            setTheme(readPreference("app_theme", "dark"));
-
-            if ("IntersectionObserver" in window) {
-                const observer = new IntersectionObserver(entries => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add("visible");
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.12 });
-
-                document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
-            } else {
-                document.querySelectorAll(".reveal").forEach(element => element.classList.add("visible"));
-            }
-        }
-
-        initPage();
-    </script>
 </body>
 </html>
