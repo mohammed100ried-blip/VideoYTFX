@@ -1,0 +1,862 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gesture AI</title>
+
+<style>
+:root {
+  --bg:#090d18;
+  --panel:#111827;
+  --line:#26344b;
+  --text:#f3f6ff;
+  --muted:#9aa9c2;
+  --blue:#718cff;
+  --cyan:#44e2d0;
+  --green:#51e6a7;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(ellipse at top right,#19274b,transparent 45%),
+    var(--bg);
+  font-family:Tahoma,Arial,sans-serif;
+}
+
+button,input { font:inherit; }
+
+.container {
+  width:min(1180px,100%);
+  margin:auto;
+  padding:25px 18px;
+}
+
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:30px;
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo {
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+  border-radius:15px;
+  background:linear-gradient(135deg,var(--blue),#9858ef);
+}
+
+h1 { font-size:21px; margin:0; }
+.subtitle { color:var(--muted); font-size:12px; margin-top:5px; }
+
+.status {
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:10px 13px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.status::before {
+  content:"";
+  display:inline-block;
+  width:8px;
+  height:8px;
+  margin-left:8px;
+  border-radius:50%;
+  background:#66738b;
+}
+
+.status.live::before {
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+}
+
+.hero { margin:25px 0; }
+
+.hero h2 {
+  font-size:clamp(26px,4vw,39px);
+  margin-bottom:10px;
+}
+
+.hero h2 span {
+  color:var(--cyan);
+}
+
+.hero p {
+  color:var(--muted);
+  line-height:1.9;
+  max-width:700px;
+  font-size:14px;
+}
+
+.layout {
+  display:grid;
+  grid-template-columns:minmax(0,1.6fr) minmax(280px,.8fr);
+  gap:18px;
+}
+
+.panel {
+  background:linear-gradient(145deg,#141e31,#0d1422);
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  margin-bottom:16px;
+}
+
+.panel-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:17px;
+  border-bottom:1px solid var(--line);
+  gap:10px;
+}
+
+.panel-head h3 { margin:0; font-size:15px; }
+.muted { color:var(--muted); font-size:12px; }
+
+.screen {
+  position:relative;
+  background:#050811;
+  aspect-ratio:16/10;
+  min-height:260px;
+  overflow:hidden;
+}
+
+#video {
+  display:none;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scaleX(-1);
+}
+
+#overlay {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+
+.screen.running #video { display:block; }
+
+.placeholder {
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:25px;
+  color:var(--muted);
+}
+
+.screen.running .placeholder { display:none; }
+
+.placeholder .emoji { font-size:48px; margin-bottom:15px; }
+.placeholder h3 { color:var(--text); }
+
+.screen-label {
+  position:absolute;
+  bottom:12px;
+  right:12px;
+  background:#080d19dd;
+  border:1px solid #ffffff20;
+  border-radius:9px;
+  padding:8px 11px;
+  font-size:11px;
+}
+
+.controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:16px;
+}
+
+.btn {
+  border:0;
+  border-radius:11px;
+  padding:12px 16px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:13px;
+  transition:.2s;
+}
+
+.btn:hover { transform:translateY(-1px); }
+.btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
+
+.primary {
+  background:linear-gradient(120deg,var(--blue),#8b5cf6);
+  color:white;
+}
+
+.secondary {
+  background:#1b2940;
+  color:#e7edff;
+  border:1px solid #2c3b55;
+}
+
+.stat-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:15px;
+}
+
+.stat {
+  padding:14px;
+  border:1px solid #243148;
+  background:#0c1422;
+  border-radius:14px;
+}
+
+.stat-label { font-size:11px; color:var(--muted); }
+.stat-value { font-size:24px; font-weight:bold; margin-top:10px; }
+.stat-sub { font-size:11px; color:var(--muted); margin-top:5px; }
+
+.current { padding:18px; }
+
+.gesture-box {
+  margin-top:12px;
+  text-align:center;
+  padding:22px 12px;
+  border-radius:15px;
+  background:linear-gradient(135deg,#1a2945,#121d32);
+  border:1px solid #2b3b5c;
+}
+
+.gesture-emoji { font-size:38px; }
+.gesture-name { font-size:19px; font-weight:bold; margin-top:8px; }
+.gesture-desc { color:var(--muted); font-size:12px; margin-top:7px; }
+
+.settings { padding:18px; }
+.setting { margin-bottom:20px; }
+.setting:last-child { margin-bottom:0; }
+
+.setting label {
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  margin-bottom:12px;
+}
+
+output { color:var(--cyan); }
+
+input[type=range] {
+  width:100%;
+  accent-color:var(--blue);
+}
+
+.hint {
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.8;
+  margin-top:8px;
+}
+
+.history { padding:8px 16px 14px; }
+
+.history-item {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid #243047;
+  font-size:12px;
+}
+
+.history-item:last-child { border-bottom:0; }
+.history-time { color:var(--muted); }
+.empty { text-align:center; color:var(--muted); padding:20px 5px; font-size:12px; }
+
+footer {
+  text-align:center;
+  color:#7c8aa5;
+  font-size:11px;
+  line-height:1.9;
+  margin-top:20px;
+}
+
+.toast {
+  position:fixed;
+  bottom:18px;
+  left:18px;
+  max-width:calc(100% - 36px);
+  padding:13px 16px;
+  background:#1b2940;
+  border:1px solid #344663;
+  border-radius:12px;
+  display:none;
+  z-index:10;
+  font-size:13px;
+}
+
+.toast.show { display:block; }
+
+@media(max-width:850px) {
+  .layout { grid-template-columns:1fr; }
+}
+
+@media(max-width:500px) {
+  .container { padding:16px 11px; }
+  h1 { font-size:17px; }
+  .status { font-size:10px; }
+  .screen { min-height:230px; }
+  .btn { padding:11px 12px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <div class="brand">
+    <div class="logo">✋</div>
+    <div>
+      <h1>Gesture AI</h1>
+      <div class="subtitle">التحكم الذكي بالإيماءات</div>
+    </div>
+  </div>
+  <div class="status" id="status">الكاميرا متوقفة</div>
+</header>
+
+<section class="hero">
+  <h2>تحكّم بحركة يدك، <span>بطريقة أذكى.</span></h2>
+  <p>
+    حوّل كاميرا جهازك إلى نظام لتتبّع اليد واكتشاف اتجاه الحركة.
+    ارفع يدك أمام الكاميرا واسحبها في أي اتجاه لتظهر الإيماءة على الشاشة.
+  </p>
+</section>
+
+<main class="layout">
+
+<section class="panel">
+  <div class="panel-head">
+    <h3>معاينة الكاميرا</h3>
+    <span class="muted" id="modelStatus">جاهز للبدء</span>
+  </div>
+
+  <div class="screen" id="screen">
+    <video id="video" playsinline muted></video>
+    <canvas id="overlay"></canvas>
+
+    <div class="placeholder">
+      <div class="emoji">◎</div>
+      <h3>الكاميرا جاهزة</h3>
+      <p>اضغط تشغيل الكاميرا، واسمح للمتصفح بالوصول إليها، ثم حرّك يدك أمام العدسة.</p>
+    </div>
+
+    <div class="screen-label" id="screenLabel">بانتظار الكاميرا</div>
+  </div>
+
+  <div class="controls">
+    <button class="btn primary" id="startBtn">▶ تشغيل الكاميرا</button>
+    <button class="btn secondary" id="stopBtn" disabled>■ إيقاف</button>
+    <button class="btn secondary" id="resetBtn">↻ تصفير الإحصاءات</button>
+  </div>
+</section>
+
+<aside>
+
+<section class="panel">
+  <div class="panel-head">
+    <h3>الإحصاءات</h3>
+    <span class="muted">الجلسة الحالية</span>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat">
+      <div class="stat-label">الإيماءات المكتشفة</div>
+      <div class="stat-value" id="total">0</div>
+      <div class="stat-sub">إجمالي الحركات</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">آخر اتجاه</div>
+      <div class="stat-value" id="lastDirection">—</div>
+      <div class="stat-sub">آخر إيماءة مؤكدة</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">حالة اليد</div>
+      <div class="stat-value" style="font-size:18px" id="handStatus">غير مرئية</div>
+      <div class="stat-sub">داخل إطار الكاميرا</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">الحساسية</div>
+      <div class="stat-value" style="font-size:18px" id="sensitivity">متوسطة</div>
+      <div class="stat-sub">قابلة للتعديل</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="current">
+    <div class="muted">الإيماءة الحالية</div>
+    <div class="gesture-box">
+      <div class="gesture-emoji" id="gestureEmoji">✋</div>
+      <div class="gesture-name" id="gestureName">بانتظار الحركة</div>
+      <div class="gesture-desc" id="gestureDesc">شغّل الكاميرا للبدء</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel-head">
+    <h3>إعدادات التتبّع</h3>
+  </div>
+
+  <div class="settings">
+    <div class="setting">
+      <label for="threshold">
+        مسافة السحب المطلوبة
+        <output id="thresholdOut">0.10</output>
+      </label>
+      <input type="range" id="threshold" min="0.04" max="0.25" step="0.01" value="0.10">
+      <div class="hint">قلّل القيمة لالتقاط الحركات الصغيرة، أو ارفعها لتقليل الإيماءات غير المقصودة.</div>
+    </div>
+
+    <div class="setting">
+      <label for="smooth">
+        تنعيم الحركة
+        <output id="smoothOut">متوسط</output>
+      </label>
+      <input type="range" id="smooth" min="1" max="6" step="1" value="3">
+      <div class="hint">يساعد التنعيم على تقليل الاهتزاز أثناء تتبّع اليد.</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel-head">
+    <h3>سجل الإيماءات</h3>
+    <span class="muted" id="historyCount">0 عناصر</span>
+  </div>
+  <div class="history" id="history">
+    <div class="empty">ستظهر الإيماءات المكتشفة هنا.</div>
+  </div>
+</section>
+
+</aside>
+</main>
+
+<footer>
+  Gesture AI · تتبّع اليد داخل المتصفح باستخدام MediaPipe.<br>
+  يلزم HTTPS أو localhost وإذن الكاميرا. تحميل المكتبة يحتاج إلى الإنترنت.
+</footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+
+<script>
+const $ = id => document.getElementById(id);
+
+const video = $("video");
+const canvas = $("overlay");
+const ctx = canvas.getContext("2d");
+
+let hands = null;
+let camera = null;
+let running = false;
+let origin = null;
+let lastPoint = null;
+let trackingStart = 0;
+let lastGestureAt = 0;
+let total = 0;
+let historyItems = [];
+let toastTimer = null;
+
+const gestures = {
+  right: { emoji:"👉", name:"سحب لليمين", desc:"اكتُشفت حركة اليد إلى اليمين" },
+  left:  { emoji:"👈", name:"سحب لليسار", desc:"اكتُشفت حركة اليد إلى اليسار" },
+  up:    { emoji:"👆", name:"سحب للأعلى", desc:"اكتُشفت حركة اليد إلى الأعلى" },
+  down:  { emoji:"👇", name:"سحب للأسفل", desc:"اكتُشفت حركة اليد إلى الأسفل" }
+};
+
+function toast(message) {
+  const el = $("toast");
+  el.textContent = message;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 3500);
+}
+
+function setStatus(message, live = false) {
+  $("status").textContent = message;
+  $("status").classList.toggle("live", live);
+}
+
+function resizeCanvas() {
+  const rect = $("screen").getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = Math.round(rect.width * dpr);
+  canvas.height = Math.round(rect.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+$("threshold").addEventListener("input", () => {
+  const value = Number($("threshold").value);
+  $("thresholdOut").value = value.toFixed(2);
+
+  $("sensitivity").textContent =
+    value < 0.08 ? "عالية" :
+    value > 0.16 ? "منخفضة" : "متوسطة";
+});
+
+$("smooth").addEventListener("input", () => {
+  const value = Number($("smooth").value);
+  $("smoothOut").value =
+    value <= 2 ? "خفيف" :
+    value >= 5 ? "قوي" : "متوسط";
+});
+
+function getPalmCenter(landmarks) {
+  const ids = [0, 5, 9, 13, 17];
+  let x = 0;
+  let y = 0;
+
+  for (const id of ids) {
+    x += landmarks[id].x / ids.length;
+    y += landmarks[id].y / ids.length;
+  }
+
+  return { x, y };
+}
+
+function drawHand(landmarks, width, height) {
+  if (window.drawConnectors && window.HAND_CONNECTIONS) {
+    drawConnectors(ctx, landmarks, HAND_CONNECTIONS, {
+      color: "#44e2d0",
+      lineWidth: 3
+    });
+
+    drawLandmarks(ctx, landmarks, {
+      color: "#ffffff",
+      lineWidth: 1,
+      radius: 3
+    });
+  }
+
+  const point = getPalmCenter(landmarks);
+
+  ctx.beginPath();
+  ctx.arc(point.x * width, point.y * height, 8, 0, Math.PI * 2);
+  ctx.fillStyle = "#44e2d0";
+  ctx.fill();
+
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "#ffffff";
+  ctx.stroke();
+
+  return point;
+}
+
+function onResults(results) {
+  if (!running) return;
+
+  const width = $("screen").clientWidth;
+  const height = $("screen").clientHeight;
+
+  ctx.clearRect(0, 0, width, height);
+
+  if (results.image) {
+    ctx.drawImage(results.image, 0, 0, width, height);
+  }
+
+  const handsFound = results.multiHandLandmarks;
+
+  if (!handsFound || handsFound.length === 0) {
+    $("handStatus").textContent = "غير مرئية";
+    $("handStatus").style.color = "";
+    origin = null;
+    lastPoint = null;
+    return;
+  }
+
+  $("handStatus").textContent = "مكتشفة";
+  $("handStatus").style.color = "var(--green)";
+
+  const landmarks = handsFound[0];
+  const rawPoint = drawHand(landmarks, width, height);
+
+  const smoothValue = Number($("smooth").value);
+  const alpha = 1 / smoothValue;
+
+  const point = lastPoint
+    ? {
+        x: lastPoint.x + (rawPoint.x - lastPoint.x) * alpha,
+        y: lastPoint.y + (rawPoint.y - lastPoint.y) * alpha
+      }
+    : rawPoint;
+
+  lastPoint = point;
+
+  if (!origin) {
+    origin = { ...point };
+    trackingStart = performance.now();
+    return;
+  }
+
+  const dx = point.x - origin.x;
+  const dy = point.y - origin.y;
+  const distance = Math.hypot(dx, dy);
+  const threshold = Number($("threshold").value);
+  const now = performance.now();
+
+  if (distance >= threshold && now - lastGestureAt > 850) {
+    let direction;
+
+    // صورة الفيديو معكوسة لتبدو الحركة طبيعية للمستخدم.
+    if (Math.abs(dx) > Math.abs(dy)) {
+      direction = dx < 0 ? "right" : "left";
+    } else {
+      direction = dy < 0 ? "up" : "down";
+    }
+
+    triggerGesture(direction);
+
+    origin = { ...point };
+    trackingStart = now;
+  } else if (now - trackingStart > 1800 && distance < 0.035) {
+    origin = { ...point };
+    trackingStart = now;
+  }
+}
+
+function triggerGesture(direction) {
+  lastGestureAt = performance.now();
+
+  const gesture = gestures[direction];
+  if (!gesture) return;
+
+  total++;
+  $("total").textContent = total;
+  $("lastDirection").textContent = gesture.emoji;
+  $("gestureEmoji").textContent = gesture.emoji;
+  $("gestureName").textContent = gesture.name;
+  $("gestureDesc").textContent = gesture.desc;
+  $("screenLabel").textContent = gesture.name;
+
+  historyItems.unshift({
+    direction,
+    time: new Date().toLocaleTimeString("ar", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    })
+  });
+
+  historyItems = historyItems.slice(0, 8);
+  renderHistory();
+}
+
+function renderHistory() {
+  $("historyCount").textContent = historyItems.length + " عناصر";
+
+  const history = $("history");
+
+  if (historyItems.length === 0) {
+    history.innerHTML = '<div class="empty">ستظهر الإيماءات المكتشفة هنا.</div>';
+    return;
+  }
+
+  history.replaceChildren();
+
+  for (const item of historyItems) {
+    const row = document.createElement("div");
+    row.className = "history-item";
+
+    const name = document.createElement("span");
+    name.textContent =
+      gestures[item.direction].emoji + " " +
+      gestures[item.direction].name;
+
+    const time = document.createElement("span");
+    time.className = "history-time";
+    time.textContent = item.time;
+
+    row.append(name, time);
+    history.appendChild(row);
+  }
+}
+
+async function startCamera() {
+  if (running) return;
+
+  $("startBtn").disabled = true;
+  setStatus("جارٍ التشغيل...");
+  $("modelStatus").textContent = "جارٍ تحميل نموذج اليد";
+
+  try {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      throw new Error("الكاميرا تحتاج إلى HTTPS أو متصفح يدعمها.");
+    }
+
+    if (!window.Hands || !window.Camera) {
+      throw new Error("تعذر تحميل المكتبة. تحقق من اتصال الإنترنت.");
+    }
+
+    hands = new Hands({
+      locateFile: file =>
+        `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+    });
+
+    hands.setOptions({
+      maxNumHands: 1,
+      modelComplexity: 1,
+      minDetectionConfidence: 0.65,
+      minTrackingConfidence: 0.6
+    });
+
+    hands.onResults(onResults);
+
+    camera = new Camera(video, {
+      onFrame: async () => {
+        if (running && hands && video.readyState >= 2) {
+          await hands.send({ image: video });
+        }
+      },
+      width: 640,
+      height: 480
+    });
+
+    await camera.start();
+
+    running = true;
+    $("screen").classList.add("running");
+    $("stopBtn").disabled = false;
+
+    setStatus("الكاميرا تعمل", true);
+    $("modelStatus").textContent = "نموذج اليد جاهز";
+    $("screenLabel").textContent = "معاينة مباشرة";
+
+    resizeCanvas();
+
+    $("gestureEmoji").textContent = "✋";
+    $("gestureName").textContent = "بانتظار الحركة";
+    $("gestureDesc").textContent = "حرّك يدك في اتجاه واحد";
+
+    toast("تم تشغيل الكاميرا. ابدأ بتحريك يدك.");
+  } catch (error) {
+    console.error(error);
+
+    running = false;
+
+    if (camera) {
+      try { camera.stop(); } catch (_) {}
+      camera = null;
+    }
+
+    if (hands) {
+      try { hands.close(); } catch (_) {}
+      hands = null;
+    }
+
+    $("startBtn").disabled = false;
+    $("stopBtn").disabled = true;
+
+    setStatus("تعذّر التشغيل");
+    $("modelStatus").textContent = "لم يتم تحميل النموذج";
+
+    if (error.name === "NotAllowedError") {
+      toast("اسمح للموقع باستخدام الكاميرا من إعدادات المتصفح.");
+    } else {
+      toast(error.message || "حدث خطأ أثناء تشغيل الكاميرا.");
+    }
+  }
+}
+
+function stopCamera() {
+  running = false;
+
+  if (camera) {
+    try { camera.stop(); } catch (_) {}
+    camera = null;
+  }
+
+  if (video.srcObject) {
+    video.srcObject.getTracks().forEach(track => track.stop());
+    video.srcObject = null;
+  }
+
+  if (hands) {
+    try { hands.close(); } catch (_) {}
+    hands = null;
+  }
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  $("screen").classList.remove("running");
+  $("startBtn").disabled = false;
+  $("stopBtn").disabled = true;
+
+  $("handStatus").textContent = "غير مرئية";
+  $("handStatus").style.color = "";
+
+  setStatus("الكاميرا متوقفة");
+  $("modelStatus").textContent = "جاهز للبدء";
+  $("screenLabel").textContent = "بانتظار الكاميرا";
+
+  origin = null;
+  lastPoint = null;
+}
+
+$("startBtn").addEventListener("click", startCamera);
+
+$("stopBtn").addEventListener("click", () => {
+  stopCamera();
+  toast("تم إيقاف الكاميرا.");
+});
+
+$("resetBtn").addEventListener("click", () => {
+  total = 0;
+  historyItems = [];
+
+  $("total").textContent = "0";
+  $("lastDirection").textContent = "—";
+  $("gestureEmoji").textContent = "✋";
+  $("gestureName").textContent = "بانتظار الحركة";
+  $("gestureDesc").textContent =
+    running ? "حرّك يدك في اتجاه واحد" : "شغّل الكاميرا للبدء";
+
+  renderHistory();
+  toast("تم تصفير الإحصاءات.");
+});
+
+window.addEventListener("beforeunload", stopCamera);
+
+resizeCanvas();
+</script>
+</body>
+</html>
