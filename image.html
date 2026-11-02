@@ -1,634 +1,2101 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>تحرير الصور</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<title>تحرير الصور | VideoYTFX</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
 <style>
-:root{--bg:#090d17;--panel:#121a2a;--panel2:#1b263b;--text:#f4f6ff;--muted:#9ca9c2;--line:#2c3952;--accent:#7c83ff}
-[data-theme="light"]{--bg:#f2f4fa;--panel:#fff;--panel2:#e9edf6;--text:#182137;--muted:#68748c;--line:#d9e0ee}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
-header{height:68px;padding:0 4%;display:flex;align-items:center;justify-content:space-between;background:var(--panel);border-bottom:1px solid var(--line)}
-header h2{font-size:21px;margin:0}
-button,input,select{font:inherit}
-button{cursor:pointer;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 13px}
-button:hover{border-color:var(--accent)}
-.primary{background:linear-gradient(120deg,#6678ff,#a45cff);border:0;color:white}
-main{width:min(1400px,95%);margin:25px auto}
-.page{display:none}.page.active{display:block}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:35px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;cursor:pointer}
-.card:hover{border-color:var(--accent);transform:translateY(-3px)}
-.card span{font-size:43px}.card h2{font-size:23px;margin:0}
-.heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
-.heading h1{font-size:25px;margin:0}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.toolbar{padding:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
-.stage{min-height:500px;padding:18px;display:grid;place-items:center;overflow:auto;background-color:var(--panel2);background-image:linear-gradient(45deg,#8881 25%,transparent 25%),linear-gradient(-45deg,#8881 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#8881 75%),linear-gradient(-45deg,transparent 75%,#8881 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0}
-canvas{display:block;max-width:100%;height:auto;touch-action:none;background:white}
-#editCanvas,#retouchCanvas{display:none;max-height:650px;object-fit:contain;cursor:crosshair}
-.drop{border:2px dashed var(--accent);border-radius:18px;padding:40px 20px;text-align:center;cursor:pointer;max-width:420px}
-.drop span{font-size:45px}.drop h2{font-size:20px}
-.sidebar{padding:16px;max-height:800px;overflow:auto}
-.sidebar h3{margin:0 0 12px}
-.control{padding:12px 0;border-bottom:1px solid var(--line)}
-.control label{display:flex;justify-content:space-between;gap:8px;margin-bottom:9px;font-size:14px}
-input[type=range]{width:100%;accent-color:var(--accent)}
-input[type=color]{width:45px;height:35px;border:0;background:transparent}
-input[type=text],select,input[type=number]{width:100%;padding:10px;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:9px}
-.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}
-.full{width:100%;margin-top:9px}
-.value{color:var(--accent)}
-.hint{font-size:12px;color:var(--muted);line-height:1.7}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:12px 18px;background:var(--panel);border:1px solid var(--line);border-radius:10px;display:none;z-index:10}
-.toast.show{display:block}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{max-height:none}.stage{min-height:330px}.cards{grid-template-columns:1fr}.card{min-height:130px}#editCanvas,#retouchCanvas{max-height:420px}}
+:root {
+ --bg:#050505;
+ --panel:#101010;
+ --panel2:#171717;
+ --panel3:#202020;
+ --text:#ffffff;
+ --muted:#999999;
+ --line:rgba(255,255,255,.10);
+ --accent:#ffd600;
+ --accent2:#fff16b;
+ --accentGlow:rgba(255,214,0,.20);
+ --danger:#ff4545;
+ --radius:18px;
+}
+
+[data-theme="light"] {
+ --bg:#f3f3f3;
+ --panel:#ffffff;
+ --panel2:#ededed;
+ --panel3:#e2e2e2;
+ --text:#111111;
+ --muted:#666666;
+ --line:rgba(0,0,0,.12);
+ --accent:#d9a900;
+ --accent2:#ffdb35;
+ --accentGlow:rgba(217,169,0,.16);
+ --danger:#d62828;
+}
+
+* {
+ box-sizing:border-box;
+ margin:0;
+ padding:0;
+}
+
+html {
+ scroll-behavior:smooth;
+}
+
+body {
+ min-height:100vh;
+ background:var(--bg);
+ color:var(--text);
+ font-family:'Tajawal',sans-serif;
+ overflow-x:hidden;
+ transition:background .3s,color .3s;
+}
+
+button,input,select {
+ font:inherit;
+}
+
+button {
+ cursor:pointer;
+}
+
+button:disabled {
+ opacity:.4;
+ cursor:not-allowed;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+ outline:2px solid var(--accent);
+ outline-offset:3px;
+}
+
+/* Black hole background */
+
+.space-background {
+ position:fixed;
+ inset:0;
+ z-index:-3;
+ overflow:hidden;
+ pointer-events:none;
+ background:
+ radial-gradient(ellipse at 50% 50%,#17130a 0%,#090909 27%,#050505 60%);
+}
+
+.space-grid {
+ position:absolute;
+ inset:0;
+ opacity:.16;
+ background-image:
+ linear-gradient(rgba(255,214,0,.07) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(255,214,0,.07) 1px,transparent 1px);
+ background-size:55px 55px;
+ mask-image:radial-gradient(ellipse at center,black,transparent 85%);
+}
+
+.black-hole {
+ position:absolute;
+ width:450px;
+ height:450px;
+ top:50%;
+ left:50%;
+ transform:translate(-50%,-50%);
+ border-radius:50%;
+ background:
+ radial-gradient(circle,
+ #000 0%,
+ #000 34%,
+ #090909 39%,
+ #16120a 43%,
+ #ffd600 46%,
+ #fff4a8 48%,
+ #a77c00 50%,
+ transparent 57%);
+ filter:blur(1px);
+ opacity:.13;
+ animation:holeRotate 24s linear infinite;
+}
+
+.black-hole::before,
+.black-hole::after {
+ content:"";
+ position:absolute;
+ inset:12%;
+ border-radius:50%;
+ border:2px solid rgba(255,214,0,.65);
+ transform:rotateX(70deg);
+ box-shadow:
+ 0 0 30px rgba(255,214,0,.4),
+ inset 0 0 30px rgba(255,214,0,.2);
+}
+
+.black-hole::after {
+ inset:4%;
+ border-width:1px;
+ transform:rotateX(70deg) rotate(65deg);
+ opacity:.5;
+}
+
+@keyframes holeRotate {
+ from {rotate:0deg}
+ to {rotate:360deg}
+}
+
+.ambient {
+ position:fixed;
+ width:380px;
+ height:380px;
+ border-radius:50%;
+ filter:blur(130px);
+ opacity:.10;
+ pointer-events:none;
+ z-index:-2;
+}
+
+.ambient.one {
+ top:-180px;
+ right:-100px;
+ background:#ffd600;
+}
+
+.ambient.two {
+ bottom:-180px;
+ left:-100px;
+ background:#ffffff;
+}
+
+/* Header */
+
+header {
+ position:sticky;
+ top:0;
+ z-index:20;
+ min-height:72px;
+ padding:12px 5%;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:15px;
+ background:rgba(8,8,8,.88);
+ backdrop-filter:blur(20px);
+ border-bottom:1px solid var(--line);
+}
+
+[data-theme="light"] header {
+ background:rgba(255,255,255,.9);
+}
+
+.brand {
+ display:flex;
+ align-items:center;
+ gap:12px;
+ color:var(--text);
+ text-decoration:none;
+}
+
+.brand-symbol {
+ width:43px;
+ height:43px;
+ display:grid;
+ place-items:center;
+ border-radius:14px;
+ color:#000;
+ background:linear-gradient(135deg,#fff16b,#ffd000);
+ font-family:'Orbitron',sans-serif;
+ font-weight:900;
+ box-shadow:0 0 25px var(--accentGlow);
+}
+
+.brand-name {
+ font-family:'Orbitron',sans-serif;
+ font-size:15px;
+ font-weight:900;
+}
+
+.brand-name span {
+ color:var(--accent);
+}
+
+.header-actions {
+ display:flex;
+ align-items:center;
+ gap:9px;
+}
+
+.btn {
+ border:1px solid var(--line);
+ border-radius:11px;
+ background:var(--panel2);
+ color:var(--text);
+ padding:10px 15px;
+ transition:.2s;
+}
+
+.btn:hover:not(:disabled) {
+ border-color:var(--accent);
+ box-shadow:0 0 18px var(--accentGlow);
+ transform:translateY(-2px);
+}
+
+.primary {
+ background:linear-gradient(120deg,#e8b900,#ffe45c);
+ border:0;
+ color:#080808;
+ font-weight:900;
+}
+
+.danger {
+ background:rgba(255,50,50,.12);
+ border-color:rgba(255,50,50,.3);
+ color:#ff7777;
+}
+
+.small {
+ padding:7px 11px;
+ font-size:13px;
+}
+
+/* Main */
+
+main {
+ width:min(1450px,94%);
+ margin:30px auto 65px;
+}
+
+.page {
+ display:none;
+ animation:pageEnter .4s ease both;
+}
+
+.page.active {
+ display:block;
+}
+
+@keyframes pageEnter {
+ from {opacity:0;transform:translateY(12px)}
+ to {opacity:1;transform:translateY(0)}
+}
+
+/* Home */
+
+.home-hero {
+ text-align:center;
+ padding:65px 15px 35px;
+}
+
+.home-tag {
+ display:inline-flex;
+ align-items:center;
+ gap:9px;
+ padding:9px 18px;
+ border:1px solid rgba(255,214,0,.3);
+ border-radius:40px;
+ color:var(--accent);
+ background:rgba(255,214,0,.06);
+ font-weight:800;
+}
+
+.home-tag::before {
+ content:"";
+ width:8px;
+ height:8px;
+ border-radius:50%;
+ background:var(--accent);
+ box-shadow:0 0 12px var(--accent);
+}
+
+.home-title {
+ margin-top:25px;
+ font-family:'Orbitron',sans-serif;
+ font-size:clamp(2.1rem,7vw,5rem);
+ font-weight:900;
+ color:transparent;
+ background:linear-gradient(100deg,#fff,#ffd600,#fff4a8,#fff);
+ background-size:250% auto;
+ background-clip:text;
+ -webkit-background-clip:text;
+ animation:titleFlow 6s linear infinite;
+ filter:drop-shadow(0 0 18px rgba(255,214,0,.2));
+}
+
+@keyframes titleFlow {
+ to {background-position:250% center}
+}
+
+.home-description {
+ color:var(--muted);
+ font-size:17px;
+ margin-top:17px;
+ line-height:1.8;
+}
+
+.cards {
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:18px;
+ margin-top:35px;
+}
+
+.card {
+ position:relative;
+ min-height:230px;
+ padding:28px;
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ justify-content:center;
+ gap:14px;
+ overflow:hidden;
+ background:linear-gradient(145deg,var(--panel),var(--panel2));
+ border:1px solid var(--line);
+ border-radius:20px;
+ cursor:pointer;
+ transition:.3s;
+}
+
+.card::before {
+ content:"";
+ position:absolute;
+ width:180px;
+ height:180px;
+ border-radius:50%;
+ background:var(--accent);
+ filter:blur(100px);
+ opacity:0;
+ right:-70px;
+ bottom:-80px;
+ transition:.3s;
+}
+
+.card:hover {
+ transform:translateY(-7px);
+ border-color:var(--accent);
+ box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+.card:hover::before {
+ opacity:.17;
+}
+
+.card-number {
+ color:var(--accent);
+ font-family:'Orbitron',sans-serif;
+ font-size:13px;
+ letter-spacing:3px;
+}
+
+.card h2 {
+ font-size:24px;
+ font-weight:900;
+}
+
+.card p {
+ color:var(--muted);
+ line-height:1.7;
+ font-size:14px;
+}
+
+.card-link {
+ color:var(--accent);
+ font-weight:800;
+ margin-top:5px;
+}
+
+/* Page heading */
+
+.heading {
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:14px;
+ flex-wrap:wrap;
+ margin-bottom:20px;
+}
+
+.heading h1 {
+ font-size:27px;
+ font-weight:900;
+}
+
+.heading-actions {
+ display:flex;
+ gap:8px;
+ flex-wrap:wrap;
+}
+
+.layout {
+ display:grid;
+ grid-template-columns:minmax(0,1fr) 310px;
+ gap:17px;
+ align-items:start;
+}
+
+.panel {
+ min-width:0;
+ overflow:hidden;
+ background:rgba(16,16,16,.94);
+ border:1px solid var(--line);
+ border-radius:var(--radius);
+ box-shadow:0 12px 35px rgba(0,0,0,.12);
+}
+
+[data-theme="light"] .panel {
+ background:var(--panel);
+}
+
+.toolbar {
+ min-height:60px;
+ padding:12px;
+ display:flex;
+ align-items:center;
+ gap:9px;
+ flex-wrap:wrap;
+ border-bottom:1px solid var(--line);
+}
+
+.stage {
+ position:relative;
+ min-height:500px;
+ padding:20px;
+ display:grid;
+ place-items:center;
+ overflow:auto;
+ background-color:#171717;
+ background-image:
+ linear-gradient(45deg,#ffffff0d 25%,transparent 25%),
+ linear-gradient(-45deg,#ffffff0d 25%,transparent 25%),
+ linear-gradient(45deg,transparent 75%,#ffffff0d 75%),
+ linear-gradient(-45deg,transparent 75%,#ffffff0d 75%);
+ background-size:22px 22px;
+ background-position:0 0,0 11px,11px -11px,-11px 0;
+}
+
+[data-theme="light"] .stage {
+ background-color:#e4e4e4;
+}
+
+canvas {
+ display:block;
+ max-width:100%;
+ height:auto;
+}
+
+#editCanvas,
+#retouchCanvas {
+ display:none;
+ max-height:720px;
+ object-fit:contain;
+ background:transparent;
+}
+
+.drop {
+ width:min(430px,100%);
+ padding:45px 20px;
+ text-align:center;
+ border:2px dashed rgba(255,214,0,.5);
+ border-radius:20px;
+ background:rgba(255,214,0,.035);
+ cursor:pointer;
+ transition:.2s;
+}
+
+.drop:hover,
+.drop.dragging {
+ border-color:var(--accent);
+ background:rgba(255,214,0,.09);
+}
+
+.drop-mark {
+ width:65px;
+ height:65px;
+ margin:0 auto 17px;
+ display:grid;
+ place-items:center;
+ border-radius:18px;
+ border:1px solid rgba(255,214,0,.4);
+ color:var(--accent);
+ font-family:'Orbitron',sans-serif;
+ font-size:24px;
+ font-weight:900;
+}
+
+.drop h2 {
+ font-size:21px;
+ margin-bottom:9px;
+}
+
+.drop p {
+ color:var(--muted);
+ line-height:1.8;
+ font-size:13px;
+}
+
+/* Sidebar */
+
+.sidebar {
+ padding:18px;
+ max-height:850px;
+ overflow-y:auto;
+}
+
+.sidebar h3 {
+ font-size:18px;
+ margin-bottom:12px;
+}
+
+.sidebar-section {
+ padding:14px 0;
+ border-bottom:1px solid var(--line);
+}
+
+.sidebar-section:last-child {
+ border-bottom:0;
+}
+
+.sidebar-section h4 {
+ font-size:14px;
+ color:var(--accent);
+ margin-bottom:12px;
+}
+
+.control {
+ margin-bottom:15px;
+}
+
+.control:last-child {
+ margin-bottom:0;
+}
+
+.control label {
+ display:flex;
+ justify-content:space-between;
+ gap:8px;
+ margin-bottom:9px;
+ font-size:14px;
+ font-weight:700;
+}
+
+.value {
+ color:var(--accent);
+ font-family:'Orbitron',sans-serif;
+ font-size:12px;
+}
+
+input[type="range"] {
+ width:100%;
+ accent-color:var(--accent);
+ cursor:pointer;
+}
+
+input[type="color"] {
+ width:55px;
+ height:37px;
+ padding:2px;
+ border:1px solid var(--line);
+ border-radius:8px;
+ background:var(--panel2);
+ cursor:pointer;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+ width:100%;
+ min-width:0;
+ padding:10px;
+ border-radius:9px;
+ border:1px solid var(--line);
+ background:var(--panel2);
+ color:var(--text);
+}
+
+select option {
+ background:#111;
+ color:white;
+}
+
+.control-row {
+ display:flex;
+ align-items:center;
+ gap:9px;
+}
+
+.control-row>* {
+ min-width:0;
+}
+
+.full {
+ width:100%;
+ margin-top:8px;
+}
+
+.hint {
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.7;
+}
+
+.info-line {
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+ color:var(--muted);
+ font-size:12px;
+ margin-top:10px;
+}
+
+/* Drawing tools */
+
+.drawing-layout {
+ display:grid;
+ grid-template-columns:minmax(0,1fr) 320px;
+ gap:17px;
+}
+
+#drawingCanvas {
+ width:min(100%,1100px);
+ height:auto;
+ background:white;
+ touch-action:none;
+ cursor:crosshair;
+}
+
+.drawing-stage {
+ min-height:550px;
+}
+
+.reference-layer {
+ position:absolute;
+ inset:20px;
+ display:none;
+ place-items:center;
+ pointer-events:none;
+}
+
+.reference-layer img {
+ max-width:100%;
+ max-height:520px;
+ object-fit:contain;
+ opacity:.35;
+}
+
+.brush-grid {
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:8px;
+}
+
+.brush-option {
+ padding:10px 5px;
+ border:1px solid var(--line);
+ border-radius:9px;
+ background:var(--panel2);
+ color:var(--text);
+ font-size:12px;
+}
+
+.brush-option.active {
+ border-color:var(--accent);
+ color:var(--accent);
+ background:var(--accentGlow);
+}
+
+.color-row {
+ display:flex;
+ gap:8px;
+ align-items:center;
+ flex-wrap:wrap;
+}
+
+.color-preset {
+ width:24px;
+ height:24px;
+ border-radius:50%;
+ border:2px solid rgba(255,255,255,.3);
+ cursor:pointer;
+}
+
+.actions-grid {
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+}
+
+/* Toast and footer */
+
+.toast {
+ position:fixed;
+ left:50%;
+ bottom:22px;
+ z-index:100;
+ transform:translate(-50%,20px);
+ opacity:0;
+ pointer-events:none;
+ padding:13px 20px;
+ border-radius:12px;
+ border:1px solid var(--accent);
+ background:#111;
+ color:#fff;
+ box-shadow:0 0 25px var(--accentGlow);
+ transition:.25s;
+ text-align:center;
+ max-width:90%;
+}
+
+.toast.show {
+ opacity:1;
+ transform:translate(-50%,0);
+}
+
+footer {
+ padding:25px;
+ text-align:center;
+ border-top:1px solid var(--line);
+ color:var(--muted);
+ font-family:'Orbitron',sans-serif;
+ font-size:12px;
+}
+
+footer span {
+ color:var(--accent);
+}
+
+@media(max-width:950px) {
+ .layout,
+ .drawing-layout {
+  grid-template-columns:1fr;
+ }
+
+ .sidebar {
+  max-height:none;
+ }
+}
+
+@media(max-width:650px) {
+ header {
+  padding:10px 4%;
+ }
+
+ .brand-name {
+  font-size:11px;
+ }
+
+ .brand-symbol {
+  width:37px;
+  height:37px;
+ }
+
+ .header-actions .btn {
+  padding:8px 10px;
+  font-size:12px;
+ }
+
+ main {
+  width:94%;
+  margin-top:18px;
+ }
+
+ .home-hero {
+  padding:45px 8px 20px;
+ }
+
+ .cards {
+  grid-template-columns:1fr;
+  gap:12px;
+ }
+
+ .card {
+  min-height:160px;
+ }
+
+ .heading h1 {
+  font-size:22px;
+ }
+
+ .heading-actions {
+  width:100%;
+ }
+
+ .heading-actions button {
+  flex:1;
+ }
+
+ .stage {
+  min-height:330px;
+  padding:12px;
+ }
+
+ .drawing-stage {
+  min-height:350px;
+ }
+
+ .sidebar {
+  padding:14px;
+ }
+
+ .black-hole {
+  width:300px;
+  height:300px;
+ }
+}
+
+@media(prefers-reduced-motion:reduce) {
+ *,
+ *::before,
+ *::after {
+  animation-duration:.01ms!important;
+  transition-duration:.01ms!important;
+  scroll-behavior:auto!important;
+ }
+}
 </style>
 </head>
+
 <body>
+
+<div class="space-background">
+ <div class="space-grid"></div>
+ <div class="black-hole"></div>
+</div>
+<div class="ambient one"></div>
+<div class="ambient two"></div>
+
 <header>
-  <h2>تحرير الصور</h2>
-  <div class="row">
-    <button id="themeBtn">☀️</button>
-    <button id="homeBtn">الرئيسية</button>
-  </div>
+ <a class="brand" href="#" id="brandHome">
+  <span class="brand-symbol">V</span>
+  <span class="brand-name">VideoYTFX <span>/ IMAGE STUDIO</span></span>
+ </a>
+
+ <div class="header-actions">
+  <button class="btn" id="themeBtn" aria-label="تغيير المظهر">تغيير المظهر</button>
+  <button class="btn" id="homeBtn">الرئيسية</button>
+ </div>
 </header>
 
 <main>
+
+<!-- HOME -->
+
 <section id="home" class="page active">
-  <div class="cards">
-    <article class="card" data-page="editor"><span>🖼️</span><h2>تحرير الصور</h2></article>
-    <article class="card" data-page="retouch"><span>🪄</span><h2>تنظيف الصور</h2></article>
-    <article class="card" data-page="drawing"><span>🎨</span><h2>الرسم</h2></article>
-  </div>
+
+ <div class="home-hero">
+  <div class="home-tag">CREATIVE IMAGE STUDIO</div>
+
+  <h1 class="home-title">IMAGE STUDIO</h1>
+
+  <p class="home-description">
+   مساحة إبداعية متكاملة لتحرير الصور وتنظيفها والرسم الرقمي.
+   <br>
+   أدواتك الإبداعية في مكان واحد.
+  </p>
+ </div>
+
+ <div class="cards">
+
+  <article class="card" data-page="editor">
+   <span class="card-number">01 / IMAGE EDITOR</span>
+   <h2>تحرير الصور</h2>
+   <p>تعديل الإضاءة والتباين والألوان، واستخدام الفلاتر والتدوير والعكس.</p>
+   <span class="card-link">فتح محرر الصور ←</span>
+  </article>
+
+  <article class="card" data-page="retouch">
+   <span class="card-number">02 / IMAGE RETOUCH</span>
+   <h2>تنظيف الصور</h2>
+   <p>تنظيف المناطق باستخدام أدوات التمويه ونسخ المناطق المجاورة.</p>
+   <span class="card-link">فتح أدوات التنظيف ←</span>
+  </article>
+
+  <article class="card" data-page="drawing">
+   <span class="card-number">03 / DIGITAL ART</span>
+   <h2>الرسم الرقمي</h2>
+   <p>ارسم باستخدام فرش متعددة، وتحكم في الألوان والشفافية والحجم.</p>
+   <span class="card-link">فتح لوحة الرسم ←</span>
+  </article>
+
+ </div>
 </section>
+
+<!-- EDITOR -->
 
 <section id="editor" class="page">
-  <div class="heading">
-    <h1>تحرير الصور</h1>
-    <div class="row">
-      <button id="rotateBtn">↻ تدوير</button>
-      <button id="flipBtn">↔ عكس</button>
-      <button id="resetEdit">إعادة ضبط</button>
-      <button class="primary" id="exportEdit">تنزيل الصورة</button>
-    </div>
+
+ <div class="heading">
+  <h1>تحرير الصور</h1>
+
+  <div class="heading-actions">
+   <button class="btn" id="rotateBtn">تدوير 90°</button>
+   <button class="btn" id="flipBtn">عكس الصورة</button>
+   <button class="btn" id="resetEdit">إعادة ضبط</button>
+   <button class="btn primary" id="exportEdit">تنزيل الصورة</button>
   </div>
-  <div class="layout">
-    <div class="panel">
-      <div class="toolbar">
-        <button class="primary" id="chooseEdit">اختيار صورة</button>
-        <input id="editFile" type="file" accept="image/*" hidden>
-        <span id="editInfo" class="hint">لم يتم اختيار صورة</span>
-      </div>
-      <div class="stage" id="editStage">
-        <div class="drop" id="editDrop"><span>📷</span><h2>اختر صورة</h2></div>
-        <canvas id="editCanvas"></canvas>
-      </div>
+ </div>
+
+ <div class="layout">
+
+  <div class="panel">
+   <div class="toolbar">
+    <button class="btn primary" id="chooseEdit">اختيار صورة</button>
+    <input id="editFile" type="file" accept="image/*" hidden>
+    <button class="btn" id="editFit">ملاءمة العرض</button>
+    <span class="hint" id="editInfo">لم يتم اختيار صورة</span>
+   </div>
+
+   <div class="stage" id="editStage">
+
+    <div class="drop" id="editDrop">
+     <div class="drop-mark">01</div>
+     <h2>ابدأ بتحرير صورتك</h2>
+     <p>اختر صورة من جهازك أو اسحبها إلى هذه المنطقة.</p>
     </div>
-    <aside class="panel sidebar">
-      <h3>أدوات التعديل</h3>
-      <div class="control"><label>الإضاءة <span id="brightVal" class="value">100%</span></label><input id="bright" type="range" min="0" max="200" value="100"></div>
-      <div class="control"><label>التباين <span id="contrastVal" class="value">100%</span></label><input id="contrast" type="range" min="0" max="200" value="100"></div>
-      <div class="control"><label>التشبع <span id="saturationVal" class="value">100%</span></label><input id="saturation" type="range" min="0" max="200" value="100"></div>
-      <div class="control"><label>التمويه <span id="blurVal" class="value">0px</span></label><input id="blur" type="range" min="0" max="10" value="0"></div>
-      <div class="control"><label>الفلاتر</label>
-        <select id="filter">
-          <option value="none">بدون فلتر</option>
-          <option value="grayscale(1)">أبيض وأسود</option>
-          <option value="sepia(1)">بني</option>
-          <option value="saturate(1.8) contrast(1.1)">ألوان قوية</option>
-          <option value="contrast(1.15) saturate(.8)">سينمائي</option>
-          <option value="sepia(.2) saturate(1.3)">دافئ</option>
-          <option value="hue-rotate(35deg)">ألوان باردة</option>
-        </select>
-      </div>
-    </aside>
+
+    <canvas id="editCanvas"></canvas>
+
+   </div>
   </div>
+
+  <aside class="panel sidebar">
+
+   <h3>أدوات التعديل</h3>
+
+   <div class="sidebar-section">
+    <h4>ضبط الصورة</h4>
+
+    <div class="control">
+     <label>الإضاءة <span class="value" id="brightVal">100%</span></label>
+     <input id="bright" type="range" min="0" max="200" value="100">
+    </div>
+
+    <div class="control">
+     <label>التباين <span class="value" id="contrastVal">100%</span></label>
+     <input id="contrast" type="range" min="0" max="200" value="100">
+    </div>
+
+    <div class="control">
+     <label>التشبع <span class="value" id="saturationVal">100%</span></label>
+     <input id="saturation" type="range" min="0" max="200" value="100">
+    </div>
+
+    <div class="control">
+     <label>التمويه <span class="value" id="blurVal">0px</span></label>
+     <input id="blur" type="range" min="0" max="15" value="0">
+    </div>
+
+    <div class="control">
+     <label>درجة اللون <span class="value" id="hueVal">0°</span></label>
+     <input id="hue" type="range" min="0" max="360" value="0">
+    </div>
+   </div>
+
+   <div class="sidebar-section">
+    <h4>الفلاتر</h4>
+
+    <div class="control">
+     <label>اختر الفلتر</label>
+     <select id="filter">
+      <option value="none">بدون فلتر</option>
+      <option value="grayscale(1)">أبيض وأسود</option>
+      <option value="sepia(1)">بني كلاسيكي</option>
+      <option value="saturate(1.8) contrast(1.1)">ألوان قوية</option>
+      <option value="contrast(1.2) saturate(.8)">سينمائي</option>
+      <option value="sepia(.25) saturate(1.4)">دافئ</option>
+      <option value="hue-rotate(180deg)">ألوان معكوسة</option>
+      <option value="brightness(1.1) contrast(1.2)">وضوح مرتفع</option>
+     </select>
+    </div>
+   </div>
+
+   <div class="sidebar-section">
+    <h4>معلومات الصورة</h4>
+    <div class="info-line"><span>العرض</span><strong id="imageWidth">—</strong></div>
+    <div class="info-line"><span>الارتفاع</span><strong id="imageHeight">—</strong></div>
+   </div>
+
+  </aside>
+ </div>
 </section>
+
+<!-- RETOUCH -->
 
 <section id="retouch" class="page">
-  <div class="heading">
-    <h1>تنظيف الصور</h1>
-    <div class="row">
-      <button id="undoRetouch">تراجع</button>
-      <button class="primary" id="exportRetouch">تنزيل الصورة</button>
-    </div>
+
+ <div class="heading">
+  <h1>تنظيف الصور</h1>
+
+  <div class="heading-actions">
+   <button class="btn" id="undoRetouch">تراجع</button>
+   <button class="btn" id="resetRetouch">إعادة الصورة</button>
+   <button class="btn primary" id="exportRetouch">تنزيل الصورة</button>
   </div>
-  <div class="layout">
-    <div class="panel">
-      <div class="toolbar"><button class="primary" id="chooseRetouch">اختيار صورة</button><input id="retouchFile" type="file" accept="image/*" hidden></div>
-      <div class="stage" id="retouchStage">
-        <div class="drop" id="retouchDrop"><span>🪄</span><h2>اختر صورة</h2></div>
-        <canvas id="retouchCanvas"></canvas>
-      </div>
+ </div>
+
+ <div class="layout">
+
+  <div class="panel">
+   <div class="toolbar">
+    <button class="btn primary" id="chooseRetouch">اختيار صورة</button>
+    <input id="retouchFile" type="file" accept="image/*" hidden>
+    <span class="hint" id="retouchInfo">لم يتم اختيار صورة</span>
+   </div>
+
+   <div class="stage">
+    <div class="drop" id="retouchDrop">
+     <div class="drop-mark">02</div>
+     <h2>اختر صورة للتنظيف</h2>
+     <p>استخدم الفرشاة لتعديل المناطق التي تريد تحسينها.</p>
     </div>
-    <aside class="panel sidebar">
-      <h3>أدوات التنظيف</h3>
-      <div class="control"><label>الأداة</label>
-        <select id="retouchTool"><option value="blur">تمويه</option><option value="clone">نسخ المنطقة المجاورة</option></select>
-      </div>
-      <div class="control"><label>حجم الفرشاة <span id="retouchSizeVal" class="value">30px</span></label><input id="retouchSize" type="range" min="5" max="100" value="30"></div>
-      <div class="control"><label>مسافة النسخ</label><input id="cloneOffset" type="range" min="10" max="150" value="50"></div>
-    </aside>
+
+    <canvas id="retouchCanvas"></canvas>
+   </div>
   </div>
+
+  <aside class="panel sidebar">
+
+   <h3>أدوات التنظيف</h3>
+
+   <div class="sidebar-section">
+    <h4>نوع الأداة</h4>
+
+    <div class="control">
+     <select id="retouchTool">
+      <option value="blur">تمويه المنطقة</option>
+      <option value="clone">نسخ المنطقة المجاورة</option>
+     </select>
+    </div>
+   </div>
+
+   <div class="sidebar-section">
+    <h4>إعدادات الفرشاة</h4>
+
+    <div class="control">
+     <label>حجم الفرشاة <span class="value" id="retouchSizeVal">30px</span></label>
+     <input id="retouchSize" type="range" min="5" max="120" value="30">
+    </div>
+
+    <div class="control">
+     <label>قوة التأثير <span class="value" id="retouchStrengthVal">60%</span></label>
+     <input id="retouchStrength" type="range" min="10" max="100" value="60">
+    </div>
+
+    <div class="control">
+     <label>مسافة النسخ <span class="value" id="cloneOffsetVal">50px</span></label>
+     <input id="cloneOffset" type="range" min="10" max="200" value="50">
+    </div>
+   </div>
+
+   <p class="hint">
+    استخدم أداة التمويه لتخفيف التفاصيل، أو أداة النسخ لنقل جزء من الصورة إلى منطقة أخرى.
+   </p>
+
+  </aside>
+
+ </div>
 </section>
 
+<!-- DRAWING -->
+
 <section id="drawing" class="page">
-  <div class="heading">
-    <h1>الرسم</h1>
-    <div class="row">
-      <button id="undoDrawing">تراجع</button>
-      <button id="clearDrawing">مسح الرسم</button>
-      <button class="primary" id="exportDrawing">تنزيل الرسم</button>
-    </div>
+
+ <div class="heading">
+  <h1>الرسم الرقمي</h1>
+
+  <div class="heading-actions">
+   <button class="btn" id="undoDrawing">تراجع</button>
+   <button class="btn" id="clearDrawing">مسح اللوحة</button>
+   <button class="btn primary" id="exportDrawing">تنزيل الرسم</button>
   </div>
-  <div class="layout">
-    <div class="panel">
-      <div class="toolbar"><span>لوحة الرسم</span></div>
-      <div class="stage">
-        <canvas id="drawingCanvas" width="1200" height="800"></canvas>
-      </div>
-    </div>
-    <aside class="panel sidebar">
-      <h3>الفرش الاحترافية</h3>
-      <div class="control"><label>نوع الفرشاة</label>
-        <select id="brushType">
-          <option value="pencil">✏️ قلم رصاص</option>
-          <option value="ink">🖊️ حبر</option>
-          <option value="soft">🖋️ قلم ناعم</option>
-          <option value="marker">🖍️ ماركر</option>
-          <option value="highlighter">🟨 قلم تمييز</option>
-          <option value="airbrush">💨 بخاخ</option>
-          <option value="watercolor">🎨 ألوان مائية</option>
-          <option value="oil">🖌️ فرشاة زيتية</option>
-          <option value="crayon">🖍️ قلم شمع</option>
-          <option value="neon">💡 نيون</option>
-          <option value="calligraphy">✒️ خط عريض</option>
-          <option value="pixel">▦ بكسل</option>
-          <option value="rainbow">🌈 قوس قزح</option>
-          <option value="eraser">🧽 ممحاة</option>
-        </select>
-      </div>
-      <div class="control"><label>لون الفرشاة</label><input id="brushColor" type="color" value="#111111"></div>
-      <div class="control"><label>حجم الفرشاة <span id="brushSizeVal" class="value">8px</span></label><input id="brushSize" type="range" min="1" max="100" value="8"></div>
-      <div class="control"><label>الشفافية <span id="opacityVal" class="value">100%</span></label><input id="opacity" type="range" min="5" max="100" value="100"></div>
-      <div class="control"><label>تنعيم الخط <span id="smoothVal" class="value">50%</span></label><input id="smooth" type="range" min="0" max="100" value="50"></div>
-      <div class="control"><label>شكل الفرشاة</label>
-        <select id="brushShape"><option value="round">دائري</option><option value="square">مربع</option><option value="flat">مسطح</option></select>
-      </div>
-      <div class="control"><label>خلفية اللوحة</label><input id="backgroundColor" type="color" value="#ffffff"><button class="full" id="applyBackground">تغيير الخلفية</button></div>
-    </aside>
+ </div>
+
+ <div class="drawing-layout">
+
+  <div class="panel">
+   <div class="toolbar">
+    <span class="hint">لوحة الرسم الاحترافية</span>
+    <span class="hint" id="drawingStatus">1200 × 800</span>
+   </div>
+
+   <div class="stage drawing-stage">
+    <canvas id="drawingCanvas" width="1200" height="800"></canvas>
+   </div>
   </div>
+
+  <aside class="panel sidebar">
+
+   <h3>أدوات الرسم</h3>
+
+   <div class="sidebar-section">
+    <h4>أنواع الفرش</h4>
+
+    <div class="brush-grid" id="brushGrid">
+     <button class="brush-option active" data-brush="pencil">قلم رصاص</button>
+     <button class="brush-option" data-brush="ink">حبر</button>
+     <button class="brush-option" data-brush="soft">قلم ناعم</button>
+     <button class="brush-option" data-brush="marker">ماركر</button>
+     <button class="brush-option" data-brush="highlighter">تمييز</button>
+     <button class="brush-option" data-brush="airbrush">بخاخ</button>
+     <button class="brush-option" data-brush="watercolor">مائي</button>
+     <button class="brush-option" data-brush="oil">زيتي</button>
+     <button class="brush-option" data-brush="crayon">شمع</button>
+     <button class="brush-option" data-brush="neon">نيون</button>
+     <button class="brush-option" data-brush="calligraphy">خط عريض</button>
+     <button class="brush-option" data-brush="pixel">بكسل</button>
+     <button class="brush-option" data-brush="rainbow">ألوان متدرجة</button>
+     <button class="brush-option" data-brush="eraser">ممحاة</button>
+    </div>
+   </div>
+
+   <div class="sidebar-section">
+    <h4>اللون</h4>
+
+    <div class="color-row">
+     <input id="brushColor" type="color" value="#111111">
+     <button class="color-preset" data-color="#111111" style="background:#111111"></button>
+     <button class="color-preset" data-color="#ffffff" style="background:#ffffff"></button>
+     <button class="color-preset" data-color="#ffd600" style="background:#ffd600"></button>
+     <button class="color-preset" data-color="#ff4141" style="background:#ff4141"></button>
+     <button class="color-preset" data-color="#287bff" style="background:#287bff"></button>
+     <button class="color-preset" data-color="#20c878" style="background:#20c878"></button>
+    </div>
+   </div>
+
+   <div class="sidebar-section">
+    <h4>إعدادات الفرشاة</h4>
+
+    <div class="control">
+     <label>حجم الفرشاة <span class="value" id="brushSizeVal">8px</span></label>
+     <input id="brushSize" type="range" min="1" max="100" value="8">
+    </div>
+
+    <div class="control">
+     <label>الشفافية <span class="value" id="opacityVal">100%</span></label>
+     <input id="opacity" type="range" min="5" max="100" value="100">
+    </div>
+
+    <div class="control">
+     <label>تنعيم الخط <span class="value" id="smoothVal">50%</span></label>
+     <input id="smooth" type="range" min="0" max="100" value="50">
+    </div>
+
+    <div class="control">
+     <label>شكل الفرشاة</label>
+     <select id="brushShape">
+      <option value="round">دائري</option>
+      <option value="square">مربع</option>
+      <option value="flat">مسطح</option>
+     </select>
+    </div>
+   </div>
+
+   <div class="sidebar-section">
+    <h4>خلفية اللوحة</h4>
+
+    <div class="control">
+     <label>لون الخلفية</label>
+     <input id="backgroundColor" type="color" value="#ffffff">
+     <button class="btn full" id="applyBackground">تطبيق الخلفية</button>
+    </div>
+   </div>
+
+   <div class="sidebar-section">
+    <h4>الصورة المرجعية</h4>
+
+    <div class="control">
+     <label>إضافة صورة للتتبع</label>
+     <input id="referenceFile" type="file" accept="image/*" hidden>
+     <button class="btn full" id="chooseReference">اختيار صورة مرجعية</button>
+    </div>
+
+    <div class="control">
+     <label>شفافية الصورة <span class="value" id="referenceOpacityVal">35%</span></label>
+     <input id="referenceOpacity" type="range" min="5" max="100" value="35">
+    </div>
+
+    <button class="btn full" id="removeReference">إزالة الصورة المرجعية</button>
+
+    <p class="hint">تظهر الصورة المرجعية فوق اللوحة للمساعدة في الرسم، ولا تدخل في الصورة النهائية عند التنزيل.</p>
+   </div>
+
+  </aside>
+ </div>
 </section>
+
 </main>
+
+<footer>
+ VIDEOYT FX <span>·</span> IMAGE STUDIO <span>·</span> 2026
+</footer>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const $ = s => document.querySelector(s);
-const $$ = s => [...document.querySelectorAll(s)];
+"use strict";
 
-function message(text){
-  const t=$('#toast');
-  t.textContent=text;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2000);
+const $ = id => document.getElementById(id);
+const $$ = selector => [...document.querySelectorAll(selector)];
+
+let toastTimer;
+
+function message(text) {
+ const toast=$("toast");
+ toast.textContent=text;
+ toast.classList.add("show");
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>toast.classList.remove("show"),2400);
 }
 
-$$('[data-page]').forEach(card=>{
-  card.onclick=()=>showPage(card.dataset.page);
+/* Navigation */
+
+function showPage(id) {
+ $$(".page").forEach(page=>page.classList.remove("active"));
+ $(id).classList.add("active");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+$$("[data-page]").forEach(card=>{
+ card.addEventListener("click",()=>showPage(card.dataset.page));
 });
 
-function showPage(id){
-  $$('.page').forEach(p=>p.classList.remove('active'));
-  $('#'+id).classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+$("homeBtn").addEventListener("click",()=>showPage("home"));
+$("brandHome").addEventListener("click",e=>{
+ e.preventDefault();
+ showPage("home");
+});
+
+/* Theme */
+
+function applyTheme(theme) {
+ document.documentElement.dataset.theme=theme;
+ $("themeBtn").textContent=theme==="dark"?"الوضع الفاتح":"الوضع الداكن";
+
+ try {
+  localStorage.setItem("image_studio_theme",theme);
+ } catch(error) {}
 }
 
-$('#homeBtn').onclick=()=>showPage('home');
+$("themeBtn").addEventListener("click",()=>{
+ const current=document.documentElement.dataset.theme;
+ applyTheme(current==="dark"?"light":"dark");
+});
 
-$('#themeBtn').onclick=()=>{
-  const root=document.documentElement;
-  root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';
-  $('#themeBtn').textContent=root.dataset.theme==='dark'?'☀️':'🌙';
-};
+try {
+ const savedTheme=localStorage.getItem("image_studio_theme");
+ if(savedTheme==="light"||savedTheme==="dark")applyTheme(savedTheme);
+ else applyTheme("dark");
+} catch(error) {
+ applyTheme("dark");
+}
 
-/* تحميل الصور */
-function loadImage(file,callback){
-  if(!file||!file.type.startsWith('image/')){
-    message('اختر ملف صورة صالحًا');
-    return;
+/* Shared image functions */
+
+function loadImage(file,callback) {
+ if(!file||!file.type.startsWith("image/")) {
+  message("يرجى اختيار ملف صورة صالح.");
+  return;
+ }
+
+ const url=URL.createObjectURL(file);
+ const img=new Image();
+
+ img.onload=()=>{
+  try {
+   callback(img,file.name);
+  } finally {
+   URL.revokeObjectURL(url);
   }
-  const url=URL.createObjectURL(file);
-  const img=new Image();
-  img.onload=()=>{
-    callback(img,file.name);
-    URL.revokeObjectURL(url);
-  };
-  img.onerror=()=>{
-    URL.revokeObjectURL(url);
-    message('تعذر فتح الصورة');
-  };
-  img.src=url;
+ };
+
+ img.onerror=()=>{
+  URL.revokeObjectURL(url);
+  message("تعذر فتح الصورة.");
+ };
+
+ img.src=url;
 }
 
-function downloadCanvas(canvas,name){
-  canvas.toBlob(blob=>{
-    if(!blob){message('تعذر تنزيل الصورة');return;}
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;
-    a.download=name;
-    a.click();
-    setTimeout(()=>URL.revokeObjectURL(url),1500);
-  },'image/png');
+function downloadCanvas(canvas,name) {
+ canvas.toBlob(blob=>{
+  if(!blob) {
+   message("تعذر تجهيز الصورة للتنزيل.");
+   return;
+  }
+
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+
+  link.href=url;
+  link.download=name;
+  link.click();
+
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+ }, "image/png");
 }
 
-function attachDrop(zone,callback){
-  zone.addEventListener('dragover',e=>{
-    e.preventDefault();
-    zone.style.borderColor='#b17aff';
+function attachDrop(zone,callback) {
+ ["dragenter","dragover"].forEach(event=>{
+  zone.addEventListener(event,e=>{
+   e.preventDefault();
+   zone.classList.add("dragging");
   });
-  zone.addEventListener('dragleave',()=>{
-    zone.style.borderColor='';
+ });
+
+ ["dragleave","drop"].forEach(event=>{
+  zone.addEventListener(event,e=>{
+   e.preventDefault();
+   zone.classList.remove("dragging");
   });
-  zone.addEventListener('drop',e=>{
-    e.preventDefault();
-    const file=e.dataTransfer.files[0];
-    if(file)loadImage(file,callback);
-  });
+ });
+
+ zone.addEventListener("drop",e=>{
+  const file=e.dataTransfer.files[0];
+  if(file)loadImage(file,callback);
+ });
 }
 
-/* تحرير الصور */
-const editCanvas=$('#editCanvas');
-const editCtx=editCanvas.getContext('2d');
-let editImage=null,editName='image',editRotation=0,editFlip=false;
+/* IMAGE EDITOR */
 
-function renderEdit(){
-  if(!editImage)return;
-  const rotated=Math.abs(editRotation%180)===90;
-  const w=editImage.naturalWidth,h=editImage.naturalHeight;
-  editCanvas.width=rotated?h:w;
-  editCanvas.height=rotated?w:h;
-  editCtx.clearRect(0,0,editCanvas.width,editCanvas.height);
-  editCtx.save();
-  editCtx.filter=
-    `brightness(${$('#bright').value}%)
-     contrast(${$('#contrast').value}%)
-     saturate(${$('#saturation').value}%)
-     blur(${$('#blur').value}px)
-     ${$('#filter').value==='none'?'':$('#filter').value}`;
-  editCtx.translate(editCanvas.width/2,editCanvas.height/2);
-  editCtx.rotate(editRotation*Math.PI/180);
-  editCtx.scale(editFlip?-1:1,1);
-  editCtx.drawImage(editImage,-w/2,-h/2,w,h);
-  editCtx.restore();
+const editCanvas=$("editCanvas");
+const editCtx=editCanvas.getContext("2d");
+
+let editImage=null;
+let editName="image";
+let editRotation=0;
+let editFlip=false;
+
+function updateEditValues() {
+ $("brightVal").textContent=$("bright").value+"%";
+ $("contrastVal").textContent=$("contrast").value+"%";
+ $("saturationVal").textContent=$("saturation").value+"%";
+ $("blurVal").textContent=$("blur").value+"px";
+ $("hueVal").textContent=$("hue").value+"°";
 }
 
-function loadEdit(img,name){
-  editImage=img;
-  editName=name.replace(/\.[^.]+$/,'')||'image';
-  editRotation=0;
-  editFlip=false;
-  $('#editDrop').style.display='none';
-  editCanvas.style.display='block';
-  $('#editInfo').textContent=`${img.naturalWidth} × ${img.naturalHeight}`;
-  ['bright','contrast','saturation'].forEach(id=>$('#'+id).value=100);
-  $('#blur').value=0;
-  $('#filter').value='none';
+function renderEdit() {
+ if(!editImage)return;
+
+ const rotated=Math.abs(editRotation%180)===90;
+ const width=editImage.naturalWidth;
+ const height=editImage.naturalHeight;
+
+ editCanvas.width=rotated?height:width;
+ editCanvas.height=rotated?width:height;
+
+ editCtx.clearRect(0,0,editCanvas.width,editCanvas.height);
+ editCtx.save();
+
+ editCtx.filter=[
+  `brightness(${$("bright").value}%)`,
+  `contrast(${$("contrast").value}%)`,
+  `saturate(${$("saturation").value}%)`,
+  `blur(${$("blur").value}px)`,
+  `hue-rotate(${$("hue").value}deg)`,
+  $("filter").value==="none"?"":$("filter").value
+ ].filter(Boolean).join(" ");
+
+ editCtx.translate(editCanvas.width/2,editCanvas.height/2);
+ editCtx.rotate(editRotation*Math.PI/180);
+ editCtx.scale(editFlip?-1:1,1);
+ editCtx.drawImage(editImage,-width/2,-height/2,width,height);
+
+ editCtx.restore();
+}
+
+function loadEdit(img,name) {
+ editImage=img;
+ editName=name.replace(/\.[^.]+$/,"")||"image";
+ editRotation=0;
+ editFlip=false;
+
+ $("editDrop").style.display="none";
+ editCanvas.style.display="block";
+
+ $("editInfo").textContent=editName;
+ $("imageWidth").textContent=img.naturalWidth+" px";
+ $("imageHeight").textContent=img.naturalHeight+" px";
+
+ ["bright","contrast","saturation"].forEach(id=>$(id).value=100);
+ $("blur").value=0;
+ $("hue").value=0;
+ $("filter").value="none";
+
+ updateEditValues();
+ renderEdit();
+
+ message("تم تحميل الصورة بنجاح.");
+}
+
+$("chooseEdit").addEventListener("click",()=>$("editFile").click());
+
+$("editDrop").addEventListener("click",()=>$("editFile").click());
+
+$("editFile").addEventListener("change",e=>{
+ const file=e.target.files[0];
+ if(file)loadImage(file,loadEdit);
+ e.target.value="";
+});
+
+attachDrop($("editStage"),loadEdit);
+
+["bright","contrast","saturation","blur","hue"].forEach(id=>{
+ $(id).addEventListener("input",()=>{
   updateEditValues();
   renderEdit();
+ });
+});
+
+$("filter").addEventListener("change",renderEdit);
+
+$("rotateBtn").addEventListener("click",()=>{
+ if(!editImage)return message("اختر صورة أولاً.");
+ editRotation=(editRotation+90)%360;
+ renderEdit();
+});
+
+$("flipBtn").addEventListener("click",()=>{
+ if(!editImage)return message("اختر صورة أولاً.");
+ editFlip=!editFlip;
+ renderEdit();
+});
+
+$("resetEdit").addEventListener("click",()=>{
+ if(!editImage)return message("اختر صورة أولاً.");
+
+ editRotation=0;
+ editFlip=false;
+
+ ["bright","contrast","saturation"].forEach(id=>$(id).value=100);
+ $("blur").value=0;
+ $("hue").value=0;
+ $("filter").value="none";
+
+ updateEditValues();
+ renderEdit();
+
+ message("تمت إعادة ضبط الصورة.");
+});
+
+$("editFit").addEventListener("click",()=>{
+ if(!editImage)return message("اختر صورة أولاً.");
+ $("editStage").scrollTo({top:0,left:0,behavior:"smooth"});
+});
+
+$("exportEdit").addEventListener("click",()=>{
+ if(!editImage)return message("اختر صورة أولاً.");
+ renderEdit();
+ downloadCanvas(editCanvas,editName+"-edited.png");
+});
+
+updateEditValues();
+
+/* IMAGE RETOUCH */
+
+const retouchCanvas=$("retouchCanvas");
+const retouchCtx=retouchCanvas.getContext("2d");
+
+let retouchImage=null;
+let retouchName="image";
+let retouchOriginal=null;
+let retouchHistory=[];
+let retouchDown=false;
+let retouchLast=null;
+let cloneSource=null;
+
+function loadRetouch(img,name) {
+ retouchImage=img;
+ retouchName=name.replace(/\.[^.]+$/,"")||"image";
+
+ retouchCanvas.width=img.naturalWidth;
+ retouchCanvas.height=img.naturalHeight;
+
+ retouchCtx.clearRect(0,0,retouchCanvas.width,retouchCanvas.height);
+ retouchCtx.drawImage(img,0,0);
+
+ retouchOriginal=document.createElement("canvas");
+ retouchOriginal.width=img.naturalWidth;
+ retouchOriginal.height=img.naturalHeight;
+ retouchOriginal.getContext("2d").drawImage(img,0,0);
+
+ retouchHistory=[];
+ retouchDown=false;
+ cloneSource=null;
+
+ $("retouchDrop").style.display="none";
+ retouchCanvas.style.display="block";
+ $("retouchInfo").textContent=retouchName;
+
+ message("تم تحميل الصورة.");
 }
 
-function updateEditValues(){
-  $('#brightVal').textContent=$('#bright').value+'%';
-  $('#contrastVal').textContent=$('#contrast').value+'%';
-  $('#saturationVal').textContent=$('#saturation').value+'%';
-  $('#blurVal').textContent=$('#blur').value+'px';
+$("chooseRetouch").addEventListener("click",()=>$("retouchFile").click());
+$("retouchDrop").addEventListener("click",()=>$("retouchFile").click());
+
+$("retouchFile").addEventListener("change",e=>{
+ const file=e.target.files[0];
+ if(file)loadImage(file,loadRetouch);
+ e.target.value="";
+});
+
+attachDrop($("retouchCanvas").parentElement,loadRetouch);
+
+function retouchPoint(e) {
+ const rect=retouchCanvas.getBoundingClientRect();
+
+ return {
+  x:(e.clientX-rect.left)*retouchCanvas.width/rect.width,
+  y:(e.clientY-rect.top)*retouchCanvas.height/rect.height
+ };
 }
 
-['bright','contrast','saturation','blur'].forEach(id=>{
-  $('#'+id).oninput=()=>{
-    updateEditValues();
-    renderEdit();
+function saveRetouch() {
+ if(!retouchImage)return;
+
+ retouchHistory.push(
+  retouchCtx.getImageData(0,0,retouchCanvas.width,retouchCanvas.height)
+ );
+
+ if(retouchHistory.length>12)retouchHistory.shift();
+}
+
+function retouchAt(point) {
+ const size=Number($("retouchSize").value);
+ const strength=Number($("retouchStrength").value)/100;
+ const mode=$("retouchTool").value;
+
+ const x=Math.max(0,Math.floor(point.x-size));
+ const y=Math.max(0,Math.floor(point.y-size));
+
+ const width=Math.min(retouchCanvas.width-x,size*2);
+ const height=Math.min(retouchCanvas.height-y,size*2);
+
+ if(width<=0||height<=0)return;
+
+ const temp=document.createElement("canvas");
+ temp.width=width;
+ temp.height=height;
+
+ const tempCtx=temp.getContext("2d");
+
+ if(mode==="blur") {
+  tempCtx.filter=`blur(${Math.max(2,size/5)}px)`;
+  tempCtx.drawImage(
+   retouchCanvas,x,y,width,height,
+   0,0,width,height
+  );
+ } else {
+  if(!cloneSource)return;
+
+  const offset=Number($("cloneOffset").value);
+
+  const sx=Math.max(0,Math.min(
+   retouchCanvas.width-width,
+   cloneSource.x-offset-size
+  ));
+
+  const sy=Math.max(0,Math.min(
+   retouchCanvas.height-height,
+   cloneSource.y-size
+  ));
+
+  tempCtx.drawImage(
+   retouchCanvas,sx,sy,width,height,
+   0,0,width,height
+  );
+ }
+
+ retouchCtx.save();
+
+ retouchCtx.beginPath();
+ retouchCtx.arc(point.x,point.y,size,0,Math.PI*2);
+ retouchCtx.clip();
+
+ retouchCtx.globalAlpha=strength;
+ retouchCtx.drawImage(temp,x,y,width,height);
+
+ retouchCtx.restore();
+}
+
+$("retouchSize").addEventListener("input",()=>{
+ $("retouchSizeVal").textContent=$("retouchSize").value+"px";
+});
+
+$("retouchStrength").addEventListener("input",()=>{
+ $("retouchStrengthVal").textContent=$("retouchStrength").value+"%";
+});
+
+$("cloneOffset").addEventListener("input",()=>{
+ $("cloneOffsetVal").textContent=$("cloneOffset").value+"px";
+});
+
+retouchCanvas.addEventListener("pointerdown",e=>{
+ if(!retouchImage)return;
+
+ retouchDown=true;
+ retouchCanvas.setPointerCapture(e.pointerId);
+
+ saveRetouch();
+
+ retouchLast=retouchPoint(e);
+
+ if($("retouchTool").value==="clone") {
+  if(!cloneSource) {
+   cloneSource={...retouchLast};
+   retouchDown=false;
+   message("تم تحديد مصدر النسخ. ابدأ الرسم في المنطقة المطلوبة.");
+   return;
+  }
+ }
+
+ retouchAt(retouchLast);
+});
+
+retouchCanvas.addEventListener("pointermove",e=>{
+ if(!retouchDown)return;
+
+ const point=retouchPoint(e);
+
+ const distance=Math.hypot(
+  point.x-retouchLast.x,
+  point.y-retouchLast.y
+ );
+
+ const step=Math.max(2,Number($("retouchSize").value)/5);
+ const count=Math.max(1,Math.ceil(distance/step));
+ const previous={...retouchLast};
+
+ for(let i=1;i<=count;i++) {
+  retouchAt({
+   x:previous.x+(point.x-previous.x)*i/count,
+   y:previous.y+(point.y-previous.y)*i/count
+  });
+ }
+
+ retouchLast=point;
+});
+
+["pointerup","pointercancel","lostpointercapture"].forEach(event=>{
+ retouchCanvas.addEventListener(event,()=>{
+  retouchDown=false;
+  retouchLast=null;
+ });
+});
+
+$("undoRetouch").addEventListener("click",()=>{
+ if(!retouchHistory.length)return message("لا توجد خطوات للتراجع.");
+
+ retouchCtx.putImageData(retouchHistory.pop(),0,0);
+});
+
+$("resetRetouch").addEventListener("click",()=>{
+ if(!retouchOriginal)return message("اختر صورة أولاً.");
+
+ retouchCtx.clearRect(0,0,retouchCanvas.width,retouchCanvas.height);
+ retouchCtx.drawImage(retouchOriginal,0,0);
+
+ retouchHistory=[];
+ cloneSource=null;
+
+ message("تمت استعادة الصورة الأصلية.");
+});
+
+$("exportRetouch").addEventListener("click",()=>{
+ if(!retouchImage)return message("اختر صورة أولاً.");
+ downloadCanvas(retouchCanvas,retouchName+"-retouched.png");
+});
+
+/* DRAWING STUDIO */
+
+const drawCanvas=$("drawingCanvas");
+const drawCtx=drawCanvas.getContext("2d");
+
+let drawing=false;
+let drawLast=null;
+let drawHistory=[];
+let drawBackground="#ffffff";
+let rainbowHue=0;
+let activeBrush="pencil";
+let referenceImage=null;
+
+function resetDrawing() {
+ drawCtx.save();
+
+ drawCtx.globalAlpha=1;
+ drawCtx.globalCompositeOperation="source-over";
+ drawCtx.filter="none";
+ drawCtx.fillStyle=drawBackground;
+ drawCtx.fillRect(0,0,drawCanvas.width,drawCanvas.height);
+
+ drawCtx.restore();
+}
+
+function saveDrawing() {
+ try {
+  drawHistory.push(
+   drawCtx.getImageData(0,0,drawCanvas.width,drawCanvas.height)
+  );
+
+  if(drawHistory.length>25)drawHistory.shift();
+ } catch(error) {
+  message("تعذر حفظ خطوة التراجع.");
+ }
+}
+
+function drawPoint(e) {
+ const rect=drawCanvas.getBoundingClientRect();
+
+ return {
+  x:(e.clientX-rect.left)*drawCanvas.width/rect.width,
+  y:(e.clientY-rect.top)*drawCanvas.height/rect.height
+ };
+}
+
+function currentBrush() {
+ return {
+  type:activeBrush,
+  size:Number($("brushSize").value),
+  color:$("brushColor").value,
+  opacity:Number($("opacity").value)/100,
+  shape:$("brushShape").value
+ };
+}
+
+function paintPoint(point,brush) {
+ const ctx=drawCtx;
+
+ ctx.save();
+
+ ctx.globalAlpha=brush.opacity;
+ ctx.globalCompositeOperation="source-over";
+ ctx.lineCap=brush.shape==="square"?"square":"round";
+ ctx.lineJoin="round";
+ ctx.lineWidth=brush.size;
+ ctx.strokeStyle=brush.color;
+ ctx.fillStyle=brush.color;
+ ctx.shadowBlur=0;
+ ctx.filter="none";
+ ctx.setLineDash([]);
+
+ switch(brush.type) {
+  case "eraser":
+   ctx.globalCompositeOperation="destination-out";
+   break;
+
+  case "pencil":
+   ctx.globalAlpha*=.65;
+   ctx.lineWidth=Math.max(1,brush.size*.5);
+   break;
+
+  case "ink":
+   ctx.lineWidth=Math.max(1,brush.size*.7);
+   break;
+
+  case "soft":
+   ctx.shadowColor=brush.color;
+   ctx.shadowBlur=brush.size*.45;
+   ctx.globalAlpha*=.8;
+   break;
+
+  case "marker":
+   ctx.globalAlpha*=.65;
+   ctx.lineWidth=brush.size*1.35;
+   break;
+
+  case "highlighter":
+   ctx.globalAlpha*=.24;
+   ctx.lineWidth=brush.size*2.2;
+   ctx.lineCap="square";
+   break;
+
+  case "watercolor":
+   ctx.globalAlpha*=.17;
+   ctx.lineWidth=brush.size*1.9;
+   break;
+
+  case "oil":
+   ctx.globalAlpha*=.9;
+   ctx.lineWidth=brush.size*.95;
+   break;
+
+  case "crayon":
+   ctx.globalAlpha*=.65;
+   ctx.setLineDash([2,3]);
+   break;
+
+  case "neon":
+   ctx.shadowColor=brush.color;
+   ctx.shadowBlur=Math.max(8,brush.size*2);
+   ctx.lineWidth=Math.max(1,brush.size*.7);
+   break;
+
+  case "calligraphy":
+   ctx.lineCap="butt";
+   ctx.lineWidth=brush.size*1.5;
+   break;
+
+  case "pixel":
+   ctx.lineCap="square";
+   ctx.lineWidth=Math.max(4,Math.round(brush.size/3)*3);
+   break;
+
+  case "rainbow":
+   ctx.strokeStyle=`hsl(${rainbowHue%360},100%,50%)`;
+   ctx.fillStyle=ctx.strokeStyle;
+   rainbowHue+=5;
+   break;
+ }
+
+ if(brush.shape==="flat"&&brush.type!=="eraser") {
+  ctx.lineCap="butt";
+ }
+
+ if(!drawLast) {
+  ctx.beginPath();
+  ctx.arc(
+   point.x,
+   point.y,
+   Math.max(1,ctx.lineWidth/2),
+   0,
+   Math.PI*2
+  );
+  ctx.fill();
+ } else {
+  ctx.beginPath();
+  ctx.moveTo(drawLast.x,drawLast.y);
+  ctx.lineTo(point.x,point.y);
+  ctx.stroke();
+
+  if(brush.type==="watercolor") {
+   ctx.globalAlpha*=.4;
+   ctx.lineWidth=brush.size*2.2;
+   ctx.beginPath();
+   ctx.moveTo(drawLast.x,drawLast.y);
+   ctx.lineTo(point.x,point.y);
+   ctx.stroke();
+  }
+ }
+
+ ctx.restore();
+}
+
+function selectBrush(type) {
+ activeBrush=type;
+
+ $$(".brush-option").forEach(button=>{
+  button.classList.toggle(
+   "active",
+   button.dataset.brush===type
+  );
+ });
+}
+
+$$(".brush-option").forEach(button=>{
+ button.addEventListener("click",()=>{
+  selectBrush(button.dataset.brush);
+ });
+});
+
+function startDrawing(e) {
+ drawing=true;
+
+ drawCanvas.setPointerCapture(e.pointerId);
+ saveDrawing();
+
+ drawLast=drawPoint(e);
+ paintPoint(drawLast,currentBrush());
+}
+
+function moveDrawing(e) {
+ if(!drawing)return;
+
+ const point=drawPoint(e);
+ const brush=currentBrush();
+
+ const distance=Math.hypot(
+  point.x-drawLast.x,
+  point.y-drawLast.y
+ );
+
+ const smooth=Number($("smooth").value);
+ const spacing=Math.max(1,brush.size*(1-smooth/130));
+ const count=Math.max(1,Math.ceil(distance/spacing));
+ const previous={...drawLast};
+
+ for(let i=1;i<=count;i++) {
+  const next={
+   x:previous.x+(point.x-previous.x)*i/count,
+   y:previous.y+(point.y-previous.y)*i/count
   };
-});
-$('#filter').onchange=renderEdit;
-$('#chooseEdit').onclick=()=>$('#editFile').click();
-$('#editFile').onchange=()=>loadImage($('#editFile').files[0],loadEdit);
-$('#rotateBtn').onclick=()=>{if(editImage){editRotation=(editRotation+90)%360;renderEdit();}};
-$('#flipBtn').onclick=()=>{if(editImage){editFlip=!editFlip;renderEdit();}};
-$('#resetEdit').onclick=()=>{
-  if(!editImage)return;
-  editRotation=0;editFlip=false;
-  ['bright','contrast','saturation'].forEach(id=>$('#'+id).value=100);
-  $('#blur').value=0;$('#filter').value='none';
-  updateEditValues();renderEdit();
-};
-$('#exportEdit').onclick=()=>{
-  if(!editImage){message('اختر صورة أولًا');return;}
-  renderEdit();
-  downloadCanvas(editCanvas,'تحرير-الصور.png');
-};
-attachDrop($('#editDrop'),loadEdit);
 
-/* تنظيف الصور */
-const retouchCanvas=$('#retouchCanvas');
-const retouchCtx=retouchCanvas.getContext('2d');
-let retouchImage=null,retouchName='image',retouchHistory=[],retouchDown=false,retouchLast=null;
-
-function loadRetouch(img,name){
-  retouchImage=img;
-  retouchName=name.replace(/\.[^.]+$/,'')||'image';
-  retouchCanvas.width=img.naturalWidth;
-  retouchCanvas.height=img.naturalHeight;
-  retouchCtx.drawImage(img,0,0);
-  $('#retouchDrop').style.display='none';
-  retouchCanvas.style.display='block';
-  retouchHistory=[];
+  paintPoint(next,brush);
+  drawLast=next;
+ }
 }
 
-$('#chooseRetouch').onclick=()=>$('#retouchFile').click();
-$('#retouchFile').onchange=()=>loadImage($('#retouchFile').files[0],loadRetouch);
-attachDrop($('#retouchDrop'),loadRetouch);
-
-function retouchPoint(e){
-  const r=retouchCanvas.getBoundingClientRect();
-  return{x:(e.clientX-r.left)*retouchCanvas.width/r.width,
-         y:(e.clientY-r.top)*retouchCanvas.height/r.height};
+function stopDrawing() {
+ drawing=false;
+ drawLast=null;
+ drawCtx.beginPath();
 }
 
-function saveRetouch(){
-  retouchHistory.push(retouchCtx.getImageData(0,0,retouchCanvas.width,retouchCanvas.height));
-  if(retouchHistory.length>15)retouchHistory.shift();
-}
+drawCanvas.addEventListener("pointerdown",startDrawing);
+drawCanvas.addEventListener("pointermove",moveDrawing);
 
-function retouchAt(p){
-  const size=Number($('#retouchSize').value);
-  const mode=$('#retouchTool').value;
-  const x=Math.max(0,Math.floor(p.x-size));
-  const y=Math.max(0,Math.floor(p.y-size));
-  const w=Math.min(retouchCanvas.width-x,size*2);
-  const h=Math.min(retouchCanvas.height-y,size*2);
-  if(w<1||h<1)return;
-
-  const temp=document.createElement('canvas');
-  temp.width=w;temp.height=h;
-  const tc=temp.getContext('2d');
-
-  if(mode==='blur'){
-    tc.filter=`blur(${Math.max(2,size/5)}px)`;
-    tc.drawImage(retouchCanvas,x,y,w,h,0,0,w,h);
-  }else{
-    const offset=Number($('#cloneOffset').value);
-    const sx=Math.max(0,Math.min(retouchCanvas.width-w,p.x-offset-size));
-    const sy=Math.max(0,Math.min(retouchCanvas.height-h,p.y-size));
-    tc.drawImage(retouchCanvas,sx,sy,w,h,0,0,w,h);
-  }
-
-  retouchCtx.save();
-  retouchCtx.beginPath();
-  retouchCtx.arc(p.x,p.y,size,0,Math.PI*2);
-  retouchCtx.clip();
-  retouchCtx.drawImage(temp,x,y,w,h);
-  retouchCtx.restore();
-}
-
-$('#retouchSize').oninput=()=>$('#retouchSizeVal').textContent=$('#retouchSize').value+'px';
-
-retouchCanvas.addEventListener('pointerdown',e=>{
-  if(!retouchImage)return;
-  retouchDown=true;
-  retouchCanvas.setPointerCapture(e.pointerId);
-  saveRetouch();
-  retouchLast=retouchPoint(e);
-  retouchAt(retouchLast);
+["pointerup","pointercancel","lostpointercapture"].forEach(event=>{
+ drawCanvas.addEventListener(event,stopDrawing);
 });
 
-retouchCanvas.addEventListener('pointermove',e=>{
-  if(!retouchDown)return;
-  const p=retouchPoint(e);
-  const distance=Math.hypot(p.x-retouchLast.x,p.y-retouchLast.y);
-  const step=Math.max(2,Number($('#retouchSize').value)/4);
-  const count=Math.max(1,Math.ceil(distance/step));
-  const old={...retouchLast};
+/* Drawing controls */
 
-  for(let i=1;i<=count;i++){
-    retouchAt({
-      x:old.x+(p.x-old.x)*i/count,
-      y:old.y+(p.y-old.y)*i/count
-    });
-  }
-  retouchLast=p;
+$("brushColor").addEventListener("input",()=>{
+ if(activeBrush==="eraser")selectBrush("pencil");
 });
 
-['pointerup','pointercancel','pointerleave'].forEach(ev=>{
-  retouchCanvas.addEventListener(ev,()=>{retouchDown=false;retouchLast=null;});
+$$(".color-preset").forEach(button=>{
+ button.addEventListener("click",()=>{
+  $("brushColor").value=button.dataset.color;
+  if(activeBrush==="eraser")selectBrush("pencil");
+ });
 });
 
-$('#undoRetouch').onclick=()=>{
-  if(retouchHistory.length)retouchCtx.putImageData(retouchHistory.pop(),0,0);
-};
-$('#exportRetouch').onclick=()=>{
-  if(!retouchImage){message('اختر صورة أولًا');return;}
-  downloadCanvas(retouchCanvas,'تحرير-الصور-بعد-التنظيف.png');
-};
+$("brushSize").addEventListener("input",()=>{
+ $("brushSizeVal").textContent=$("brushSize").value+"px";
+});
 
-/* لوحة الرسم والفرش */
-const drawCanvas=$('#drawingCanvas');
-const drawCtx=drawCanvas.getContext('2d');
-let drawing=false,drawLast=null,drawHistory=[],drawBackground='#ffffff',rainbowHue=0;
+$("opacity").addEventListener("input",()=>{
+ $("opacityVal").textContent=$("opacity").value+"%";
+});
 
-function resetDrawing(){
-  drawCtx.save();
-  drawCtx.globalAlpha=1;
-  drawCtx.globalCompositeOperation='source-over';
-  drawCtx.fillStyle=drawBackground;
-  drawCtx.fillRect(0,0,drawCanvas.width,drawCanvas.height);
-  drawCtx.restore();
+$("smooth").addEventListener("input",()=>{
+ $("smoothVal").textContent=$("smooth").value+"%";
+});
+
+$("undoDrawing").addEventListener("click",()=>{
+ if(!drawHistory.length)return message("لا توجد خطوات للتراجع.");
+
+ drawCtx.putImageData(drawHistory.pop(),0,0);
+});
+
+$("clearDrawing").addEventListener("click",()=>{
+ saveDrawing();
+ resetDrawing();
+});
+
+$("backgroundColor").addEventListener("input",e=>{
+ $("backgroundColor").value=e.target.value;
+});
+
+$("applyBackground").addEventListener("click",()=>{
+ saveDrawing();
+ drawBackground=$("backgroundColor").value;
+ resetDrawing();
+ message("تم تغيير خلفية اللوحة.");
+});
+
+$("exportDrawing").addEventListener("click",()=>{
+ downloadCanvas(drawCanvas,"VideoYTFX-Digital-Art.png");
+});
+
+/* Reference image */
+
+$("chooseReference").addEventListener("click",()=>{
+ $("referenceFile").click();
+});
+
+$("referenceFile").addEventListener("change",e=>{
+ const file=e.target.files[0];
+ if(!file)return;
+
+ loadImage(file,(img)=>{
+  referenceImage=img;
+
+  message("تم تحميل الصورة المرجعية.");
+  showReference();
+ });
+
+ e.target.value="";
+});
+
+function showReference() {
+ const stage=$("drawing").querySelector(".drawing-stage");
+ let layer=$("referenceLayer");
+
+ if(!layer) {
+  layer=document.createElement("div");
+  layer.id="referenceLayer";
+  layer.className="reference-layer";
+
+  const image=document.createElement("img");
+  image.id="referenceImage";
+
+  layer.appendChild(image);
+  stage.appendChild(layer);
+ }
+
+ if(referenceImage) {
+  $("referenceImage").src=referenceImage.src;
+  $("referenceImage").style.opacity=Number($("referenceOpacity").value)/100;
+  layer.style.display="grid";
+ }
 }
 
-function saveDrawing(){
-  drawHistory.push(drawCtx.getImageData(0,0,drawCanvas.width,drawCanvas.height));
-  if(drawHistory.length>30)drawHistory.shift();
-}
+$("referenceOpacity").addEventListener("input",()=>{
+ $("referenceOpacityVal").textContent=$("referenceOpacity").value+"%";
 
-function drawPoint(e){
-  const r=drawCanvas.getBoundingClientRect();
-  return{x:(e.clientX-r.left)*drawCanvas.width/r.width,
-         y:(e.clientY-r.top)*drawCanvas.height/r.height};
-}
+ if($("referenceImage")) {
+  $("referenceImage").style.opacity=Number($("referenceOpacity").value)/100;
+ }
+});
 
-function currentBrush(){
-  return{
-    type:$('#brushType').value,
-    size:Number($('#brushSize').value),
-    color:$('#brushColor').value,
-    opacity:Number($('#opacity').value)/100,
-    shape:$('#brushShape').value
-  };
-}
+$("removeReference").addEventListener("click",()=>{
+ referenceImage=null;
 
-function paintPoint(p,b){
-  const c=drawCtx;
-  c.save();
-  c.globalAlpha=b.opacity;
-  c.globalCompositeOperation='source-over';
-  c.lineCap=b.shape==='square'?'square':'round';
-  c.lineJoin='round';
-  c.lineWidth=b.size;
-  c.strokeStyle=b.color;
-  c.fillStyle=b.color;
-  c.shadowBlur=0;
-  c.setLineDash([]);
+ if($("referenceLayer")) {
+  $("referenceLayer").style.display="none";
+ }
 
-  switch(b.type){
-    case 'eraser':
-      c.globalCompositeOperation='destination-out';
-      c.strokeStyle='#000';c.fillStyle='#000';
-      break;
-    case 'pencil':
-      c.globalAlpha*=.65;c.lineWidth=Math.max(1,b.size*.55);
-      break;
-    case 'ink':
-      c.lineWidth=Math.max(1,b.size*.72);
-      break;
-    case 'marker':
-      c.globalAlpha*=.78;c.lineWidth=b.size*1.3;
-      break;
-    case 'highlighter':
-      c.globalAlpha*=.25;c.lineWidth=b.size*2.2;c.lineCap='square';
-      break;
-    case 'watercolor':
-      c.globalAlpha*=.15;c.lineWidth=b.size*1.8;
-      break;
-    case 'oil':
-      c.globalAlpha*=.9;c.lineWidth=b.size*.85;
-      break;
-    case 'crayon':
-      c.globalAlpha*=.7;
-      break;
-    case 'neon':
-      c.shadowColor=b.color;c.shadowBlur=Math.max(8,b.size*2);
-      c.lineWidth=Math.max(1,b.size*.7);
-      break;
-    case 'calligraphy':
-      c.lineCap='butt';c.lineWidth=b.size*1.2;
-      break;
-    case 'pixel':
-      c.lineCap='square';c.lineWidth=Math.max(4,Math.round(b.size/3)*3);
-      break;
-    case 'rainbow':
-      c.strokeStyle=`hsl(${rainbowHue%360} 100% 50%)`;
-      c.fillStyle=c.strokeStyle;rainbowHue+=5;
-      break;
-    case 'airbrush':
-      c.globalAlpha*=.12;
-      for(let i=0;i<Math.max(20,b.size*2);i++){
-        const angle=Math.random()*Math.PI*2;
-        const radius=Math.random()*b.size;
-        const dot=Math.random()*Math.max(1,b.size/10);
-        c.beginPath();
-        c.arc(p.x+Math.cos(angle)*radius,p.y+Math.sin(angle)*radius,dot,0,Math.PI*2);
-        c.fill();
-      }
-      c.restore();
-      return;
+ $("referenceFile").value="";
+ message("تمت إزالة الصورة المرجعية.");
+});
+
+/* Keyboard shortcuts */
+
+document.addEventListener("keydown",e=>{
+ const tag=document.activeElement?.tagName;
+
+ if(tag==="INPUT"||tag==="SELECT"||tag==="TEXTAREA")return;
+
+ if(e.ctrlKey&&e.key.toLowerCase()==="z") {
+  e.preventDefault();
+
+  if($("drawing").classList.contains("active")) {
+   $("undoDrawing").click();
+  } else if($("retouch").classList.contains("active")) {
+   $("undoRetouch").click();
   }
+ }
+});
 
-  if(b.shape==='flat'&&b.type!=='eraser')c.lineCap='butt';
-
-  if(!drawLast){
-    c.beginPath();
-    c.arc(p.x,p.y,Math.max(1,c.lineWidth/2),0,Math.PI*2);
-    c.fill();
-  }else{
-    c.beginPath();
-    c.moveTo(drawLast.x,drawLast.y);
-    c.lineTo(p.x,p.y);
-    c.stroke();
-
-    if(b.type==='watercolor'){
-      c.globalAlpha*=.4;
-      c.lineWidth=b.size*2.2;
-      c.beginPath();
-      c.moveTo(drawLast.x,drawLast.y);
-      c.lineTo(p.x,p.y);
-      c.stroke();
-    }
-
-    if(b.type==='crayon'){
-      c.globalAlpha*=.3;
-      c.lineWidth=Math.max(1,b.size*.3);
-      c.setLineDash([1,3]);
-      c.beginPath();
-      c.moveTo(drawLast.x,drawLast.y);
-      c.lineTo(p.x,p.y);
-      c.stroke();
-    }
-  }
-  c.restore();
-}
+/* Initialize */
 
 resetDrawing();
+updateEditValues();
 
-drawCanvas.addEventListener('pointerdown',e=>{
-  drawing=true;
-  drawCanvas.setPointerCapture(e.pointerId);
-  saveDrawing();
-  drawLast=drawPoint(e);
-  paintPoint(drawLast,currentBrush());
-});
+$("retouchSizeVal").textContent=$("retouchSize").value+"px";
+$("retouchStrengthVal").textContent=$("retouchStrength").value+"%";
+$("cloneOffsetVal").textContent=$("cloneOffset").value+"px";
 
-drawCanvas.addEventListener('pointermove',e=>{
-  if(!drawing)return;
-  const p=drawPoint(e);
-  const b=currentBrush();
-  const distance=Math.hypot(p.x-drawLast.x,p.y-drawLast.y);
-  const smooth=Number($('#smooth').value);
-  const spacing=Math.max(1,b.size*(1-smooth/130));
-  const count=Math.max(1,Math.ceil(distance/spacing));
-  const previous={...drawLast};
-
-  for(let i=1;i<=count;i++){
-    const next={
-      x:previous.x+(p.x-previous.x)*i/count,
-      y:previous.y+(p.y-previous.y)*i/count
-    };
-    paintPoint(next,b);
-    drawLast=next;
-  }
-});
-
-['pointerup','pointercancel','pointerleave'].forEach(ev=>{
-  drawCanvas.addEventListener(ev,()=>{
-    drawing=false;
-    drawLast=null;
-    drawCtx.beginPath();
-  });
-});
-
-$('#brushSize').oninput=()=>$('#brushSizeVal').textContent=$('#brushSize').value+'px';
-$('#opacity').oninput=()=>$('#opacityVal').textContent=$('#opacity').value+'%';
-$('#smooth').oninput=()=>$('#smoothVal').textContent=$('#smooth').value+'%';
-
-$('#undoDrawing').onclick=()=>{
-  if(drawHistory.length)drawCtx.putImageData(drawHistory.pop(),0,0);
-};
-$('#clearDrawing').onclick=()=>{
-  saveDrawing();
-  resetDrawing();
-};
-$('#applyBackground').onclick=()=>{
-  drawBackground=$('#backgroundColor').value;
-  saveDrawing();
-  resetDrawing();
-};
-$('#exportDrawing').onclick=()=>{
-  downloadCanvas(drawCanvas,'تحرير-الصور-الرسم.png');
-};
+$("brushSizeVal").textContent=$("brushSize").value+"px";
+$("opacityVal").textContent=$("opacity").value+"%";
+$("smoothVal").textContent=$("smooth").value+"%";
+$("referenceOpacityVal").textContent=$("referenceOpacity").value+"%";
 </script>
+
 </body>
 </html>
