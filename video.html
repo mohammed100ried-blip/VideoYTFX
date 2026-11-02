@@ -2,1610 +2,932 @@
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>video-069</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>video-069 | Video Editor</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');
-
 :root{
---bg:#07121f;
---panel:#0d1d2d;
---p2:#14283a;
---text:#edf6ff;
---muted:#91a8ba;
---line:#254055;
---blue:#42b9ed;
---cyan:#76e0ee;
+ --bg:#080d18;
+ --panel:#111a2b;
+ --panel2:#172238;
+ --border:#263651;
+ --text:#edf3ff;
+ --muted:#91a1bb;
+ --blue:#3987ff;
+ --blue2:#1764db;
+ --danger:#e84c65;
+ --green:#21c994;
+ --radius:16px;
 }
-
 [data-theme="light"]{
---bg:#edf3f7;
---panel:#fff;
---p2:#e7f0f5;
---text:#132536;
---muted:#607789;
---line:#d0dee7;
---blue:#087eaf;
---cyan:#168fa6;
+ --bg:#edf2f9;
+ --panel:#fff;
+ --panel2:#f2f6fc;
+ --border:#d8e1ef;
+ --text:#17243a;
+ --muted:#64748b;
+ --blue:#176de0;
+ --blue2:#0755bd;
 }
-
 *{box-sizing:border-box}
-
 body{
-margin:0;
-min-height:100vh;
-background:
-radial-gradient(ellipse at 12% 0,#17638a38,transparent 35%),
-radial-gradient(ellipse at 90% 35%,#1d526333,transparent 32%),
-var(--bg);
-color:var(--text);
-font-family:Tajawal,Arial,sans-serif;
-overflow-x:hidden;
+ margin:0;
+ background:
+ radial-gradient(circle at 10% 10%,#12305b55,transparent 35%),
+ radial-gradient(circle at 90% 80%,#0755bd22,transparent 35%),
+ var(--bg);
+ color:var(--text);
+ font-family:'Cairo',sans-serif;
+ min-height:100vh;
 }
-
-body:before,body:after{
-content:"";
-position:fixed;
-z-index:-1;
-pointer-events:none;
-left:-15%;
-width:130%;
-height:220px;
-border:1px solid #5cc8e51c;
-border-radius:48%;
-filter:blur(2px);
-animation:wave 14s ease-in-out infinite alternate;
-}
-
-body:before{
-top:16%;
-box-shadow:0 0 55px #2ca8d51b,inset 0 0 45px #2ca8d51b;
-transform:rotate(-7deg);
-}
-
-body:after{
-top:56%;
-animation-duration:19s;
-animation-direction:alternate-reverse;
-transform:rotate(5deg);
-}
-
-@keyframes wave{
-from{translate:-3% 0;scale:1 .8}
-to{translate:3% 25px;scale:1.04 1.2}
-}
-
 button,input,select{font:inherit}
 button{cursor:pointer}
-button:disabled{opacity:.45;cursor:not-allowed}
-
-.navbar{
-height:68px;
-position:sticky;
-top:0;
-z-index:10;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 5%;
-background:color-mix(in srgb,var(--panel) 92%,transparent);
-backdrop-filter:blur(18px);
-border-bottom:1px solid var(--line);
+header{
+ height:75px;
+ padding:0 5%;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ border-bottom:1px solid var(--border);
+ background:var(--panel);
+ position:sticky;
+ top:0;
+ z-index:20;
 }
-
-.brand{
-display:flex;
-align-items:center;
-gap:12px;
-font-weight:900;
-color:var(--text);
-text-decoration:none;
-font-size:1.1rem;
-}
-
 .logo{
-width:42px;
-height:42px;
-border-radius:14px;
-display:grid;
-place-items:center;
-background:linear-gradient(135deg,#167aa9,#42c7db);
-color:white;
+ font-size:23px;
+ font-weight:800;
+ color:var(--blue);
+ letter-spacing:1px;
 }
-
-.nav-actions,.tools{
-display:flex;
-flex-wrap:wrap;
-gap:8px;
+.header-actions{display:flex;gap:10px}
+.btn{
+ border:1px solid var(--border);
+ background:var(--panel2);
+ color:var(--text);
+ border-radius:10px;
+ padding:10px 15px;
+ transition:.2s;
 }
-
-.btn,.tool,.navbtn{
-border:1px solid var(--line);
-background:var(--p2);
-color:var(--text);
-border-radius:11px;
-padding:10px 13px;
-font-weight:700;
-transition:.18s;
+.btn:hover{transform:translateY(-2px);border-color:var(--blue)}
+.btn.primary{background:var(--blue);color:white;border-color:var(--blue)}
+.btn.danger{background:var(--danger);color:white;border-color:var(--danger)}
+.btn.success{background:var(--green);color:#041b16;border-color:var(--green)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+main{width:min(1400px,94%);margin:30px auto}
+.tabs{
+ display:flex;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-bottom:22px;
 }
-
-.btn:hover,.tool:hover,.navbtn:hover{
-border-color:var(--blue);
-transform:translateY(-1px);
+.tab{
+ padding:12px 22px;
+ border:1px solid var(--border);
+ background:var(--panel);
+ color:var(--muted);
+ border-radius:12px;
 }
-
-.primary{
-border:0;
-background:linear-gradient(135deg,#087eaf,#27b8c9);
-color:white;
+.tab.active{background:var(--blue);color:white;border-color:var(--blue)}
+.section{display:none}
+.section.active{display:block}
+.panel{
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:var(--radius);
+ padding:20px;
+ margin-bottom:20px;
 }
-
-.container{
-width:min(1450px,94%);
-margin:auto;
-padding:30px 0 60px;
+.panel h2,.panel h3{margin-top:0}
+.muted{color:var(--muted);font-size:13px}
+.editor-grid{
+ display:grid;
+ grid-template-columns:minmax(0,1.8fr) minmax(280px,1fr);
+ gap:20px;
 }
-
-.hero{
-text-align:center;
-margin:8px 0 28px;
+.preview{
+ background:#03060b;
+ border-radius:13px;
+ overflow:hidden;
+ aspect-ratio:16/9;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ position:relative;
 }
-
-.hero h1{
-font-size:clamp(2.2rem,5vw,3.8rem);
-margin:0 0 8px;
-font-weight:900;
-background:linear-gradient(90deg,#eafaff,#55c7e6,#91e6e9);
-background-clip:text;
-color:transparent;
+.preview video{
+ width:100%;
+ height:100%;
+ object-fit:contain;
 }
-
-.hero p{color:var(--muted);margin:0;line-height:1.8}
-
-.mode-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin:28px 0;
+.empty{
+ color:#8292ad;
+ text-align:center;
+ padding:20px;
 }
-
-.mode-card{
-min-height:175px;
-text-align:start;
-padding:24px;
-border:1px solid var(--line);
-border-radius:22px;
-background:linear-gradient(145deg,var(--panel),var(--p2));
-color:var(--text);
-box-shadow:0 18px 50px #0004;
-position:relative;
-overflow:hidden;
+.empty i{font-size:45px;display:block;margin-bottom:12px}
+.file-label{
+ display:inline-flex;
+ align-items:center;
+ gap:9px;
+ padding:11px 16px;
+ border-radius:10px;
+ background:var(--blue);
+ color:white;
+ cursor:pointer;
 }
-
-.mode-card:after{
-content:"";
-position:absolute;
-width:180px;
-height:180px;
-border-radius:50%;
-background:#36b9dc12;
-left:-55px;
-top:-65px;
+input[type=file]{display:none}
+.control{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ padding:12px 0;
+ border-bottom:1px solid var(--border);
 }
-
-.mode-card h2{margin:0 0 8px;font-size:1.45rem}
-.mode-card p{color:var(--muted);margin:0 0 18px;line-height:1.7}
-.symbol{font-size:36px;color:var(--cyan);margin-bottom:10px}
-
-.view{display:none}
-.view.active{display:block}
-.hidden{display:none!important}
-
-.card{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:19px;
-overflow:hidden;
-box-shadow:0 18px 50px #0003;
+.control:last-child{border:0}
+.control-name{font-weight:600}
+.control-actions{display:flex;align-items:center;gap:8px}
+.step-btn{
+ width:36px;
+ height:36px;
+ border-radius:9px;
+ border:1px solid var(--border);
+ background:var(--panel2);
+ color:var(--text);
+ font-size:19px;
 }
-
-.upload{
-min-height:215px;
-display:grid;
-place-items:center;
-text-align:center;
-padding:26px;
-border:1px dashed var(--blue);
-border-radius:20px;
-background:var(--panel);
+.step-btn:hover{background:var(--blue);color:white}
+.value{
+ min-width:55px;
+ text-align:center;
+ font-weight:700;
+ color:var(--blue);
+ direction:ltr;
 }
-
-.upload.drag{background:#4f8cff18;border-width:2px}
-.upload p,.note{color:var(--muted)}
-#fileInput{display:none}
-
-.workspace{
-display:grid;
-grid-template-columns:minmax(0,1.65fr) minmax(280px,.75fr);
-gap:16px;
-align-items:start;
-margin-top:18px;
+.action-grid{
+ display:flex;
+ flex-wrap:wrap;
+ gap:9px;
+ margin-top:15px;
 }
-
-.preview{padding:13px}
-
-.screen{
-background:#02070c;
-border-radius:13px;
-overflow:hidden;
-display:grid;
-place-items:center;
-min-height:290px;
+.timeline{
+ margin-top:18px;
+ padding:15px;
+ border-radius:12px;
+ background:var(--panel2);
 }
-
-.screen video{
-display:block;
-width:100%;
-max-height:560px;
-background:#000;
-object-fit:contain;
+.timeline-row{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:12px;
+ flex-wrap:wrap;
+ margin:10px 0;
 }
-
-.meta{
-display:flex;
-justify-content:space-between;
-gap:10px;
-padding:12px 3px 0;
-color:var(--muted);
-font-size:.85rem;
+.number-input{
+ width:100px;
+ padding:9px;
+ border-radius:8px;
+ border:1px solid var(--border);
+ background:var(--bg);
+ color:var(--text);
+ direction:ltr;
 }
-
-.meta span{
-overflow:hidden;
-text-overflow:ellipsis;
-white-space:nowrap;
-}
-
-.panel,.timeline{padding:16px}
-.timeline{margin-top:15px}
-.panel h3{margin:0 0 15px}
-
-.field{
-margin:13px 0;
-padding-bottom:12px;
-border-bottom:1px solid var(--line);
-}
-
-.field:last-child{border:0}
-
-.line{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-margin-bottom:8px;
-}
-
-.field label{font-weight:700}
-.value{color:var(--cyan);font-weight:800}
-input[type=range]{width:100%;accent-color:var(--blue)}
-
-.field select,.field input[type=text],.url-row input{
-width:100%;
-padding:11px;
-border-radius:10px;
-background:var(--p2);
-color:var(--text);
-border:1px solid var(--line);
-outline:none;
-}
-
-.tools{margin-top:12px}
-
-.trimgrid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-}
-
-.actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
-margin-top:15px;
-}
-
-.actions .wide{grid-column:1/-1}
-
 .status{
-min-height:24px;
-text-align:center;
-color:var(--muted);
-font-size:.85rem;
-margin-top:10px;
+ margin-top:12px;
+ padding:11px;
+ background:var(--panel2);
+ color:var(--muted);
+ border-radius:9px;
+ font-size:13px;
 }
-
-.progress{
-height:6px;
-background:var(--p2);
-border-radius:9px;
-overflow:hidden;
-display:none;
-}
-
-.progress.on{display:block}
-
-.progress div{
-height:100%;
-width:0;
-background:linear-gradient(90deg,var(--blue),var(--cyan));
-}
-
-.note{font-size:.78rem;line-height:1.7;margin-top:8px}
-
-.back{
-display:block;
-text-align:center;
-color:var(--muted);
-margin-top:25px;
-}
-
-footer{
-text-align:center;
-border-top:1px solid var(--line);
-padding:22px;
-color:var(--muted);
-font-size:.8rem;
-}
-
 .youtube-layout{
-display:grid;
-grid-template-columns:minmax(0,1.4fr) minmax(280px,.8fr);
-gap:16px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:20px;
 }
-
-.youtube-box{padding:18px}
-.youtube-box h2{margin-top:0}
-
-.url-row{display:flex;gap:8px}
-.url-row input{flex:1;min-width:0;direction:ltr}
-
-.yt-frame{
-width:100%;
-aspect-ratio:16/9;
-border:0;
-border-radius:13px;
-background:#02070c;
-margin-top:15px;
+.field{
+ width:100%;
+ padding:13px;
+ border-radius:10px;
+ border:1px solid var(--border);
+ background:var(--bg);
+ color:var(--text);
+ outline:none;
+ margin:8px 0 15px;
 }
-
-.choice{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+.field:focus{border-color:var(--blue)}
+.yt-preview{
+ aspect-ratio:16/9;
+ width:100%;
+ border:0;
+ border-radius:12px;
+ background:#03060b;
 }
-
-.choice label{
-border:1px solid var(--line);
-border-radius:12px;
-padding:13px;
-background:var(--p2);
-display:flex;
-align-items:center;
-gap:9px;
-font-weight:700;
+select.field{cursor:pointer}
+footer{
+ text-align:center;
+ padding:25px;
+ color:var(--muted);
 }
-
-.choice input{accent-color:var(--blue)}
-
-.notice{
-border:1px solid #a77b3a55;
-background:#a77b3a12;
-border-radius:12px;
-padding:13px;
-line-height:1.8;
-margin-top:14px;
-}
-
-@media(max-width:900px){
-.workspace,.youtube-layout{grid-template-columns:1fr}
-}
-
-@media(max-width:620px){
-.navbar{padding:0 3%;height:62px}
-.container{padding-top:23px}
-.mode-grid{grid-template-columns:1fr}
-.trimgrid,.actions{grid-template-columns:1fr}
-.actions .wide{grid-column:auto}
-.url-row{flex-direction:column}
-.screen{min-height:210px}
+@media(max-width:850px){
+ .editor-grid,.youtube-layout{grid-template-columns:1fr}
+ header{padding:0 3%}
+ .logo{font-size:18px}
+ .btn{padding:9px 11px}
 }
 </style>
 </head>
 
 <body>
 
-<nav class="navbar">
-<a class="brand" href="index.html">
-<span class="logo">069</span>
-<span>video-069</span>
-</a>
-
-<div class="nav-actions">
-<button class="navbtn" id="langBtn">English</button>
-<button class="navbtn" id="themeBtn" data-i18n="theme">تغيير المظهر</button>
-</div>
-</nav>
-
-<main class="container">
-
-<header class="hero">
-<h1>video-069</h1>
-<p data-i18n="subtitle">استوديو تحرير الفيديو</p>
+<header>
+ <div class="logo">VIDEO-069</div>
+ <div class="header-actions">
+  <button class="btn" id="languageBtn">EN</button>
+  <button class="btn" id="themeBtn" title="Theme">
+   <i class="fa-solid fa-moon"></i>
+  </button>
+ </div>
 </header>
 
-<section class="mode-grid" id="modeGrid">
+<main>
 
-<button class="mode-card" id="openEditor">
-<div class="symbol">▣</div>
-<h2 data-i18n="editTitle">منتاج الفيديو</h2>
-<p data-i18n="editDesc">قص وتعديل الألوان والسرعة والصوت وإضافة عنوان وتصدير الفيديو.</p>
-<span class="btn primary" data-i18n="openEditor">فتح محرر الفيديو</span>
-</button>
+ <div class="tabs">
+  <button class="tab active" data-tab="editor" data-ar="منتاج الفيديو" data-en="Video Editor">
+   منتاج الفيديو
+  </button>
+  <button class="tab" data-tab="youtube" data-ar="تحميل الفيديو" data-en="YouTube">
+   تحميل الفيديو
+  </button>
+ </div>
 
-<button class="mode-card" id="openYoutube">
-<div class="symbol">⇩</div>
-<h2 data-i18n="youtubeTitle">تحميل الفيديو من اليوتيوب</h2>
-<p data-i18n="youtubeDesc">معاينة رابط الفيديو واختيار نوع الملف.</p>
-<span class="btn" data-i18n="openYoutube">فتح قسم YouTube</span>
-</button>
+ <!-- VIDEO EDITOR -->
+ <section class="section active" id="editor">
 
-</section>
+  <div class="editor-grid">
 
-<!-- VIDEO EDITOR -->
+   <div>
+    <div class="panel">
+     <h2 data-ar="معاينة الفيديو" data-en="Video Preview">معاينة الفيديو</h2>
 
-<section class="view" id="editorView">
+     <div class="preview" id="preview">
+      <div class="empty" id="emptyMessage">
+       <i class="fa-solid fa-film"></i>
+       <span data-ar="اختر فيديو للبدء" data-en="Choose a video to start">
+        اختر فيديو للبدء
+       </span>
+      </div>
+      <video id="video" playsinline></video>
+     </div>
 
-<div class="line">
-<h2 data-i18n="editTitle">منتاج الفيديو</h2>
-<button class="tool" id="backModes" data-i18n="back">العودة</button>
-</div>
+     <div class="action-grid">
+      <label class="file-label">
+       <i class="fa-solid fa-folder-open"></i>
+       <span data-ar="اختيار فيديو" data-en="Choose Video">اختيار فيديو</span>
+       <input type="file" id="fileInput" accept="video/*">
+      </label>
 
-<section class="upload" id="upload">
-<div>
-<div class="symbol">▣</div>
-<h2 data-i18n="startProject">ابدأ بمشروع جديد</h2>
-<p data-i18n="chooseFileDesc">اختر فيديو من جهازك أو اسحبه إلى هذه المنطقة.</p>
-<label class="btn primary" for="fileInput" data-i18n="chooseVideo">اختيار فيديو</label>
-<input id="fileInput" type="file" accept="video/*">
-</div>
-</section>
+      <button class="btn" id="playBtn">
+       <i class="fa-solid fa-play"></i>
+       <span data-ar="تشغيل" data-en="Play">تشغيل</span>
+      </button>
 
-<section class="hidden" id="editor">
+      <button class="btn" id="pauseBtn">
+       <i class="fa-solid fa-pause"></i>
+       <span data-ar="إيقاف مؤقت" data-en="Pause">إيقاف مؤقت</span>
+      </button>
 
-<div class="workspace">
+      <button class="btn" id="muteBtn">
+       <i class="fa-solid fa-volume-xmark"></i>
+       <span data-ar="كتم الصوت" data-en="Mute">كتم الصوت</span>
+      </button>
 
-<div>
+      <button class="btn" id="fullscreenBtn">
+       <i class="fa-solid fa-expand"></i>
+       <span data-ar="ملء الشاشة" data-en="Fullscreen">ملء الشاشة</span>
+      </button>
+     </div>
+    </div>
 
-<section class="card preview">
-<div class="screen" id="screen">
-<video id="video" playsinline controls></video>
-</div>
+    <div class="panel">
+     <h3 data-ar="القص والتوقيت" data-en="Trim & Timing">القص والتوقيت</h3>
 
-<div class="meta">
-<span id="fileName">—</span>
-<span id="info">—</span>
-</div>
-</section>
+     <div class="timeline">
+      <div class="timeline-row">
+       <label data-ar="بداية القص (ثانية)" data-en="Start time (seconds)">بداية القص (ثانية)</label>
+       <input class="number-input" id="startTime" type="number" min="0" value="0" step="0.1">
+      </div>
 
-<section class="card timeline">
+      <div class="timeline-row">
+       <label data-ar="نهاية القص (ثانية)" data-en="End time (seconds)">نهاية القص (ثانية)</label>
+       <input class="number-input" id="endTime" type="number" min="0" value="0" step="0.1">
+      </div>
 
-<div class="line">
-<b data-i18n="trimVideo">قص الفيديو</b>
-<span class="value" id="trimText">0:00 → 0:00</span>
-</div>
+      <div class="action-grid">
+       <button class="btn" id="goStart" data-ar="الانتقال للبداية" data-en="Go to Start">الانتقال للبداية</button>
+       <button class="btn" id="goEnd" data-ar="الانتقال للنهاية" data-en="Go to End">الانتقال للنهاية</button>
+      </div>
+     </div>
+    </div>
 
-<div class="trimgrid">
+    <div class="panel">
+     <h3 data-ar="النص على الفيديو" data-en="Text Overlay">النص على الفيديو</h3>
+     <input class="field" id="overlayText" placeholder="اكتب النص هنا">
+     <div class="action-grid">
+      <button class="btn primary" id="addText" data-ar="إضافة النص" data-en="Add Text">إضافة النص</button>
+      <button class="btn" id="removeText" data-ar="حذف النص" data-en="Remove Text">حذف النص</button>
+     </div>
+    </div>
 
-<div>
-<div class="line">
-<label data-i18n="startTime">بداية المقطع</label>
-<span id="startVal">0:00</span>
-</div>
-<input id="start" type="range" min="0" max="1" step=".01" value="0">
-</div>
+   </div>
 
-<div>
-<div class="line">
-<label data-i18n="endTime">نهاية المقطع</label>
-<span id="endVal">0:00</span>
-</div>
-<input id="end" type="range" min="0" max="1" step=".01" value="1">
-</div>
+   <!-- CONTROLS -->
+   <div>
 
-</div>
+    <div class="panel">
+     <h2 data-ar="إعدادات الفيديو" data-en="Video Settings">إعدادات الفيديو</h2>
 
-<div class="tools">
-<button class="tool" id="markStart" data-i18n="markStart">تحديد البداية من الوقت الحالي</button>
-<button class="tool" id="markEnd" data-i18n="markEnd">تحديد النهاية من الوقت الحالي</button>
-<button class="tool" id="previewClip" data-i18n="previewClip">معاينة المقطع</button>
-</div>
+     <div class="control">
+      <span class="control-name" data-ar="السطوع" data-en="Brightness">السطوع</span>
+      <div class="control-actions">
+       <button class="step-btn" data-control="brightness" data-step="-10">−</button>
+       <span class="value" id="brightnessValue">100%</span>
+       <button class="step-btn" data-control="brightness" data-step="10">+</button>
+      </div>
+     </div>
 
-</section>
+     <div class="control">
+      <span class="control-name" data-ar="التباين" data-en="Contrast">التباين</span>
+      <div class="control-actions">
+       <button class="step-btn" data-control="contrast" data-step="-10">−</button>
+       <span class="value" id="contrastValue">100%</span>
+       <button class="step-btn" data-control="contrast" data-step="10">+</button>
+      </div>
+     </div>
 
-<section class="card timeline">
+     <div class="control">
+      <span class="control-name" data-ar="التشبع" data-en="Saturation">التشبع</span>
+      <div class="control-actions">
+       <button class="step-btn" data-control="saturation" data-step="-10">−</button>
+       <span class="value" id="saturationValue">100%</span>
+       <button class="step-btn" data-control="saturation" data-step="10">+</button>
+      </div>
+     </div>
 
-<h3 data-i18n="projectSettings">إعدادات المشروع</h3>
+     <div class="control">
+      <span class="control-name" data-ar="سرعة الفيديو" data-en="Speed">سرعة الفيديو</span>
+      <div class="control-actions">
+       <button class="step-btn" data-control="speed" data-step="-0.25">−</button>
+       <span class="value" id="speedValue">1x</span>
+       <button class="step-btn" data-control="speed" data-step="0.25">+</button>
+      </div>
+     </div>
 
-<div class="field">
-<label data-i18n="projectName">اسم المشروع</label>
-<input id="projectTitle" type="text" value="مشروعي الجديد">
-</div>
+     <div class="control">
+      <span class="control-name" data-ar="الصوت" data-en="Volume">الصوت</span>
+      <div class="control-actions">
+       <button class="step-btn" data-control="volume" data-step="-10">−</button>
+       <span class="value" id="volumeValue">100%</span>
+       <button class="step-btn" data-control="volume" data-step="10">+</button>
+      </div>
+     </div>
 
-<div class="field">
-<label data-i18n="overlayLabel">النص على الفيديو</label>
-<input id="overlayText" type="text" data-i18n-placeholder="overlayPlaceholder" placeholder="اكتب عنواناً أو اسماً">
-</div>
+     <div class="action-grid">
+      <button class="btn" id="rotateBtn">
+       <i class="fa-solid fa-rotate-right"></i>
+       <span data-ar="تدوير" data-en="Rotate">تدوير</span>
+      </button>
 
-</section>
+      <button class="btn" id="flipBtn">
+       <i class="fa-solid fa-arrows-left-right"></i>
+       <span data-ar="قلب" data-en="Flip">قلب</span>
+      </button>
 
-</div>
+      <button class="btn" id="resetBtn">
+       <i class="fa-solid fa-rotate-left"></i>
+       <span data-ar="إعادة الضبط" data-en="Reset">إعادة الضبط</span>
+      </button>
+     </div>
+    </div>
 
-<aside class="card panel">
+    <div class="panel">
+     <h3 data-ar="الفلاتر" data-en="Filters">الفلاتر</h3>
+     <div class="action-grid">
+      <button class="btn filter-btn" data-filter="none" data-ar="عادي" data-en="Normal">عادي</button>
+      <button class="btn filter-btn" data-filter="grayscale(100%)" data-ar="أبيض وأسود" data-en="B&W">أبيض وأسود</button>
+      <button class="btn filter-btn" data-filter="sepia(100%)" data-ar="قديم" data-en="Vintage">قديم</button>
+      <button class="btn filter-btn" data-filter="blur(2px)" data-ar="ضبابي" data-en="Blur">ضبابي</button>
+      <button class="btn filter-btn" data-filter="saturate(180%)" data-ar="ألوان قوية" data-en="Vivid">ألوان قوية</button>
+     </div>
+    </div>
 
-<h3 data-i18n="editTools">أدوات التعديل</h3>
+    <div class="panel">
+     <h3 data-ar="تصدير الفيديو" data-en="Export Video">تصدير الفيديو</h3>
+     <p class="muted" data-ar="سيتم تصدير المقطع المحدد مع التأثيرات المدعومة." data-en="The selected clip will be exported with supported effects.">
+      سيتم تصدير المقطع المحدد مع التأثيرات المدعومة.
+     </p>
+     <button class="btn primary" id="exportBtn" style="width:100%">
+      <i class="fa-solid fa-download"></i>
+      <span data-ar="تصدير الفيديو" data-en="Export Video">تصدير الفيديو</span>
+     </button>
+     <div class="status" id="editorStatus">جاهز للعمل</div>
+    </div>
 
-<div class="field">
-<div class="line">
-<label data-i18n="brightness">السطوع</label>
-<output class="value" id="brightnessOut">100%</output>
-</div>
-<input id="brightness" type="range" min="50" max="150" value="100">
-</div>
+   </div>
+  </div>
+ </section>
 
-<div class="field">
-<div class="line">
-<label data-i18n="contrast">التباين</label>
-<output class="value" id="contrastOut">100%</output>
-</div>
-<input id="contrast" type="range" min="50" max="180" value="100">
-</div>
+ <!-- YOUTUBE SECTION -->
+ <section class="section" id="youtube">
+  <div class="youtube-layout">
 
-<div class="field">
-<div class="line">
-<label data-i18n="saturation">التشبع</label>
-<output class="value" id="saturationOut">100%</output>
-</div>
-<input id="saturation" type="range" min="0" max="200" value="100">
-</div>
+   <div class="panel">
+    <h2 data-ar="تحميل الفيديو" data-en="YouTube Video">تحميل الفيديو</h2>
+    <p class="muted" data-ar="ضع رابط الفيديو لمعاينته." data-en="Paste a video link to preview it.">
+     ضع رابط الفيديو لمعاينته.
+    </p>
 
-<div class="field">
-<div class="line">
-<label data-i18n="speed">السرعة</label>
-<output class="value" id="speedOut">1x</output>
-</div>
-<input id="speed" type="range" min=".25" max="2" step=".25" value="1">
-</div>
+    <label data-ar="رابط يوتيوب" data-en="YouTube URL">رابط يوتيوب</label>
+    <input class="field" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=...">
 
-<div class="field">
-<div class="line">
-<label data-i18n="volume">مستوى الصوت</label>
-<output class="value" id="volumeOut">100%</output>
-</div>
-<input id="volume" type="range" min="0" max="1" step=".1" value="1">
-</div>
+    <label data-ar="نوع المحتوى" data-en="Content Type">نوع المحتوى</label>
+    <select class="field" id="downloadType">
+     <option value="video" data-ar="فيديو مع الصوت" data-en="Video with Audio">فيديو مع الصوت</option>
+     <option value="audio" data-ar="صوت فقط" data-en="Audio Only">صوت فقط</option>
+    </select>
 
-<div class="field">
-<label for="filter" data-i18n="filters">الفلاتر</label>
-<select id="filter">
-<option value="none" data-i18n="original">الأصلي</option>
-<option value="grayscale(1)" data-i18n="blackWhite">أبيض وأسود</option>
-<option value="sepia(1)" data-i18n="sepia">سيبيا</option>
-<option value="saturate(1.8)" data-i18n="vivid">ألوان زاهية</option>
-<option value="contrast(1.2) saturate(.85)" data-i18n="cinematic">سينمائي</option>
-<option value="brightness(1.08) saturate(1.2)" data-i18n="warm">دافئ</option>
-</select>
-</div>
+    <label data-ar="الجودة المطلوبة" data-en="Quality">الجودة المطلوبة</label>
+    <select class="field" id="quality">
+     <option>1080p</option>
+     <option>720p</option>
+     <option>480p</option>
+     <option>360p</option>
+    </select>
 
-<div class="field">
-<label for="format" data-i18n="exportFormat">صيغة التصدير</label>
-<select id="format"></select>
-</div>
+    <div class="action-grid">
+     <button class="btn primary" id="previewYoutube">
+      <i class="fa-solid fa-play"></i>
+      <span data-ar="معاينة الفيديو" data-en="Preview Video">معاينة الفيديو</span>
+     </button>
 
-<div class="tools">
-<button class="tool" id="rotate" data-i18n="rotate">تدوير 90°</button>
-<button class="tool" id="flip" data-i18n="flip">قلب أفقي</button>
-<button class="tool" id="mute" data-i18n="mute">كتم الصوت</button>
-<button class="tool" id="reset" data-i18n="reset">إعادة الضبط</button>
-<button class="tool" id="change" data-i18n="changeVideo">فيديو آخر</button>
-</div>
+     <button class="btn success" id="downloadYoutube">
+      <i class="fa-solid fa-download"></i>
+      <span data-ar="تحميل الفيديو" data-en="Download Video">تحميل الفيديو</span>
+     </button>
+    </div>
 
-<div class="actions">
-<button class="btn" id="snapshot" data-i18n="snapshot">حفظ لقطة</button>
-<button class="btn" id="fullscreen" data-i18n="fullscreen">ملء الشاشة</button>
-<button class="btn primary wide" id="export" data-i18n="export">تصدير الفيديو</button>
-</div>
+    <div class="status" id="youtubeStatus">
+     أدخل رابط فيديو لمعاينته.
+    </div>
+   </div>
 
-<div class="progress" id="progress">
-<div id="bar"></div>
-</div>
+   <div class="panel">
+    <h3 data-ar="مشغل يوتيوب" data-en="YouTube Player">مشغل يوتيوب</h3>
+    <iframe
+     class="yt-preview"
+     id="youtubeFrame"
+     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+     allowfullscreen
+     title="YouTube Preview">
+    </iframe>
+    <p class="muted" data-ar="المعاينة لا تعني أن الفيديو أصبح ملفاً قابلاً للتنزيل." data-en="Previewing does not make the video downloadable.">
+     المعاينة لا تعني أن الفيديو أصبح ملفاً قابلاً للتنزيل.
+    </p>
+   </div>
 
-<div class="status" id="status">جاهز</div>
-
-</aside>
-</div>
-</section>
-</section>
-
-<!-- YOUTUBE SECTION -->
-
-<section class="view" id="youtubeView">
-
-<div class="line">
-<h2 data-i18n="youtubeTitle">تحميل الفيديو من اليوتيوب</h2>
-<button class="tool" id="backModes2" data-i18n="back">العودة</button>
-</div>
-
-<div class="youtube-layout">
-
-<section class="card youtube-box">
-
-<h2 data-i18n="youtubePreview">معاينة رابط YouTube</h2>
-
-<div class="url-row">
-<input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=...">
-<button class="btn primary" id="previewYoutube" data-i18n="preview">معاينة الفيديو</button>
-</div>
-
-<iframe
-class="yt-frame"
-id="ytFrame"
-title="YouTube Preview"
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-referrerpolicy="strict-origin-when-cross-origin"
-allowfullscreen>
-</iframe>
-
-<div class="status" id="ytStatus" data-i18n="enterUrl">أدخل رابط فيديو لمعاينته.</div>
-
-</section>
-
-<aside class="card panel">
-
-<h3 data-i18n="fileOptions">خيارات الملف</h3>
-
-<div class="field">
-<label data-i18n="fileType">نوع الملف</label>
-
-<div class="choice">
-<label>
-<input type="radio" name="mediaType" value="video" checked>
-<span data-i18n="videoAudio">فيديو مع الصوت</span>
-</label>
-
-<label>
-<input type="radio" name="mediaType" value="audio">
-<span data-i18n="audioOnly">صوت فقط</span>
-</label>
-</div>
-</div>
-
-<div class="field">
-<label for="quality" data-i18n="quality">الجودة</label>
-<select id="quality">
-<option data-i18n="bestQuality">أفضل جودة متاحة</option>
-<option>1080p</option>
-<option>720p</option>
-<option>480p</option>
-<option>360p</option>
-</select>
-</div>
-
-<button class="btn primary" id="studioBtn" style="width:100%" data-i18n="openStudio">
-فتح YouTube Studio
-</button>
-
-</aside>
-</div>
-</section>
-
-<a class="back" href="index.html" data-i18n="home">العودة للرئيسية</a>
+  </div>
+ </section>
 
 </main>
 
-<footer>© 2026 video-069</footer>
+<footer>VIDEO-069 · VIDEO EDITOR</footer>
 
 <script>
-const $=id=>document.getElementById(id);
+const video = document.getElementById("video");
+const fileInput = document.getElementById("fileInput");
+const editorStatus = document.getElementById("editorStatus");
 
-const translations={
-ar:{
-theme:"تغيير المظهر",
-subtitle:"استوديو تحرير الفيديو",
-editTitle:"منتاج الفيديو",
-editDesc:"قص وتعديل الألوان والسرعة والصوت وإضافة عنوان وتصدير الفيديو.",
-openEditor:"فتح محرر الفيديو",
-youtubeTitle:"تحميل الفيديو من اليوتيوب",
-youtubeDesc:"معاينة رابط الفيديو واختيار نوع الملف.",
-openYoutube:"فتح قسم YouTube",
-back:"العودة للقسمين",
-startProject:"ابدأ بمشروع جديد",
-chooseFileDesc:"اختر فيديو من جهازك أو اسحبه إلى هذه المنطقة.",
-chooseVideo:"اختيار فيديو",
-trimVideo:"قص الفيديو",
-startTime:"بداية المقطع",
-endTime:"نهاية المقطع",
-markStart:"تحديد البداية من الوقت الحالي",
-markEnd:"تحديد النهاية من الوقت الحالي",
-previewClip:"معاينة المقطع",
-projectSettings:"إعدادات المشروع",
-projectName:"اسم المشروع",
-overlayLabel:"النص على الفيديو",
-overlayPlaceholder:"اكتب عنواناً أو اسماً",
-editTools:"أدوات التعديل",
-brightness:"السطوع",
-contrast:"التباين",
-saturation:"التشبع",
-speed:"السرعة",
-volume:"مستوى الصوت",
-filters:"الفلاتر",
-original:"الأصلي",
-blackWhite:"أبيض وأسود",
-sepia:"سيبيا",
-vivid:"ألوان زاهية",
-cinematic:"سينمائي",
-warm:"دافئ",
-exportFormat:"صيغة التصدير",
-rotate:"تدوير 90°",
-flip:"قلب أفقي",
-mute:"كتم الصوت",
-unmute:"إلغاء الكتم",
-reset:"إعادة الضبط",
-changeVideo:"فيديو آخر",
-snapshot:"حفظ لقطة",
-fullscreen:"ملء الشاشة",
-export:"تصدير الفيديو",
-cancelExport:"إلغاء التصدير",
-ready:"جاهز",
-loaded:"تم تحميل الفيديو",
-badFile:"اختر ملف فيديو صالحاً.",
-exportUnsupported:"استخدم Chrome أو Edge حديثاً للتصدير.",
-exporting:"جارٍ تصدير الفيديو...",
-cancelled:"تم إلغاء التصدير.",
-saved:"تم حفظ الفيديو.",
-failed:"فشل التصدير. جرّب فيديو أقصر.",
-youtubePreview:"معاينة رابط YouTube",
-preview:"معاينة الفيديو",
-enterUrl:"أدخل رابط فيديو لمعاينته.",
-invalidUrl:"الرابط غير صالح. أدخل رابط YouTube صحيحاً.",
-previewLoaded:"تم تحميل المعاينة الرسمية.",
-fileOptions:"خيارات الملف",
-fileType:"نوع الملف",
-videoAudio:"فيديو مع الصوت",
-audioOnly:"صوت فقط",
-quality:"الجودة",
-bestQuality:"أفضل جودة متاحة",
-openStudio:"فتح YouTube Studio",
-home:"العودة للرئيسية",
-muteButton:"كتم الصوت",
-unmuteButton:"إلغاء الكتم",
-fullError:"ملء الشاشة غير متاح.",
-chooseFirst:"اختر فيديو أولاً.",
-checkExport:"تحقق من صيغة التصدير ونطاق القص.",
-snapshotError:"تعذر حفظ اللقطة.",
-exportComplete:"اكتمل التصدير."
-},
-en:{
-theme:"Change Theme",
-subtitle:"Video Editing Studio",
-editTitle:"Video Editor",
-editDesc:"Trim video, adjust colors, speed and audio, add titles and export.",
-openEditor:"Open Video Editor",
-youtubeTitle:"YouTube Video",
-youtubeDesc:"Preview a YouTube link and choose your preferred file type.",
-openYoutube:"Open YouTube Section",
-back:"Back to Sections",
-startProject:"Start a New Project",
-chooseFileDesc:"Choose a video from your device or drag it into this area.",
-chooseVideo:"Choose Video",
-trimVideo:"Trim Video",
-startTime:"Start Time",
-endTime:"End Time",
-markStart:"Set Start to Current Time",
-markEnd:"Set End to Current Time",
-previewClip:"Preview Clip",
-projectSettings:"Project Settings",
-projectName:"Project Name",
-overlayLabel:"Text Overlay",
-overlayPlaceholder:"Enter a title or name",
-editTools:"Editing Tools",
-brightness:"Brightness",
-contrast:"Contrast",
-saturation:"Saturation",
-speed:"Speed",
-volume:"Volume",
-filters:"Filters",
-original:"Original",
-blackWhite:"Black & White",
-sepia:"Sepia",
-vivid:"Vivid Colors",
-cinematic:"Cinematic",
-warm:"Warm",
-exportFormat:"Export Format",
-rotate:"Rotate 90°",
-flip:"Flip Horizontally",
-mute:"Mute",
-unmute:"Unmute",
-reset:"Reset",
-changeVideo:"Change Video",
-snapshot:"Save Snapshot",
-fullscreen:"Fullscreen",
-export:"Export Video",
-cancelExport:"Cancel Export",
-ready:"Ready",
-loaded:"Video Loaded",
-badFile:"Choose a valid video file.",
-exportUnsupported:"Use a recent version of Chrome or Edge to export.",
-exporting:"Exporting video...",
-cancelled:"Export cancelled.",
-saved:"Video saved.",
-failed:"Export failed. Try a shorter video.",
-youtubePreview:"YouTube Link Preview",
-preview:"Preview Video",
-enterUrl:"Enter a video link to preview it.",
-invalidUrl:"Invalid link. Enter a valid YouTube URL.",
-previewLoaded:"YouTube preview loaded.",
-fileOptions:"File Options",
-fileType:"File Type",
-videoAudio:"Video with Audio",
-audioOnly:"Audio Only",
-quality:"Quality",
-bestQuality:"Best Available Quality",
-openStudio:"Open YouTube Studio",
-home:"Back to Home",
-muteButton:"Mute",
-unmuteButton:"Unmute",
-fullError:"Fullscreen is not available.",
-chooseFirst:"Choose a video first.",
-checkExport:"Check the export format and trim range.",
-snapshotError:"Could not save snapshot.",
-exportComplete:"Export complete."
-}
+let currentFileURL = null;
+let rotation = 0;
+let flipped = false;
+let customFilter = "none";
+let overlayEnabled = false;
+
+const values = {
+ brightness:100,
+ contrast:100,
+ saturation:100,
+ speed:1,
+ volume:100
 };
 
-let language="ar";
-
-function t(key){
-return translations[language][key]||key;
-}
-
-function setLanguage(lang){
-language=lang;
-
-document.documentElement.lang=lang;
-document.documentElement.dir=lang==="ar"?"rtl":"ltr";
-
-document.querySelectorAll("[data-i18n]").forEach(element=>{
-const key=element.dataset.i18n;
-if(translations[lang][key])element.textContent=translations[lang][key];
-});
-
-document.querySelectorAll("[data-i18n-placeholder]").forEach(element=>{
-const key=element.dataset.i18nPlaceholder;
-if(translations[lang][key])element.placeholder=translations[lang][key];
-});
-
-$("langBtn").textContent=lang==="ar"?"English":"العربية";
-
-$("mute").textContent=video.muted?t("unmute"):t("mute");
-
-if(exporting)$("export").textContent=t("cancelExport");
-else $("export").textContent=t("export");
-
-if($("status"))$("status").textContent=t("ready");
-}
-
-$("langBtn").onclick=()=>{
-setLanguage(language==="ar"?"en":"ar");
+const limits = {
+ brightness:[0,200],
+ contrast:[0,200],
+ saturation:[0,200],
+ speed:[0.25,3],
+ volume:[0,100]
 };
-
-const video=$("video");
-
-let file=null;
-let objectUrl=null;
-let duration=0;
-let rotation=0;
-let flip=1;
-let exporting=false;
-let cancelRequested=false;
-let recorder=null;
-let activeStream=null;
-
-function showView(name){
-$("editorView").classList.toggle("active",name==="editor");
-$("youtubeView").classList.toggle("active",name==="youtube");
-$("modeGrid").classList.toggle("hidden",!!name);
-}
-
-$("openEditor").onclick=()=>showView("editor");
-$("openYoutube").onclick=()=>showView("youtube");
-
-$("backModes").onclick=$("backModes2").onclick=()=>showView("");
-
-$("themeBtn").onclick=()=>{
-const theme=document.documentElement.dataset.theme==="dark"?"light":"dark";
-document.documentElement.dataset.theme=theme;
-try{localStorage.setItem("video069-theme",theme)}catch(e){}
-};
-
-try{
-document.documentElement.dataset.theme=localStorage.getItem("video069-theme")||"dark";
-}catch(e){}
-
-function toast(message){
-const element=document.createElement("div");
-element.textContent=message;
-
-Object.assign(element.style,{
-position:"fixed",
-bottom:"20px",
-left:"50%",
-transform:"translateX(-50%)",
-background:"#102638",
-color:"#fff",
-padding:"12px 18px",
-borderRadius:"12px",
-zIndex:50
-});
-
-document.body.append(element);
-setTimeout(()=>element.remove(),2800);
-}
 
 function status(message){
-$("status").textContent=message;
+ editorStatus.textContent = message;
 }
 
-function timeFormat(value){
-if(!Number.isFinite(value))return"0:00";
-value=Math.max(0,value);
-return Math.floor(value/60)+":"+String(Math.floor(value%60)).padStart(2,"0");
+function applyVideoSettings(){
+ video.style.filter =
+ `brightness(${values.brightness}%)
+  contrast(${values.contrast}%)
+  saturate(${values.saturation}%)
+  ${customFilter === "none" ? "" : customFilter}`;
+
+ video.style.transform =
+ `rotate(${rotation}deg) scaleX(${flipped ? -1 : 1})`;
+
+ video.playbackRate = values.speed;
+ video.volume = values.volume / 100;
+
+ Object.keys(values).forEach(key=>{
+  const el = document.getElementById(key+"Value");
+  if(!el)return;
+  el.textContent = key === "speed"
+   ? values[key].toFixed(2).replace(/\.?0+$/,"")+"x"
+   : values[key]+"%";
+ });
 }
 
-function loadVideo(selectedFile){
+fileInput.addEventListener("change",()=>{
+ const file = fileInput.files[0];
+ if(!file)return;
 
-if(exporting)return;
+ if(!file.type.startsWith("video/")){
+  status("الملف المحدد ليس فيديو.");
+  return;
+ }
 
-if(!selectedFile||!selectedFile.type.startsWith("video/")){
-toast(t("badFile"));
-return;
-}
+ if(currentFileURL) URL.revokeObjectURL(currentFileURL);
+ currentFileURL = URL.createObjectURL(file);
 
-if(objectUrl)URL.revokeObjectURL(objectUrl);
+ video.src = currentFileURL;
+ video.style.display = "block";
+ document.getElementById("emptyMessage").style.display = "none";
 
-file=selectedFile;
-objectUrl=URL.createObjectURL(selectedFile);
-
-rotation=0;
-flip=1;
-
-video.pause();
-video.src=objectUrl;
-video.load();
-
-$("upload").classList.add("hidden");
-$("editor").classList.remove("hidden");
-
-$("fileName").textContent=selectedFile.name;
-
-status(t("loaded"));
-}
-
-$("fileInput").onchange=event=>{
-loadVideo(event.target.files[0]);
-event.target.value="";
-};
-
-$("change").onclick=()=>{
-if(!exporting)$("fileInput").click();
-};
-
-["dragover","dragenter"].forEach(event=>{
-$("upload").addEventListener(event,e=>{
-e.preventDefault();
-$("upload").classList.add("drag");
-});
+ video.onloadedmetadata = ()=>{
+  document.getElementById("startTime").value = 0;
+  document.getElementById("endTime").value = video.duration.toFixed(1);
+  status("تم تحميل الفيديو بنجاح.");
+ };
 });
 
-["dragleave","drop"].forEach(event=>{
-$("upload").addEventListener(event,e=>{
-e.preventDefault();
-$("upload").classList.remove("drag");
+document.getElementById("playBtn").onclick = ()=>{
+ if(!video.src)return status("اختر فيديو أولاً.");
+ const start = Number(document.getElementById("startTime").value) || 0;
+ if(video.currentTime < start) video.currentTime = start;
+ video.play();
+};
 
-if(event==="drop")loadVideo(e.dataTransfer.files[0]);
-});
-});
+document.getElementById("pauseBtn").onclick = ()=>video.pause();
 
-video.addEventListener("loadedmetadata",()=>{
-duration=Number.isFinite(video.duration)?video.duration:0;
+document.getElementById("muteBtn").onclick = ()=>{
+ video.muted = !video.muted;
+ document.getElementById("muteBtn").innerHTML = video.muted
+  ? '<i class="fa-solid fa-volume-high"></i> إلغاء الكتم'
+  : '<i class="fa-solid fa-volume-xmark"></i> كتم الصوت';
+};
 
-$("start").max=duration||1;
-$("end").max=duration||1;
+document.getElementById("fullscreenBtn").onclick = async ()=>{
+ if(!video.src)return status("اختر فيديو أولاً.");
+ try{
+  if(document.fullscreenElement) await document.exitFullscreen();
+  else await document.getElementById("preview").requestFullscreen();
+ }catch(e){status("تعذر تشغيل وضع ملء الشاشة.");}
+};
 
-$("start").value=0;
-$("end").value=duration;
+document.querySelectorAll("[data-control]").forEach(button=>{
+ button.addEventListener("click",()=>{
+  const key = button.dataset.control;
+  const step = Number(button.dataset.step);
+  const [min,max] = limits[key];
 
-updateTrim();
-updateEffects();
+  values[key] = Math.max(min,Math.min(max,values[key]+step));
+  values[key] = Math.round(values[key]*100)/100;
 
-$("info").textContent=
-`${timeFormat(duration)} • ${video.videoWidth}×${video.videoHeight}`;
-});
-
-video.addEventListener("error",()=>{
-toast(t("badFile"));
-});
-
-function filterString(){
-return `brightness(${$("brightness").value}%) contrast(${$("contrast").value}%) saturate(${$("saturation").value}%) ${$("filter").value==="none"?"":$("filter").value}`.trim();
-}
-
-function updateEffects(){
-
-video.style.filter=filterString();
-
-video.style.transform=
-`rotate(${rotation}deg) scaleX(${flip})`;
-
-video.playbackRate=+$("speed").value;
-video.volume=+$("volume").value;
-
-["brightness","contrast","saturation"].forEach(key=>{
-$(key+"Out").textContent=$(key).value+"%";
+  applyVideoSettings();
+ });
 });
 
-$("speedOut").textContent=$("speed").value+"x";
+document.getElementById("rotateBtn").onclick = ()=>{
+ rotation = (rotation+90)%360;
+ applyVideoSettings();
+};
 
-$("volumeOut").textContent=
-Math.round(+$("volume").value*100)+"%";
-}
+document.getElementById("flipBtn").onclick = ()=>{
+ flipped = !flipped;
+ applyVideoSettings();
+};
 
-["brightness","contrast","saturation","speed","volume","filter"].forEach(id=>{
-$(id).addEventListener("input",updateEffects);
+document.getElementById("resetBtn").onclick = ()=>{
+ Object.assign(values,{
+  brightness:100,
+  contrast:100,
+  saturation:100,
+  speed:1,
+  volume:100
+ });
+ rotation = 0;
+ flipped = false;
+ customFilter = "none";
+
+ document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("primary"));
+ applyVideoSettings();
+ status("تمت إعادة ضبط الإعدادات.");
+};
+
+document.querySelectorAll(".filter-btn").forEach(button=>{
+ button.onclick = ()=>{
+  customFilter = button.dataset.filter;
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("primary"));
+  button.classList.add("primary");
+  applyVideoSettings();
+ };
 });
 
-$("rotate").onclick=()=>{
-rotation=(rotation+90)%360;
-updateEffects();
+document.getElementById("goStart").onclick = ()=>{
+ if(!video.src)return status("اختر فيديو أولاً.");
+ video.currentTime = Number(document.getElementById("startTime").value)||0;
 };
 
-$("flip").onclick=()=>{
-flip*=-1;
-updateEffects();
-};
-
-$("mute").onclick=()=>{
-video.muted=!video.muted;
-$("mute").textContent=video.muted?t("unmute"):t("mute");
-};
-
-$("reset").onclick=()=>{
-
-if(exporting)return;
-
-["brightness","contrast","saturation"].forEach(id=>{
-$(id).value=100;
-});
-
-$("speed").value=1;
-$("volume").value=1;
-$("filter").value="none";
-
-rotation=0;
-flip=1;
-video.muted=false;
-
-$("mute").textContent=t("mute");
-
-updateEffects();
-};
-
-function updateTrim(){
-
-let start=+$("start").value;
-let end=+$("end").value;
-
-if(end<=start){
-
-if(document.activeElement===$("start")){
-$("start").value=Math.max(0,end-.1);
-}else{
-$("end").value=Math.min(duration,start+.1);
-}
-
-start=+$("start").value;
-end=+$("end").value;
-}
-
-$("startVal").textContent=timeFormat(start);
-$("endVal").textContent=timeFormat(end);
-
-$("trimText").textContent=
-`${timeFormat(start)} → ${timeFormat(end)}`;
-}
-
-$("start").oninput=()=>{
-if(+$("start").value>=+$("end").value){
-$("start").value=Math.max(0,+$("end").value-.1);
-}
-
-updateTrim();
-
-if(!exporting)video.currentTime=+$("start").value;
-};
-
-$("end").oninput=()=>{
-if(+$("end").value<=+$("start").value){
-$("end").value=Math.min(duration,+$("start").value+.1);
-}
-
-updateTrim();
-
-if(!exporting)video.currentTime=+$("end").value;
-};
-
-$("markStart").onclick=()=>{
-if(file){
-$("start").value=Math.min(video.currentTime,+$("end").value-.1);
-updateTrim();
-}
-};
-
-$("markEnd").onclick=()=>{
-if(file){
-$("end").value=Math.max(video.currentTime,+$("start").value+.1);
-updateTrim();
-}
-};
-
-$("previewClip").onclick=()=>{
-if(file){
-video.currentTime=+$("start").value;
-video.play().catch(()=>{});
-}
+document.getElementById("goEnd").onclick = ()=>{
+ if(!video.src)return status("اختر فيديو أولاً.");
+ video.currentTime = Number(document.getElementById("endTime").value)||video.duration;
 };
 
 video.addEventListener("timeupdate",()=>{
-if(!exporting&&!video.paused&&video.currentTime>=+$("end").value){
-video.pause();
-video.currentTime=+$("end").value;
-}
+ const end = Number(document.getElementById("endTime").value);
+ if(end > 0 && video.currentTime >= end && !video.paused){
+  video.pause();
+ }
 });
 
-function setupFormats(){
-
-const select=$("format");
-select.replaceChildren();
-
-if(!window.MediaRecorder){
-select.add(new Option("Unsupported",""));
-return;
-}
-
-const formats=[
-["video/webm;codecs=vp9,opus","WebM VP9"],
-["video/webm;codecs=vp8,opus","WebM VP8"],
-["video/webm","WebM"]
-];
-
-let found=false;
-
-formats.forEach(([mime,label])=>{
-if(MediaRecorder.isTypeSupported(mime)){
-select.add(new Option(label,mime));
-found=true;
-}
-});
-
-if(!found)select.add(new Option("Unsupported",""));
-}
-
-setupFormats();
-
-function drawFrame(ctx,width,height){
-
-ctx.save();
-
-ctx.clearRect(0,0,width,height);
-
-ctx.translate(width/2,height/2);
-ctx.rotate(rotation*Math.PI/180);
-ctx.scale(flip,1);
-
-ctx.filter=filterString();
-
-ctx.drawImage(
-video,
--video.videoWidth/2,
--video.videoHeight/2,
-video.videoWidth,
-video.videoHeight
-);
-
-const text=$("overlayText").value.trim();
-
-if(text){
-
-const size=Math.max(24,Math.round(width*.045));
-
-ctx.font=`800 ${size}px Tajawal,Arial`;
-ctx.textAlign="center";
-ctx.textBaseline="bottom";
-ctx.lineWidth=size*.08;
-ctx.strokeStyle="#000c";
-ctx.fillStyle="white";
-
-ctx.strokeText(text,0,height/2-size*.7);
-ctx.fillText(text,0,height/2-size*.7);
-}
-
-ctx.restore();
-ctx.filter="none";
-}
-
-function downloadBlob(blob,name){
-
-const url=URL.createObjectURL(blob);
-const link=document.createElement("a");
-
-link.href=url;
-link.download=name;
-
-document.body.append(link);
-link.click();
-link.remove();
-
-setTimeout(()=>URL.revokeObjectURL(url),12000);
-}
-
-$("snapshot").onclick=()=>{
-
-if(!file||!video.videoWidth)return;
-
-const canvas=document.createElement("canvas");
-const swapped=rotation%180!==0;
-
-canvas.width=swapped?video.videoHeight:video.videoWidth;
-canvas.height=swapped?video.videoWidth:video.videoHeight;
-
-drawFrame(canvas.getContext("2d"),canvas.width,canvas.height);
-
-canvas.toBlob(blob=>{
-if(blob){
-downloadBlob(blob,"video-069-snapshot.png");
-}else{
-toast(t("snapshotError"));
-}
-},"image/png");
+document.getElementById("addText").onclick = ()=>{
+ const text = document.getElementById("overlayText").value.trim();
+ if(!text)return status("اكتب النص أولاً.");
+ status("تم حفظ النص كإعداد. سيظهر في المعاينة عند التصدير المدعوم.");
+ overlayEnabled = true;
 };
 
-$("fullscreen").onclick=()=>{
-
-const element=$("screen");
-
-if(document.fullscreenElement){
-document.exitFullscreen?.();
-}else{
-element.requestFullscreen?.().catch(()=>{
-toast(t("fullError"));
-});
-}
+document.getElementById("removeText").onclick = ()=>{
+ document.getElementById("overlayText").value = "";
+ overlayEnabled = false;
+ status("تم حذف النص.");
 };
 
-function lockExport(on){
+/* Export */
+document.getElementById("exportBtn").onclick = async ()=>{
+ if(!video.src)return status("اختر فيديو أولاً.");
 
-exporting=on;
+ if(!("MediaRecorder" in window)){
+  status("متصفحك لا يدعم تصدير الفيديو.");
+  return;
+ }
 
-$("export").textContent=on?t("cancelExport"):t("export");
+ const start = Math.max(0,Number(document.getElementById("startTime").value)||0);
+ const end = Number(document.getElementById("endTime").value)||video.duration;
 
-$("progress").classList.toggle("on",on);
+ if(end <= start || end > video.duration){
+  status("راجع وقت البداية والنهاية.");
+  return;
+ }
 
-[
-"snapshot","change","rotate","flip","reset",
-"markStart","markEnd","previewClip"
-].forEach(id=>{
-$(id).disabled=on;
-});
+ const canvas = document.createElement("canvas");
+ const ctx = canvas.getContext("2d");
+ canvas.width = video.videoWidth;
+ canvas.height = video.videoHeight;
 
-[
-"start","end","brightness","contrast","saturation",
-"speed","volume","filter","format","overlayText"
-].forEach(id=>{
-$(id).disabled=on;
-});
-}
+ const stream = canvas.captureStream(30);
+ let audioContext = null;
+ let sourceNode = null;
+ let audioDestination = null;
 
-async function exportVideo(){
+ try{
+  audioContext = new AudioContext();
+  sourceNode = audioContext.createMediaElementSource(video);
+  audioDestination = audioContext.createMediaStreamDestination();
+  sourceNode.connect(audioDestination);
+  sourceNode.connect(audioContext.destination);
 
-if(exporting){
-cancelRequested=true;
-return;
-}
+  audioDestination.stream.getAudioTracks().forEach(track=>stream.addTrack(track));
+ }catch(e){
+  console.warn("Audio export unavailable",e);
+ }
 
-if(!file){
-toast(t("chooseFirst"));
-return;
-}
+ const mimeTypes = [
+  "video/webm;codecs=vp9,opus",
+  "video/webm;codecs=vp8,opus",
+  "video/webm"
+ ];
 
-if(!window.MediaRecorder||!HTMLCanvasElement.prototype.captureStream){
-toast(t("exportUnsupported"));
-return;
-}
+ const mimeType = mimeTypes.find(type=>MediaRecorder.isTypeSupported(type));
+ if(!mimeType){
+  status("صيغة التصدير غير مدعومة في هذا المتصفح.");
+  return;
+ }
 
-const mime=$("format").value;
-const start=+$("start").value;
-const end=+$("end").value;
+ let recorder;
+ try{
+  recorder = new MediaRecorder(stream,{mimeType});
+ }catch(e){
+  status("تعذر بدء التصدير.");
+  return;
+ }
 
-if(!mime||end<=start){
-toast(t("checkExport"));
-return;
-}
+ const chunks = [];
+ recorder.ondataavailable = e=>{
+  if(e.data.size)chunks.push(e.data);
+ };
 
-cancelRequested=false;
-lockExport(true);
-status(t("exporting"));
+ recorder.onerror = ()=>{
+  status("حدث خطأ أثناء التصدير.");
+ };
 
-video.pause();
+ recorder.onstop = ()=>{
+  const blob = new Blob(chunks,{type:"video/webm"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "video-069-export.webm";
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
 
-const canvas=document.createElement("canvas");
-const swapped=rotation%180!==0;
+  stream.getTracks().forEach(track=>track.stop());
+  if(audioContext)audioContext.close();
+  status("اكتمل تصدير الفيديو.");
+ };
 
-canvas.width=swapped?video.videoHeight:video.videoWidth;
-canvas.height=swapped?video.videoWidth:video.videoHeight;
+ const draw = ()=>{
+  if(recorder.state !== "recording")return;
 
-const ctx=canvas.getContext("2d");
+  ctx.save();
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.filter =
+   `brightness(${values.brightness}%)
+    contrast(${values.contrast}%)
+    saturate(${values.saturation}%)`;
 
-activeStream=canvas.captureStream(30);
+  ctx.translate(canvas.width/2,canvas.height/2);
+  ctx.rotate(rotation*Math.PI/180);
+  ctx.scale(flipped?-1:1,1);
 
-let audioContext=null;
-let animationFrame=0;
-let chunks=[];
+  const swap = rotation%180 !== 0;
+  const drawWidth = swap ? canvas.height : canvas.width;
+  const drawHeight = swap ? canvas.width : canvas.height;
 
-try{
+  ctx.drawImage(video,-drawWidth/2,-drawHeight/2,drawWidth,drawHeight);
+  ctx.restore();
 
-try{
+  if(overlayEnabled){
+   const text = document.getElementById("overlayText").value;
+   ctx.save();
+   ctx.font = `bold ${Math.max(24,canvas.width/24)}px Cairo, Arial`;
+   ctx.textAlign = "center";
+   ctx.direction = "rtl";
+   ctx.lineWidth = 4;
+   ctx.strokeStyle = "black";
+   ctx.fillStyle = "white";
+   ctx.strokeText(text,canvas.width/2,canvas.height-45);
+   ctx.fillText(text,canvas.width/2,canvas.height-45);
+   ctx.restore();
+  }
 
-audioContext=new(window.AudioContext||window.webkitAudioContext)();
+  requestAnimationFrame(draw);
+ };
 
-const source=audioContext.createMediaElementSource(video);
-const destination=audioContext.createMediaStreamDestination();
-const gain=audioContext.createGain();
+ try{
+  if(audioContext && audioContext.state === "suspended")await audioContext.resume();
 
-source.connect(gain);
-gain.connect(audioContext.destination);
-source.connect(destination);
+  video.pause();
+  video.currentTime = start;
+  await new Promise(resolve=>{
+   video.addEventListener("seeked",resolve,{once:true});
+  });
 
-gain.gain.value=video.muted?0:+$("volume").value;
+  recorder.start();
+  await video.play();
+  draw();
 
-destination.stream.getAudioTracks().forEach(track=>{
-activeStream.addTrack(track);
-});
+  const stopCheck = ()=>{
+   if(video.currentTime >= end){
+    video.pause();
+    if(recorder.state === "recording")recorder.stop();
+    video.removeEventListener("timeupdate",stopCheck);
+   }
+  };
 
-await audioContext.resume();
-
-}catch(error){
-console.warn("Audio capture unavailable",error);
-}
-
-recorder=new MediaRecorder(activeStream,{
-mimeType:mime,
-videoBitsPerSecond:6500000
-});
-
-recorder.ondataavailable=event=>{
-if(event.data?.size)chunks.push(event.data);
+  video.addEventListener("timeupdate",stopCheck);
+  status("جاري تصدير الفيديو...");
+ }catch(e){
+  if(recorder.state === "recording")recorder.stop();
+  status("تعذر تصدير الفيديو. حاول مرة أخرى.");
+ }
 };
 
-const stopped=new Promise(resolve=>{
-recorder.addEventListener("stop",resolve,{once:true});
+/* YouTube preview */
+function getYoutubeId(value){
+ try{
+  const url = new URL(value);
+  if(url.hostname.includes("youtu.be")){
+   return url.pathname.slice(1).split("/")[0];
+  }
+  if(url.hostname.includes("youtube.com")){
+   if(url.pathname === "/watch")return url.searchParams.get("v");
+   const parts = url.pathname.split("/");
+   const index = parts.findIndex(p=>["embed","shorts","live"].includes(p));
+   if(index >= 0)return parts[index+1];
+  }
+ }catch(e){}
+ return null;
+}
+
+document.getElementById("previewYoutube").onclick = ()=>{
+ const input = document.getElementById("youtubeUrl").value.trim();
+ const id = getYoutubeId(input);
+ const statusBox = document.getElementById("youtubeStatus");
+
+ if(!id){
+  statusBox.textContent = "رابط يوتيوب غير صحيح.";
+  return;
+ }
+
+ document.getElementById("youtubeFrame").src =
+  "https://www.youtube-nocookie.com/embed/"+encodeURIComponent(id);
+
+ statusBox.textContent = "تم تحميل المعاينة.";
+};
+
+document.getElementById("downloadYoutube").onclick = ()=>{
+ const input = document.getElementById("youtubeUrl").value.trim();
+ const id = getYoutubeId(input);
+ const statusBox = document.getElementById("youtubeStatus");
+
+ if(!id){
+  statusBox.textContent = "أدخل رابط يوتيوب صحيحاً أولاً.";
+  return;
+ }
+
+ statusBox.textContent =
+  "لا يمكن تنزيل فيديو يوتيوب مباشرة من هذه الصفحة. إذا كان الفيديو ملكك، استخدم خيار التنزيل الرسمي من حسابك.";
+};
+
+/* Tabs */
+document.querySelectorAll(".tab").forEach(tab=>{
+ tab.onclick = ()=>{
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+
+  tab.classList.add("active");
+  document.getElementById(tab.dataset.tab).classList.add("active");
+ };
 });
 
-await new Promise((resolve,reject)=>{
-
-const timer=setTimeout(()=>{
-reject(new Error("Seek timeout"));
-},6000);
-
-const done=()=>{
-clearTimeout(timer);
-resolve();
+/* Theme */
+document.getElementById("themeBtn").onclick = ()=>{
+ const root = document.documentElement;
+ root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
 };
 
-video.addEventListener("seeked",done,{once:true});
-video.currentTime=start;
+/* Language */
+let language = "ar";
 
-if(Math.abs(video.currentTime-start)<.03){
-clearTimeout(timer);
-video.removeEventListener("seeked",done);
-resolve();
-}
-});
+function setLanguage(lang){
+ language = lang;
+ document.documentElement.lang = lang;
+ document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
 
-video.playbackRate=+$("speed").value;
+ document.querySelectorAll("[data-ar][data-en]").forEach(el=>{
+  el.textContent = el.dataset[lang];
+ });
 
-recorder.start(200);
+ document.getElementById("languageBtn").textContent =
+  lang === "ar" ? "EN" : "AR";
 
-await video.play();
+ document.getElementById("youtubeUrl").placeholder =
+  lang === "ar" ? "https://www.youtube.com/watch?v=..." : "Paste YouTube URL";
 
-await new Promise(resolve=>{
-
-const tick=()=>{
-
-if(cancelRequested||video.currentTime>=end||video.ended){
-resolve();
-return;
+ document.getElementById("overlayText").placeholder =
+  lang === "ar" ? "اكتب النص هنا" : "Write text here";
 }
 
-drawFrame(ctx,canvas.width,canvas.height);
-
-$("bar").style.width=
-Math.min(100,(video.currentTime-start)/(end-start)*100)+"%";
-
-animationFrame=requestAnimationFrame(tick);
+document.getElementById("languageBtn").onclick = ()=>{
+ setLanguage(language === "ar" ? "en" : "ar");
 };
 
-tick();
-});
-
-cancelAnimationFrame(animationFrame);
-
-video.pause();
-
-if(recorder.state!=="inactive"){
-recorder.stop();
-}
-
-await stopped;
-
-if(cancelRequested){
-
-status(t("cancelled"));
-toast(t("cancelled"));
-
-}else{
-
-const blob=new Blob(chunks,{type:mime});
-
-if(!blob.size)throw new Error("Empty export");
-
-downloadBlob(
-blob,
-`${file.name.replace(/\.[^.]+$/,"")}-video-069.webm`
-);
-
-status(t("saved"));
-toast(t("exportComplete"));
-}
-
-}catch(error){
-
-console.error(error);
-
-if(recorder&&recorder.state!=="inactive"){
-try{recorder.stop()}catch(_){}
-}
-
-status(t("failed"));
-toast(t("failed"));
-
-}finally{
-
-cancelAnimationFrame(animationFrame);
-
-if(audioContext){
-try{await audioContext.close()}catch(_){}
-}
-
-if(activeStream){
-activeStream.getTracks().forEach(track=>track.stop());
-}
-
-activeStream=null;
-recorder=null;
-
-lockExport(false);
-updateEffects();
-
-$("bar").style.width="0%";
-}
-}
-
-$("export").onclick=exportVideo;
-
-/* YOUTUBE PREVIEW */
-
-function getYouTubeId(raw){
-
-try{
-
-const url=new URL(raw);
-let id="";
-
-if(url.hostname==="youtu.be"){
-
-id=url.pathname.split("/").filter(Boolean)[0]||"";
-
-}else if([
-"youtube.com",
-"www.youtube.com",
-"m.youtube.com",
-"youtube-nocookie.com",
-"www.youtube-nocookie.com"
-].includes(url.hostname)){
-
-id=url.searchParams.get("v")||"";
-
-if(!id){
-
-const parts=url.pathname.split("/").filter(Boolean);
-
-if(["embed","shorts","live"].includes(parts[0])){
-id=parts[1]||"";
-}
-}
-}
-
-return /^[A-Za-z0-9_-]{11}$/.test(id)?id:null;
-
-}catch(error){
-return null;
-}
-}
-
-$("previewYoutube").onclick=()=>{
-
-const id=getYouTubeId($("youtubeUrl").value.trim());
-
-if(!id){
-
-$("ytStatus").textContent=t("invalidUrl");
-$("ytFrame").src="about:blank";
-
-return;
-}
-
-$("ytFrame").src=
-`https://www.youtube-nocookie.com/embed/${id}`;
-
-$("ytStatus").textContent=t("previewLoaded");
-};
-
-$("youtubeUrl").onkeydown=event=>{
-if(event.key==="Enter"){
-$("previewYoutube").click();
-}
-};
-
-$("studioBtn").onclick=()=>{
-window.open(
-"https://studio.youtube.com/",
-"_blank",
-"noopener,noreferrer"
-);
-};
-
-window.addEventListener("beforeunload",event=>{
-
-if(exporting){
-event.preventDefault();
-event.returnValue="";
-}
-
-});
-
-setLanguage("ar");
-
+applyVideoSettings();
 </script>
+
 </body>
 </html>
