@@ -14,381 +14,285 @@
 <style>
 :root {
  --bg:#020804;
- --panel:rgba(7,22,13,.91);
- --border:rgba(34,197,94,.19);
+ --panel:rgba(7,22,13,.94);
+ --border:rgba(34,197,94,.22);
  --text:#edfff1;
  --muted:#86a993;
  --green:#22c55e;
  --neon:#39ff88;
- --darkgreen:#064e27;
  --glow:rgba(34,197,94,.25);
+ --input:rgba(34,197,94,.06);
 }
 [data-theme="light"] {
  --bg:#effcf3;
- --panel:rgba(255,255,255,.94);
- --border:rgba(22,163,74,.2);
+ --panel:rgba(255,255,255,.96);
+ --border:rgba(22,163,74,.22);
  --text:#092b16;
  --muted:#54745f;
  --green:#16a34a;
  --neon:#00a844;
- --darkgreen:#166534;
- --glow:rgba(22,163,74,.12);
+ --glow:rgba(22,163,74,.14);
+ --input:rgba(22,163,74,.06);
 }
-* {box-sizing:border-box;margin:0;padding:0}
-body {
- background:var(--bg);
- color:var(--text);
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+ background:var(--bg);color:var(--text);
  font-family:'Tajawal',sans-serif;
- min-height:100vh;
- overflow-x:hidden;
- transition:.3s;
+ min-height:100vh;overflow-x:hidden;
+ transition:background .3s,color .3s;
 }
-button {font:inherit;cursor:pointer}
-button:disabled {opacity:.4;cursor:not-allowed}
-
-body::before {
- content:"";
- position:fixed;
- inset:0;
- pointer-events:none;
- z-index:-2;
+button{font:inherit;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+body::before{
+ content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;
  background-image:
  linear-gradient(rgba(34,197,94,.035) 1px,transparent 1px),
  linear-gradient(90deg,rgba(34,197,94,.035) 1px,transparent 1px);
  background-size:45px 45px;
 }
-.ambient {
- position:fixed;
- width:400px;height:400px;
- border-radius:50%;
- filter:blur(130px);
- opacity:.17;
- pointer-events:none;
- z-index:-1;
+.ambient{
+ position:fixed;width:400px;height:400px;border-radius:50%;
+ filter:blur(130px);opacity:.17;pointer-events:none;z-index:-1;
 }
-.glow-one {top:-200px;left:-100px;background:#16a34a}
-.glow-two {bottom:-200px;right:-100px;background:#00ff77}
+.glow-one{top:-200px;left:-100px;background:#16a34a}
+.glow-two{bottom:-200px;right:-100px;background:#00ff77}
 
-.navbar {
+/* Navigation */
+.navbar{
  position:sticky;top:0;z-index:10;
  display:flex;align-items:center;justify-content:space-between;
- padding:14px 5%;
- background:var(--panel);
- backdrop-filter:blur(20px);
+ padding:14px 5%;gap:12px;
+ background:var(--panel);backdrop-filter:blur(20px);
  border-bottom:1px solid var(--border);
- gap:12px;
 }
-.brand {
+.brand{
  display:flex;align-items:center;gap:12px;
  text-decoration:none;color:var(--text);
  font-weight:800;font-size:1.1rem;
 }
-.brand-icon {
- width:42px;height:42px;
- display:grid;place-items:center;
+.brand-icon{
+ width:42px;height:42px;display:grid;place-items:center;
  border-radius:13px;
  background:linear-gradient(135deg,#064e27,#22c55e);
- box-shadow:0 0 20px var(--glow);
- font-size:22px;
+ box-shadow:0 0 20px var(--glow);font-size:22px;
 }
-.brand span:last-child span {color:var(--neon)}
-.nav-actions {display:flex;gap:8px}
-
-.btn {
- padding:10px 15px;
- border:1px solid var(--border);
- border-radius:11px;
- background:var(--panel);
- color:var(--text);
- transition:.2s;
+.brand span:last-child span{color:var(--neon)}
+.nav-actions{display:flex;gap:8px}
+.btn{
+ padding:10px 15px;border:1px solid var(--border);
+ border-radius:11px;background:var(--panel);
+ color:var(--text);transition:.2s;
 }
-.btn:hover:not(:disabled) {
+.btn:hover:not(:disabled){
  border-color:var(--neon);
  box-shadow:0 0 15px var(--glow);
  transform:translateY(-2px);
 }
-.btn-primary {
+.btn-primary{
  background:linear-gradient(120deg,#04752e,#22c55e);
  border:0;color:white;
- box-shadow:0 0 20px rgba(34,197,94,.13);
+ box-shadow:0 0 20px rgba(34,197,94,.17);
 }
-.btn-danger {
- background:linear-gradient(120deg,#991b1b,#dc2626);
- color:white;border:0;
-}
+.btn-danger{background:linear-gradient(120deg,#991b1b,#dc2626);color:white;border:0}
 
-.hero {
- text-align:center;
- padding:65px 15px 45px;
-}
-.eyebrow {
- display:inline-flex;align-items:center;gap:9px;
- padding:7px 16px;
- border:1px solid var(--border);
- border-radius:30px;
- color:var(--neon);
- background:rgba(34,197,94,.06);
- font-size:.85rem;font-weight:800;
-}
-.live-dot {
- width:8px;height:8px;
- background:var(--neon);
- border-radius:50%;
- box-shadow:0 0 12px var(--neon);
- animation:blink 1.2s infinite;
-}
-@keyframes blink {50%{opacity:.3}}
-
-.hero h1 {
- position:relative;
- display:inline-block;
- margin-top:24px;
+/* Electric title */
+.hero{text-align:center;padding:55px 15px 35px}
+.hero h1{
+ position:relative;display:inline-block;
  font-family:'Orbitron',sans-serif;
  font-size:clamp(2.8rem,8vw,5.8rem);
- font-weight:900;
- letter-spacing:-3px;
+ font-weight:900;letter-spacing:-3px;
  color:transparent;
  background:linear-gradient(90deg,#9affb9,#19f56d,#d6ffe3,#22c55e);
  background-size:250% auto;
- background-clip:text;
- -webkit-background-clip:text;
- animation:electricReveal 2s ease-out both,greenFlow 5s linear infinite 2s;
+ background-clip:text;-webkit-background-clip:text;
+ animation:electricReveal 1.7s ease-out both,greenFlow 5s linear infinite 1.7s;
  filter:drop-shadow(0 0 17px rgba(34,255,115,.45));
 }
-.hero h1::after {
- content:"";
- position:absolute;
- top:0;left:-10%;
+.hero h1::before{
+ content:"";position:absolute;inset:-8px;
+ border-radius:20px;
+ background:linear-gradient(90deg,transparent,rgba(57,255,136,.13),transparent);
+ filter:blur(15px);z-index:-1;
+ animation:pulseGlow 2.5s infinite;
+}
+.hero h1::after{
+ content:"";position:absolute;top:0;left:-10%;
  width:120%;height:100%;
- background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.9) 49%,transparent 55%);
- animation:lightning 3s ease-in-out infinite 2s;
+ background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.95) 49%,transparent 55%);
+ animation:lightning 3.2s ease-in-out infinite 1.5s;
  pointer-events:none;
 }
-@keyframes electricReveal {
- 0% {opacity:0;clip-path:inset(0 100% 0 0);filter:brightness(5)}
- 30% {opacity:1;filter:brightness(3)}
- 70% {clip-path:inset(0 0 0 0);filter:brightness(1.8)}
- 100% {opacity:1;clip-path:inset(0 0 0 0);filter:brightness(1)}
+@keyframes electricReveal{
+ 0%{opacity:0;clip-path:inset(0 100% 0 0);filter:brightness(5)}
+ 35%{opacity:1;filter:brightness(3)}
+ 100%{opacity:1;clip-path:inset(0 0 0 0);filter:brightness(1)}
 }
-@keyframes greenFlow {
- to {background-position:250% center}
+@keyframes greenFlow{to{background-position:250% center}}
+@keyframes lightning{
+ 0%,65%,100%{transform:translateX(-120%);opacity:0}
+ 70%{opacity:1}
+ 82%{transform:translateX(120%);opacity:0}
 }
-@keyframes lightning {
- 0%,65%,100% {transform:translateX(-120%);opacity:0}
- 70% {opacity:1}
- 82% {transform:translateX(120%);opacity:0}
-}
-.hero p {color:var(--muted);margin-top:16px;font-size:1.05rem}
+@keyframes pulseGlow{50%{opacity:.35;transform:scale(1.08)}}
 
-.workspace {
- width:min(1250px,94%);
- margin:auto;
- padding-bottom:55px;
- display:grid;
- grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);
+/* Main layout */
+.workspace{
+ width:min(1250px,94%);margin:auto;padding-bottom:55px;
+ display:grid;grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);
  gap:20px;
 }
-.column {min-width:0}
-.panel {
- min-width:0;
- padding:21px;
- background:var(--panel);
- border:1px solid var(--border);
- border-radius:18px;
+.column{min-width:0}
+.panel{
+ min-width:0;padding:21px;background:var(--panel);
+ border:1px solid var(--border);border-radius:18px;
  box-shadow:0 12px 35px rgba(0,0,0,.1);
- backdrop-filter:blur(15px);
- margin-bottom:20px;
+ backdrop-filter:blur(15px);margin-bottom:20px;
  animation:appear .6s both;
 }
-@keyframes appear {
- from {opacity:0;transform:translateY(15px)}
- to {opacity:1;transform:translateY(0)}
+@keyframes appear{
+ from{opacity:0;transform:translateY(15px)}
+ to{opacity:1;transform:translateY(0)}
 }
-.panel-head {
+.panel-head{
  display:flex;justify-content:space-between;
  align-items:center;gap:10px;margin-bottom:18px;
 }
-.panel-head h2,.panel-head h3 {font-size:1.15rem;font-weight:800}
-.muted {color:var(--muted);font-size:.85rem}
+.panel-head h2,.panel-head h3{font-size:1.15rem;font-weight:800}
+.muted{color:var(--muted);font-size:.85rem}
+.status{
+ padding:5px 12px;border:1px solid var(--border);
+ border-radius:30px;color:var(--muted);font-size:.85rem;
+}
+.status.active{color:var(--neon);border-color:var(--green)}
+.status.active::before{content:"";display:inline-block;width:7px;height:7px;background:var(--neon);border-radius:50%;margin-left:7px;box-shadow:0 0 10px var(--neon)}
 
-.status {
- padding:5px 12px;
- border:1px solid var(--border);
- border-radius:30px;
- color:var(--muted);
- font-size:.85rem;
+/* Camera */
+.camera-box{
+ width:100%;aspect-ratio:4/3;position:relative;
+ overflow:hidden;border-radius:15px;
+ background:#020804;border:1px solid var(--border);
 }
-.status.active {color:var(--neon);border-color:var(--green)}
-
-.camera-box {
- width:100%;aspect-ratio:4/3;
- position:relative;overflow:hidden;
- border-radius:15px;
- background:#020804;
- border:1px solid var(--border);
+#cameraVideo,#outputCanvas{
+ position:absolute;inset:0;width:100%;height:100%;
+ object-fit:cover;transform:scaleX(-1);
 }
-#cameraVideo,#outputCanvas {
- position:absolute;inset:0;
- width:100%;height:100%;
- object-fit:cover;
- transform:scaleX(-1);
-}
-#outputCanvas {pointer-events:none}
-.placeholder {
- position:absolute;inset:0;
- display:grid;place-items:center;
+#outputCanvas{pointer-events:none}
+.placeholder{
+ position:absolute;inset:0;display:grid;place-items:center;
  text-align:center;color:#b8d9c1;
 }
-.placeholder.hidden {display:none}
-.placeholder .icon {font-size:4rem;margin-bottom:10px}
-.camera-info {
- display:flex;justify-content:space-between;
- gap:10px;margin-top:13px;
- color:var(--muted);font-size:.87rem;
+.placeholder.hidden{display:none}
+.placeholder .icon{font-size:4rem;margin-bottom:10px}
+.camera-info{
+ display:flex;justify-content:space-between;gap:10px;
+ margin-top:13px;color:var(--muted);font-size:.87rem;
 }
-.camera-actions {display:flex;gap:10px;margin-top:16px}
-.camera-actions button {flex:1}
+.camera-actions{display:flex;gap:10px;margin-top:16px}
+.camera-actions button{flex:1}
 
-.gesture-display {
+/* Camera indicators */
+.camera-metrics{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:9px;margin-top:14px;
+}
+.metric{
+ padding:11px;border:1px solid var(--border);
+ border-radius:12px;background:var(--input);
+}
+.metric-label{font-size:.76rem;color:var(--muted)}
+.metric-value{font-family:'Orbitron';font-size:1rem;color:var(--neon);margin-top:6px}
+.quality-track{
+ height:5px;background:rgba(128,128,128,.2);
+ border-radius:20px;margin-top:8px;overflow:hidden;
+}
+.quality-fill{
+ height:100%;width:0%;background:var(--neon);
+ border-radius:20px;transition:width .3s;
+}
+
+/* Detected gesture */
+.gesture-display{
  display:flex;align-items:center;gap:17px;
- padding:18px;
- border:1px solid var(--border);
+ padding:18px;border:1px solid var(--border);
  border-radius:15px;
  background:linear-gradient(120deg,rgba(34,197,94,.1),rgba(0,0,0,.05));
 }
-.gesture-icon {
+.gesture-icon{
  width:72px;height:72px;flex-shrink:0;
  display:grid;place-items:center;
  background:rgba(34,197,94,.12);
  border:1px solid var(--border);
- border-radius:18px;
- font-size:2.6rem;
+ border-radius:18px;font-size:2.6rem;
 }
-.gesture-name {font-size:1.35rem;font-weight:800;color:var(--neon)}
-.gesture-description {color:var(--muted);font-size:.9rem}
+.gesture-name{font-size:1.35rem;font-weight:800;color:var(--neon)}
+.gesture-description{color:var(--muted);font-size:.9rem;margin-top:5px}
 
-.stats {
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:12px;
+/* Statistics */
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stat{
+ padding:16px;border:1px solid var(--border);
+ border-radius:14px;background:var(--input);
 }
-.stat {
- padding:16px;
- border:1px solid var(--border);
- border-radius:14px;
- background:rgba(34,197,94,.035);
+.stat-label{color:var(--muted);font-size:.85rem}
+.stat-value{
+ color:var(--neon);font-family:'Orbitron';
+ font-size:1.9rem;margin-top:8px;overflow-wrap:anywhere;
 }
-.stat-label {color:var(--muted);font-size:.85rem}
-.stat-value {
- color:var(--neon);
- font-family:'Orbitron',sans-serif;
- font-size:1.9rem;
- margin-top:8px;
- overflow-wrap:anywhere;
+.movement-list{display:grid;gap:9px}
+.movement{
+ display:flex;justify-content:space-between;align-items:center;
+ padding:12px 13px;border:1px solid var(--border);
+ border-radius:11px;background:var(--input);
 }
-
-.movement-list {display:grid;gap:9px}
-.movement {
- display:flex;justify-content:space-between;
- align-items:center;padding:12px 13px;
- border:1px solid var(--border);
- border-radius:11px;
- background:rgba(34,197,94,.035);
-}
-.movement strong {color:var(--neon);font-family:'Orbitron'}
-
-.settings {display:grid;gap:20px}
-.setting label {display:block;margin-bottom:9px;font-weight:700}
-.setting-row {
- display:grid;
- grid-template-columns:1fr 1fr;
- align-items:center;gap:12px;
-}
-input[type="range"] {
- width:100%;accent-color:var(--green);
-}
-.output {
- color:var(--neon);
- font-family:'Orbitron';
- text-align:left;
-}
-.history {display:grid;gap:8px}
-.history-item {
- display:flex;justify-content:space-between;
- align-items:center;gap:10px;
- padding:11px;
- border-bottom:1px solid var(--border);
+.movement strong{color:var(--neon);font-family:'Orbitron'}
+.settings{display:grid;gap:20px}
+.setting label{display:block;margin-bottom:9px;font-weight:700}
+.setting-row{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:12px}
+input[type="range"]{width:100%;accent-color:var(--green)}
+.output{color:var(--neon);font-family:'Orbitron';text-align:left}
+.history{display:grid;gap:8px}
+.history-item{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:10px;padding:11px;border-bottom:1px solid var(--border);
  font-size:.9rem;
 }
-.history-item span:last-child {
- color:var(--muted);direction:ltr;font-size:.8rem;
+.history-item span:last-child{color:var(--muted);direction:ltr;font-size:.8rem}
+.empty{text-align:center;color:var(--muted);padding:15px}
+.actions{display:flex;gap:10px;margin-top:17px}
+.actions button{flex:1}
+footer{
+ padding:25px;text-align:center;border-top:1px solid var(--border);
+ color:var(--muted);background:var(--panel);
 }
-.empty {text-align:center;color:var(--muted);padding:15px}
-
-.actions {display:flex;gap:10px;margin-top:17px}
-.actions button {flex:1}
-
-.feature-grid {
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:10px;
-}
-.feature {
- padding:13px 9px;
- border:1px solid var(--border);
- border-radius:12px;
- text-align:center;
- background:rgba(34,197,94,.035);
-}
-.feature-icon {font-size:1.7rem}
-.feature strong {display:block;margin-top:5px}
-.feature small {color:var(--muted)}
-
-footer {
- padding:25px;
- text-align:center;
- border-top:1px solid var(--border);
- color:var(--muted);
- background:var(--panel);
-}
-
-.toast {
+.toast{
  position:fixed;bottom:20px;left:50%;
- transform:translate(-50%,20px);
- opacity:0;pointer-events:none;
- background:#052e16;color:#d1fae5;
- padding:12px 20px;
- border:1px solid #22c55e;
- border-radius:12px;
- z-index:100;
- transition:.25s;
+ transform:translate(-50%,20px);opacity:0;pointer-events:none;
+ background:#052e16;color:#d1fae5;padding:12px 20px;
+ border:1px solid #22c55e;border-radius:12px;z-index:100;
+ transition:.25s;max-width:90%;text-align:center;
 }
-.toast.show {opacity:1;transform:translate(-50%,0)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 
-@media(max-width:850px) {
- .workspace {grid-template-columns:1fr}
+@media(max-width:850px){.workspace{grid-template-columns:1fr}}
+@media(max-width:520px){
+ .navbar{padding:11px 4%}
+ .brand{font-size:.85rem}
+ .nav-actions button{padding:8px;font-size:.8rem}
+ .hero{padding:42px 10px 28px}
+ .panel{padding:15px}
+ .camera-actions{flex-direction:column}
+ .gesture-display{padding:12px}
+ .gesture-icon{width:58px;height:58px}
+ .camera-metrics{grid-template-columns:1fr 1fr}
 }
-@media(max-width:520px) {
- .navbar {padding:11px 4%}
- .brand {font-size:.85rem}
- .nav-actions button {padding:8px;font-size:.8rem}
- .hero {padding:45px 10px 30px}
- .panel {padding:15px}
- .camera-actions {flex-direction:column}
- .gesture-display {padding:12px}
- .gesture-icon {width:58px;height:58px}
-}
-@media(prefers-reduced-motion:reduce) {
- *,*::before,*::after {
-  animation-duration:.01ms!important;
-  transition-duration:.01ms!important;
- }
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
 </style>
 </head>
 
 <body>
-
 <div class="ambient glow-one"></div>
 <div class="ambient glow-two"></div>
 
@@ -404,32 +308,21 @@ footer {
 </nav>
 
 <header class="hero">
- <div class="eyebrow">
-  <span class="live-dot"></span>
-  <span data-ar="نظام الذكاء الاصطناعي لتتبّع اليد" data-en="AI HAND TRACKING SYSTEM">نظام الذكاء الاصطناعي لتتبّع اليد</span>
- </div>
-
  <h1>Gesture AI</h1>
-
- <p data-ar="تحكم في العالم الرقمي باستخدام حركة يدك." data-en="Control your digital world using your hand movements.">
- تحكم في العالم الرقمي باستخدام حركة يدك.
- </p>
 </header>
 
 <main class="workspace">
-
 <div class="column">
 
 <section class="panel">
  <div class="panel-head">
   <h2 data-ar="كاميرا التتبّع المباشر" data-en="Live Tracking Camera">كاميرا التتبّع المباشر</h2>
-  <span class="status" id="status">● متوقفة</span>
+  <span class="status" id="status">متوقفة</span>
  </div>
 
  <div class="camera-box">
   <video id="cameraVideo" autoplay playsinline muted></video>
   <canvas id="outputCanvas"></canvas>
-
   <div class="placeholder" id="placeholder">
    <div>
     <div class="icon">✋</div>
@@ -443,6 +336,22 @@ footer {
   <span id="handStatus">لا توجد يد</span>
  </div>
 
+ <div class="camera-metrics">
+  <div class="metric">
+   <div class="metric-label" data-ar="جودة التتبّع" data-en="Tracking Quality">جودة التتبّع</div>
+   <div class="metric-value" id="qualityText">0%</div>
+   <div class="quality-track"><div class="quality-fill" id="qualityBar"></div></div>
+  </div>
+  <div class="metric">
+   <div class="metric-label" data-ar="سرعة المعالجة" data-en="Processing Speed">سرعة المعالجة</div>
+   <div class="metric-value" id="fpsValue">0 FPS</div>
+  </div>
+  <div class="metric">
+   <div class="metric-label" data-ar="حالة النظام" data-en="System Status">حالة النظام</div>
+   <div class="metric-value" id="systemValue">IDLE</div>
+  </div>
+ </div>
+
  <div class="camera-actions">
   <button class="btn btn-primary" id="startBtn">▶ تشغيل الكاميرا</button>
   <button class="btn" id="stopBtn" disabled>■ إيقاف الكاميرا</button>
@@ -451,10 +360,9 @@ footer {
 
 <section class="panel">
  <div class="panel-head">
-  <h3 data-ar="الحركة المكتشفة" data-en="Detected Movement">الحركة المكتشفة</h3>
+  <h3 data-ar="الإيماءة المكتشفة" data-en="Detected Gesture">الإيماءة المكتشفة</h3>
   <span class="muted">LIVE AI</span>
  </div>
-
  <div class="gesture-display">
   <div class="gesture-icon" id="gestureEmoji">✋</div>
   <div>
@@ -506,7 +414,6 @@ footer {
  <div class="panel-head">
   <h3 data-ar="إحصائيات النظام" data-en="System Statistics">إحصائيات النظام</h3>
  </div>
-
  <div class="stats">
   <div class="stat">
    <div class="stat-label" data-ar="إجمالي الحركات" data-en="Total Movements">إجمالي الحركات</div>
@@ -521,9 +428,8 @@ footer {
 
 <section class="panel">
  <div class="panel-head">
-  <h3 data-ar="أنواع الحركات" data-en="Gesture Types">أنواع الحركات</h3>
+  <h3 data-ar="أنواع الإيماءات" data-en="Gesture Types">أنواع الإيماءات</h3>
  </div>
-
  <div class="movement-list">
   <div class="movement"><span>👉 <span data-ar="يمين" data-en="Right">يمين</span></span><strong id="right">0</strong></div>
   <div class="movement"><span>👈 <span data-ar="يسار" data-en="Left">يسار</span></span><strong id="left">0</strong></div>
@@ -531,41 +437,11 @@ footer {
   <div class="movement"><span>👇 <span data-ar="أسفل" data-en="Down">أسفل</span></span><strong id="down">0</strong></div>
   <div class="movement"><span>🖐️ <span data-ar="يد مفتوحة" data-en="Open Palm">يد مفتوحة</span></span><strong id="palm">0</strong></div>
   <div class="movement"><span>✊ <span data-ar="قبضة" data-en="Fist">قبضة</span></span><strong id="fist">0</strong></div>
-  <div class="movement"><span>👌 <span data-ar="قرص الأصابع" data-en="Pinch">قرص الأصابع</span></span><strong id="pinch">0</strong></div>
+  <div class="movement"><span>👌 <span data-ar="قرصة الأصابع" data-en="Pinch">قرصة الأصابع</span></span><strong id="pinch">0</strong></div>
  </div>
-
  <div class="actions">
   <button class="btn btn-primary" id="saveBtn">💾 حفظ</button>
   <button class="btn btn-danger" id="resetBtn">↻ تصفير</button>
- </div>
-</section>
-
-<section class="panel">
- <div class="panel-head">
-  <h3 data-ar="قدرات النظام" data-en="System Features">قدرات النظام</h3>
- </div>
-
- <div class="feature-grid">
-  <div class="feature">
-   <div class="feature-icon">👋</div>
-   <strong data-ar="تتبّع اليد" data-en="Hand Tracking">تتبّع اليد</strong>
-   <small>AI Detection</small>
-  </div>
-  <div class="feature">
-   <div class="feature-icon">⚡</div>
-   <strong data-ar="الحركة المباشرة" data-en="Live Motion">الحركة المباشرة</strong>
-   <small>Motion AI</small>
-  </div>
-  <div class="feature">
-   <div class="feature-icon">🧠</div>
-   <strong data-ar="التعرّف على الإيماءات" data-en="Gesture Recognition">التعرّف على الإيماءات</strong>
-   <small>MediaPipe</small>
-  </div>
-  <div class="feature">
-   <div class="feature-icon">📊</div>
-   <strong data-ar="تحليل الحركات" data-en="Movement Analytics">تحليل الحركات</strong>
-   <small>Statistics</small>
-  </div>
  </div>
 </section>
 
@@ -578,97 +454,99 @@ footer {
 <script>
 const $ = id => document.getElementById(id);
 
-let language = "ar";
-let hands = null;
-let cameraStream = null;
-let running = false;
-let processing = false;
-let animationFrame = null;
+let language="ar";
+let hands=null;
+let cameraStream=null;
+let running=false;
+let processing=false;
+let animationFrame=null;
 
-let threshold = 0.12;
-let smoothValue = 4;
-let samples = [];
-let anchor = null;
-let lastMovement = 0;
-let lastStaticGesture = "";
-let lastStaticTime = 0;
+let threshold=.12;
+let smoothValue=4;
+let samples=[];
+let anchor=null;
+let lastMovement=0;
 
-let total = 0;
-let historyItems = [];
+let candidateGesture=null;
+let candidateFrames=0;
+let lastStaticGesture="";
+let lastStaticTime=0;
 
-const counts = {
+let total=0;
+let historyItems=[];
+let fpsFrames=0;
+let fpsStart=performance.now();
+
+const counts={
  right:0,left:0,up:0,down:0,
  palm:0,fist:0,pinch:0
 };
 
-const gestures = {
+const gestures={
  right:{emoji:"👉",ar:"يمين",en:"Right"},
  left:{emoji:"👈",ar:"يسار",en:"Left"},
  up:{emoji:"👆",ar:"أعلى",en:"Up"},
  down:{emoji:"👇",ar:"أسفل",en:"Down"},
  palm:{emoji:"🖐️",ar:"يد مفتوحة",en:"Open Palm"},
  fist:{emoji:"✊",ar:"قبضة اليد",en:"Fist"},
- pinch:{emoji:"👌",ar:"قرص الأصابع",en:"Pinch"}
+ pinch:{emoji:"👌",ar:"قرصة الأصابع",en:"Pinch"}
 };
 
-function notify(message) {
- $("toast").textContent = message;
+function notify(message){
+ $("toast").textContent=message;
  $("toast").classList.add("show");
  clearTimeout(notify.timer);
- notify.timer = setTimeout(()=>$("toast").classList.remove("show"),2500);
+ notify.timer=setTimeout(()=>$("toast").classList.remove("show"),2600);
 }
 
-function updateCounts() {
- $("total").textContent = total;
-
+function updateCounts(){
+ $("total").textContent=total;
  Object.keys(counts).forEach(key=>{
-  $(key).textContent = counts[key];
+  $(key).textContent=counts[key];
  });
 }
 
-function renderHistory() {
- const container = $("history");
+function renderHistory(){
+ const container=$("history");
  container.replaceChildren();
 
- if(!historyItems.length) {
-  const empty = document.createElement("div");
-  empty.className = "empty";
-  empty.textContent = language==="ar"?"لا توجد حركات حتى الآن.":"No movements yet.";
+ if(!historyItems.length){
+  const empty=document.createElement("div");
+  empty.className="empty";
+  empty.textContent=language==="ar"?"لا توجد حركات حتى الآن.":"No movements yet.";
   container.appendChild(empty);
   return;
  }
 
  historyItems.forEach(item=>{
-  const row = document.createElement("div");
-  row.className = "history-item";
+  const row=document.createElement("div");
+  row.className="history-item";
 
-  const name = document.createElement("span");
-  name.textContent = item.emoji+" "+(language==="ar"?item.ar:item.en);
+  const name=document.createElement("span");
+  name.textContent=item.emoji+" "+(language==="ar"?item.ar:item.en);
 
-  const time = document.createElement("span");
-  time.textContent = item.time;
+  const time=document.createElement("span");
+  time.textContent=item.time;
 
   row.append(name,time);
   container.appendChild(row);
  });
 }
 
-function registerGesture(key) {
- const now = performance.now();
- const gesture = gestures[key];
-
- if(!gesture) return;
+function registerGesture(key){
+ const gesture=gestures[key];
+ if(!gesture)return;
 
  total++;
  counts[key]++;
 
- $("gestureEmoji").textContent = gesture.emoji;
- $("gestureName").textContent = language==="ar"?gesture.ar:gesture.en;
- $("gestureDesc").textContent = language==="ar"
+ $("gestureEmoji").textContent=gesture.emoji;
+ $("gestureName").textContent=language==="ar"?gesture.ar:gesture.en;
+ $("gestureDesc").textContent=language==="ar"
   ?"تم اكتشاف الإيماءة بنجاح."
   :"Gesture detected successfully.";
 
- $("last").textContent = gesture.emoji;
+ $("last").textContent=gesture.emoji;
 
  historyItems.unshift({
   emoji:gesture.emoji,
@@ -677,14 +555,13 @@ function registerGesture(key) {
   time:new Date().toLocaleTimeString(language==="ar"?"ar":"en")
  });
 
- historyItems = historyItems.slice(0,10);
-
+ historyItems=historyItems.slice(0,10);
  updateCounts();
  renderHistory();
 }
 
-function drawConnections(ctx,landmarks,width,height) {
- const connections = [
+function drawConnections(ctx,landmarks,width,height){
+ const connections=[
   [0,1],[1,2],[2,3],[3,4],
   [0,5],[5,6],[6,7],[7,8],
   [5,9],[9,10],[10,11],[11,12],
@@ -692,9 +569,12 @@ function drawConnections(ctx,landmarks,width,height) {
   [13,17],[17,18],[18,19],[19,20],[0,17]
  ];
 
+ ctx.save();
  ctx.strokeStyle="#39ff88";
  ctx.fillStyle="#b5ffd0";
  ctx.lineWidth=Math.max(2,width/320);
+ ctx.shadowColor="#39ff88";
+ ctx.shadowBlur=8;
 
  connections.forEach(([a,b])=>{
   ctx.beginPath();
@@ -708,126 +588,171 @@ function drawConnections(ctx,landmarks,width,height) {
   ctx.arc(point.x*width,point.y*height,Math.max(3,width/180),0,Math.PI*2);
   ctx.fill();
  });
+ ctx.restore();
 }
 
-function detectStaticGesture(hand) {
- const distance = (a,b)=>{
-  return Math.hypot(hand[a].x-hand[b].x,hand[a].y-hand[b].y);
- };
+function distance(a,b){
+ return Math.hypot(a.x-b.x,a.y-b.y);
+}
 
- const pinch = distance(4,8)<0.055;
+function detectStaticGesture(hand){
+ const pinch=distance(hand[4],hand[8])<.055;
+ if(pinch)return "pinch";
 
- if(pinch) return "pinch";
-
- // Compare fingertip height with its lower joint.
- const extended = [
+ const extended=[
   hand[8].y<hand[6].y,
   hand[12].y<hand[10].y,
   hand[16].y<hand[14].y,
   hand[20].y<hand[18].y
  ];
 
- const number = extended.filter(Boolean).length;
+ const number=extended.filter(Boolean).length;
 
- if(number>=4) return "palm";
- if(number===0 && !pinch) return "fist";
+ if(number>=4)return "palm";
+ if(number===0)return "fist";
 
  return null;
 }
 
-function detectMovement(hand) {
- const wrist = {x:hand[0].x,y:hand[0].y};
+function detectMovement(hand){
+ const palm={
+  x:(hand[0].x+hand[5].x+hand[9].x+hand[13].x+hand[17].x)/5,
+  y:(hand[0].y+hand[5].y+hand[9].y+hand[13].y+hand[17].y)/5
+ };
 
- if(!anchor) {
-  anchor = wrist;
+ if(!anchor){
+  anchor={...palm};
   return;
  }
 
  samples.push({
-  dx:wrist.x-anchor.x,
-  dy:wrist.y-anchor.y
+  dx:palm.x-anchor.x,
+  dy:palm.y-anchor.y
  });
 
- samples = samples.slice(-smoothValue);
+ samples=samples.slice(-smoothValue);
 
- const avg = samples.reduce((result,item)=>({
+ const avg=samples.reduce((result,item)=>({
   dx:result.dx+item.dx/samples.length,
   dy:result.dy+item.dy/samples.length
  }),{dx:0,dy:0});
 
- const distance = Math.max(Math.abs(avg.dx),Math.abs(avg.dy));
+ const distanceValue=Math.hypot(avg.dx,avg.dy);
 
- if(distance>=threshold && performance.now()-lastMovement>700) {
-  const direction = Math.abs(avg.dx)>Math.abs(avg.dy)
-   ? (avg.dx<0?"right":"left")
-   : (avg.dy<0?"up":"down");
+ if(distanceValue>=threshold && performance.now()-lastMovement>700){
+  // الصورة معكوسة، لذلك نعكس اتجاه X.
+  const direction=Math.abs(avg.dx)>Math.abs(avg.dy)
+   ?(avg.dx<0?"right":"left")
+   :(avg.dy<0?"up":"down");
 
   registerGesture(direction);
 
-  lastMovement = performance.now();
-  anchor = wrist;
-  samples = [];
+  lastMovement=performance.now();
+  anchor={...palm};
+  samples=[];
  }
 }
 
-function drawResults(results) {
- const video = $("cameraVideo");
- const canvas = $("outputCanvas");
- const ctx = canvas.getContext("2d");
+function updateQuality(hand){
+ const spread=distance(hand[0],hand[9]);
+ const quality=Math.max(35,Math.min(100,Math.round(100-(Math.abs(spread-.25)*100))));
+ $("qualityText").textContent=quality+"%";
+ $("qualityBar").style.width=quality+"%";
+}
 
- if(canvas.width!==video.videoWidth || canvas.height!==video.videoHeight) {
+function updateFPS(){
+ fpsFrames++;
+ const now=performance.now();
+ const elapsed=now-fpsStart;
+
+ if(elapsed>=1000){
+  $("fpsValue").textContent=Math.round(fpsFrames*1000/elapsed)+" FPS";
+  fpsFrames=0;
+  fpsStart=now;
+ }
+}
+
+function drawResults(results){
+ const video=$("cameraVideo");
+ const canvas=$("outputCanvas");
+ const ctx=canvas.getContext("2d");
+
+ if(canvas.width!==video.videoWidth || canvas.height!==video.videoHeight){
   canvas.width=video.videoWidth||640;
   canvas.height=video.videoHeight||480;
  }
 
  ctx.clearRect(0,0,canvas.width,canvas.height);
 
- const hand = results.multiHandLandmarks?.[0];
+ const hand=results.multiHandLandmarks?.[0];
 
- if(!hand) {
+ updateFPS();
+
+ if(!hand){
   anchor=null;
   samples=[];
+  candidateGesture=null;
+  candidateFrames=0;
   lastStaticGesture="";
   $("handStatus").textContent=language==="ar"?"لا توجد يد":"No hand detected";
+  $("qualityText").textContent="0%";
+  $("qualityBar").style.width="0%";
   return;
  }
 
  $("handStatus").textContent=language==="ar"?"✋ تم اكتشاف اليد":"✋ Hand detected";
+ $("systemValue").textContent="ACTIVE";
 
  drawConnections(ctx,hand,canvas.width,canvas.height);
+ updateQuality(hand);
 
- detectMovement(hand);
+ const staticGesture=detectStaticGesture(hand);
+ const now=performance.now();
 
- const staticGesture = detectStaticGesture(hand);
- const now = performance.now();
+ if(staticGesture){
+  if(candidateGesture===staticGesture){
+   candidateFrames++;
+  }else{
+   candidateGesture=staticGesture;
+   candidateFrames=1;
+  }
 
- if(staticGesture) {
-  if(staticGesture!==lastStaticGesture && now-lastStaticTime>650) {
+  // لا نسجل الإيماءة إلا بعد ثباتها لعدة إطارات.
+  if(candidateFrames>=4 &&
+     staticGesture!==lastStaticGesture &&
+     now-lastStaticTime>800){
    registerGesture(staticGesture);
+   lastStaticGesture=staticGesture;
    lastStaticTime=now;
   }
-  lastStaticGesture=staticGesture;
- } else {
+
+  anchor=null;
+  samples=[];
+ }else{
+  candidateGesture=null;
+  candidateFrames=0;
   lastStaticGesture="";
+  detectMovement(hand);
  }
 }
 
-async function startCamera() {
- if(running) return;
+async function startCamera(){
+ if(running)return;
 
- if(typeof Hands==="undefined") {
-  notify(language==="ar"?"فشل تحميل مكتبة MediaPipe. تحقق من الإنترنت.":"MediaPipe failed to load.");
+ if(typeof Hands==="undefined"){
+  notify(language==="ar"?"فشل تحميل MediaPipe. تحقق من الإنترنت.":"MediaPipe failed to load.");
   return;
  }
 
- if(!navigator.mediaDevices?.getUserMedia) {
-  notify(language==="ar"?"يجب فتح الموقع باستخدام HTTPS أو localhost.":"HTTPS or localhost is required.");
+ if(!navigator.mediaDevices?.getUserMedia){
+  notify(language==="ar"?"افتح الموقع عبر HTTPS أو localhost.":"HTTPS or localhost is required.");
   return;
  }
 
- try {
+ try{
   $("startBtn").disabled=true;
   $("cameraMessage").textContent=language==="ar"?"جارٍ تشغيل الكاميرا...":"Starting camera...";
+  $("systemValue").textContent="LOADING";
 
   cameraStream=await navigator.mediaDevices.getUserMedia({
    video:{
@@ -859,57 +784,58 @@ async function startCamera() {
   processing=false;
   anchor=null;
   samples=[];
+  fpsFrames=0;
+  fpsStart=performance.now();
 
   $("placeholder").classList.add("hidden");
   $("cameraMessage").textContent=language==="ar"?"الكاميرا تعمل":"Camera running";
-  $("status").textContent=language==="ar"?"● نشطة":"● Active";
+  $("status").textContent=language==="ar"?"نشطة":"Active";
   $("status").classList.add("active");
+  $("systemValue").textContent="READY";
   $("stopBtn").disabled=false;
 
   processFrames();
-
- } catch(error) {
+  notify(language==="ar"?"تم تشغيل التتبّع بنجاح":"Tracking started");
+ }catch(error){
   console.error(error);
   stopCamera();
 
   const message=error.name==="NotAllowedError"
-   ? (language==="ar"?"يرجى السماح باستخدام الكاميرا.":"Allow camera access.")
-   : (language==="ar"?"تعذر تشغيل الكاميرا.":"Could not start camera.");
+   ?(language==="ar"?"يرجى السماح باستخدام الكاميرا.":"Allow camera access.")
+   :(language==="ar"?"تعذر تشغيل الكاميرا. تحقق من إعداداتها.":"Could not start camera.");
 
   $("cameraMessage").textContent=message;
+  $("systemValue").textContent="ERROR";
   notify(message);
  }
 }
 
-async function processFrames() {
- if(!running) return;
+async function processFrames(){
+ if(!running)return;
 
  const video=$("cameraVideo");
 
- if(hands && video.readyState>=2 && !processing) {
+ if(hands && video.readyState>=2 && !processing){
   processing=true;
-
-  try {
+  try{
    await hands.send({image:video});
-  } catch(error) {
+  }catch(error){
    console.error("Tracking error:",error);
-  } finally {
+  }finally{
    processing=false;
   }
  }
 
- if(running) {
-  animationFrame=requestAnimationFrame(processFrames);
- }
+ if(running)animationFrame=requestAnimationFrame(processFrames);
 }
 
-function stopCamera() {
+function stopCamera(){
  running=false;
 
- if(animationFrame) cancelAnimationFrame(animationFrame);
+ if(animationFrame)cancelAnimationFrame(animationFrame);
  animationFrame=null;
 
- if(cameraStream) {
+ if(cameraStream){
   cameraStream.getTracks().forEach(track=>track.stop());
   cameraStream=null;
  }
@@ -922,24 +848,30 @@ function stopCamera() {
  $("placeholder").classList.remove("hidden");
  $("cameraMessage").textContent=language==="ar"?"الكاميرا غير مفعّلة":"Camera off";
  $("handStatus").textContent=language==="ar"?"لا توجد يد":"No hand detected";
- $("status").textContent=language==="ar"?"● متوقفة":"● Stopped";
+ $("status").textContent=language==="ar"?"متوقفة":"Stopped";
  $("status").classList.remove("active");
+ $("systemValue").textContent="IDLE";
+ $("fpsValue").textContent="0 FPS";
+ $("qualityText").textContent="0%";
+ $("qualityBar").style.width="0%";
 
  $("startBtn").disabled=false;
  $("stopBtn").disabled=true;
 
  anchor=null;
  samples=[];
+ candidateGesture=null;
+ candidateFrames=0;
  lastStaticGesture="";
 
- if(hands) {
+ if(hands){
   const oldHands=hands;
   hands=null;
   oldHands.close().catch(console.error);
  }
 }
 
-function saveStatistics() {
+function saveStatistics(){
  const report={
   application:"VideoYTFX Gesture AI",
   date:new Date().toISOString(),
@@ -948,10 +880,9 @@ function saveStatistics() {
   history:historyItems
  };
 
- const blob=new Blob(
-  [JSON.stringify(report,null,2)],
-  {type:"application/json"}
- );
+ const blob=new Blob([JSON.stringify(report,null,2)],{
+  type:"application/json"
+ });
 
  const url=URL.createObjectURL(blob);
  const link=document.createElement("a");
@@ -961,11 +892,10 @@ function saveStatistics() {
  link.click();
 
  setTimeout(()=>URL.revokeObjectURL(url),1000);
-
  notify(language==="ar"?"تم حفظ الإحصائيات":"Statistics saved");
 }
 
-function resetStatistics() {
+function resetStatistics(){
  total=0;
  historyItems=[];
 
@@ -978,13 +908,14 @@ function resetStatistics() {
 
  updateCounts();
  renderHistory();
-
  notify(language==="ar"?"تم تصفير الإحصائيات":"Statistics reset");
 }
 
 $("sensitivity").addEventListener("input",e=>{
  threshold=Number(e.target.value)/100;
  $("sensitivityOut").textContent=threshold.toFixed(2);
+ anchor=null;
+ samples=[];
 });
 
 $("smoothing").addEventListener("input",e=>{
@@ -999,7 +930,7 @@ $("stopBtn").addEventListener("click",stopCamera);
 $("saveBtn").addEventListener("click",saveStatistics);
 $("resetBtn").addEventListener("click",resetStatistics);
 
-function setLanguage(next) {
+function setLanguage(next){
  language=next;
 
  document.documentElement.lang=language;
@@ -1011,8 +942,8 @@ function setLanguage(next) {
 
  $("languageBtn").textContent=language==="ar"?"🌐 English":"🌐 العربية";
 
- if(!running) {
-  $("status").textContent=language==="ar"?"● متوقفة":"● Stopped";
+ if(!running){
+  $("status").textContent=language==="ar"?"متوقفة":"Stopped";
   $("cameraMessage").textContent=language==="ar"?"الكاميرا غير مفعّلة":"Camera off";
   $("handStatus").textContent=language==="ar"?"لا توجد يد":"No hand detected";
  }
@@ -1026,31 +957,24 @@ $("languageBtn").addEventListener("click",()=>{
 
 $("themeBtn").addEventListener("click",()=>{
  const next=document.documentElement.dataset.theme==="dark"?"light":"dark";
-
  document.documentElement.dataset.theme=next;
  $("themeBtn").textContent=next==="light"?"🌙":"☀️";
 
- try {
-  localStorage.setItem("gesture_theme",next);
- } catch(error) {}
+ try{localStorage.setItem("gesture_theme",next)}catch(error){}
 });
 
-try {
+try{
  const saved=localStorage.getItem("gesture_theme");
-
- if(saved==="light" || saved==="dark") {
+ if(saved==="light" || saved==="dark"){
   document.documentElement.dataset.theme=saved;
   $("themeBtn").textContent=saved==="light"?"🌙":"☀️";
  }
-} catch(error) {}
+}catch(error){}
 
 updateCounts();
 renderHistory();
 
-window.addEventListener("beforeunload",()=>{
- stopCamera();
-});
+window.addEventListener("beforeunload",stopCamera);
 </script>
-
 </body>
 </html>
