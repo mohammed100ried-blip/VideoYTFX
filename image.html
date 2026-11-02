@@ -1,618 +1,418 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#050505">
-<title>تحرير الصور | VideoYTFX</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>image-001</title>
 
 <style>
 :root{
   --bg:#050505;
-  --panel:#0d0d0d;
-  --panel2:#151515;
-  --text:#f5f5f5;
-  --muted:#999;
-  --line:#292929;
-  --accent:#ffd600;
-  --accent2:#fff18a;
-  --shadow:rgba(255,214,0,.16);
+  --panel:rgba(8,8,8,.92);
+  --panel2:#111;
+  --text:#fff;
+  --muted:#aaa;
+  --gold:#ffd000;
+  --gold2:#ff9d00;
+  --line:rgba(255,205,0,.35);
+  --shadow:0 0 25px rgba(255,190,0,.18);
 }
-
 [data-theme="light"]{
-  --bg:#f4f4f1;
-  --panel:#fff;
-  --panel2:#ededeb;
-  --text:#111;
-  --muted:#666;
-  --line:#d6d6d0;
-  --accent:#d6a900;
-  --accent2:#ffe45c;
-  --shadow:rgba(214,169,0,.15);
+  --bg:#eee;
+  --panel:rgba(255,255,255,.94);
+  --panel2:#fff;
+  --text:#171717;
+  --muted:#555;
+  --line:rgba(180,130,0,.4);
+  --shadow:0 0 20px rgba(180,130,0,.15);
 }
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
+*{box-sizing:border-box}
 body{
+  margin:0;
   min-height:100vh;
   background:var(--bg);
   color:var(--text);
-  font-family:Arial,Tahoma,sans-serif;
+  font-family:Tahoma,Arial,sans-serif;
   overflow-x:hidden;
-  transition:background .3s,color .3s;
+}
+button,input,select{font:inherit}
+button{cursor:pointer;color:var(--text)}
+button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:3px;
 }
 
-/* BLACK HOLE BACKGROUND */
-
-body::before{
-  content:"";
+/* الخلفية */
+.background{
   position:fixed;
   inset:0;
   z-index:-3;
-  pointer-events:none;
   background:
-    radial-gradient(ellipse at 50% 45%,
-      #000 0%,
-      #000 15%,
-      rgba(30,25,0,.35) 25%,
-      transparent 48%),
-    radial-gradient(ellipse at 50% 45%,
-      transparent 25%,
-      rgba(255,214,0,.10) 38%,
-      transparent 57%),
-    radial-gradient(circle at 15% 15%,
-      rgba(255,214,0,.08),
-      transparent 30%),
-    radial-gradient(circle at 85% 80%,
-      rgba(255,255,255,.04),
-      transparent 30%),
-    var(--bg);
+    linear-gradient(rgba(0,0,0,.30),rgba(0,0,0,.83)),
+    url("image-001-bg.png") center/cover no-repeat;
+  transform:scale(1.04);
+  animation:backgroundMove 25s ease-in-out infinite alternate;
+}
+@keyframes backgroundMove{
+  from{transform:scale(1.04) translateY(0)}
+  to{transform:scale(1.12) translateY(-10px)}
+}
+.background::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at center,transparent 20%,rgba(0,0,0,.55) 100%);
 }
 
-body::after{
-  content:"";
+/* البرق الأبيض */
+.lightning{
   position:fixed;
   inset:0;
-  z-index:-2;
   pointer-events:none;
-  opacity:.17;
-  background-image:
-    radial-gradient(1px 1px at 10% 20%,white 50%,transparent),
-    radial-gradient(1px 1px at 70% 30%,white 50%,transparent),
-    radial-gradient(2px 2px at 40% 80%,white 50%,transparent),
-    radial-gradient(1px 1px at 90% 65%,white 50%,transparent),
-    radial-gradient(1px 1px at 25% 60%,white 50%,transparent);
-  background-size:350px 350px;
+  z-index:-1;
+  opacity:0;
+  background:rgba(255,255,255,.16);
+  animation:flash 8s infinite;
+}
+@keyframes flash{
+  0%,91%,93%,96%,100%{opacity:0}
+  92%{opacity:.55}
+  94%{opacity:.15}
+  95%{opacity:.4}
 }
 
-button,input,select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-  color:var(--text);
-  background:var(--panel2);
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:10px 14px;
-  transition:.2s;
-}
-
-button:hover{
-  border-color:var(--accent);
-  box-shadow:0 0 16px var(--shadow);
-  transform:translateY(-2px);
-}
-
-button:disabled{
-  opacity:.4;
-  cursor:not-allowed;
-  transform:none;
-}
-
-.primary{
-  background:var(--accent);
-  color:#090909;
-  border-color:var(--accent);
-  font-weight:800;
-}
-
-.danger{
-  background:#351010;
-  border-color:#702020;
-  color:#ffbaba;
-}
-
+/* الهيدر */
 header{
-  min-height:82px;
-  padding:14px 4%;
+  height:76px;
+  padding:0 4%;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:15px;
-  background:rgba(5,5,5,.82);
-  border-bottom:1px solid rgba(255,214,0,.18);
-  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(15px);
   position:sticky;
   top:0;
   z-index:20;
 }
-
-[data-theme="light"] header{
-  background:rgba(255,255,255,.86);
-}
-
 .brand{
   display:flex;
   align-items:center;
-  gap:12px;
-  text-decoration:none;
-  color:var(--text);
-}
-
-.brand-mark{
-  width:42px;
-  height:42px;
-  display:grid;
-  place-items:center;
-  border-radius:12px;
-  border:1px solid var(--accent);
-  color:var(--accent);
-  font-size:20px;
-  font-weight:900;
-  box-shadow:0 0 18px var(--shadow);
-}
-
-.header-actions{
-  display:flex;
-  gap:8px;
-  align-items:center;
-}
-
-/* MAIN TITLE */
-
-.hero{
-  display:flex;
-  justify-content:center;
-  padding:45px 15px 35px;
-}
-
-.hero-title{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:15px;
-  padding:17px 28px;
-  border:1px solid rgba(255,214,0,.45);
+  gap:13px;
+  border:1px solid var(--gold);
   border-radius:50px;
-  background:rgba(255,214,0,.045);
-  color:var(--accent);
-  font-size:clamp(17px,3vw,23px);
+  padding:9px 20px;
+  background:rgba(0,0,0,.65);
+  box-shadow:var(--shadow);
+}
+.brand-mark{
+  color:var(--gold);
+  font-size:27px;
+  font-weight:1000;
+  text-shadow:0 0 15px var(--gold);
+}
+.brand-name{
+  font-size:22px;
   font-weight:900;
-  letter-spacing:.5px;
-  box-shadow:0 0 30px rgba(255,214,0,.07);
-  animation:titleGlow 3s ease-in-out infinite;
+  letter-spacing:1px;
+}
+.header-actions{display:flex;gap:10px}
+.btn{
+  border:1px solid var(--line);
+  background:rgba(0,0,0,.65);
+  border-radius:30px;
+  padding:11px 18px;
+  transition:.25s;
+}
+.btn:hover{
+  border-color:var(--gold);
+  box-shadow:0 0 18px rgba(255,200,0,.35);
+  transform:translateY(-2px);
+}
+.gold-btn{
+  background:linear-gradient(120deg,#ffe45c,#e99b00);
+  color:#111;
+  border:0;
+  font-weight:bold;
 }
 
-.hero-dot{
-  width:12px;
-  height:12px;
-  border-radius:50%;
-  background:var(--accent);
-  box-shadow:0 0 15px var(--accent),0 0 30px var(--accent);
-  animation:dotPulse 1.5s infinite;
-}
-
-@keyframes titleGlow{
-  0%,100%{box-shadow:0 0 15px rgba(255,214,0,.06)}
-  50%{box-shadow:0 0 32px rgba(255,214,0,.18)}
-}
-
-@keyframes dotPulse{
-  50%{opacity:.45;transform:scale(.8)}
-}
-
-/* HOME */
-
+/* الصفحة الرئيسية */
 main{
-  width:min(1450px,95%);
-  margin:auto;
-  padding-bottom:60px;
+  width:min(1450px,94%);
+  margin:35px auto;
 }
-
-.page{display:none}
-.page.active{display:block}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:20px;
-  margin:20px 0 45px;
-}
-
-.card{
-  min-height:210px;
+.hero{
+  min-height:480px;
   display:flex;
   align-items:center;
   justify-content:center;
   flex-direction:column;
-  gap:18px;
-  background:linear-gradient(145deg,var(--panel),var(--panel2));
-  border:1px solid var(--line);
-  border-radius:20px;
-  cursor:pointer;
-  transition:.3s;
+  text-align:center;
   position:relative;
-  overflow:hidden;
+  padding:40px 15px;
 }
-
-.card::before{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  background:var(--accent);
-  filter:blur(100px);
-  opacity:0;
+.hero-title{
+  font-size:clamp(48px,9vw,105px);
+  font-weight:1000;
+  letter-spacing:-3px;
+  margin:0;
+  color:white;
+  text-shadow:
+    0 3px 0 #777,
+    0 0 15px rgba(255,255,255,.45),
+    0 0 35px rgba(255,190,0,.7);
+  animation:titleAppear 1.3s ease both;
+}
+.hero-title span{color:var(--gold)}
+@keyframes titleAppear{
+  from{opacity:0;transform:translateY(35px) scale(.9);filter:blur(10px)}
+  to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+.hero-line{
+  width:min(600px,80%);
+  height:2px;
+  margin:25px auto;
+  background:linear-gradient(90deg,transparent,var(--gold),white,var(--gold),transparent);
+  box-shadow:0 0 15px var(--gold);
+}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+  width:min(1050px,100%);
+  margin:20px auto 0;
+}
+.card{
+  min-height:120px;
+  border:1px solid var(--gold);
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(0,0,0,.94),rgba(25,18,0,.9));
+  box-shadow:0 0 18px rgba(255,190,0,.2),inset 0 0 20px rgba(255,190,0,.06);
+  font-size:23px;
+  font-weight:900;
   transition:.3s;
 }
-
 .card:hover{
-  transform:translateY(-7px);
-  border-color:var(--accent);
-  box-shadow:0 15px 45px rgba(0,0,0,.3),0 0 20px var(--shadow);
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 0 35px rgba(255,200,0,.5);
+  background:linear-gradient(145deg,#171000,#050505);
 }
-
-.card:hover::before{opacity:.12}
-
-.card-symbol{
-  font-size:36px;
-  font-weight:300;
-  color:var(--accent);
-  position:relative;
+.card::after{
+  content:"";
+  display:block;
+  height:3px;
+  width:0;
+  margin:12px auto 0;
+  background:var(--gold);
+  box-shadow:0 0 15px var(--gold);
+  transition:.3s;
 }
+.card:hover::after{width:55%}
 
-.card h2{
-  font-size:22px;
-  position:relative;
-}
-
-/* EDITOR LAYOUT */
-
+/* صفحات الأدوات */
+.page{display:none}
+.page.active{display:block}
 .heading{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
+  gap:15px;
   flex-wrap:wrap;
-  margin-bottom:18px;
+  margin:15px 0 20px;
 }
-
-.heading h1{
-  font-size:25px;
-}
-
-.row{
-  display:flex;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:8px;
-}
-
+.heading h1{margin:0;font-size:28px;color:var(--gold)}
 .layout{
   display:grid;
-  grid-template-columns:minmax(0,1fr) 300px;
-  gap:17px;
+  grid-template-columns:minmax(0,1fr) 290px;
+  gap:18px;
 }
-
 .panel{
-  min-width:0;
   background:var(--panel);
   border:1px solid var(--line);
-  border-radius:17px;
+  border-radius:18px;
   overflow:hidden;
-  box-shadow:0 10px 35px rgba(0,0,0,.12);
+  box-shadow:var(--shadow);
 }
-
 .toolbar{
-  padding:12px;
+  padding:13px;
   display:flex;
+  gap:9px;
   align-items:center;
   flex-wrap:wrap;
-  gap:8px;
   border-bottom:1px solid var(--line);
 }
-
 .stage{
-  min-height:500px;
-  padding:18px;
+  min-height:480px;
+  padding:20px;
   display:grid;
   place-items:center;
   overflow:auto;
-  background-color:var(--panel2);
+  background-color:#171717;
   background-image:
-    linear-gradient(45deg,#8882 25%,transparent 25%),
-    linear-gradient(-45deg,#8882 25%,transparent 25%),
-    linear-gradient(45deg,transparent 75%,#8882 75%),
-    linear-gradient(-45deg,transparent 75%,#8882 75%);
+    linear-gradient(45deg,#ffffff0c 25%,transparent 25%),
+    linear-gradient(-45deg,#ffffff0c 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#ffffff0c 75%),
+    linear-gradient(-45deg,transparent 75%,#ffffff0c 75%);
   background-size:20px 20px;
-  background-position:0 0,0 10px,10px -10px,-10px 0;
 }
-
 canvas{
-  display:block;
   max-width:100%;
   height:auto;
+  display:block;
   background:white;
+  touch-action:none;
 }
-
-#editCanvas,#retouchCanvas{
-  display:none;
-  max-height:700px;
-  object-fit:contain;
-  cursor:crosshair;
-}
-
+#editCanvas,#retouchCanvas{display:none;max-height:650px}
 .drop{
-  width:min(420px,100%);
-  padding:55px 20px;
+  padding:45px 25px;
+  border:2px dashed var(--gold);
+  border-radius:18px;
   text-align:center;
-  border:1px dashed var(--accent);
-  border-radius:17px;
   cursor:pointer;
-  background:rgba(255,214,0,.025);
-  transition:.2s;
+  background:rgba(0,0,0,.5);
 }
-
-.drop:hover{
-  background:rgba(255,214,0,.07);
-  box-shadow:0 0 25px var(--shadow);
-}
-
-.drop strong{
-  font-size:20px;
-  color:var(--accent);
-}
-
-.sidebar{
-  padding:17px;
-  max-height:850px;
-  overflow:auto;
-}
-
-.sidebar h3{
-  margin-bottom:15px;
-  font-size:19px;
-}
-
+.drop h2{color:var(--gold)}
+.sidebar{padding:17px;max-height:800px;overflow:auto}
+.sidebar h3{margin:0 0 12px;color:var(--gold)}
 .control{
   padding:13px 0;
   border-bottom:1px solid var(--line);
 }
-
 .control label{
   display:flex;
   justify-content:space-between;
-  align-items:center;
   gap:8px;
   margin-bottom:10px;
   font-size:14px;
-  font-weight:700;
 }
-
-input[type="range"]{
-  width:100%;
-  accent-color:var(--accent);
-  cursor:pointer;
-}
-
-input[type="color"]{
-  width:48px;
-  height:36px;
-  padding:2px;
-  background:var(--panel2);
-  border:1px solid var(--line);
-  border-radius:8px;
-  cursor:pointer;
-}
-
-input[type="text"],select,input[type="number"]{
+input[type=range]{width:100%;accent-color:var(--gold)}
+input[type=color]{width:50px;height:35px;background:transparent;border:0}
+select{
   width:100%;
   padding:10px;
-  background:var(--panel2);
-  color:var(--text);
+  background:#171717;
+  color:white;
   border:1px solid var(--line);
   border-radius:9px;
-  outline:none;
 }
-
-select:focus,input:focus{
-  border-color:var(--accent);
+.value{color:var(--gold)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.small-btn{
+  padding:10px 14px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#111;
 }
-
-.value{
-  color:var(--accent);
-  direction:ltr;
-}
-
-.full{
-  width:100%;
-  margin-top:10px;
-}
-
-.info{
-  color:var(--muted);
-  font-size:12px;
-  margin-right:5px;
-}
-
-/* TOAST */
-
+.small-btn:hover{border-color:var(--gold)}
 .toast{
   position:fixed;
   bottom:22px;
   left:50%;
-  transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  padding:13px 20px;
-  background:#171717;
+  transform:translateX(-50%);
+  padding:13px 22px;
+  background:#111;
   color:white;
-  border:1px solid var(--accent);
+  border:1px solid var(--gold);
   border-radius:12px;
+  display:none;
   z-index:100;
-  transition:.25s;
-  box-shadow:0 0 20px var(--shadow);
+  box-shadow:0 0 20px #ffcc0040;
 }
-
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
+.toast.show{display:block}
 footer{
-  padding:22px;
   text-align:center;
-  border-top:1px solid var(--line);
-  color:var(--muted);
+  padding:25px;
+  color:#aaa;
   font-size:13px;
 }
-
-@media(max-width:900px){
+@media(max-width:850px){
   .layout{grid-template-columns:1fr}
-  .sidebar{max-height:none}
-}
-
-@media(max-width:650px){
-  header{padding:12px 3%}
-  .brand-mark{width:36px;height:36px}
-  .hero{padding:30px 10px}
-  .hero-title{padding:14px 18px}
-  .cards{grid-template-columns:1fr;gap:13px}
-  .card{min-height:145px}
-  .stage{min-height:330px;padding:10px}
-  .heading h1{font-size:21px}
-  .heading .row{width:100%}
-  .heading .row button{flex:1}
-  .sidebar{padding:13px}
-}
-
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    animation-duration:.01ms!important;
-    transition-duration:.01ms!important;
-  }
+  .cards{grid-template-columns:1fr}
+  .hero{min-height:400px}
+  .stage{min-height:330px}
+  header{padding:0 3%}
+  .brand-name{font-size:17px}
+  .header-actions .btn{padding:9px 12px}
 }
 </style>
 </head>
 
 <body>
+<div class="background"></div>
+<div class="lightning"></div>
 
 <header>
-  <a class="brand" href="#" id="brandHome">
+  <div class="brand">
     <span class="brand-mark">V</span>
-    <strong>VideoYTFX</strong>
-  </a>
-
+    <span class="brand-name">image-001</span>
+  </div>
   <div class="header-actions">
-    <button id="themeBtn" title="تغيير المظهر">المظهر</button>
-    <button id="homeBtn">الرئيسية</button>
+    <button class="btn" id="themeBtn">المظهر</button>
+    <button class="btn" id="homeBtn">الرئيسية</button>
   </div>
 </header>
 
-<section class="hero">
-  <div class="hero-title">
-    <span>CREATIVE IMAGE STUDIO</span>
-    <span class="hero-dot"></span>
-  </div>
-</section>
-
 <main>
 
-<!-- HOME -->
-
 <section id="home" class="page active">
-  <div class="cards">
+  <div class="hero">
+    <h1 class="hero-title">image<span>-001</span></h1>
+    <div class="hero-line"></div>
 
-    <article class="card" data-page="editor">
-      <span class="card-symbol">01</span>
-      <h2>تحرير الصور</h2>
-    </article>
-
-    <article class="card" data-page="retouch">
-      <span class="card-symbol">02</span>
-      <h2>تنظيف الصور</h2>
-    </article>
-
-    <article class="card" data-page="drawing">
-      <span class="card-symbol">03</span>
-      <h2>الرسم</h2>
-    </article>
-
+    <div class="cards">
+      <button class="card" data-page="editor">تحرير الصور</button>
+      <button class="card" data-page="retouch">تنظيف الصور</button>
+      <button class="card" data-page="drawing">الرسم</button>
+    </div>
   </div>
 </section>
 
-<!-- IMAGE EDITOR -->
-
 <section id="editor" class="page">
-
   <div class="heading">
     <h1>تحرير الصور</h1>
-
     <div class="row">
-      <button id="rotateBtn">تدوير</button>
-      <button id="flipBtn">عكس</button>
-      <button id="resetEdit">إعادة ضبط</button>
-      <button class="primary" id="exportEdit">تنزيل</button>
+      <button class="small-btn" id="rotateBtn">تدوير</button>
+      <button class="small-btn" id="flipBtn">عكس</button>
+      <button class="small-btn" id="resetEdit">إعادة ضبط</button>
+      <button class="small-btn gold-btn" id="exportEdit">تنزيل الصورة</button>
     </div>
   </div>
 
   <div class="layout">
-
     <div class="panel">
       <div class="toolbar">
-        <button class="primary" id="chooseEdit">اختيار صورة</button>
+        <button class="small-btn gold-btn" id="chooseEdit">اختيار صورة</button>
         <input id="editFile" type="file" accept="image/*" hidden>
-        <span id="editInfo" class="info"></span>
+        <span id="editInfo">لم يتم اختيار صورة</span>
       </div>
-
-      <div class="stage" id="editStage">
+      <div class="stage">
         <div class="drop" id="editDrop">
-          <strong>اختيار صورة</strong>
+          <h2>اختر صورة للتعديل</h2>
+          <p>اضغط هنا أو اسحب الصورة إلى هذه المنطقة</p>
         </div>
         <canvas id="editCanvas"></canvas>
       </div>
     </div>
 
     <aside class="panel sidebar">
-      <h3>التعديلات</h3>
-
+      <h3>إعدادات الصورة</h3>
       <div class="control">
         <label>الإضاءة <span id="brightVal" class="value">100%</span></label>
         <input id="bright" type="range" min="0" max="200" value="100">
       </div>
-
       <div class="control">
         <label>التباين <span id="contrastVal" class="value">100%</span></label>
         <input id="contrast" type="range" min="0" max="200" value="100">
       </div>
-
       <div class="control">
         <label>التشبع <span id="saturationVal" class="value">100%</span></label>
         <input id="saturation" type="range" min="0" max="200" value="100">
       </div>
-
       <div class="control">
         <label>التمويه <span id="blurVal" class="value">0px</span></label>
-        <input id="blur" type="range" min="0" max="15" value="0">
+        <input id="blur" type="range" min="0" max="10" value="0">
       </div>
-
       <div class="control">
         <label>الفلاتر</label>
         <select id="filter">
@@ -622,100 +422,76 @@ footer{
           <option value="saturate(1.8) contrast(1.1)">ألوان قوية</option>
           <option value="contrast(1.15) saturate(.8)">سينمائي</option>
           <option value="sepia(.2) saturate(1.3)">دافئ</option>
-          <option value="hue-rotate(35deg)">ألوان باردة</option>
-          <option value="invert(1)">عكس الألوان</option>
+          <option value="hue-rotate(35deg)">ألوان مختلفة</option>
         </select>
       </div>
     </aside>
-
   </div>
 </section>
 
-<!-- RETOUCH -->
-
 <section id="retouch" class="page">
-
   <div class="heading">
     <h1>تنظيف الصور</h1>
-
     <div class="row">
-      <button id="undoRetouch">تراجع</button>
-      <button class="primary" id="exportRetouch">تنزيل</button>
+      <button class="small-btn" id="undoRetouch">تراجع</button>
+      <button class="small-btn gold-btn" id="exportRetouch">تنزيل الصورة</button>
     </div>
   </div>
-
   <div class="layout">
-
     <div class="panel">
       <div class="toolbar">
-        <button class="primary" id="chooseRetouch">اختيار صورة</button>
+        <button class="small-btn gold-btn" id="chooseRetouch">اختيار صورة</button>
         <input id="retouchFile" type="file" accept="image/*" hidden>
       </div>
-
       <div class="stage">
         <div class="drop" id="retouchDrop">
-          <strong>اختيار صورة</strong>
+          <h2>اختر صورة للتنظيف</h2>
+          <p>ارسم فوق المنطقة التي تريد تعديلها</p>
         </div>
         <canvas id="retouchCanvas"></canvas>
       </div>
     </div>
-
     <aside class="panel sidebar">
       <h3>أدوات التنظيف</h3>
-
       <div class="control">
         <label>الأداة</label>
         <select id="retouchTool">
-          <option value="blur">تمويه</option>
+          <option value="blur">تمويه المنطقة</option>
           <option value="clone">نسخ المنطقة المجاورة</option>
         </select>
       </div>
-
       <div class="control">
         <label>حجم الفرشاة <span id="retouchSizeVal" class="value">30px</span></label>
         <input id="retouchSize" type="range" min="5" max="100" value="30">
       </div>
-
       <div class="control">
-        <label>مسافة النسخ <span id="cloneOffsetVal" class="value">50px</span></label>
-        <input id="cloneOffset" type="range" min="10" max="200" value="50">
+        <label>مسافة النسخ</label>
+        <input id="cloneOffset" type="range" min="10" max="150" value="50">
       </div>
     </aside>
-
   </div>
 </section>
 
-<!-- DRAWING -->
-
 <section id="drawing" class="page">
-
   <div class="heading">
     <h1>الرسم</h1>
-
     <div class="row">
-      <button id="undoDrawing">تراجع</button>
-      <button id="clearDrawing">مسح</button>
-      <button class="primary" id="exportDrawing">تنزيل</button>
+      <button class="small-btn" id="undoDrawing">تراجع</button>
+      <button class="small-btn" id="clearDrawing">مسح الرسم</button>
+      <button class="small-btn gold-btn" id="exportDrawing">تنزيل الرسم</button>
     </div>
   </div>
-
   <div class="layout">
-
     <div class="panel">
-      <div class="toolbar">
-        <button id="drawingBackgroundBtn">تغيير الخلفية</button>
-      </div>
-
+      <div class="toolbar">لوحة الرسم</div>
       <div class="stage">
         <canvas id="drawingCanvas" width="1200" height="800"></canvas>
       </div>
     </div>
-
     <aside class="panel sidebar">
       <h3>أدوات الرسم</h3>
-
       <div class="control">
-        <label>الفرشاة</label>
+        <label>نوع الفرشاة</label>
         <select id="brushType">
           <option value="pencil">قلم رصاص</option>
           <option value="ink">حبر</option>
@@ -725,489 +501,298 @@ footer{
           <option value="airbrush">بخاخ</option>
           <option value="watercolor">ألوان مائية</option>
           <option value="oil">فرشاة زيتية</option>
-          <option value="crayon">قلم شمع</option>
           <option value="neon">نيون</option>
           <option value="calligraphy">خط عريض</option>
-          <option value="pixel">بكسل</option>
-          <option value="rainbow">ألوان متغيرة</option>
           <option value="eraser">ممحاة</option>
         </select>
       </div>
-
       <div class="control">
-        <label>اللون</label>
+        <label>لون الفرشاة</label>
         <input id="brushColor" type="color" value="#111111">
       </div>
-
       <div class="control">
         <label>حجم الفرشاة <span id="brushSizeVal" class="value">8px</span></label>
         <input id="brushSize" type="range" min="1" max="100" value="8">
       </div>
-
       <div class="control">
         <label>الشفافية <span id="opacityVal" class="value">100%</span></label>
         <input id="opacity" type="range" min="5" max="100" value="100">
       </div>
-
       <div class="control">
         <label>تنعيم الخط <span id="smoothVal" class="value">50%</span></label>
         <input id="smooth" type="range" min="0" max="100" value="50">
       </div>
-
-      <div class="control">
-        <label>شكل الفرشاة</label>
-        <select id="brushShape">
-          <option value="round">دائري</option>
-          <option value="square">مربع</option>
-          <option value="flat">مسطح</option>
-        </select>
-      </div>
-
       <div class="control">
         <label>خلفية اللوحة</label>
         <input id="backgroundColor" type="color" value="#ffffff">
-        <button class="full" id="applyBackground">تطبيق الخلفية</button>
+        <button class="small-btn" id="applyBackground">تغيير الخلفية</button>
       </div>
     </aside>
-
   </div>
 </section>
 
 </main>
 
-<footer>VideoYTFX</footer>
+<footer>image-001</footer>
 <div class="toast" id="toast"></div>
 
 <script>
-const $ = selector => document.querySelector(selector);
-const $$ = selector => [...document.querySelectorAll(selector)];
-
-/* GENERAL */
-
-let toastTimer;
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
 
 function message(text){
-  const toast = $("#toast");
-  toast.textContent = text;
-  toast.classList.add("show");
-
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>{
-    toast.classList.remove("show");
-  },2200);
+  const t=$("#toast");
+  t.textContent=text;
+  t.classList.add("show");
+  clearTimeout(message.timer);
+  message.timer=setTimeout(()=>t.classList.remove("show"),2200);
 }
 
 function showPage(id){
-  $$(".page").forEach(page=>page.classList.remove("active"));
+  $$(".page").forEach(p=>p.classList.remove("active"));
   $("#"+id).classList.add("active");
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
 $$("[data-page]").forEach(card=>{
-  card.addEventListener("click",()=>{
-    showPage(card.dataset.page);
-  });
+  card.addEventListener("click",()=>showPage(card.dataset.page));
 });
 
-$("#homeBtn").onclick = ()=>showPage("home");
-$("#brandHome").onclick = e=>{
-  e.preventDefault();
-  showPage("home");
+$("#homeBtn").onclick=()=>showPage("home");
+
+$("#themeBtn").onclick=()=>{
+  const root=document.documentElement;
+  root.dataset.theme=root.dataset.theme==="dark"?"light":"dark";
 };
-
-$("#themeBtn").onclick = ()=>{
-  const root = document.documentElement;
-  const next = root.dataset.theme==="dark"?"light":"dark";
-
-  root.dataset.theme = next;
-  $("#themeBtn").textContent = next==="dark"?"المظهر":"الوضع الداكن";
-
-  try{
-    localStorage.setItem("image_studio_theme",next);
-  }catch(error){}
-};
-
-try{
-  const savedTheme = localStorage.getItem("image_studio_theme");
-  if(savedTheme==="light" || savedTheme==="dark"){
-    document.documentElement.dataset.theme = savedTheme;
-    $("#themeBtn").textContent = savedTheme==="dark"?"المظهر":"الوضع الداكن";
-  }
-}catch(error){}
-
-/* IMAGE LOADING */
 
 function loadImage(file,callback){
-  if(!file || !file.type.startsWith("image/")){
-    message("اختر صورة صالحة");
+  if(!file||!file.type.startsWith("image/")){
+    message("اختر ملف صورة صالحًا");
     return;
   }
-
-  const url = URL.createObjectURL(file);
-  const image = new Image();
-
-  image.onload = ()=>{
-    callback(image,file.name);
+  const url=URL.createObjectURL(file);
+  const img=new Image();
+  img.onload=()=>{
+    callback(img,file.name);
     URL.revokeObjectURL(url);
   };
-
-  image.onerror = ()=>{
+  img.onerror=()=>{
     URL.revokeObjectURL(url);
     message("تعذر فتح الصورة");
   };
-
-  image.src = url;
+  img.src=url;
 }
 
 function downloadCanvas(canvas,name){
   canvas.toBlob(blob=>{
-    if(!blob){
-      message("تعذر تنزيل الصورة");
-      return;
-    }
-
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.download = name;
-    link.click();
-
+    if(!blob){message("تعذر تجهيز الصورة");return;}
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download=name;
+    a.click();
     setTimeout(()=>URL.revokeObjectURL(url),1500);
   },"image/png");
 }
 
 function attachDrop(zone,callback){
-  zone.addEventListener("dragover",event=>{
-    event.preventDefault();
+  zone.addEventListener("dragover",e=>{
+    e.preventDefault();
     zone.style.borderColor="#fff";
   });
-
   zone.addEventListener("dragleave",()=>{
     zone.style.borderColor="";
   });
-
-  zone.addEventListener("drop",event=>{
-    event.preventDefault();
-    zone.style.borderColor="";
-
-    const file = event.dataTransfer.files[0];
-    if(file) loadImage(file,callback);
+  zone.addEventListener("drop",e=>{
+    e.preventDefault();
+    const file=e.dataTransfer.files[0];
+    if(file)loadImage(file,callback);
   });
 }
 
-/* IMAGE EDITOR */
-
-const editCanvas = $("#editCanvas");
-const editCtx = editCanvas.getContext("2d");
-
-let editImage = null;
-let editName = "image";
-let editRotation = 0;
-let editFlip = false;
+/* تحرير الصور */
+const editCanvas=$("#editCanvas");
+const editCtx=editCanvas.getContext("2d");
+let editImage=null,editRotation=0,editFlip=false;
 
 function renderEdit(){
-  if(!editImage) return;
-
-  const width = editImage.naturalWidth;
-  const height = editImage.naturalHeight;
-  const rotated = Math.abs(editRotation%180)===90;
-
-  editCanvas.width = rotated?height:width;
-  editCanvas.height = rotated?width:height;
-
-  editCtx.clearRect(0,0,editCanvas.width,editCanvas.height);
+  if(!editImage)return;
+  const rotated=Math.abs(editRotation%180)===90;
+  const w=editImage.naturalWidth,h=editImage.naturalHeight;
+  editCanvas.width=rotated?h:w;
+  editCanvas.height=rotated?w:h;
 
   editCtx.save();
-
-  editCtx.filter = `
-    brightness(${$("#bright").value}%)
-    contrast(${$("#contrast").value}%)
-    saturate(${$("#saturation").value}%)
-    blur(${$("#blur").value}px)
-    ${$("#filter").value==="none"?"":$("#filter").value}
-  `;
-
+  editCtx.filter=
+    `brightness(${$("#bright").value}%)
+     contrast(${$("#contrast").value}%)
+     saturate(${$("#saturation").value}%)
+     blur(${$("#blur").value}px)
+     ${$("#filter").value==="none"?"":$("#filter").value}`;
   editCtx.translate(editCanvas.width/2,editCanvas.height/2);
   editCtx.rotate(editRotation*Math.PI/180);
   editCtx.scale(editFlip?-1:1,1);
-  editCtx.drawImage(editImage,-width/2,-height/2,width,height);
-
+  editCtx.drawImage(editImage,-w/2,-h/2,w,h);
   editCtx.restore();
 }
 
 function updateEditValues(){
-  $("#brightVal").textContent=$("#bright").value+"%";
-  $("#contrastVal").textContent=$("#contrast").value+"%";
-  $("#saturationVal").textContent=$("#saturation").value+"%";
+  ["bright","contrast","saturation"].forEach(id=>{
+    $("#"+id+"Val").textContent=$("#"+id).value+"%";
+  });
   $("#blurVal").textContent=$("#blur").value+"px";
 }
 
-function loadEdit(image,name){
-  editImage = image;
-  editName = name.replace(/\.[^.]+$/,"") || "image";
-
-  editRotation = 0;
-  editFlip = false;
-
+function loadEdit(img,name){
+  editImage=img;
+  editRotation=0;
+  editFlip=false;
   $("#editDrop").style.display="none";
   editCanvas.style.display="block";
-  $("#editInfo").textContent = image.naturalWidth+" × "+image.naturalHeight;
-
-  ["bright","contrast","saturation"].forEach(id=>{
-    $("#"+id).value=100;
-  });
-
+  $("#editInfo").textContent=
+    `${img.naturalWidth} × ${img.naturalHeight} | ${name}`;
+  ["bright","contrast","saturation"].forEach(id=>$("#"+id).value=100);
   $("#blur").value=0;
   $("#filter").value="none";
-
   updateEditValues();
   renderEdit();
 }
 
 ["bright","contrast","saturation","blur"].forEach(id=>{
-  $("#"+id).addEventListener("input",()=>{
-    updateEditValues();
-    renderEdit();
-  });
+  $("#"+id).oninput=()=>{updateEditValues();renderEdit();};
 });
-
 $("#filter").onchange=renderEdit;
-
 $("#chooseEdit").onclick=()=>$("#editFile").click();
-
-$("#editFile").onchange=()=>{
-  loadImage($("#editFile").files[0],loadEdit);
-  $("#editFile").value="";
-};
-
+$("#editFile").onchange=()=>loadImage($("#editFile").files[0],loadEdit);
 $("#rotateBtn").onclick=()=>{
-  if(!editImage) return message("اختر صورة أولاً");
+  if(!editImage)return message("اختر صورة أولًا");
   editRotation=(editRotation+90)%360;
   renderEdit();
 };
-
 $("#flipBtn").onclick=()=>{
-  if(!editImage) return message("اختر صورة أولاً");
+  if(!editImage)return message("اختر صورة أولًا");
   editFlip=!editFlip;
   renderEdit();
 };
-
 $("#resetEdit").onclick=()=>{
-  if(!editImage) return;
-
-  editRotation=0;
-  editFlip=false;
-
-  ["bright","contrast","saturation"].forEach(id=>{
-    $("#"+id).value=100;
-  });
-
-  $("#blur").value=0;
-  $("#filter").value="none";
-
-  updateEditValues();
-  renderEdit();
+  if(!editImage)return;
+  editRotation=0;editFlip=false;
+  ["bright","contrast","saturation"].forEach(id=>$("#"+id).value=100);
+  $("#blur").value=0;$("#filter").value="none";
+  updateEditValues();renderEdit();
 };
-
 $("#exportEdit").onclick=()=>{
-  if(!editImage) return message("اختر صورة أولاً");
-
+  if(!editImage)return message("اختر صورة أولًا");
   renderEdit();
-  downloadCanvas(editCanvas,editName+"-edited.png");
+  downloadCanvas(editCanvas,"image-001-edit.png");
 };
-
 attachDrop($("#editDrop"),loadEdit);
 
-/* RETOUCH */
+/* تنظيف الصور */
+const retouchCanvas=$("#retouchCanvas");
+const retouchCtx=retouchCanvas.getContext("2d");
+let retouchImage=null,retouchHistory=[],retouchDown=false,retouchLast=null;
 
-const retouchCanvas = $("#retouchCanvas");
-const retouchCtx = retouchCanvas.getContext("2d");
-
-let retouchImage = null;
-let retouchHistory = [];
-let retouchDown = false;
-let retouchLast = null;
-let retouchSnapshot = null;
-
-function loadRetouch(image){
-  retouchImage=image;
-
-  retouchCanvas.width=image.naturalWidth;
-  retouchCanvas.height=image.naturalHeight;
-
-  retouchCtx.clearRect(0,0,retouchCanvas.width,retouchCanvas.height);
-  retouchCtx.drawImage(image,0,0);
-
+function loadRetouch(img){
+  retouchImage=img;
+  retouchCanvas.width=img.naturalWidth;
+  retouchCanvas.height=img.naturalHeight;
+  retouchCtx.drawImage(img,0,0);
   $("#retouchDrop").style.display="none";
   retouchCanvas.style.display="block";
-
   retouchHistory=[];
 }
 
 $("#chooseRetouch").onclick=()=>$("#retouchFile").click();
-
-$("#retouchFile").onchange=()=>{
-  loadImage($("#retouchFile").files[0],loadRetouch);
-  $("#retouchFile").value="";
-};
-
+$("#retouchFile").onchange=()=>loadImage($("#retouchFile").files[0],loadRetouch);
 attachDrop($("#retouchDrop"),loadRetouch);
 
-function retouchPoint(event){
-  const rect=retouchCanvas.getBoundingClientRect();
-
-  return {
-    x:(event.clientX-rect.left)*retouchCanvas.width/rect.width,
-    y:(event.clientY-rect.top)*retouchCanvas.height/rect.height
+function retouchPoint(e){
+  const r=retouchCanvas.getBoundingClientRect();
+  return{
+    x:(e.clientX-r.left)*retouchCanvas.width/r.width,
+    y:(e.clientY-r.top)*retouchCanvas.height/r.height
   };
 }
-
 function saveRetouch(){
-  if(!retouchCanvas.width || !retouchCanvas.height) return;
-
-  retouchHistory.push(
-    retouchCtx.getImageData(0,0,retouchCanvas.width,retouchCanvas.height)
-  );
-
-  if(retouchHistory.length>15) retouchHistory.shift();
+  retouchHistory.push(retouchCtx.getImageData(0,0,retouchCanvas.width,retouchCanvas.height));
+  if(retouchHistory.length>12)retouchHistory.shift();
 }
-
-function retouchAt(point){
+function retouchAt(p){
   const size=Number($("#retouchSize").value);
   const mode=$("#retouchTool").value;
-
-  const x=Math.max(0,Math.floor(point.x-size));
-  const y=Math.max(0,Math.floor(point.y-size));
-
-  const width=Math.min(retouchCanvas.width-x,size*2);
-  const height=Math.min(retouchCanvas.height-y,size*2);
-
-  if(width<1 || height<1) return;
+  const x=Math.max(0,Math.floor(p.x-size));
+  const y=Math.max(0,Math.floor(p.y-size));
+  const w=Math.min(retouchCanvas.width-x,size*2);
+  const h=Math.min(retouchCanvas.height-y,size*2);
+  if(w<1||h<1)return;
 
   const temp=document.createElement("canvas");
-  temp.width=width;
-  temp.height=height;
-
-  const tempCtx=temp.getContext("2d");
+  temp.width=w;temp.height=h;
+  const tc=temp.getContext("2d");
 
   if(mode==="blur"){
-    tempCtx.filter=`blur(${Math.max(2,size/5)}px)`;
-    tempCtx.drawImage(
-      retouchCanvas,
-      x,y,width,height,
-      0,0,width,height
-    );
+    tc.filter=`blur(${Math.max(2,size/5)}px)`;
+    tc.drawImage(retouchCanvas,x,y,w,h,0,0,w,h);
   }else{
     const offset=Number($("#cloneOffset").value);
-
-    const sourceX=Math.max(
-      0,
-      Math.min(retouchCanvas.width-width,point.x-offset-size)
-    );
-
-    const sourceY=Math.max(
-      0,
-      Math.min(retouchCanvas.height-height,point.y-size)
-    );
-
-    if(retouchSnapshot){
-      tempCtx.drawImage(
-        retouchSnapshot,
-        sourceX,sourceY,width,height,
-        0,0,width,height
-      );
-    }
+    const sx=Math.max(0,Math.min(retouchCanvas.width-w,p.x-offset-size));
+    const sy=Math.max(0,Math.min(retouchCanvas.height-h,p.y-size));
+    tc.drawImage(retouchCanvas,sx,sy,w,h,0,0,w,h);
   }
 
   retouchCtx.save();
   retouchCtx.beginPath();
-  retouchCtx.arc(point.x,point.y,size,0,Math.PI*2);
+  retouchCtx.arc(p.x,p.y,size,0,Math.PI*2);
   retouchCtx.clip();
-  retouchCtx.drawImage(temp,x,y,width,height);
+  retouchCtx.drawImage(temp,x,y,w,h);
   retouchCtx.restore();
 }
+$("#retouchSize").oninput=()=>$("#retouchSizeVal").textContent=$("#retouchSize").value+"px";
 
-$("#retouchSize").oninput=()=>{
-  $("#retouchSizeVal").textContent=$("#retouchSize").value+"px";
-};
-
-$("#cloneOffset").oninput=()=>{
-  $("#cloneOffsetVal").textContent=$("#cloneOffset").value+"px";
-};
-
-retouchCanvas.addEventListener("pointerdown",event=>{
-  if(!retouchImage) return;
-
+retouchCanvas.addEventListener("pointerdown",e=>{
+  if(!retouchImage)return;
   retouchDown=true;
-  retouchCanvas.setPointerCapture(event.pointerId);
-
+  retouchCanvas.setPointerCapture(e.pointerId);
   saveRetouch();
-
-  retouchSnapshot=document.createElement("canvas");
-  retouchSnapshot.width=retouchCanvas.width;
-  retouchSnapshot.height=retouchCanvas.height;
-  retouchSnapshot.getContext("2d").drawImage(retouchCanvas,0,0);
-
-  retouchLast=retouchPoint(event);
+  retouchLast=retouchPoint(e);
   retouchAt(retouchLast);
 });
-
-retouchCanvas.addEventListener("pointermove",event=>{
-  if(!retouchDown) return;
-
-  const point=retouchPoint(event);
-  const distance=Math.hypot(
-    point.x-retouchLast.x,
-    point.y-retouchLast.y
-  );
-
+retouchCanvas.addEventListener("pointermove",e=>{
+  if(!retouchDown)return;
+  const p=retouchPoint(e);
+  const distance=Math.hypot(p.x-retouchLast.x,p.y-retouchLast.y);
   const step=Math.max(2,Number($("#retouchSize").value)/4);
   const count=Math.max(1,Math.ceil(distance/step));
-  const previous={...retouchLast};
-
+  const old={...retouchLast};
   for(let i=1;i<=count;i++){
     retouchAt({
-      x:previous.x+(point.x-previous.x)*i/count,
-      y:previous.y+(point.y-previous.y)*i/count
+      x:old.x+(p.x-old.x)*i/count,
+      y:old.y+(p.y-old.y)*i/count
     });
   }
-
-  retouchLast=point;
+  retouchLast=p;
 });
-
-function finishRetouch(){
-  retouchDown=false;
-  retouchLast=null;
-  retouchSnapshot=null;
-}
-
-["pointerup","pointercancel","lostpointercapture"].forEach(event=>{
-  retouchCanvas.addEventListener(event,finishRetouch);
+["pointerup","pointercancel","pointerleave"].forEach(ev=>{
+  retouchCanvas.addEventListener(ev,()=>{
+    retouchDown=false;
+    retouchLast=null;
+  });
 });
-
 $("#undoRetouch").onclick=()=>{
-  if(!retouchHistory.length) return;
-
-  retouchCtx.putImageData(retouchHistory.pop(),0,0);
+  if(retouchHistory.length){
+    retouchCtx.putImageData(retouchHistory.pop(),0,0);
+  }
 };
-
 $("#exportRetouch").onclick=()=>{
-  if(!retouchImage) return message("اختر صورة أولاً");
-
-  downloadCanvas(retouchCanvas,"VideoYTFX-retouched.png");
+  if(!retouchImage)return message("اختر صورة أولًا");
+  downloadCanvas(retouchCanvas,"image-001-retouched.png");
 };
 
-/* DRAWING */
-
+/* الرسم */
 const drawCanvas=$("#drawingCanvas");
 const drawCtx=drawCanvas.getContext("2d");
-
-let drawing=false;
-let drawLast=null;
-let drawHistory=[];
-let drawBackground="#ffffff";
-let rainbowHue=0;
+let drawing=false,drawLast=null,drawHistory=[],drawBackground="#ffffff";
 
 function resetDrawing(){
   drawCtx.save();
@@ -1217,274 +802,114 @@ function resetDrawing(){
   drawCtx.fillRect(0,0,drawCanvas.width,drawCanvas.height);
   drawCtx.restore();
 }
-
 function saveDrawing(){
-  drawHistory.push(
-    drawCtx.getImageData(0,0,drawCanvas.width,drawCanvas.height)
-  );
-
-  if(drawHistory.length>30) drawHistory.shift();
+  drawHistory.push(drawCtx.getImageData(0,0,drawCanvas.width,drawCanvas.height));
+  if(drawHistory.length>25)drawHistory.shift();
 }
-
-function drawPoint(event){
-  const rect=drawCanvas.getBoundingClientRect();
-
-  return {
-    x:(event.clientX-rect.left)*drawCanvas.width/rect.width,
-    y:(event.clientY-rect.top)*drawCanvas.height/rect.height
+function drawPoint(e){
+  const r=drawCanvas.getBoundingClientRect();
+  return{
+    x:(e.clientX-r.left)*drawCanvas.width/r.width,
+    y:(e.clientY-r.top)*drawCanvas.height/r.height
   };
 }
-
 function currentBrush(){
-  return {
+  return{
     type:$("#brushType").value,
     size:Number($("#brushSize").value),
     color:$("#brushColor").value,
-    opacity:Number($("#opacity").value)/100,
-    shape:$("#brushShape").value
+    opacity:Number($("#opacity").value)/100
   };
 }
+function paintPoint(p,b){
+  const c=drawCtx;
+  c.save();
+  c.globalAlpha=b.opacity;
+  c.globalCompositeOperation="source-over";
+  c.lineCap="round";
+  c.lineJoin="round";
+  c.lineWidth=b.size;
+  c.strokeStyle=b.color;
+  c.fillStyle=b.color;
+  c.shadowBlur=0;
 
-function paintPoint(point,brush){
-  const ctx=drawCtx;
-
-  ctx.save();
-  ctx.globalAlpha=brush.opacity;
-  ctx.globalCompositeOperation="source-over";
-  ctx.lineCap=brush.shape==="square"?"square":"round";
-  ctx.lineJoin="round";
-  ctx.lineWidth=brush.size;
-  ctx.strokeStyle=brush.color;
-  ctx.fillStyle=brush.color;
-  ctx.shadowBlur=0;
-  ctx.setLineDash([]);
-
-  switch(brush.type){
-
-    case "eraser":
-      ctx.globalCompositeOperation="destination-out";
-      ctx.strokeStyle="#000";
-      ctx.fillStyle="#000";
-      break;
-
-    case "pencil":
-      ctx.globalAlpha*=.65;
-      ctx.lineWidth=Math.max(1,brush.size*.55);
-      break;
-
-    case "ink":
-      ctx.lineWidth=Math.max(1,brush.size*.72);
-      break;
-
-    case "soft":
-      ctx.globalAlpha*=.45;
-      ctx.shadowColor=brush.color;
-      ctx.shadowBlur=brush.size*.5;
-      break;
-
-    case "marker":
-      ctx.globalAlpha*=.78;
-      ctx.lineWidth=brush.size*1.3;
-      break;
-
-    case "highlighter":
-      ctx.globalAlpha*=.25;
-      ctx.lineWidth=brush.size*2.2;
-      ctx.lineCap="square";
-      break;
-
-    case "watercolor":
-      ctx.globalAlpha*=.15;
-      ctx.lineWidth=brush.size*1.8;
-      break;
-
-    case "oil":
-      ctx.globalAlpha*=.9;
-      ctx.lineWidth=brush.size*.85;
-      break;
-
-    case "crayon":
-      ctx.globalAlpha*=.7;
-      break;
-
-    case "neon":
-      ctx.shadowColor=brush.color;
-      ctx.shadowBlur=Math.max(8,brush.size*2);
-      ctx.lineWidth=Math.max(1,brush.size*.7);
-      break;
-
-    case "calligraphy":
-      ctx.lineCap="butt";
-      ctx.lineWidth=brush.size*1.2;
-      break;
-
-    case "pixel":
-      ctx.lineCap="square";
-      ctx.lineWidth=Math.max(4,Math.round(brush.size/3)*3);
-      break;
-
-    case "rainbow":
-      ctx.strokeStyle=`hsl(${rainbowHue%360} 100% 50%)`;
-      ctx.fillStyle=ctx.strokeStyle;
-      rainbowHue+=5;
-      break;
-
-    case "airbrush":
-      ctx.globalAlpha*=.12;
-
-      for(let i=0;i<Math.max(20,brush.size*2);i++){
-        const angle=Math.random()*Math.PI*2;
-        const radius=Math.random()*brush.size;
-        const dot=Math.random()*Math.max(1,brush.size/10);
-
-        ctx.beginPath();
-        ctx.arc(
-          point.x+Math.cos(angle)*radius,
-          point.y+Math.sin(angle)*radius,
-          dot,0,Math.PI*2
-        );
-        ctx.fill();
-      }
-
-      ctx.restore();
-      return;
+  if(b.type==="eraser"){
+    c.globalCompositeOperation="destination-out";
   }
-
-  if(brush.shape==="flat" && brush.type!=="eraser"){
-    ctx.lineCap="butt";
+  if(b.type==="pencil")c.globalAlpha*=.65;
+  if(b.type==="marker"){c.globalAlpha*=.75;c.lineWidth*=1.4;}
+  if(b.type==="highlighter"){c.globalAlpha*=.25;c.lineWidth*=2.2;}
+  if(b.type==="watercolor"){c.globalAlpha*=.2;c.lineWidth*=1.8;}
+  if(b.type==="neon"){
+    c.shadowColor=b.color;
+    c.shadowBlur=Math.max(8,b.size*2);
   }
+  if(b.type==="calligraphy")c.lineWidth*=1.5;
 
   if(!drawLast){
-    ctx.beginPath();
-    ctx.arc(
-      point.x,
-      point.y,
-      Math.max(1,ctx.lineWidth/2),
-      0,
-      Math.PI*2
-    );
-    ctx.fill();
+    c.beginPath();
+    c.arc(p.x,p.y,Math.max(1,c.lineWidth/2),0,Math.PI*2);
+    c.fill();
   }else{
-    ctx.beginPath();
-    ctx.moveTo(drawLast.x,drawLast.y);
-    ctx.lineTo(point.x,point.y);
-    ctx.stroke();
-
-    if(brush.type==="watercolor"){
-      ctx.globalAlpha*=.4;
-      ctx.lineWidth=brush.size*2.2;
-      ctx.beginPath();
-      ctx.moveTo(drawLast.x,drawLast.y);
-      ctx.lineTo(point.x,point.y);
-      ctx.stroke();
-    }
-
-    if(brush.type==="crayon"){
-      ctx.globalAlpha*=.3;
-      ctx.lineWidth=Math.max(1,brush.size*.3);
-      ctx.setLineDash([1,3]);
-      ctx.beginPath();
-      ctx.moveTo(drawLast.x,drawLast.y);
-      ctx.lineTo(point.x,point.y);
-      ctx.stroke();
-    }
+    c.beginPath();
+    c.moveTo(drawLast.x,drawLast.y);
+    c.lineTo(p.x,p.y);
+    c.stroke();
   }
-
-  ctx.restore();
+  c.restore();
 }
-
 resetDrawing();
 
-drawCanvas.addEventListener("pointerdown",event=>{
+drawCanvas.addEventListener("pointerdown",e=>{
   drawing=true;
-  drawCanvas.setPointerCapture(event.pointerId);
-
+  drawCanvas.setPointerCapture(e.pointerId);
   saveDrawing();
-
-  drawLast=drawPoint(event);
+  drawLast=drawPoint(e);
   paintPoint(drawLast,currentBrush());
 });
-
-drawCanvas.addEventListener("pointermove",event=>{
-  if(!drawing) return;
-
-  const point=drawPoint(event);
-  const brush=currentBrush();
-
-  const distance=Math.hypot(
-    point.x-drawLast.x,
-    point.y-drawLast.y
-  );
-
-  const smooth=Number($("#smooth").value);
-  const spacing=Math.max(1,brush.size*(1-smooth/130));
+drawCanvas.addEventListener("pointermove",e=>{
+  if(!drawing)return;
+  const p=drawPoint(e);
+  const b=currentBrush();
+  const distance=Math.hypot(p.x-drawLast.x,p.y-drawLast.y);
+  const spacing=Math.max(1,b.size*.25);
   const count=Math.max(1,Math.ceil(distance/spacing));
-  const previous={...drawLast};
-
+  const old={...drawLast};
   for(let i=1;i<=count;i++){
     const next={
-      x:previous.x+(point.x-previous.x)*i/count,
-      y:previous.y+(point.y-previous.y)*i/count
+      x:old.x+(p.x-old.x)*i/count,
+      y:old.y+(p.y-old.y)*i/count
     };
-
-    paintPoint(next,brush);
+    paintPoint(next,b);
     drawLast=next;
   }
 });
-
-function finishDrawing(){
-  drawing=false;
-  drawLast=null;
-  drawCtx.beginPath();
-}
-
-["pointerup","pointercancel","lostpointercapture"].forEach(event=>{
-  drawCanvas.addEventListener(event,finishDrawing);
+["pointerup","pointercancel","pointerleave"].forEach(ev=>{
+  drawCanvas.addEventListener(ev,()=>{
+    drawing=false;
+    drawLast=null;
+  });
 });
 
-$("#brushSize").oninput=()=>{
-  $("#brushSizeVal").textContent=$("#brushSize").value+"px";
-};
-
-$("#opacity").oninput=()=>{
-  $("#opacityVal").textContent=$("#opacity").value+"%";
-};
-
-$("#smooth").oninput=()=>{
-  $("#smoothVal").textContent=$("#smooth").value+"%";
-};
+$("#brushSize").oninput=()=>$("#brushSizeVal").textContent=$("#brushSize").value+"px";
+$("#opacity").oninput=()=>$("#opacityVal").textContent=$("#opacity").value+"%";
+$("#smooth").oninput=()=>$("#smoothVal").textContent=$("#smooth").value+"%";
 
 $("#undoDrawing").onclick=()=>{
-  if(!drawHistory.length) return;
-
-  drawCtx.putImageData(drawHistory.pop(),0,0);
+  if(drawHistory.length)drawCtx.putImageData(drawHistory.pop(),0,0);
 };
-
 $("#clearDrawing").onclick=()=>{
   saveDrawing();
   resetDrawing();
 };
-
 $("#applyBackground").onclick=()=>{
   drawBackground=$("#backgroundColor").value;
   saveDrawing();
   resetDrawing();
 };
-
-$("#drawingBackgroundBtn").onclick=()=>{
-  $("#backgroundColor").click();
-};
-
-$("#backgroundColor").addEventListener("input",()=>{
-  drawBackground=$("#backgroundColor").value;
-  saveDrawing();
-  resetDrawing();
-});
-
 $("#exportDrawing").onclick=()=>{
-  downloadCanvas(drawCanvas,"VideoYTFX-drawing.png");
+  downloadCanvas(drawCanvas,"image-001-drawing.png");
 };
 </script>
-
 </body>
 </html>
