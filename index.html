@@ -4,11 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#030308">
-<title>VideoYTFX | Creative Studio</title>
+<title>VideoYTFX</title>
 
-<!-- Custom VideoYTFX browser icon -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%231677ff'/%3E%3Cstop offset='55%25' stop-color='%23713cff'/%3E%3Cstop offset='100%25' stop-color='%23ff1744'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='15' fill='%23030818'/%3E%3Cpath d='M12 22h40v30H12z' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Cpath d='M12 22l7-12h40l-7 12z' fill='url(%23g)'/%3E%3Cpath d='M30 29l15 8-15 9z' fill='white'/%3E%3Cpath d='M20 10l-7 12m22-12l-7 12m22-12l-7 12' stroke='%23030818' stroke-width='3'/%3E%3C/svg%3E">
-<link rel="apple-touch-icon" href="videoytfx-logo.png">
+<!-- VideoYTFX Custom Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%231677ff'/%3E%3Cstop offset='55%25' stop-color='%23713cff'/%3E%3Cstop offset='100%25' stop-color='%23ff1744'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%23030308'/%3E%3Crect x='9' y='17' width='46' height='37' rx='7' fill='none' stroke='url(%23g)' stroke-width='4'/%3E%3Cpath d='M12 17 L19 9 H55 L48 17' fill='url(%23g)' stroke='url(%23g)' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M27 25 L44 35.5 L27 46 Z' fill='%23ffffff'/%3E%3Cpath d='M47 7 L49.5 13 L56 15.5 L49.5 18 L47 24 L44.5 18 L38 15.5 L44.5 13 Z' fill='%23ff1744'/%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +24,6 @@
     --blue:#1677ff;
     --red:#ff1744;
     --purple:#713cff;
-    --cyan:#36d9ff;
     --radius:22px;
 }
 
@@ -204,7 +202,6 @@ button {
     border-bottom:1px solid var(--border);
     background:var(--surface);
     backdrop-filter:blur(22px);
-    -webkit-backdrop-filter:blur(22px);
 
     opacity:0;
     animation:interfaceReveal .8s ease forwards;
@@ -212,21 +209,15 @@ button {
 }
 
 .brand {
-    display:flex;
-    align-items:center;
-    gap:10px;
-
     font-weight:800;
     font-size:1.35rem;
     letter-spacing:-.5px;
-
     background:linear-gradient(
         110deg,
         var(--text),
         var(--blue),
         var(--red)
     );
-
     background-clip:text;
     -webkit-background-clip:text;
     color:transparent;
@@ -237,26 +228,14 @@ button {
     filter:drop-shadow(0 0 12px var(--blue));
 }
 
-.brand-icon {
-    width:38px;
-    height:38px;
-    object-fit:cover;
-    border-radius:10px;
-    box-shadow:0 0 15px rgba(22,119,255,.35);
-    transition:.3s;
-}
-
-.brand:hover .brand-icon {
-    transform:rotate(-5deg) scale(1.08);
-    box-shadow:0 0 22px rgba(255,23,68,.4);
-}
-
 .nav-actions {
     display:flex;
     gap:10px;
 }
 
 .btn-ui {
+    position:relative;
+    isolation:isolate;
     display:inline-flex;
     justify-content:center;
     align-items:center;
@@ -285,61 +264,52 @@ button {
     min-height:48vh;
     display:grid;
     place-items:center;
-    padding:65px 20px 55px;
+    padding:80px 20px 50px;
     text-align:center;
 }
 
 .hero-content {
     max-width:850px;
-    width:100%;
     opacity:0;
     animation:interfaceReveal 1s ease forwards;
     animation-delay:5s;
 }
 
-.hero-logo {
-    display:block;
-    width:clamp(220px,34vw,390px);
-    height:auto;
-    aspect-ratio:1/1;
-    object-fit:contain;
-    margin:0 auto 25px;
-    border-radius:22px;
+.hero h1 {
+    margin-bottom:30px;
+    font-size:clamp(3rem,8vw,6rem);
+    font-weight:800;
+    letter-spacing:-3px;
+    line-height:1.12;
 
-    filter:
-        drop-shadow(0 0 15px rgba(22,119,255,.24))
-        drop-shadow(0 0 22px rgba(255,23,68,.15));
+    background:linear-gradient(
+        110deg,
+        #ffffff,
+        #1677ff,
+        #ff1744,
+        #ffffff
+    );
 
-    animation:logoFloat 5s ease-in-out infinite;
-    transition:filter .4s,transform .4s;
+    background-size:300% 300%;
+    background-clip:text;
+    -webkit-background-clip:text;
+    color:transparent;
+
+    animation:gradientMove 5s ease infinite;
+
+    filter:drop-shadow(0 0 20px rgba(22,119,255,.3));
 }
 
-.hero-logo:hover {
-    transform:scale(1.035);
-    filter:
-        drop-shadow(0 0 22px rgba(22,119,255,.55))
-        drop-shadow(0 0 30px rgba(255,23,68,.35));
-}
-
-@keyframes logoFloat {
-    0%,100% {
-        transform:translateY(0);
+@keyframes gradientMove {
+    0% {
+        background-position:0% 50%;
     }
     50% {
-        transform:translateY(-9px);
+        background-position:100% 50%;
     }
-}
-
-.visually-hidden {
-    position:absolute;
-    width:1px;
-    height:1px;
-    padding:0;
-    margin:-1px;
-    overflow:hidden;
-    clip:rect(0,0,0,0);
-    white-space:nowrap;
-    border:0;
+    100% {
+        background-position:0% 50%;
+    }
 }
 
 /* =================================
@@ -356,12 +326,17 @@ button {
 
 .btn-primary,
 .btn-secondary {
+    position:relative;
+    isolation:isolate;
+    overflow:visible;
+
     display:inline-flex;
     justify-content:center;
     align-items:center;
-    gap:9px;
+
     min-width:175px;
     padding:15px 26px;
+
     border-radius:14px;
     font-weight:800;
     transition:.35s;
@@ -408,8 +383,10 @@ button {
 
 .card {
     --accent:var(--blue);
+
     position:relative;
     isolation:isolate;
+
     min-height:225px;
     padding:30px;
     overflow:visible;
@@ -420,9 +397,9 @@ button {
 
     border:1px solid var(--border);
     border-radius:var(--radius);
+
     background:var(--surface);
     backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
 
     transition:
         transform .4s,
@@ -433,6 +410,8 @@ button {
     animation:interfaceReveal .8s ease forwards;
     animation-delay:5.15s;
 }
+
+/* Card colors */
 
 .card:nth-child(1) {
     --accent:#ff1744;
@@ -534,6 +513,7 @@ button {
         transform:scale(.9) translateY(0);
         opacity:.25;
     }
+
     50% {
         transform:scale(1.1) translateY(-5px);
         opacity:.7;
@@ -545,6 +525,7 @@ button {
         transform:scale(.9) rotate(-4deg);
         opacity:.15;
     }
+
     to {
         transform:scale(1.12) rotate(4deg);
         opacity:.5;
@@ -581,9 +562,11 @@ button {
 .card h3 {
     position:relative;
     z-index:1;
+
     font-size:1.45rem;
     font-weight:800;
     letter-spacing:-.5px;
+
     color:var(--text);
     transition:.3s;
 }
@@ -602,10 +585,13 @@ html[dir="rtl"] .card:hover h3 {
 .card-number {
     position:relative;
     z-index:1;
+
     font-size:2.2rem;
     font-weight:800;
     letter-spacing:3px;
+
     margin-bottom:22px;
+
     color:var(--accent);
 
     text-shadow:0 0 22px color-mix(
@@ -622,7 +608,7 @@ html[dir="rtl"] .card:hover h3 {
     transform:translateY(-3px);
 }
 
-/* GESTURE CARD */
+/* GESTURE CARD EXTRA EFFECT */
 
 .gesture-orb {
     position:absolute;
@@ -630,10 +616,13 @@ html[dir="rtl"] .card:hover h3 {
     height:100px;
     right:25px;
     bottom:30px;
+
     border:1px solid rgba(22,119,255,.35);
     border-radius:50%;
+
     opacity:.65;
     pointer-events:none;
+
     animation:orbitPulse 3.5s ease-in-out infinite;
 }
 
@@ -642,6 +631,7 @@ html[dir="rtl"] .card:hover h3 {
     content:"";
     position:absolute;
     inset:12px;
+
     border:1px solid rgba(255,23,68,.4);
     border-radius:50%;
 }
@@ -656,6 +646,7 @@ html[dir="rtl"] .card:hover h3 {
         transform:scale(.92) rotate(0deg);
         opacity:.4;
     }
+
     50% {
         transform:scale(1.1) rotate(35deg);
         opacity:1;
@@ -674,8 +665,10 @@ html[dir="rtl"] .gesture-orb {
 footer {
     padding:25px 20px;
     text-align:center;
+
     border-top:1px solid var(--border);
     background:var(--surface);
+
     color:var(--muted);
     font-size:.88rem;
 }
@@ -688,21 +681,27 @@ footer {
     position:fixed;
     inset:0;
     z-index:1000;
+
     display:grid;
     place-items:center;
     overflow:hidden;
+
     background:#030308;
+
     animation:introDisappear 1s ease forwards;
     animation-delay:4.5s;
+
     pointer-events:none;
 }
 
 .smoke-title {
     position:relative;
     z-index:3;
+
     font-size:clamp(3rem,10vw,8rem);
     font-weight:800;
     letter-spacing:-4px;
+
     color:transparent;
 
     background:linear-gradient(
@@ -730,16 +729,20 @@ footer {
 .smoke-layer {
     position:absolute;
     inset:0;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     filter:blur(35px);
 }
 
 .smoke-layer span {
     position:absolute;
+
     width:190px;
     height:190px;
+
     border-radius:50%;
 
     background:radial-gradient(
@@ -750,17 +753,45 @@ footer {
     );
 
     opacity:0;
+
     animation:smokeMove 3.5s ease-in-out infinite;
 }
 
-.smoke-layer span:nth-child(1) {animation-delay:0s}
-.smoke-layer span:nth-child(2) {animation-delay:.3s}
-.smoke-layer span:nth-child(3) {animation-delay:.6s}
-.smoke-layer span:nth-child(4) {animation-delay:.9s}
-.smoke-layer span:nth-child(5) {animation-delay:1.2s}
-.smoke-layer span:nth-child(6) {animation-delay:1.5s}
-.smoke-layer span:nth-child(7) {animation-delay:1.8s}
-.smoke-layer span:nth-child(8) {animation-delay:2.1s}
+.smoke-layer span:nth-child(1) {
+    animation-delay:0s;
+}
+
+.smoke-layer span:nth-child(2) {
+    animation-delay:.3s;
+    transform:translateX(-150px);
+}
+
+.smoke-layer span:nth-child(3) {
+    animation-delay:.6s;
+    transform:translateX(150px);
+}
+
+.smoke-layer span:nth-child(4) {
+    animation-delay:.9s;
+    transform:translateY(-120px);
+}
+
+.smoke-layer span:nth-child(5) {
+    animation-delay:1.2s;
+    transform:translateY(120px);
+}
+
+.smoke-layer span:nth-child(6) {
+    animation-delay:1.5s;
+}
+
+.smoke-layer span:nth-child(7) {
+    animation-delay:1.8s;
+}
+
+.smoke-layer span:nth-child(8) {
+    animation-delay:2.1s;
+}
 
 @keyframes smokeMove {
     0% {
@@ -768,10 +799,12 @@ footer {
         scale:.4;
         translate:0 100px;
     }
+
     40% {
         opacity:.8;
         scale:1.5;
     }
+
     100% {
         opacity:0;
         scale:2.5;
@@ -785,11 +818,13 @@ footer {
         filter:blur(30px);
         transform:scale(.7);
     }
+
     60% {
         opacity:1;
         filter:blur(4px);
         transform:scale(1.08);
     }
+
     100% {
         opacity:1;
         filter:blur(0);
@@ -804,7 +839,9 @@ footer {
     }
 }
 
-/* INTERFACE ANIMATION */
+/* =================================
+   INTERFACE ANIMATION
+================================= */
 
 @keyframes interfaceReveal {
     from {
@@ -812,6 +849,7 @@ footer {
         transform:translateY(35px);
         filter:blur(8px);
     }
+
     to {
         opacity:1;
         transform:translateY(0);
@@ -824,17 +862,13 @@ footer {
 ================================= */
 
 @media(max-width:640px) {
+
     .navbar {
         padding:12px 4%;
     }
 
     .brand {
         font-size:1.05rem;
-    }
-
-    .brand-icon {
-        width:31px;
-        height:31px;
     }
 
     .nav-actions {
@@ -848,12 +882,12 @@ footer {
 
     .hero {
         min-height:auto;
-        padding:55px 18px 40px;
+        padding:70px 18px 40px;
     }
 
-    .hero-logo {
-        width:min(78vw,310px);
-        margin-bottom:20px;
+    .hero h1 {
+        font-size:clamp(2.8rem,13vw,4rem);
+        letter-spacing:-1.5px;
     }
 
     .cta-group {
@@ -888,9 +922,12 @@ footer {
     }
 }
 
-/* REDUCED MOTION */
+/* =================================
+   REDUCED MOTION
+================================= */
 
 @media(prefers-reduced-motion:reduce) {
+
     *,
     *::before,
     *::after {
@@ -911,6 +948,7 @@ footer {
         transform:none;
     }
 }
+
 </style>
 </head>
 
@@ -933,7 +971,8 @@ footer {
 
 <!-- SMOKE INTRO -->
 
-<div class="smoke-intro" id="smokeIntro" aria-hidden="true">
+<div class="smoke-intro" id="smokeIntro">
+
     <div class="smoke-layer">
         <span></span>
         <span></span>
@@ -946,6 +985,7 @@ footer {
     </div>
 
     <h1 class="smoke-title">VideoYTFX</h1>
+
 </div>
 
 <!-- NAVBAR -->
@@ -953,35 +993,29 @@ footer {
 <nav class="navbar">
 
     <a href="index.html" class="brand">
-        <img
-            src="videoytfx-logo.png"
-            class="brand-icon"
-            alt="VideoYTFX logo">
-
-        <span>VideoYTFX</span>
+        VideoYTFX
     </a>
 
     <div class="nav-actions">
 
-        <button
-            class="btn-ui"
-            id="languageBtn"
-            type="button"
-            onclick="toggleLanguage()">
+        <button class="btn-ui"
+                id="languageBtn"
+                onclick="toggleLanguage()">
 
             <span id="langLabel">العربية</span>
+
         </button>
 
-        <button
-            class="btn-ui"
-            id="themeBtn"
-            type="button"
-            onclick="toggleTheme()">
+        <button class="btn-ui"
+                id="themeBtn"
+                onclick="toggleTheme()">
 
             <span id="themeLabel">Light</span>
+
         </button>
 
     </div>
+
 </nav>
 
 <main>
@@ -989,42 +1023,37 @@ footer {
     <!-- HERO -->
 
     <section class="hero">
+
         <div class="hero-content">
 
-            <h1 class="visually-hidden">
-                VideoYTFX Creative Studio
-            </h1>
-
-            <img
-                class="hero-logo"
-                src="videoytfx-logo.png"
-                alt="VideoYTFX Creative Studio Logo"
-                fetchpriority="high">
+            <h1>VideoYTFX</h1>
 
             <div class="cta-group">
 
-                <a
-                    class="btn-primary"
-                    href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe"
-                    target="_blank"
-                    rel="noopener">
+                <a class="btn-primary"
+                   href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
 
-                    <span data-en="Download" data-ar="تحميل">
+                    <span data-en="Download"
+                          data-ar="تحميل">
                         Download
                     </span>
+
                 </a>
 
-                <a
-                    class="btn-secondary"
-                    href="gesture.html">
+                <a class="btn-secondary"
+                   href="gesture.html">
 
-                    <span data-en="Gesture AI" data-ar="Gesture AI">
+                    <span data-en="Gesture AI"
+                          data-ar="Gesture AI">
                         Gesture AI
                     </span>
+
                 </a>
 
             </div>
+
         </div>
+
     </section>
 
     <!-- FEATURES -->
@@ -1032,30 +1061,46 @@ footer {
     <section class="features">
 
         <a href="downloads.html" class="card">
+
             <div class="card-number">01</div>
-            <h3 data-en="Downloads" data-ar="التحميلات">
+
+            <h3 data-en="Downloads"
+                data-ar="التحميلات">
                 Downloads
             </h3>
+
         </a>
 
         <a href="image.html" class="card image-card">
+
             <div class="card-number">02</div>
-            <h3 data-en="Image Studio" data-ar="استوديو الصور">
+
+            <h3 data-en="Image Studio"
+                data-ar="استوديو الصور">
                 Image Studio
             </h3>
+
         </a>
 
         <a href="video.html" class="card video-card">
+
             <div class="card-number">03</div>
-            <h3 data-en="Video Studio" data-ar="استوديو الفيديو">
+
+            <h3 data-en="Video Studio"
+                data-ar="استوديو الفيديو">
                 Video Studio
             </h3>
+
         </a>
 
         <a href="gesture.html" class="card gesture-card">
+
             <div class="gesture-orb"></div>
+
             <div class="card-number">04</div>
+
             <h3>Gesture AI</h3>
+
         </a>
 
     </section>
@@ -1070,7 +1115,9 @@ footer {
 
 <script>
 
-/* LANGUAGE SYSTEM */
+/* =================================
+   LANGUAGE SYSTEM
+================================= */
 
 function setLanguage(lang) {
 
@@ -1085,23 +1132,28 @@ function setLanguage(lang) {
         selected === "en" ? "العربية" : "English";
 
     document.querySelectorAll("[data-en][data-ar]").forEach(element => {
+
         element.textContent = element.dataset[selected];
+
     });
 
     try {
         localStorage.setItem("app_lang", selected);
-    } catch(error) {
-        console.warn("Language preference could not be saved.", error);
-    }
+    } catch(error) {}
+
 }
 
 function toggleLanguage() {
-    setLanguage(
-        document.documentElement.lang === "en" ? "ar" : "en"
-    );
+
+    const current = document.documentElement.lang;
+
+    setLanguage(current === "en" ? "ar" : "en");
+
 }
 
-/* THEME SYSTEM */
+/* =================================
+   THEME SYSTEM
+================================= */
 
 function setTheme(theme) {
 
@@ -1120,9 +1172,8 @@ function setTheme(theme) {
 
     try {
         localStorage.setItem("app_theme", selected);
-    } catch(error) {
-        console.warn("Theme preference could not be saved.", error);
-    }
+    } catch(error) {}
+
 }
 
 function toggleTheme() {
@@ -1131,9 +1182,12 @@ function toggleTheme() {
         document.documentElement.getAttribute("data-theme");
 
     setTheme(current === "dark" ? "light" : "dark");
+
 }
 
-/* SAVED PREFERENCES */
+/* =================================
+   SAVED PREFERENCES
+================================= */
 
 function readPreference(key, fallback) {
 
@@ -1142,37 +1196,32 @@ function readPreference(key, fallback) {
     } catch(error) {
         return fallback;
     }
+
 }
 
-/* INITIALIZATION */
+/* =================================
+   INITIALIZATION
+================================= */
 
 setLanguage(readPreference("app_lang", "en"));
+
 setTheme(readPreference("app_theme", "dark"));
 
-/* INTRO CLEANUP */
+/* =================================
+   INTRO CLEANUP
+================================= */
 
 window.addEventListener("load", () => {
 
     const intro = document.getElementById("smokeIntro");
 
-    if (!intro) return;
+    setTimeout(() => {
 
-    window.setTimeout(() => {
-        intro.remove();
+        if (intro) {
+            intro.remove();
+        }
+
     }, 5600);
-});
-
-/* LOGO ERROR HANDLING */
-
-document.querySelectorAll(".hero-logo, .brand-icon").forEach(image => {
-
-    image.addEventListener("error", () => {
-
-        console.error(
-            "Logo not found. Put videoytfx-logo.png beside index.html."
-        );
-
-    });
 
 });
 
