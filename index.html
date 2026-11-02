@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#030712">
+<meta name="theme-color" content="#030308">
 <title>VideoYTFX</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,26 +13,27 @@
 
 <style>
 :root {
-    --bg:#030712;
-    --surface:rgba(15,23,42,.76);
-    --surface-hover:rgba(30,41,59,.92);
+    --bg:#030308;
+    --surface:rgba(13,16,28,.86);
+    --surface-hover:rgba(24,29,45,.96);
     --border:rgba(255,255,255,.09);
     --text:#f8fafc;
     --muted:#94a3b8;
-    --blue:#3b82f6;
-    --purple:#8b5cf6;
-    --glow:rgba(59,130,246,.24);
+    --blue:#1677ff;
+    --red:#ff1744;
+    --purple:#713cff;
+    --glow:rgba(22,119,255,.25);
     --radius:22px;
 }
 
 [data-theme="light"] {
-    --bg:#f1f5f9;
-    --surface:rgba(255,255,255,.85);
+    --bg:#f1f4fa;
+    --surface:rgba(255,255,255,.88);
     --surface-hover:#fff;
-    --border:rgba(15,23,42,.10);
-    --text:#0f172a;
+    --border:rgba(15,23,42,.12);
+    --text:#111827;
     --muted:#64748b;
-    --glow:rgba(59,130,246,.13);
+    --glow:rgba(22,119,255,.15);
 }
 
 * {
@@ -49,34 +50,94 @@ body {
     background:var(--bg);
     color:var(--text);
     font-family:'Plus Jakarta Sans',sans-serif;
-    transition:background .35s,color .35s;
+    transition:background .4s,color .4s;
 }
 
-html[dir="rtl"] body { font-family:'Tajawal',sans-serif; }
+html[dir="rtl"] body {
+    font-family:'Tajawal',sans-serif;
+}
 
-a { text-decoration:none; color:inherit; }
+a {
+    text-decoration:none;
+    color:inherit;
+}
+
 button { font:inherit; }
+
+/* BACKGROUND */
 
 .ambient {
     position:fixed;
-    width:420px;
-    height:420px;
+    width:430px;
+    height:430px;
     border-radius:50%;
-    filter:blur(120px);
+    filter:blur(130px);
     pointer-events:none;
-    z-index:-1;
-    opacity:.25;
+    z-index:-2;
+    opacity:.24;
     animation:floatGlow 12s ease-in-out infinite alternate;
 }
 
-.glow-one { top:-180px; left:-130px; background:#2563eb; }
-.glow-two { top:35%; right:-200px; background:#9333ea; animation-delay:-4s; }
-.glow-three { bottom:-220px; left:25%; background:#0891b2; animation-delay:-7s; }
+.glow-one {
+    top:-180px;
+    left:-130px;
+    background:var(--blue);
+}
+
+.glow-two {
+    top:30%;
+    right:-200px;
+    background:var(--red);
+    animation-delay:-4s;
+}
+
+.glow-three {
+    bottom:-220px;
+    left:25%;
+    background:var(--purple);
+    animation-delay:-7s;
+}
 
 @keyframes floatGlow {
     from { transform:translate(0,0) scale(1); }
-    to { transform:translate(55px,35px) scale(1.18); }
+    to { transform:translate(65px,40px) scale(1.2); }
 }
+
+/* PARTICLES */
+
+.particles {
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-1;
+    overflow:hidden;
+}
+
+.particles span {
+    position:absolute;
+    bottom:-20px;
+    width:3px;
+    height:3px;
+    border-radius:50%;
+    background:var(--blue);
+    box-shadow:0 0 12px var(--blue);
+    animation:particleUp linear infinite;
+}
+
+.particles span:nth-child(1) { left:10%; animation-duration:12s; }
+.particles span:nth-child(2) { left:25%; animation-duration:17s; animation-delay:2s; background:var(--red); }
+.particles span:nth-child(3) { left:40%; animation-duration:14s; animation-delay:4s; }
+.particles span:nth-child(4) { left:60%; animation-duration:18s; animation-delay:1s; background:var(--red); }
+.particles span:nth-child(5) { left:75%; animation-duration:13s; animation-delay:3s; }
+.particles span:nth-child(6) { left:90%; animation-duration:16s; animation-delay:5s; background:var(--red); }
+
+@keyframes particleUp {
+    0% { transform:translateY(0); opacity:0; }
+    20% { opacity:.8; }
+    100% { transform:translateY(-110vh); opacity:0; }
+}
+
+/* NAVBAR */
 
 .navbar {
     position:sticky;
@@ -90,6 +151,8 @@ button { font:inherit; }
     border-bottom:1px solid var(--border);
     background:var(--surface);
     backdrop-filter:blur(22px);
+    animation:revealInterface .8s ease both;
+    animation-delay:4.8s;
 }
 
 .brand {
@@ -107,17 +170,21 @@ button { font:inherit; }
     width:43px;
     height:43px;
     border-radius:14px;
-    background:linear-gradient(135deg,var(--blue),var(--purple));
+    background:linear-gradient(135deg,var(--red),var(--blue));
     color:white;
-    box-shadow:0 0 25px var(--glow);
-    transition:transform .3s;
+    box-shadow:0 0 25px rgba(255,23,68,.3);
+    transition:.35s;
 }
 
 .brand:hover .brand-icon {
-    transform:rotate(-8deg) scale(1.08);
+    transform:rotate(-12deg) scale(1.12);
+    box-shadow:0 0 35px var(--blue);
 }
 
-.nav-actions { display:flex; gap:9px; }
+.nav-actions {
+    display:flex;
+    gap:9px;
+}
 
 .btn-ui {
     display:inline-flex;
@@ -130,25 +197,32 @@ button { font:inherit; }
     border:1px solid var(--border);
     border-radius:13px;
     cursor:pointer;
-    transition:.25s ease;
+    transition:.3s;
 }
 
 .btn-ui:hover {
-    transform:translateY(-2px);
-    background:var(--surface-hover);
-    border-color:var(--blue);
+    transform:translateY(-3px);
+    border-color:var(--red);
+    box-shadow:0 0 18px rgba(255,23,68,.2);
 }
+
+/* HERO */
 
 .hero {
     position:relative;
     min-height:48vh;
     display:grid;
     place-items:center;
-    padding:70px 20px 45px;
+    padding:75px 20px 45px;
     text-align:center;
 }
 
-.hero-content { max-width:850px; }
+.hero-content {
+    max-width:850px;
+    opacity:0;
+    animation:revealInterface 1s ease forwards;
+    animation-delay:5s;
+}
 
 .hero h1 {
     margin-bottom:30px;
@@ -156,11 +230,25 @@ button { font:inherit; }
     font-weight:800;
     letter-spacing:-3px;
     line-height:1.12;
-    background:linear-gradient(120deg,var(--text) 15%,#60a5fa 52%,#c084fc 85%);
+    background:linear-gradient(
+        110deg,
+        #ffffff,
+        #1677ff,
+        #ff1744,
+        #ffffff
+    );
+    background-size:300% 300%;
     -webkit-background-clip:text;
     background-clip:text;
     color:transparent;
-    animation:fadeUp .8s both;
+    animation:gradientMove 5s ease infinite;
+    filter:drop-shadow(0 0 22px rgba(22,119,255,.25));
+}
+
+@keyframes gradientMove {
+    0% { background-position:0% 50%; }
+    50% { background-position:100% 50%; }
+    100% { background-position:0% 50%; }
 }
 
 .cta-group {
@@ -169,7 +257,6 @@ button { font:inherit; }
     align-items:center;
     flex-wrap:wrap;
     gap:13px;
-    animation:fadeUp .8s .15s both;
 }
 
 .btn-primary,.btn-secondary {
@@ -177,28 +264,31 @@ button { font:inherit; }
     justify-content:center;
     align-items:center;
     gap:10px;
-    padding:13px 23px;
+    padding:14px 24px;
     border-radius:14px;
     font-weight:800;
-    transition:transform .25s,box-shadow .25s;
+    transition:.3s;
 }
 
 .btn-primary {
     color:white;
-    background:linear-gradient(120deg,var(--blue),var(--purple));
-    box-shadow:0 10px 30px var(--glow);
+    background:linear-gradient(120deg,var(--red),#d90035);
+    box-shadow:0 8px 30px rgba(255,23,68,.22);
 }
 
 .btn-secondary {
-    color:var(--text);
-    background:var(--surface);
-    border:1px solid var(--border);
+    color:white;
+    background:linear-gradient(120deg,#0759c9,#1677ff);
+    border:1px solid rgba(22,119,255,.4);
+    box-shadow:0 8px 30px rgba(22,119,255,.18);
 }
 
 .btn-primary:hover,.btn-secondary:hover {
-    transform:translateY(-4px);
-    box-shadow:0 15px 35px var(--glow);
+    transform:translateY(-5px) scale(1.04);
+    box-shadow:0 15px 40px rgba(22,119,255,.3);
 }
+
+/* FEATURES */
 
 .features {
     max-width:1140px;
@@ -224,54 +314,79 @@ button { font:inherit; }
     background:var(--surface);
     backdrop-filter:blur(18px);
     transition:transform .35s,border-color .35s,box-shadow .35s;
-    animation:fadeUp .65s both;
+    opacity:0;
+    animation:revealInterface .8s ease forwards;
+    animation-delay:5.15s;
 }
 
-.card:nth-child(2) { animation-delay:.08s; }
-.card:nth-child(3) { animation-delay:.16s; }
-.card:nth-child(4) { animation-delay:.24s; }
+.card:nth-child(2) { animation-delay:5.3s; }
+.card:nth-child(3) { animation-delay:5.45s; }
+.card:nth-child(4) { animation-delay:5.6s; }
 
 .card::before {
     content:"";
     position:absolute;
     z-index:-1;
-    width:210px;
-    height:210px;
+    width:220px;
+    height:220px;
     top:-110px;
     right:-100px;
     border-radius:50%;
     background:var(--card-accent);
-    opacity:.10;
-    filter:blur(15px);
-    transition:transform .45s,opacity .45s;
+    opacity:.13;
+    filter:blur(25px);
+    transition:.45s;
+}
+
+.card::after {
+    content:"";
+    position:absolute;
+    left:-100%;
+    top:0;
+    width:60%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.07),
+        transparent
+    );
+    transform:skewX(-20deg);
+    transition:.65s;
+}
+
+.card:hover::after {
+    left:150%;
 }
 
 .card:hover {
-    transform:translateY(-8px);
+    transform:translateY(-9px) scale(1.015);
     border-color:var(--card-accent);
-    box-shadow:0 20px 55px rgba(0,0,0,.18);
+    box-shadow:0 20px 50px rgba(0,0,0,.25),
+               0 0 22px color-mix(in srgb,var(--card-accent) 20%,transparent);
 }
 
 .card:hover::before {
     transform:scale(1.8);
-    opacity:.2;
+    opacity:.3;
 }
 
 .card-icon {
-    width:57px;
-    height:57px;
+    width:60px;
+    height:60px;
     display:grid;
     place-items:center;
     margin-bottom:20px;
     border-radius:17px;
     color:var(--card-accent);
-    background:color-mix(in srgb,var(--card-accent) 12%,transparent);
-    font-size:1.7rem;
-    transition:transform .3s;
+    background:color-mix(in srgb,var(--card-accent) 13%,transparent);
+    font-size:1.8rem;
+    transition:.35s;
 }
 
 .card:hover .card-icon {
-    transform:rotate(-6deg) scale(1.1);
+    transform:rotate(-8deg) scale(1.13);
+    box-shadow:0 0 25px color-mix(in srgb,var(--card-accent) 30%,transparent);
 }
 
 .card h3 {
@@ -279,30 +394,33 @@ button { font:inherit; }
     font-weight:800;
 }
 
-.image-card { --card-accent:#a78bfa; }
-.video-card { --card-accent:#34d399; }
+.card:nth-child(1) { --card-accent:#ff1744; }
+.image-card { --card-accent:#1677ff; }
+.video-card { --card-accent:#ff365e; }
+
+/* GESTURE CARD */
 
 .gesture-card {
-    --card-accent:#22d3ee;
-    border-color:rgba(34,211,238,.32);
+    --card-accent:#318dff;
+    border-color:rgba(22,119,255,.4);
     background:
-        radial-gradient(ellipse at 100% 0%,rgba(34,211,238,.13),transparent 55%),
-        radial-gradient(ellipse at 0% 100%,rgba(139,92,246,.12),transparent 60%),
+        radial-gradient(ellipse at 100% 0%,rgba(22,119,255,.16),transparent 55%),
+        radial-gradient(ellipse at 0% 100%,rgba(255,23,68,.12),transparent 60%),
         var(--surface);
 }
 
 .gesture-card:hover {
-    box-shadow:0 0 35px rgba(34,211,238,.12),0 20px 55px rgba(0,0,0,.2);
+    box-shadow:0 0 35px rgba(22,119,255,.2),
+               0 20px 55px rgba(0,0,0,.2);
 }
 
 .gesture-card .card-icon {
-    color:#67e8f9;
-    background:rgba(34,211,238,.13);
-    box-shadow:0 0 25px rgba(34,211,238,.12);
+    color:#60a5fa;
+    background:rgba(22,119,255,.15);
 }
 
 .gesture-card h3 {
-    background:linear-gradient(90deg,#67e8f9,#a78bfa);
+    background:linear-gradient(90deg,#60a5fa,#ff365e);
     -webkit-background-clip:text;
     background-clip:text;
     color:transparent;
@@ -314,7 +432,7 @@ button { font:inherit; }
     height:100px;
     right:25px;
     bottom:30px;
-    border:1px solid rgba(34,211,238,.22);
+    border:1px solid rgba(22,119,255,.35);
     border-radius:50%;
     opacity:.7;
     pointer-events:none;
@@ -325,24 +443,26 @@ button { font:inherit; }
     content:"";
     position:absolute;
     inset:12px;
-    border:1px solid rgba(167,139,250,.3);
+    border:1px solid rgba(255,23,68,.4);
     border-radius:50%;
 }
 
 .gesture-orb::after {
     inset:25px;
-    border-color:rgba(34,211,238,.45);
+    border-color:rgba(22,119,255,.5);
 }
 
 @keyframes orbitPulse {
     0%,100% { transform:scale(.92) rotate(0deg); opacity:.45; }
-    50% { transform:scale(1.08) rotate(35deg); opacity:.9; }
+    50% { transform:scale(1.1) rotate(35deg); opacity:1; }
 }
 
 html[dir="rtl"] .gesture-orb {
     right:auto;
     left:25px;
 }
+
+/* FOOTER */
 
 footer {
     padding:25px 20px;
@@ -353,10 +473,137 @@ footer {
     font-size:.88rem;
 }
 
-@keyframes fadeUp {
-    from { opacity:0; transform:translateY(18px); }
-    to { opacity:1; transform:translateY(0); }
+/* SMOKE INTRO */
+
+.smoke-intro {
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+    background:#030308;
+    animation:introDisappear 1s ease forwards;
+    animation-delay:4.5s;
+    pointer-events:none;
 }
+
+.smoke-title {
+    position:relative;
+    z-index:3;
+    font-size:clamp(3rem,10vw,8rem);
+    font-weight:800;
+    letter-spacing:-4px;
+    color:transparent;
+    background:linear-gradient(
+        110deg,
+        #fff,
+        #1677ff,
+        #ff1744,
+        #fff
+    );
+    background-size:300% 300%;
+    background-clip:text;
+    -webkit-background-clip:text;
+    opacity:0;
+    filter:blur(25px);
+    animation:
+        smokeTextReveal 2s ease forwards,
+        gradientMove 4s ease infinite;
+    animation-delay:1.2s,3s;
+}
+
+.smoke-layer {
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    filter:blur(35px);
+}
+
+.smoke-layer span {
+    position:absolute;
+    width:190px;
+    height:190px;
+    border-radius:50%;
+    background:radial-gradient(
+        circle,
+        rgba(22,119,255,.65),
+        rgba(255,23,68,.35),
+        transparent 70%
+    );
+    opacity:0;
+    animation:smokeMove 3.5s ease-in-out infinite;
+}
+
+.smoke-layer span:nth-child(1) { animation-delay:0s; }
+.smoke-layer span:nth-child(2) { animation-delay:.3s; transform:translateX(-150px); }
+.smoke-layer span:nth-child(3) { animation-delay:.6s; transform:translateX(150px); }
+.smoke-layer span:nth-child(4) { animation-delay:.9s; transform:translateY(-120px); }
+.smoke-layer span:nth-child(5) { animation-delay:1.2s; transform:translateY(120px); }
+.smoke-layer span:nth-child(6) { animation-delay:1.5s; }
+.smoke-layer span:nth-child(7) { animation-delay:1.8s; }
+.smoke-layer span:nth-child(8) { animation-delay:2.1s; }
+
+@keyframes smokeMove {
+    0% {
+        opacity:0;
+        scale:.4;
+        translate:0 100px;
+    }
+    40% {
+        opacity:.8;
+        scale:1.5;
+    }
+    100% {
+        opacity:0;
+        scale:2.5;
+        translate:0 -130px;
+    }
+}
+
+@keyframes smokeTextReveal {
+    0% {
+        opacity:0;
+        filter:blur(30px);
+        transform:scale(.7);
+    }
+    60% {
+        opacity:1;
+        filter:blur(4px);
+        transform:scale(1.08);
+    }
+    100% {
+        opacity:1;
+        filter:blur(0);
+        transform:scale(1);
+    }
+}
+
+@keyframes introDisappear {
+    to {
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+/* REVEAL */
+
+@keyframes revealInterface {
+    from {
+        opacity:0;
+        transform:translateY(35px);
+        filter:blur(8px);
+    }
+    to {
+        opacity:1;
+        transform:translateY(0);
+        filter:blur(0);
+    }
+}
+
+/* RESPONSIVE */
 
 @media(max-width:640px) {
     .navbar { padding:12px 4%; }
@@ -364,22 +611,59 @@ footer {
     .brand-icon { width:38px; height:38px; }
     .nav-actions { gap:6px; }
     .btn-ui { padding:8px 10px; font-size:.84rem; }
-    .hero { min-height:auto; padding:70px 18px 40px; }
-    .hero h1 { font-size:clamp(2.8rem,13vw,4rem); letter-spacing:-1.5px; }
-    .cta-group { flex-direction:column; width:100%; }
+
+    .hero {
+        min-height:auto;
+        padding:70px 18px 40px;
+    }
+
+    .hero h1 {
+        font-size:clamp(2.8rem,13vw,4rem);
+        letter-spacing:-1.5px;
+    }
+
+    .cta-group {
+        flex-direction:column;
+        width:100%;
+    }
+
     .btn-primary,.btn-secondary { width:100%; }
-    .features { grid-template-columns:1fr; padding:15px 18px 60px; }
+
+    .features {
+        grid-template-columns:1fr;
+        padding:15px 18px 60px;
+    }
+
     .card { min-height:190px; }
-    .gesture-orb { width:78px; height:78px; right:18px; bottom:25px; }
-    html[dir="rtl"] .gesture-orb { right:auto; left:18px; }
+
+    .gesture-orb {
+        width:78px;
+        height:78px;
+        right:18px;
+        bottom:25px;
+    }
+
+    html[dir="rtl"] .gesture-orb {
+        right:auto;
+        left:18px;
+    }
 }
+
+/* ACCESSIBILITY */
 
 @media(prefers-reduced-motion:reduce) {
     *,*::before,*::after {
         scroll-behavior:auto!important;
-        animation-duration:.01ms!important;
-        animation-iteration-count:1!important;
-        transition-duration:.01ms!important;
+        animation:none!important;
+        transition:none!important;
+    }
+
+    .smoke-intro { display:none; }
+
+    .navbar,.hero-content,.card {
+        opacity:1;
+        filter:none;
+        transform:none;
     }
 }
 </style>
@@ -387,126 +671,244 @@ footer {
 
 <body>
 
+<!-- BACKGROUND -->
 <div class="ambient glow-one"></div>
 <div class="ambient glow-two"></div>
 <div class="ambient glow-three"></div>
 
+<div class="particles">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- SMOKE INTRO -->
+<div class="smoke-intro" id="smokeIntro">
+    <div class="smoke-layer">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <h1 class="smoke-title">VideoYTFX</h1>
+</div>
+
+<!-- NAVBAR -->
 <nav class="navbar">
+
     <a href="index.html" class="brand" aria-label="VideoYTFX">
         <span class="brand-icon">V</span>
         <span>VideoYTFX</span>
     </a>
 
     <div class="nav-actions">
+
         <button class="btn-ui" id="languageBtn" onclick="toggleLanguage()">
             🌐 <span id="langLabel">العربية</span>
         </button>
-        <button class="btn-ui" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+
+        <button class="btn-ui" id="themeBtn"
+                onclick="toggleTheme()" aria-label="Toggle theme">
+            ☀️
+        </button>
+
     </div>
 </nav>
 
 <main>
+
+    <!-- HERO -->
     <section class="hero">
+
         <div class="hero-content">
+
             <h1>VideoYTFX</h1>
 
             <div class="cta-group">
-                <a class="btn-primary" href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
-                    ⬇️ <span data-en="Download" data-ar="تحميل">Download</span>
+
+                <a class="btn-primary"
+                   href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
+
+                    ⬇️
+                    <span data-en="Download" data-ar="تحميل">Download</span>
+
                 </a>
 
                 <a class="btn-secondary" href="gesture.html">
-                    ✦ <span data-en="Gesture AI" data-ar="Gesture AI">Gesture AI</span>
+
+                    ✦
+                    <span data-en="Gesture AI" data-ar="Gesture AI">Gesture AI</span>
+
                 </a>
+
             </div>
+
         </div>
+
     </section>
 
+    <!-- FEATURES -->
     <section class="features">
 
         <a href="downloads.html" class="card">
+
             <div class="card-icon">📥</div>
-            <h3 data-en="Downloads" data-ar="التحميلات">Downloads</h3>
+
+            <h3 data-en="Downloads" data-ar="التحميلات">
+                Downloads
+            </h3>
+
         </a>
 
         <a href="image.html" class="card image-card">
+
             <div class="card-icon">🖼️</div>
-            <h3 data-en="Image Studio" data-ar="استوديو الصور">Image Studio</h3>
+
+            <h3 data-en="Image Studio" data-ar="استوديو الصور">
+                Image Studio
+            </h3>
+
         </a>
 
         <a href="video.html" class="card video-card">
+
             <div class="card-icon">🎬</div>
-            <h3 data-en="Video Studio" data-ar="استوديو الفيديو">Video Studio</h3>
+
+            <h3 data-en="Video Studio" data-ar="استوديو الفيديو">
+                Video Studio
+            </h3>
+
         </a>
 
         <a href="gesture.html" class="card gesture-card">
+
             <div class="gesture-orb"></div>
+
             <div class="card-icon">✋</div>
+
             <h3>Gesture AI</h3>
+
         </a>
 
     </section>
+
 </main>
 
+<!-- FOOTER -->
 <footer>
     <span>© 2026 VideoYTFX</span>
 </footer>
 
 <script>
+
+/* LANGUAGE SYSTEM */
+
 function setLanguage(lang) {
+
     const selected = lang === "ar" ? "ar" : "en";
 
     document.documentElement.lang = selected;
-    document.documentElement.dir = selected === "ar" ? "rtl" : "ltr";
+
+    document.documentElement.dir =
+        selected === "ar" ? "rtl" : "ltr";
 
     document.getElementById("langLabel").textContent =
         selected === "en" ? "العربية" : "English";
 
     document.querySelectorAll("[data-en][data-ar]").forEach(element => {
+
         element.textContent = element.dataset[selected];
+
     });
 
     try {
         localStorage.setItem("app_lang", selected);
-    } catch (error) {}
+    } catch(error) {}
+
 }
 
 function toggleLanguage() {
+
     const current = document.documentElement.lang;
+
     setLanguage(current === "en" ? "ar" : "en");
+
 }
 
+/* THEME SYSTEM */
+
 function setTheme(theme) {
+
     const selected = theme === "light" ? "light" : "dark";
 
-    document.documentElement.setAttribute("data-theme", selected);
+    document.documentElement.setAttribute(
+        "data-theme",
+        selected
+    );
 
     document.getElementById("themeBtn").textContent =
         selected === "light" ? "🌙" : "☀️";
 
     document.querySelector('meta[name="theme-color"]').content =
-        selected === "light" ? "#f1f5f9" : "#030712";
+        selected === "light" ? "#f1f4fa" : "#030308";
 
     try {
         localStorage.setItem("app_theme", selected);
-    } catch (error) {}
+    } catch(error) {}
+
 }
 
 function toggleTheme() {
-    const current = document.documentElement.getAttribute("data-theme");
+
+    const current =
+        document.documentElement.getAttribute("data-theme");
+
     setTheme(current === "dark" ? "light" : "dark");
+
 }
+
+/* LOAD SAVED SETTINGS */
 
 function readPreference(key, fallback) {
+
     try {
         return localStorage.getItem(key) || fallback;
-    } catch (error) {
+    } catch(error) {
         return fallback;
     }
+
 }
 
+/* INITIALIZATION */
+
 setLanguage(readPreference("app_lang", "en"));
+
 setTheme(readPreference("app_theme", "dark"));
+
+/* INTRO CLEANUP */
+
+window.addEventListener("load", () => {
+
+    const intro = document.getElementById("smokeIntro");
+
+    setTimeout(() => {
+
+        if (intro) {
+            intro.remove();
+        }
+
+    }, 5600);
+
+});
+
 </script>
 
 </body>
