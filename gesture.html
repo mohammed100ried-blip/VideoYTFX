@@ -4,448 +4,576 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#030712">
+<meta name="theme-color" content="#020804">
 <title>Gesture AI | VideoYTFX</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
 
 <style>
 :root {
-  --bg:#030712;
-  --panel:rgba(15,23,42,.82);
-  --border:rgba(148,163,184,.17);
-  --text:#f8fafc;
-  --muted:#94a3b8;
-  --blue:#3b82f6;
-  --purple:#8b5cf6;
-  --cyan:#22d3ee;
-  --green:#34d399;
-  --red:#fb7185;
+ --bg:#020804;
+ --panel:rgba(7,22,13,.91);
+ --border:rgba(34,197,94,.19);
+ --text:#edfff1;
+ --muted:#86a993;
+ --green:#22c55e;
+ --neon:#39ff88;
+ --darkgreen:#064e27;
+ --glow:rgba(34,197,94,.25);
 }
 [data-theme="light"] {
-  --bg:#f1f5f9;
-  --panel:rgba(255,255,255,.9);
-  --border:rgba(15,23,42,.12);
-  --text:#0f172a;
-  --muted:#64748b;
+ --bg:#effcf3;
+ --panel:rgba(255,255,255,.94);
+ --border:rgba(22,163,74,.2);
+ --text:#092b16;
+ --muted:#54745f;
+ --green:#16a34a;
+ --neon:#00a844;
+ --darkgreen:#166534;
+ --glow:rgba(22,163,74,.12);
 }
-* { box-sizing:border-box;margin:0;padding:0; }
+* {box-sizing:border-box;margin:0;padding:0}
 body {
-  min-height:100vh;
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Tajawal',sans-serif;
-  line-height:1.6;
-  overflow-x:hidden;
-  transition:background .3s,color .3s;
+ background:var(--bg);
+ color:var(--text);
+ font-family:'Tajawal',sans-serif;
+ min-height:100vh;
+ overflow-x:hidden;
+ transition:.3s;
 }
-button { font:inherit;cursor:pointer; }
+button {font:inherit;cursor:pointer}
+button:disabled {opacity:.4;cursor:not-allowed}
+
+body::before {
+ content:"";
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ z-index:-2;
+ background-image:
+ linear-gradient(rgba(34,197,94,.035) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(34,197,94,.035) 1px,transparent 1px);
+ background-size:45px 45px;
+}
 .ambient {
-  position:fixed;width:380px;height:380px;border-radius:50%;
-  filter:blur(120px);opacity:.18;pointer-events:none;z-index:-1;
-  animation:glow 12s ease-in-out infinite alternate;
+ position:fixed;
+ width:400px;height:400px;
+ border-radius:50%;
+ filter:blur(130px);
+ opacity:.17;
+ pointer-events:none;
+ z-index:-1;
 }
-.glow-one { top:-180px;left:-100px;background:#2563eb; }
-.glow-two { right:-150px;bottom:-120px;background:#9333ea; }
-@keyframes glow { to { transform:translate(40px,30px) scale(1.15); } }
+.glow-one {top:-200px;left:-100px;background:#16a34a}
+.glow-two {bottom:-200px;right:-100px;background:#00ff77}
+
 .navbar {
-  position:sticky;top:0;z-index:20;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;padding:14px 5%;
-  border-bottom:1px solid var(--border);
-  background:var(--panel);backdrop-filter:blur(20px);
+ position:sticky;top:0;z-index:10;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:14px 5%;
+ background:var(--panel);
+ backdrop-filter:blur(20px);
+ border-bottom:1px solid var(--border);
+ gap:12px;
 }
 .brand {
-  display:flex;align-items:center;gap:10px;
-  color:var(--text);text-decoration:none;font-size:1.1rem;font-weight:800;
+ display:flex;align-items:center;gap:12px;
+ text-decoration:none;color:var(--text);
+ font-weight:800;font-size:1.1rem;
 }
 .brand-icon {
-  width:42px;height:42px;display:grid;place-items:center;
-  border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--purple));
-  color:white;font-size:22px;
+ width:42px;height:42px;
+ display:grid;place-items:center;
+ border-radius:13px;
+ background:linear-gradient(135deg,#064e27,#22c55e);
+ box-shadow:0 0 20px var(--glow);
+ font-size:22px;
 }
-.nav-actions { display:flex;gap:8px; }
+.brand span:last-child span {color:var(--neon)}
+.nav-actions {display:flex;gap:8px}
+
 .btn {
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:10px 14px;border:1px solid var(--border);
-  border-radius:12px;background:var(--panel);color:var(--text);
-  transition:.2s;
+ padding:10px 15px;
+ border:1px solid var(--border);
+ border-radius:11px;
+ background:var(--panel);
+ color:var(--text);
+ transition:.2s;
 }
-.btn:hover:not(:disabled) { transform:translateY(-2px);border-color:var(--blue); }
-.btn:disabled { opacity:.45;cursor:not-allowed; }
-.btn-primary { background:linear-gradient(120deg,var(--blue),var(--purple));color:white;border:0; }
-.btn-success { background:linear-gradient(120deg,#059669,#34d399);color:white;border:0; }
-.btn-danger { background:linear-gradient(120deg,#e11d48,#fb7185);color:white;border:0; }
-.hero { padding:40px 20px 26px;text-align:center;animation:up .7s both; }
+.btn:hover:not(:disabled) {
+ border-color:var(--neon);
+ box-shadow:0 0 15px var(--glow);
+ transform:translateY(-2px);
+}
+.btn-primary {
+ background:linear-gradient(120deg,#04752e,#22c55e);
+ border:0;color:white;
+ box-shadow:0 0 20px rgba(34,197,94,.13);
+}
+.btn-danger {
+ background:linear-gradient(120deg,#991b1b,#dc2626);
+ color:white;border:0;
+}
+
+.hero {
+ text-align:center;
+ padding:65px 15px 45px;
+}
 .eyebrow {
-  display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;
-  padding:6px 13px;border:1px solid rgba(34,211,238,.25);
-  border-radius:30px;background:rgba(34,211,238,.07);color:var(--cyan);
-  font-weight:800;font-size:.85rem;
+ display:inline-flex;align-items:center;gap:9px;
+ padding:7px 16px;
+ border:1px solid var(--border);
+ border-radius:30px;
+ color:var(--neon);
+ background:rgba(34,197,94,.06);
+ font-size:.85rem;font-weight:800;
 }
-.live-dot { width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green); }
+.live-dot {
+ width:8px;height:8px;
+ background:var(--neon);
+ border-radius:50%;
+ box-shadow:0 0 12px var(--neon);
+ animation:blink 1.2s infinite;
+}
+@keyframes blink {50%{opacity:.3}}
+
 .hero h1 {
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:clamp(2.5rem,7vw,4.5rem);line-height:1.15;
-  font-weight:800;letter-spacing:-2px;
-  background:linear-gradient(110deg,var(--text),#60a5fa,#c084fc);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
+ position:relative;
+ display:inline-block;
+ margin-top:24px;
+ font-family:'Orbitron',sans-serif;
+ font-size:clamp(2.8rem,8vw,5.8rem);
+ font-weight:900;
+ letter-spacing:-3px;
+ color:transparent;
+ background:linear-gradient(90deg,#9affb9,#19f56d,#d6ffe3,#22c55e);
+ background-size:250% auto;
+ background-clip:text;
+ -webkit-background-clip:text;
+ animation:electricReveal 2s ease-out both,greenFlow 5s linear infinite 2s;
+ filter:drop-shadow(0 0 17px rgba(34,255,115,.45));
 }
-.hero p { margin-top:12px;color:var(--muted);font-size:1.05rem; }
+.hero h1::after {
+ content:"";
+ position:absolute;
+ top:0;left:-10%;
+ width:120%;height:100%;
+ background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.9) 49%,transparent 55%);
+ animation:lightning 3s ease-in-out infinite 2s;
+ pointer-events:none;
+}
+@keyframes electricReveal {
+ 0% {opacity:0;clip-path:inset(0 100% 0 0);filter:brightness(5)}
+ 30% {opacity:1;filter:brightness(3)}
+ 70% {clip-path:inset(0 0 0 0);filter:brightness(1.8)}
+ 100% {opacity:1;clip-path:inset(0 0 0 0);filter:brightness(1)}
+}
+@keyframes greenFlow {
+ to {background-position:250% center}
+}
+@keyframes lightning {
+ 0%,65%,100% {transform:translateX(-120%);opacity:0}
+ 70% {opacity:1}
+ 82% {transform:translateX(120%);opacity:0}
+}
+.hero p {color:var(--muted);margin-top:16px;font-size:1.05rem}
+
 .workspace {
-  width:min(1250px,94%);margin:0 auto;padding-bottom:60px;
-  display:grid;grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);gap:20px;
+ width:min(1250px,94%);
+ margin:auto;
+ padding-bottom:55px;
+ display:grid;
+ grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);
+ gap:20px;
 }
+.column {min-width:0}
 .panel {
-  min-width:0;padding:22px;border:1px solid var(--border);
-  border-radius:20px;background:var(--panel);backdrop-filter:blur(18px);
-  box-shadow:0 15px 45px rgba(0,0,0,.08);animation:up .6s both;
+ min-width:0;
+ padding:21px;
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:18px;
+ box-shadow:0 12px 35px rgba(0,0,0,.1);
+ backdrop-filter:blur(15px);
+ margin-bottom:20px;
+ animation:appear .6s both;
+}
+@keyframes appear {
+ from {opacity:0;transform:translateY(15px)}
+ to {opacity:1;transform:translateY(0)}
 }
 .panel-head {
-  display:flex;justify-content:space-between;align-items:center;
-  gap:12px;margin-bottom:18px;
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;margin-bottom:18px;
 }
-.panel-head h2,.panel-head h3 { font-size:1.2rem;font-weight:800; }
-.muted { color:var(--muted);font-size:.88rem; }
+.panel-head h2,.panel-head h3 {font-size:1.15rem;font-weight:800}
+.muted {color:var(--muted);font-size:.85rem}
+
+.status {
+ padding:5px 12px;
+ border:1px solid var(--border);
+ border-radius:30px;
+ color:var(--muted);
+ font-size:.85rem;
+}
+.status.active {color:var(--neon);border-color:var(--green)}
+
 .camera-box {
-  position:relative;width:100%;overflow:hidden;aspect-ratio:4/3;
-  border:1px solid var(--border);border-radius:16px;
-  background:radial-gradient(circle,rgba(59,130,246,.12),transparent 55%),#050a16;
+ width:100%;aspect-ratio:4/3;
+ position:relative;overflow:hidden;
+ border-radius:15px;
+ background:#020804;
+ border:1px solid var(--border);
 }
 #cameraVideo,#outputCanvas {
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);
+ position:absolute;inset:0;
+ width:100%;height:100%;
+ object-fit:cover;
+ transform:scaleX(-1);
 }
-#outputCanvas { pointer-events:none; }
-.camera-placeholder {
-  position:absolute;inset:0;display:grid;place-items:center;
-  padding:20px;text-align:center;color:#cbd5e1;
+#outputCanvas {pointer-events:none}
+.placeholder {
+ position:absolute;inset:0;
+ display:grid;place-items:center;
+ text-align:center;color:#b8d9c1;
 }
-.camera-placeholder.hidden { display:none; }
-.camera-icon { font-size:3rem;margin-bottom:8px; }
-.camera-status { display:flex;justify-content:space-between;gap:10px;margin-top:13px;color:var(--muted);font-size:.9rem; }
-.status-pill {
-  display:inline-flex;align-items:center;gap:7px;padding:5px 10px;
-  border:1px solid var(--border);border-radius:30px;background:var(--panel);
+.placeholder.hidden {display:none}
+.placeholder .icon {font-size:4rem;margin-bottom:10px}
+.camera-info {
+ display:flex;justify-content:space-between;
+ gap:10px;margin-top:13px;
+ color:var(--muted);font-size:.87rem;
 }
-.status-pill.active { color:var(--green);border-color:rgba(52,211,153,.3); }
-.camera-controls { display:flex;flex-wrap:wrap;gap:10px;margin-top:16px; }
-.camera-controls .btn { flex:1; }
-.side-column { display:flex;flex-direction:column;gap:20px; }
-.gesture-display {
-  display:flex;align-items:center;gap:17px;padding:17px;
-  border:1px solid rgba(34,211,238,.2);border-radius:16px;
-  background:linear-gradient(130deg,rgba(34,211,238,.08),rgba(139,92,246,.08));
-}
-.gesture-emoji {
-  display:grid;place-items:center;flex-shrink:0;width:70px;height:70px;
-  border-radius:19px;background:rgba(34,211,238,.1);font-size:2.5rem;
-  animation:pulse 3s ease-in-out infinite;
-}
-.gesture-name { font-size:1.25rem;font-weight:800; }
-.gesture-desc { color:var(--muted);font-size:.9rem; }
-.settings { display:grid;gap:19px; }
-.setting label { display:block;margin-bottom:8px;font-weight:700; }
-.button-control { display:grid;grid-template-columns:1fr 1.2fr 1fr;align-items:center;gap:12px; }
-.button-control output { text-align:center;font-size:1.1rem;font-weight:800;color:var(--cyan); }
-.button-control .btn { min-height:43px;font-size:1.3rem; }
-.stat-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px; }
-.stat { padding:15px;border:1px solid var(--border);border-radius:15px;background:rgba(148,163,184,.04); }
-.stat-label { color:var(--muted);font-size:.88rem; }
-.stat-value { margin-top:5px;font-size:2rem;line-height:1.25;font-weight:800;color:var(--cyan);overflow-wrap:anywhere; }
-.stat-sub { margin-top:4px;color:var(--muted);font-size:.8rem; }
-.history { display:grid;gap:9px;margin-top:16px; }
-.history-item {
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:11px 13px;border:1px solid var(--border);border-radius:12px;
-  background:rgba(148,163,184,.035);
-}
-.history-item strong { color:var(--cyan);font-size:1.1rem; }
-.controls { display:flex;flex-wrap:wrap;gap:10px;margin-top:17px; }
-.controls .btn { flex:1; }
-.history-log { display:grid;gap:8px;margin-top:12px; }
-.log-item {
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:9px 11px;border-bottom:1px solid var(--border);font-size:.9rem;
-}
-.log-item span:last-child { color:var(--muted);direction:ltr;font-size:.8rem; }
-.empty-history { padding:16px 0;text-align:center;color:var(--muted); }
+.camera-actions {display:flex;gap:10px;margin-top:16px}
+.camera-actions button {flex:1}
 
-/* Click speed game */
-.speed-options { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px; }
-.speed-option {
-  position:relative;min-width:0;padding:13px 7px;text-align:center;
-  border:1px solid var(--border);border-radius:15px;
-  background:rgba(148,163,184,.04);color:var(--text);transition:.2s;
+.gesture-display {
+ display:flex;align-items:center;gap:17px;
+ padding:18px;
+ border:1px solid var(--border);
+ border-radius:15px;
+ background:linear-gradient(120deg,rgba(34,197,94,.1),rgba(0,0,0,.05));
 }
-.speed-option:hover { transform:translateY(-3px);border-color:var(--cyan); }
-.speed-option.selected {
-  border-color:var(--cyan);
-  background:linear-gradient(145deg,rgba(34,211,238,.15),rgba(139,92,246,.15));
-  box-shadow:0 0 20px rgba(34,211,238,.08);
+.gesture-icon {
+ width:72px;height:72px;flex-shrink:0;
+ display:grid;place-items:center;
+ background:rgba(34,197,94,.12);
+ border:1px solid var(--border);
+ border-radius:18px;
+ font-size:2.6rem;
 }
-.speed-animal { display:block;font-size:2.4rem;line-height:1.3;margin-bottom:5px; }
-.speed-title { display:block;font-weight:800;font-size:.92rem; }
-.speed-desc { display:block;color:var(--muted);font-size:.75rem; }
-.click-stats { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:16px 0; }
-.click-stat {
-  text-align:center;padding:12px 5px;border:1px solid var(--border);
-  border-radius:13px;background:rgba(148,163,184,.04);
+.gesture-name {font-size:1.35rem;font-weight:800;color:var(--neon)}
+.gesture-description {color:var(--muted);font-size:.9rem}
+
+.stats {
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
 }
-.click-stat span { display:block;color:var(--muted);font-size:.78rem; }
-.click-stat strong { display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;color:var(--cyan); }
-.click-arena {
-  position:relative;min-height:205px;overflow:hidden;display:grid;place-items:center;
-  border:1px solid rgba(34,211,238,.25);border-radius:18px;
-  background:radial-gradient(circle at 50% 50%,rgba(59,130,246,.2),transparent 65%),#070d1c;
-  isolation:isolate;touch-action:manipulation;user-select:none;
+.stat {
+ padding:16px;
+ border:1px solid var(--border);
+ border-radius:14px;
+ background:rgba(34,197,94,.035);
 }
-.click-arena::before {
-  content:"";position:absolute;inset:0;z-index:-1;opacity:.4;
-  background-image:linear-gradient(rgba(100,140,255,.12) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(100,140,255,.12) 1px,transparent 1px);
-  background-size:24px 24px;
+.stat-label {color:var(--muted);font-size:.85rem}
+.stat-value {
+ color:var(--neon);
+ font-family:'Orbitron',sans-serif;
+ font-size:1.9rem;
+ margin-top:8px;
+ overflow-wrap:anywhere;
 }
-.click-arena.running { cursor:crosshair; }
-.arena-content { text-align:center;padding:20px;pointer-events:none; }
-.arena-animal { font-size:4rem;display:block;filter:drop-shadow(0 0 18px rgba(34,211,238,.35)); }
-.arena-title { font-size:1.1rem;font-weight:800;margin-top:5px; }
-.arena-sub { color:var(--muted);font-size:.85rem; }
-.arena-target {
-  position:absolute;display:none;place-items:center;width:58px;height:58px;
-  border:2px solid rgba(255,255,255,.7);border-radius:50%;
-  background:linear-gradient(135deg,#3b82f6,#8b5cf6);
-  color:white;font-size:1.8rem;
-  box-shadow:0 0 25px rgba(59,130,246,.5);
-  transform:translate(-50%,-50%);
-  animation:targetPulse 1s ease-in-out infinite alternate;
-  touch-action:manipulation;
+
+.movement-list {display:grid;gap:9px}
+.movement {
+ display:flex;justify-content:space-between;
+ align-items:center;padding:12px 13px;
+ border:1px solid var(--border);
+ border-radius:11px;
+ background:rgba(34,197,94,.035);
 }
-.arena-target.show { display:grid; }
-.arena-target:active { transform:translate(-50%,-50%) scale(.9); }
-.click-progress { height:7px;background:rgba(148,163,184,.13);border-radius:20px;overflow:hidden;margin-top:14px; }
-.click-progress-bar { width:100%;height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:width .15s linear; }
-.click-actions { display:flex;gap:10px;margin-top:14px; }
-.click-actions .btn { flex:1; }
-.score-note { margin-top:12px;color:var(--muted);font-size:.82rem;text-align:center; }
+.movement strong {color:var(--neon);font-family:'Orbitron'}
+
+.settings {display:grid;gap:20px}
+.setting label {display:block;margin-bottom:9px;font-weight:700}
+.setting-row {
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ align-items:center;gap:12px;
+}
+input[type="range"] {
+ width:100%;accent-color:var(--green);
+}
+.output {
+ color:var(--neon);
+ font-family:'Orbitron';
+ text-align:left;
+}
+.history {display:grid;gap:8px}
+.history-item {
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;
+ padding:11px;
+ border-bottom:1px solid var(--border);
+ font-size:.9rem;
+}
+.history-item span:last-child {
+ color:var(--muted);direction:ltr;font-size:.8rem;
+}
+.empty {text-align:center;color:var(--muted);padding:15px}
+
+.actions {display:flex;gap:10px;margin-top:17px}
+.actions button {flex:1}
+
+.feature-grid {
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:10px;
+}
+.feature {
+ padding:13px 9px;
+ border:1px solid var(--border);
+ border-radius:12px;
+ text-align:center;
+ background:rgba(34,197,94,.035);
+}
+.feature-icon {font-size:1.7rem}
+.feature strong {display:block;margin-top:5px}
+.feature small {color:var(--muted)}
+
+footer {
+ padding:25px;
+ text-align:center;
+ border-top:1px solid var(--border);
+ color:var(--muted);
+ background:var(--panel);
+}
+
 .toast {
-  position:fixed;z-index:100;bottom:22px;left:50%;
-  transform:translate(-50%,20px);padding:12px 19px;
-  border:1px solid rgba(34,211,238,.3);border-radius:13px;
-  background:#0f172a;color:#f8fafc;box-shadow:0 12px 35px rgba(0,0,0,.3);
-  opacity:0;pointer-events:none;transition:.25s;
+ position:fixed;bottom:20px;left:50%;
+ transform:translate(-50%,20px);
+ opacity:0;pointer-events:none;
+ background:#052e16;color:#d1fae5;
+ padding:12px 20px;
+ border:1px solid #22c55e;
+ border-radius:12px;
+ z-index:100;
+ transition:.25s;
 }
-.toast.show { transform:translate(-50%,0);opacity:1; }
-footer { padding:25px 20px;border-top:1px solid var(--border);text-align:center;color:var(--muted);background:var(--panel); }
-@keyframes up { from { opacity:0;transform:translateY(14px); } to { opacity:1;transform:translateY(0); } }
-@keyframes pulse { 50% { transform:scale(1.06); } }
-@keyframes targetPulse { to { box-shadow:0 0 35px rgba(139,92,246,.8); } }
-@media(max-width:850px) { .workspace { grid-template-columns:1fr; } }
+.toast.show {opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:850px) {
+ .workspace {grid-template-columns:1fr}
+}
 @media(max-width:520px) {
-  .navbar { padding:12px 4%; }
-  .brand { font-size:.88rem; }
-  .brand-icon { width:36px;height:36px; }
-  .nav-actions .btn { padding:8px 9px;font-size:.8rem; }
-  .hero { padding-top:30px; }
-  .panel { padding:16px; }
-  .camera-controls { flex-direction:column; }
-  .stat-value { font-size:1.7rem; }
-  .speed-animal { font-size:2rem; }
-  .speed-title { font-size:.8rem; }
-  .speed-desc { font-size:.68rem; }
+ .navbar {padding:11px 4%}
+ .brand {font-size:.85rem}
+ .nav-actions button {padding:8px;font-size:.8rem}
+ .hero {padding:45px 10px 30px}
+ .panel {padding:15px}
+ .camera-actions {flex-direction:column}
+ .gesture-display {padding:12px}
+ .gesture-icon {width:58px;height:58px}
 }
 @media(prefers-reduced-motion:reduce) {
-  *,*::before,*::after { animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important; }
+ *,*::before,*::after {
+  animation-duration:.01ms!important;
+  transition-duration:.01ms!important;
+ }
 }
 </style>
 </head>
 
 <body>
+
 <div class="ambient glow-one"></div>
 <div class="ambient glow-two"></div>
 
 <nav class="navbar">
-  <a href="index.html" class="brand">
-    <span class="brand-icon">✋</span>
-    <span>VideoYTFX <span style="color:var(--cyan)">/ Gesture AI</span></span>
-  </a>
-  <div class="nav-actions">
-    <button class="btn" id="languageBtn" type="button">🌐 English</button>
-    <button class="btn" id="themeBtn" type="button">☀️</button>
-  </div>
+ <a href="index.html" class="brand">
+  <span class="brand-icon">✋</span>
+  <span>VideoYTFX <span>/ Gesture AI</span></span>
+ </a>
+ <div class="nav-actions">
+  <button class="btn" id="languageBtn">🌐 English</button>
+  <button class="btn" id="themeBtn">☀️</button>
+ </div>
 </nav>
 
 <header class="hero">
-  <div class="eyebrow"><span class="live-dot"></span><span data-ar="تتبّع اليد واختبار سرعة النقر" data-en="HAND TRACKING & CLICK SPEED">تتبّع اليد واختبار سرعة النقر</span></div>
-  <h1>Gesture AI</h1>
-  <p data-ar="حرّك يدك، اختبر سرعة النقر، واجمع أعلى نتيجة." data-en="Move your hand, test your click speed, and beat your high score.">حرّك يدك، اختبر سرعة النقر، واجمع أعلى نتيجة.</p>
+ <div class="eyebrow">
+  <span class="live-dot"></span>
+  <span data-ar="نظام الذكاء الاصطناعي لتتبّع اليد" data-en="AI HAND TRACKING SYSTEM">نظام الذكاء الاصطناعي لتتبّع اليد</span>
+ </div>
+
+ <h1>Gesture AI</h1>
+
+ <p data-ar="تحكم في العالم الرقمي باستخدام حركة يدك." data-en="Control your digital world using your hand movements.">
+ تحكم في العالم الرقمي باستخدام حركة يدك.
+ </p>
 </header>
 
 <main class="workspace">
-  <div class="main-column">
-    <section class="panel">
-      <div class="panel-head">
-        <h2 data-ar="كاميرا تتبّع اليد" data-en="Hand Tracking Camera">كاميرا تتبّع اليد</h2>
-        <span class="status-pill" id="statusPill"><span class="live-dot"></span><span id="statusText">متوقفة</span></span>
-      </div>
 
-      <div class="camera-box">
-        <video id="cameraVideo" autoplay playsinline muted></video>
-        <canvas id="outputCanvas"></canvas>
-        <div class="camera-placeholder" id="cameraPlaceholder">
-          <div><div class="camera-icon">✋</div><div data-ar="اضغط على تشغيل الكاميرا للبدء" data-en="Press Start Camera to begin">اضغط على تشغيل الكاميرا للبدء</div></div>
-        </div>
-      </div>
+<div class="column">
 
-      <div class="camera-status">
-        <span id="cameraMessage">الكاميرا غير مفعّلة</span>
-        <span id="handStatus">لم يتم اكتشاف يد</span>
-      </div>
+<section class="panel">
+ <div class="panel-head">
+  <h2 data-ar="كاميرا التتبّع المباشر" data-en="Live Tracking Camera">كاميرا التتبّع المباشر</h2>
+  <span class="status" id="status">● متوقفة</span>
+ </div>
 
-      <div class="camera-controls">
-        <button class="btn btn-primary" id="startCameraBtn" type="button">▶ تشغيل الكاميرا</button>
-        <button class="btn" id="stopCameraBtn" type="button" disabled>■ إيقاف الكاميرا</button>
-      </div>
-    </section>
+ <div class="camera-box">
+  <video id="cameraVideo" autoplay playsinline muted></video>
+  <canvas id="outputCanvas"></canvas>
 
-    <section class="panel" style="margin-top:20px">
-      <div class="panel-head"><h3 data-ar="آخر إيماءة مكتشفة" data-en="Last Detected Gesture">آخر إيماءة مكتشفة</h3></div>
-      <div class="gesture-display">
-        <div class="gesture-emoji" id="gestureEmoji">✋</div>
-        <div>
-          <div class="gesture-name" id="gestureName">بانتظار الحركة</div>
-          <div class="gesture-desc" id="gestureDesc">حرّك يدك يمينًا أو يسارًا أو للأعلى أو للأسفل.</div>
-        </div>
-      </div>
-    </section>
+  <div class="placeholder" id="placeholder">
+   <div>
+    <div class="icon">✋</div>
+    <p data-ar="اضغط على تشغيل الكاميرا للبدء" data-en="Start the camera to begin">اضغط على تشغيل الكاميرا للبدء</p>
+   </div>
+  </div>
+ </div>
 
-    <section class="panel" style="margin-top:20px">
-      <div class="panel-head">
-        <h3 data-ar="سجل الحركات" data-en="Gesture History">سجل الحركات</h3>
-        <span class="muted" data-ar="آخر 8 حركات" data-en="Last 8 movements">آخر 8 حركات</span>
-      </div>
-      <div class="history-log" id="historyLog"><div class="empty-history">لم يتم تسجيل أي حركة بعد.</div></div>
-    </section>
+ <div class="camera-info">
+  <span id="cameraMessage">الكاميرا غير مفعّلة</span>
+  <span id="handStatus">لا توجد يد</span>
+ </div>
+
+ <div class="camera-actions">
+  <button class="btn btn-primary" id="startBtn">▶ تشغيل الكاميرا</button>
+  <button class="btn" id="stopBtn" disabled>■ إيقاف الكاميرا</button>
+ </div>
+</section>
+
+<section class="panel">
+ <div class="panel-head">
+  <h3 data-ar="الحركة المكتشفة" data-en="Detected Movement">الحركة المكتشفة</h3>
+  <span class="muted">LIVE AI</span>
+ </div>
+
+ <div class="gesture-display">
+  <div class="gesture-icon" id="gestureEmoji">✋</div>
+  <div>
+   <div class="gesture-name" id="gestureName">بانتظار الحركة</div>
+   <div class="gesture-description" id="gestureDesc">ضع يدك أمام الكاميرا.</div>
+  </div>
+ </div>
+</section>
+
+<section class="panel">
+ <div class="panel-head">
+  <h3 data-ar="سجل الحركات" data-en="Movement History">سجل الحركات</h3>
+  <span class="muted">LAST 10</span>
+ </div>
+ <div class="history" id="history">
+  <div class="empty">لا توجد حركات حتى الآن.</div>
+ </div>
+</section>
+
+</div>
+
+<aside class="column">
+
+<section class="panel">
+ <div class="panel-head">
+  <h3 data-ar="إعدادات التتبّع" data-en="Tracking Settings">إعدادات التتبّع</h3>
+ </div>
+
+ <div class="settings">
+  <div class="setting">
+   <label data-ar="حساسية الحركة" data-en="Movement Sensitivity">حساسية الحركة</label>
+   <div class="setting-row">
+    <input type="range" id="sensitivity" min="5" max="25" value="12">
+    <output class="output" id="sensitivityOut">0.12</output>
+   </div>
   </div>
 
-  <aside class="side-column">
-    <section class="panel">
-      <div class="panel-head"><h3 data-ar="إعدادات التتبّع" data-en="Tracking Settings">إعدادات التتبّع</h3></div>
-      <div class="settings">
-        <div class="setting">
-          <label data-ar="مسافة الحركة المطلوبة" data-en="Movement Threshold">مسافة الحركة المطلوبة</label>
-          <div class="button-control">
-            <button class="btn" id="thresholdMinus" type="button">−</button>
-            <output id="thresholdOut">0.10</output>
-            <button class="btn" id="thresholdPlus" type="button">+</button>
-          </div>
-        </div>
-        <div class="setting">
-          <label data-ar="تنعيم الحركة" data-en="Movement Smoothing">تنعيم الحركة</label>
-          <div class="button-control">
-            <button class="btn" id="smoothMinus" type="button">−</button>
-            <output id="smoothOut">متوسط</output>
-            <button class="btn" id="smoothPlus" type="button">+</button>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="setting">
+   <label data-ar="تنعيم الحركة" data-en="Movement Smoothing">تنعيم الحركة</label>
+   <div class="setting-row">
+    <input type="range" id="smoothing" min="1" max="8" value="4">
+    <output class="output" id="smoothingOut">4</output>
+   </div>
+  </div>
+ </div>
+</section>
 
-    <section class="panel">
-      <div class="panel-head">
-        <h3 data-ar="إحصاءات التتبّع" data-en="Tracking Statistics">إحصاءات التتبّع</h3>
-        <span class="muted" data-ar="الجلسة الحالية" data-en="Current session">الجلسة الحالية</span>
-      </div>
-      <div class="stat-grid">
-        <div class="stat">
-          <div class="stat-label" data-ar="إجمالي الحركات" data-en="Total Gestures">إجمالي الحركات</div>
-          <div class="stat-value" id="total">0</div>
-          <div class="stat-sub" data-ar="الحركات المكتشفة" data-en="Detected movements">الحركات المكتشفة</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label" data-ar="آخر اتجاه" data-en="Last Direction">آخر اتجاه</div>
-          <div class="stat-value" id="lastDirection">—</div>
-          <div class="stat-sub" data-ar="آخر حركة مسجلة" data-en="Last movement">آخر حركة مسجلة</div>
-        </div>
-      </div>
-      <div class="history">
-        <div class="history-item"><span>👉 <span data-ar="اليمين" data-en="Right">اليمين</span></span><strong id="countRight">0</strong></div>
-        <div class="history-item"><span>👈 <span data-ar="اليسار" data-en="Left">اليسار</span></span><strong id="countLeft">0</strong></div>
-        <div class="history-item"><span>👆 <span data-ar="الأعلى" data-en="Up">الأعلى</span></span><strong id="countUp">0</strong></div>
-        <div class="history-item"><span>👇 <span data-ar="الأسفل" data-en="Down">الأسفل</span></span><strong id="countDown">0</strong></div>
-      </div>
-      <div class="controls">
-        <button class="btn btn-success" id="saveBtn" type="button">💾 حفظ الإحصاءات</button>
-        <button class="btn btn-danger" id="resetBtn" type="button">↻ تصفير الإحصاءات</button>
-      </div>
-    </section>
+<section class="panel">
+ <div class="panel-head">
+  <h3 data-ar="إحصائيات النظام" data-en="System Statistics">إحصائيات النظام</h3>
+ </div>
 
-    <section class="panel" id="clickGame">
-      <div class="panel-head">
-        <h3 data-ar="سرعة الماوس والكلكات" data-en="Mouse Click Speed">سرعة الماوس والكلكات</h3>
-        <span class="muted" data-ar="اختبار السرعة" data-en="Speed test">اختبار السرعة</span>
-      </div>
+ <div class="stats">
+  <div class="stat">
+   <div class="stat-label" data-ar="إجمالي الحركات" data-en="Total Movements">إجمالي الحركات</div>
+   <div class="stat-value" id="total">0</div>
+  </div>
+  <div class="stat">
+   <div class="stat-label" data-ar="آخر حركة" data-en="Last Movement">آخر حركة</div>
+   <div class="stat-value" id="last">—</div>
+  </div>
+ </div>
+</section>
 
-      <div class="setting">
-        <label data-ar="اختر سرعة التحدي" data-en="Choose challenge speed">اختر سرعة التحدي</label>
-        <div class="speed-options">
-          <button class="speed-option" data-speed="slow" type="button">
-            <span class="speed-animal">🐢</span>
-            <span class="speed-title" data-ar="بطيء" data-en="Slow">بطيء</span>
-            <span class="speed-desc" data-ar="20 ثانية" data-en="20 seconds">20 ثانية</span>
-          </button>
-          <button class="speed-option selected" data-speed="normal" type="button">
-            <span class="speed-animal">🐇</span>
-            <span class="speed-title" data-ar="متوسط" data-en="Medium">متوسط</span>
-            <span class="speed-desc" data-ar="15 ثانية" data-en="15 seconds">15 ثانية</span>
-          </button>
-          <button class="speed-option" data-speed="fast" type="button">
-            <span class="speed-animal">🐆</span>
-            <span class="speed-title" data-ar="سريع" data-en="Fast">سريع</span>
-            <span class="speed-desc" data-ar="10 ثوانٍ" data-en="10 seconds">10 ثوانٍ</span>
-          </button>
-        </div>
-      </div>
+<section class="panel">
+ <div class="panel-head">
+  <h3 data-ar="أنواع الحركات" data-en="Gesture Types">أنواع الحركات</h3>
+ </div>
 
-      <div class="click-stats">
-        <div class="click-stat">
-          <span data-ar="السكور" data-en="Score">السكور</span>
-          <strong id="clickScore">0</strong>
-        </div>
-        <div class="click-stat">
-          <span data-ar="كلكات" data-en="Clicks">كلكات</span>
-          <strong id="clickCount">0</strong>
-        </div>
-        <div class="click-stat">
-          <span data-ar="كلكات/ث" data-en="Clicks/sec">كلكات/ث</span>
-          <strong id="clickCps">0.0</strong>
-        </div>
-      </div>
+ <div class="movement-list">
+  <div class="movement"><span>👉 <span data-ar="يمين" data-en="Right">يمين</span></span><strong id="right">0</strong></div>
+  <div class="movement"><span>👈 <span data-ar="يسار" data-en="Left">يسار</span></span><strong id="left">0</strong></div>
+  <div class="movement"><span>👆 <span data-ar="أعلى" data-en="Up">أعلى</span></span><strong id="up">0</strong></div>
+  <div class="movement"><span>👇 <span data-ar="أسفل" data-en="Down">أسفل</span></span><strong id="down">0</strong></div>
+  <div class="movement"><span>🖐️ <span data-ar="يد مفتوحة" data-en="Open Palm">يد مفتوحة</span></span><strong id="palm">0</strong></div>
+  <div class="movement"><span>✊ <span data-ar="قبضة" data-en="Fist">قبضة</span></span><strong id="fist">0</strong></div>
+  <div class="movement"><span>👌 <span data-ar="قرص الأصابع" data-en="Pinch">قرص الأصابع</span></span><strong id="pinch">0</strong></div>
+ </div>
 
-      <div class="click-arena" id="clickArena">
-        <div class="arena-content" id="arenaContent">
-          <span class="arena-animal" id="arenaAnimal">🐇</span>
-          <div class="arena-title" id="arenaTitle">جاهز للتحدي؟</div>
-          <div class="arena-sub" id="arenaSub">اضغط ابدأ ثم انقر بأسرع ما تستطيع!</div>
-        </div>
-        <button class="arena-target" id="arenaTarget" type="button" aria-label="Click target">⚡</button>
-      </div>
+ <div class="actions">
+  <button class="btn btn-primary" id="saveBtn">💾 حفظ</button>
+  <button class="btn btn-danger" id="resetBtn">↻ تصفير</button>
+ </div>
+</section>
 
-      <div class="click-progress"><div class="click-progress-bar" id="clickProgress"></div></div>
+<section class="panel">
+ <div class="panel-head">
+  <h3 data-ar="قدرات النظام" data-en="System Features">قدرات النظام</h3>
+ </div>
 
-      <div class="click-actions">
-        <button class="btn btn-primary" id="startClickBtn" type="button">▶ ابدأ التحدي</button>
-        <button class="btn" id="resetClickBtn" type="button">↻ إعادة</button>
-      </div>
+ <div class="feature-grid">
+  <div class="feature">
+   <div class="feature-icon">👋</div>
+   <strong data-ar="تتبّع اليد" data-en="Hand Tracking">تتبّع اليد</strong>
+   <small>AI Detection</small>
+  </div>
+  <div class="feature">
+   <div class="feature-icon">⚡</div>
+   <strong data-ar="الحركة المباشرة" data-en="Live Motion">الحركة المباشرة</strong>
+   <small>Motion AI</small>
+  </div>
+  <div class="feature">
+   <div class="feature-icon">🧠</div>
+   <strong data-ar="التعرّف على الإيماءات" data-en="Gesture Recognition">التعرّف على الإيماءات</strong>
+   <small>MediaPipe</small>
+  </div>
+  <div class="feature">
+   <div class="feature-icon">📊</div>
+   <strong data-ar="تحليل الحركات" data-en="Movement Analytics">تحليل الحركات</strong>
+   <small>Statistics</small>
+  </div>
+ </div>
+</section>
 
-      <div class="score-note" id="bestScoreLabel">🏆 أفضل نتيجة: 0</div>
-    </section>
-  </aside>
+</aside>
 </main>
 
 <footer>© 2026 VideoYTFX · Gesture AI</footer>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="toast" id="toast"></div>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -457,549 +585,472 @@ let running = false;
 let processing = false;
 let animationFrame = null;
 
-let thresholdValue = 0.10;
-let smoothValue = 3;
-let total = 0;
-let lastGestureAt = 0;
-let previousWrist = null;
-let movementSamples = [];
-const cooldownMs = 650;
+let threshold = 0.12;
+let smoothValue = 4;
+let samples = [];
+let anchor = null;
+let lastMovement = 0;
+let lastStaticGesture = "";
+let lastStaticTime = 0;
 
-const gestureCounts = { right:0, left:0, up:0, down:0 };
+let total = 0;
 let historyItems = [];
 
-const gestures = {
-  right:{ emoji:"👉", name:"اليمين", nameEn:"Right" },
-  left:{ emoji:"👈", name:"اليسار", nameEn:"Left" },
-  up:{ emoji:"👆", name:"الأعلى", nameEn:"Up" },
-  down:{ emoji:"👇", name:"الأسفل", nameEn:"Down" }
+const counts = {
+ right:0,left:0,up:0,down:0,
+ palm:0,fist:0,pinch:0
 };
 
-function toast(message) {
-  $("toast").textContent = message;
-  $("toast").classList.add("show");
-  clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => $("toast").classList.remove("show"),2500);
+const gestures = {
+ right:{emoji:"👉",ar:"يمين",en:"Right"},
+ left:{emoji:"👈",ar:"يسار",en:"Left"},
+ up:{emoji:"👆",ar:"أعلى",en:"Up"},
+ down:{emoji:"👇",ar:"أسفل",en:"Down"},
+ palm:{emoji:"🖐️",ar:"يد مفتوحة",en:"Open Palm"},
+ fist:{emoji:"✊",ar:"قبضة اليد",en:"Fist"},
+ pinch:{emoji:"👌",ar:"قرص الأصابع",en:"Pinch"}
+};
+
+function notify(message) {
+ $("toast").textContent = message;
+ $("toast").classList.add("show");
+ clearTimeout(notify.timer);
+ notify.timer = setTimeout(()=>$("toast").classList.remove("show"),2500);
 }
 
-function updateThreshold() {
-  thresholdValue = Math.max(.04,Math.min(.25,Math.round(thresholdValue*100)/100));
-  $("thresholdOut").textContent = thresholdValue.toFixed(2);
-}
-function updateSmooth() {
-  smoothValue = Math.max(1,Math.min(6,smoothValue));
-  $("smoothOut").textContent = language === "ar"
-    ? smoothValue <= 2 ? "خفيف" : smoothValue >= 5 ? "قوي" : "متوسط"
-    : smoothValue <= 2 ? "Low" : smoothValue >= 5 ? "High" : "Medium";
-}
-$("thresholdMinus").onclick = () => { thresholdValue -= .01;updateThreshold(); };
-$("thresholdPlus").onclick = () => { thresholdValue += .01;updateThreshold(); };
-$("smoothMinus").onclick = () => { smoothValue--;updateSmooth(); };
-$("smoothPlus").onclick = () => { smoothValue++;updateSmooth(); };
-
-function setStatus(active,message) {
-  $("statusText").textContent = message;
-  $("statusPill").classList.toggle("active",active);
-  $("startCameraBtn").disabled = active;
-  $("stopCameraBtn").disabled = !active;
-}
 function updateCounts() {
-  $("total").textContent = total;
-  $("countRight").textContent = gestureCounts.right;
-  $("countLeft").textContent = gestureCounts.left;
-  $("countUp").textContent = gestureCounts.up;
-  $("countDown").textContent = gestureCounts.down;
+ $("total").textContent = total;
+
+ Object.keys(counts).forEach(key=>{
+  $(key).textContent = counts[key];
+ });
 }
+
 function renderHistory() {
-  const container = $("historyLog");
-  container.replaceChildren();
+ const container = $("history");
+ container.replaceChildren();
 
-  if (!historyItems.length) {
-    const empty = document.createElement("div");
-    empty.className = "empty-history";
-    empty.textContent = language === "ar" ? "لم يتم تسجيل أي حركة بعد." : "No gestures recorded yet.";
-    container.appendChild(empty);
-    return;
-  }
+ if(!historyItems.length) {
+  const empty = document.createElement("div");
+  empty.className = "empty";
+  empty.textContent = language==="ar"?"لا توجد حركات حتى الآن.":"No movements yet.";
+  container.appendChild(empty);
+  return;
+ }
 
-  historyItems.forEach(item => {
-    const row = document.createElement("div");
-    row.className = "log-item";
-    const name = document.createElement("span");
-    name.textContent = `${item.emoji} ${language === "ar" ? item.name : item.nameEn}`;
-    const time = document.createElement("span");
-    time.textContent = item.time;
-    row.append(name,time);
-    container.appendChild(row);
-  });
-}
-function triggerGesture(direction) {
-  const now = performance.now();
-  if (now-lastGestureAt < cooldownMs) return;
+ historyItems.forEach(item=>{
+  const row = document.createElement("div");
+  row.className = "history-item";
 
-  const gesture = gestures[direction];
-  if (!gesture) return;
+  const name = document.createElement("span");
+  name.textContent = item.emoji+" "+(language==="ar"?item.ar:item.en);
 
-  lastGestureAt = now;
-  total++;
-  gestureCounts[direction]++;
+  const time = document.createElement("span");
+  time.textContent = item.time;
 
-  $("gestureEmoji").textContent = gesture.emoji;
-  $("gestureName").textContent = language === "ar" ? gesture.name : gesture.nameEn;
-  $("gestureDesc").textContent = language === "ar"
-    ? `تم اكتشاف حركة ${gesture.name}.`
-    : `${gesture.nameEn} movement detected.`;
-  $("lastDirection").textContent = gesture.emoji;
-
-  historyItems.unshift({
-    emoji:gesture.emoji,
-    name:gesture.name,
-    nameEn:gesture.nameEn,
-    time:new Date().toLocaleTimeString(language === "ar" ? "ar" : "en", {
-      hour:"2-digit",minute:"2-digit",second:"2-digit"
-    })
-  });
-
-  historyItems = historyItems.slice(0,8);
-  updateCounts();
-  renderHistory();
+  row.append(name,time);
+  container.appendChild(row);
+ });
 }
 
-function drawHandResults(results) {
-  const canvas = $("outputCanvas");
-  const ctx = canvas.getContext("2d");
-  const video = $("cameraVideo");
+function registerGesture(key) {
+ const now = performance.now();
+ const gesture = gestures[key];
 
-  if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
-    canvas.width = video.videoWidth || 640;
-    canvas.height = video.videoHeight || 480;
-  }
+ if(!gesture) return;
 
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  const hand = results.multiHandLandmarks && results.multiHandLandmarks[0];
+ total++;
+ counts[key]++;
 
-  if (!hand) {
-    previousWrist = null;
-    movementSamples = [];
-    $("handStatus").textContent = language === "ar" ? "لم يتم اكتشاف يد" : "No hand detected";
-    return;
-  }
+ $("gestureEmoji").textContent = gesture.emoji;
+ $("gestureName").textContent = language==="ar"?gesture.ar:gesture.en;
+ $("gestureDesc").textContent = language==="ar"
+  ?"تم اكتشاف الإيماءة بنجاح."
+  :"Gesture detected successfully.";
 
-  $("handStatus").textContent = language === "ar" ? "✋ تم اكتشاف اليد" : "✋ Hand detected";
-  drawConnections(ctx,hand,canvas.width,canvas.height);
+ $("last").textContent = gesture.emoji;
 
-  const wrist = hand[0];
+ historyItems.unshift({
+  emoji:gesture.emoji,
+  ar:gesture.ar,
+  en:gesture.en,
+  time:new Date().toLocaleTimeString(language==="ar"?"ar":"en")
+ });
 
-  if (previousWrist) {
-    movementSamples.push({dx:wrist.x-previousWrist.x,dy:wrist.y-previousWrist.y});
-    movementSamples = movementSamples.slice(-smoothValue);
+ historyItems = historyItems.slice(0,10);
 
-    const avg = movementSamples.reduce((acc,sample) => ({
-      dx:acc.dx+sample.dx/movementSamples.length,
-      dy:acc.dy+sample.dy/movementSamples.length
-    }),{dx:0,dy:0});
-
-    if (Math.max(Math.abs(avg.dx),Math.abs(avg.dy)) > thresholdValue*.13) {
-      if (Math.abs(avg.dx) > Math.abs(avg.dy)) {
-        triggerGesture(avg.dx < 0 ? "right" : "left");
-      } else {
-        triggerGesture(avg.dy < 0 ? "up" : "down");
-      }
-    }
-  }
-  previousWrist = {x:wrist.x,y:wrist.y};
+ updateCounts();
+ renderHistory();
 }
 
 function drawConnections(ctx,landmarks,width,height) {
-  const connections = [
-    [0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],
-    [5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],
-    [13,17],[17,18],[18,19],[19,20],[0,17]
-  ];
-  ctx.lineWidth = Math.max(2,width/320);
-  ctx.strokeStyle = "#22d3ee";
-  ctx.fillStyle = "#a78bfa";
+ const connections = [
+  [0,1],[1,2],[2,3],[3,4],
+  [0,5],[5,6],[6,7],[7,8],
+  [5,9],[9,10],[10,11],[11,12],
+  [9,13],[13,14],[14,15],[15,16],
+  [13,17],[17,18],[18,19],[19,20],[0,17]
+ ];
 
-  connections.forEach(([a,b]) => {
-    ctx.beginPath();
-    ctx.moveTo(landmarks[a].x*width,landmarks[a].y*height);
-    ctx.lineTo(landmarks[b].x*width,landmarks[b].y*height);
-    ctx.stroke();
-  });
+ ctx.strokeStyle="#39ff88";
+ ctx.fillStyle="#b5ffd0";
+ ctx.lineWidth=Math.max(2,width/320);
 
-  landmarks.forEach(point => {
-    ctx.beginPath();
-    ctx.arc(point.x*width,point.y*height,Math.max(3,width/180),0,Math.PI*2);
-    ctx.fill();
-  });
+ connections.forEach(([a,b])=>{
+  ctx.beginPath();
+  ctx.moveTo(landmarks[a].x*width,landmarks[a].y*height);
+  ctx.lineTo(landmarks[b].x*width,landmarks[b].y*height);
+  ctx.stroke();
+ });
+
+ landmarks.forEach(point=>{
+  ctx.beginPath();
+  ctx.arc(point.x*width,point.y*height,Math.max(3,width/180),0,Math.PI*2);
+  ctx.fill();
+ });
+}
+
+function detectStaticGesture(hand) {
+ const distance = (a,b)=>{
+  return Math.hypot(hand[a].x-hand[b].x,hand[a].y-hand[b].y);
+ };
+
+ const pinch = distance(4,8)<0.055;
+
+ if(pinch) return "pinch";
+
+ // Compare fingertip height with its lower joint.
+ const extended = [
+  hand[8].y<hand[6].y,
+  hand[12].y<hand[10].y,
+  hand[16].y<hand[14].y,
+  hand[20].y<hand[18].y
+ ];
+
+ const number = extended.filter(Boolean).length;
+
+ if(number>=4) return "palm";
+ if(number===0 && !pinch) return "fist";
+
+ return null;
+}
+
+function detectMovement(hand) {
+ const wrist = {x:hand[0].x,y:hand[0].y};
+
+ if(!anchor) {
+  anchor = wrist;
+  return;
+ }
+
+ samples.push({
+  dx:wrist.x-anchor.x,
+  dy:wrist.y-anchor.y
+ });
+
+ samples = samples.slice(-smoothValue);
+
+ const avg = samples.reduce((result,item)=>({
+  dx:result.dx+item.dx/samples.length,
+  dy:result.dy+item.dy/samples.length
+ }),{dx:0,dy:0});
+
+ const distance = Math.max(Math.abs(avg.dx),Math.abs(avg.dy));
+
+ if(distance>=threshold && performance.now()-lastMovement>700) {
+  const direction = Math.abs(avg.dx)>Math.abs(avg.dy)
+   ? (avg.dx<0?"right":"left")
+   : (avg.dy<0?"up":"down");
+
+  registerGesture(direction);
+
+  lastMovement = performance.now();
+  anchor = wrist;
+  samples = [];
+ }
+}
+
+function drawResults(results) {
+ const video = $("cameraVideo");
+ const canvas = $("outputCanvas");
+ const ctx = canvas.getContext("2d");
+
+ if(canvas.width!==video.videoWidth || canvas.height!==video.videoHeight) {
+  canvas.width=video.videoWidth||640;
+  canvas.height=video.videoHeight||480;
+ }
+
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ const hand = results.multiHandLandmarks?.[0];
+
+ if(!hand) {
+  anchor=null;
+  samples=[];
+  lastStaticGesture="";
+  $("handStatus").textContent=language==="ar"?"لا توجد يد":"No hand detected";
+  return;
+ }
+
+ $("handStatus").textContent=language==="ar"?"✋ تم اكتشاف اليد":"✋ Hand detected";
+
+ drawConnections(ctx,hand,canvas.width,canvas.height);
+
+ detectMovement(hand);
+
+ const staticGesture = detectStaticGesture(hand);
+ const now = performance.now();
+
+ if(staticGesture) {
+  if(staticGesture!==lastStaticGesture && now-lastStaticTime>650) {
+   registerGesture(staticGesture);
+   lastStaticTime=now;
+  }
+  lastStaticGesture=staticGesture;
+ } else {
+  lastStaticGesture="";
+ }
 }
 
 async function startCamera() {
-  if (running) return;
+ if(running) return;
 
-  if (typeof Hands === "undefined") {
-    toast(language === "ar" ? "تعذّر تحميل مكتبة تتبّع اليد." : "Could not load hand tracking.");
-    return;
-  }
+ if(typeof Hands==="undefined") {
+  notify(language==="ar"?"فشل تحميل مكتبة MediaPipe. تحقق من الإنترنت.":"MediaPipe failed to load.");
+  return;
+ }
 
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    toast(language === "ar" ? "افتح الصفحة عبر HTTPS أو localhost لتشغيل الكاميرا." : "Use HTTPS or localhost to access the camera.");
-    return;
-  }
+ if(!navigator.mediaDevices?.getUserMedia) {
+  notify(language==="ar"?"يجب فتح الموقع باستخدام HTTPS أو localhost.":"HTTPS or localhost is required.");
+  return;
+ }
 
-  try {
-    setStatus(false,language === "ar" ? "جارٍ التشغيل..." : "Starting...");
-    $("cameraMessage").textContent = language === "ar" ? "جارٍ طلب إذن الكاميرا..." : "Requesting camera permission...";
+ try {
+  $("startBtn").disabled=true;
+  $("cameraMessage").textContent=language==="ar"?"جارٍ تشغيل الكاميرا...":"Starting camera...";
 
-    cameraStream = await navigator.mediaDevices.getUserMedia({
-      video:{facingMode:"user",width:{ideal:640},height:{ideal:480}},
-      audio:false
-    });
+  cameraStream=await navigator.mediaDevices.getUserMedia({
+   video:{
+    facingMode:"user",
+    width:{ideal:640},
+    height:{ideal:480}
+   },
+   audio:false
+  });
 
-    const video = $("cameraVideo");
-    video.srcObject = cameraStream;
-    await video.play();
+  const video=$("cameraVideo");
+  video.srcObject=cameraStream;
+  await video.play();
 
-    hands = new Hands({
-      locateFile:file => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
-    });
-    hands.setOptions({
-      maxNumHands:1,
-      modelComplexity:1,
-      minDetectionConfidence:.65,
-      minTrackingConfidence:.6
-    });
-    hands.onResults(drawHandResults);
+  hands=new Hands({
+   locateFile:file=>`https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+  });
 
-    running = true;
-    processing = false;
-    previousWrist = null;
-    movementSamples = [];
-    $("cameraPlaceholder").classList.add("hidden");
-    $("cameraMessage").textContent = language === "ar" ? "الكاميرا تعمل" : "Camera is running";
-    setStatus(true,language === "ar" ? "نشطة" : "Active");
-    processVideoFrame();
-  } catch(error) {
-    console.error(error);
-    stopCamera();
-    const message = error.name === "NotAllowedError"
-      ? (language === "ar" ? "يرجى السماح باستخدام الكاميرا." : "Please allow camera access.")
-      : (language === "ar" ? "تعذّر تشغيل الكاميرا." : "Could not start camera.");
-    $("cameraMessage").textContent = message;
-    toast(message);
-  }
+  hands.setOptions({
+   maxNumHands:1,
+   modelComplexity:1,
+   minDetectionConfidence:.7,
+   minTrackingConfidence:.65
+  });
+
+  hands.onResults(drawResults);
+
+  running=true;
+  processing=false;
+  anchor=null;
+  samples=[];
+
+  $("placeholder").classList.add("hidden");
+  $("cameraMessage").textContent=language==="ar"?"الكاميرا تعمل":"Camera running";
+  $("status").textContent=language==="ar"?"● نشطة":"● Active";
+  $("status").classList.add("active");
+  $("stopBtn").disabled=false;
+
+  processFrames();
+
+ } catch(error) {
+  console.error(error);
+  stopCamera();
+
+  const message=error.name==="NotAllowedError"
+   ? (language==="ar"?"يرجى السماح باستخدام الكاميرا.":"Allow camera access.")
+   : (language==="ar"?"تعذر تشغيل الكاميرا.":"Could not start camera.");
+
+  $("cameraMessage").textContent=message;
+  notify(message);
+ }
 }
 
-async function processVideoFrame() {
-  if (!running) return;
-  const video = $("cameraVideo");
+async function processFrames() {
+ if(!running) return;
 
-  if (hands && video.readyState >= 2 && !processing) {
-    processing = true;
-    try { await hands.send({image:video}); }
-    catch(error) { console.error("Tracking error:",error); }
-    finally { processing = false; }
+ const video=$("cameraVideo");
+
+ if(hands && video.readyState>=2 && !processing) {
+  processing=true;
+
+  try {
+   await hands.send({image:video});
+  } catch(error) {
+   console.error("Tracking error:",error);
+  } finally {
+   processing=false;
   }
+ }
 
-  if (running) animationFrame = requestAnimationFrame(processVideoFrame);
+ if(running) {
+  animationFrame=requestAnimationFrame(processFrames);
+ }
 }
 
 function stopCamera() {
-  running = false;
-  if (animationFrame) cancelAnimationFrame(animationFrame);
-  animationFrame = null;
+ running=false;
 
-  if (cameraStream) {
-    cameraStream.getTracks().forEach(track => track.stop());
-    cameraStream = null;
-  }
+ if(animationFrame) cancelAnimationFrame(animationFrame);
+ animationFrame=null;
 
-  $("cameraVideo").srcObject = null;
-  const canvas = $("outputCanvas");
-  canvas.getContext("2d").clearRect(0,0,canvas.width,canvas.height);
-  $("cameraPlaceholder").classList.remove("hidden");
-  $("cameraMessage").textContent = language === "ar" ? "الكاميرا غير مفعّلة" : "Camera is off";
-  $("handStatus").textContent = language === "ar" ? "لم يتم اكتشاف يد" : "No hand detected";
+ if(cameraStream) {
+  cameraStream.getTracks().forEach(track=>track.stop());
+  cameraStream=null;
+ }
 
-  previousWrist = null;
-  movementSamples = [];
+ $("cameraVideo").srcObject=null;
 
-  if (hands) {
-    hands.close();
-    hands = null;
-  }
+ const canvas=$("outputCanvas");
+ canvas.getContext("2d").clearRect(0,0,canvas.width,canvas.height);
 
-  setStatus(false,language === "ar" ? "متوقفة" : "Stopped");
+ $("placeholder").classList.remove("hidden");
+ $("cameraMessage").textContent=language==="ar"?"الكاميرا غير مفعّلة":"Camera off";
+ $("handStatus").textContent=language==="ar"?"لا توجد يد":"No hand detected";
+ $("status").textContent=language==="ar"?"● متوقفة":"● Stopped";
+ $("status").classList.remove("active");
+
+ $("startBtn").disabled=false;
+ $("stopBtn").disabled=true;
+
+ anchor=null;
+ samples=[];
+ lastStaticGesture="";
+
+ if(hands) {
+  const oldHands=hands;
+  hands=null;
+  oldHands.close().catch(console.error);
+ }
 }
 
 function saveStatistics() {
-  const report = {
-    application:"Gesture AI",
-    savedAt:new Date().toISOString(),
-    totalGestures:total,
-    counts:{...gestureCounts},
-    history:historyItems
-  };
-  const blob = new Blob([JSON.stringify(report,null,2)],{type:"application/json;charset=utf-8"});
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "Gesture-AI-Statistics.json";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url),1000);
-  toast(language === "ar" ? "تم حفظ الإحصاءات." : "Statistics saved.");
+ const report={
+  application:"VideoYTFX Gesture AI",
+  date:new Date().toISOString(),
+  total,
+  counts,
+  history:historyItems
+ };
+
+ const blob=new Blob(
+  [JSON.stringify(report,null,2)],
+  {type:"application/json"}
+ );
+
+ const url=URL.createObjectURL(blob);
+ const link=document.createElement("a");
+
+ link.href=url;
+ link.download="VideoYTFX-Gesture-Statistics.json";
+ link.click();
+
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+
+ notify(language==="ar"?"تم حفظ الإحصائيات":"Statistics saved");
 }
 
 function resetStatistics() {
-  total = 0;
-  lastGestureAt = 0;
-  historyItems = [];
-  Object.keys(gestureCounts).forEach(key => gestureCounts[key] = 0);
-  $("lastDirection").textContent = "—";
-  $("gestureEmoji").textContent = "✋";
-  $("gestureName").textContent = language === "ar" ? "بانتظار الحركة" : "Waiting for movement";
-  $("gestureDesc").textContent = language === "ar"
-    ? "حرّك يدك يمينًا أو يسارًا أو للأعلى أو للأسفل."
-    : "Move your hand right, left, up, or down.";
-  updateCounts();
-  renderHistory();
-  toast(language === "ar" ? "تم تصفير الإحصاءات." : "Statistics reset.");
+ total=0;
+ historyItems=[];
+
+ Object.keys(counts).forEach(key=>counts[key]=0);
+
+ $("last").textContent="—";
+ $("gestureEmoji").textContent="✋";
+ $("gestureName").textContent=language==="ar"?"بانتظار الحركة":"Waiting...";
+ $("gestureDesc").textContent=language==="ar"?"ضع يدك أمام الكاميرا.":"Place your hand in front of the camera.";
+
+ updateCounts();
+ renderHistory();
+
+ notify(language==="ar"?"تم تصفير الإحصائيات":"Statistics reset");
 }
 
-/* Click speed challenge */
-const speedModes = {
-  slow:{duration:20,animal:"🐢",titleAr:"وضع السلحفاة",titleEn:"Turtle Mode"},
-  normal:{duration:15,animal:"🐇",titleAr:"وضع الأرنب",titleEn:"Rabbit Mode"},
-  fast:{duration:10,animal:"🐆",titleAr:"وضع الفهد",titleEn:"Cheetah Mode"}
-};
-
-let selectedSpeed = "normal";
-let clickRunning = false;
-let clickCount = 0;
-let clickScore = 0;
-let clickBest = Number(localStorage.getItem("gesture_click_best") || 0);
-let clickEndTime = 0;
-let clickTimer = null;
-let clickStartTime = 0;
-let clickDuration = speedModes[selectedSpeed].duration;
-
-$("bestScoreLabel").textContent = `${language === "ar" ? "🏆 أفضل نتيجة:" : "🏆 Best score:"} ${clickBest}`;
-
-function updateClickStats() {
-  $("clickScore").textContent = clickScore;
-  $("clickCount").textContent = clickCount;
-
-  let elapsed = clickRunning
-    ? (performance.now()-clickStartTime)/1000
-    : clickDuration;
-
-  const cps = elapsed > 0 ? clickCount/elapsed : 0;
-  $("clickCps").textContent = cps.toFixed(1);
-  $("bestScoreLabel").textContent = `${language === "ar" ? "🏆 أفضل نتيجة:" : "🏆 Best score:"} ${clickBest}`;
-}
-
-function chooseSpeed(mode) {
-  if (clickRunning) finishClickGame();
-  selectedSpeed = mode;
-  clickDuration = speedModes[mode].duration;
-
-  document.querySelectorAll(".speed-option").forEach(button => {
-    button.classList.toggle("selected",button.dataset.speed === mode);
-  });
-
-  $("arenaAnimal").textContent = speedModes[mode].animal;
-  $("arenaTitle").textContent = language === "ar" ? speedModes[mode].titleAr : speedModes[mode].titleEn;
-  $("arenaSub").textContent = language === "ar"
-    ? `مدة التحدي ${clickDuration} ثانية. اضغط ابدأ!`
-    : `Challenge duration: ${clickDuration} seconds. Press Start!`;
-
-  resetClickGame(false);
-}
-
-document.querySelectorAll(".speed-option").forEach(button => {
-  button.addEventListener("click",() => chooseSpeed(button.dataset.speed));
+$("sensitivity").addEventListener("input",e=>{
+ threshold=Number(e.target.value)/100;
+ $("sensitivityOut").textContent=threshold.toFixed(2);
 });
 
-function startClickGame() {
-  if (clickRunning) return;
+$("smoothing").addEventListener("input",e=>{
+ smoothValue=Number(e.target.value);
+ $("smoothingOut").textContent=smoothValue;
+ samples=[];
+ anchor=null;
+});
 
-  clickRunning = true;
-  clickCount = 0;
-  clickScore = 0;
-  clickDuration = speedModes[selectedSpeed].duration;
-  clickStartTime = performance.now();
-  clickEndTime = clickStartTime + clickDuration*1000;
-
-  $("clickArena").classList.add("running");
-  $("arenaContent").style.opacity = ".25";
-  $("arenaTarget").classList.add("show");
-  $("startClickBtn").disabled = true;
-  $("startClickBtn").textContent = language === "ar" ? "🏃 التحدي يعمل..." : "🏃 Running...";
-  placeTarget();
-  updateClickStats();
-  updateClickProgress();
-
-  clearInterval(clickTimer);
-  clickTimer = setInterval(() => {
-    if (!clickRunning) return;
-    updateClickProgress();
-    updateClickStats();
-    if (performance.now() >= clickEndTime) finishClickGame();
-  },50);
-}
-
-function placeTarget() {
-  const arena = $("clickArena");
-  const target = $("arenaTarget");
-  const padding = 35;
-  const x = padding + Math.random()*Math.max(1,arena.clientWidth-padding*2);
-  const y = padding + Math.random()*Math.max(1,arena.clientHeight-padding*2);
-  target.style.left = `${x}px`;
-  target.style.top = `${y}px`;
-
-  const animals = ["⚡","🐾","💎","⭐","🔥","🚀"];
-  target.textContent = animals[Math.floor(Math.random()*animals.length)];
-}
-
-function hitTarget(event) {
-  if (!clickRunning) return;
-  event.preventDefault();
-
-  clickCount++;
-  clickScore += selectedSpeed === "fast" ? 3 : selectedSpeed === "normal" ? 2 : 1;
-
-  if (clickScore > clickBest) {
-    clickBest = clickScore;
-    localStorage.setItem("gesture_click_best",String(clickBest));
-  }
-
-  placeTarget();
-  updateClickStats();
-}
-
-function updateClickProgress() {
-  const remaining = Math.max(0,clickEndTime-performance.now());
-  const percent = Math.max(0,remaining/(clickDuration*1000)*100);
-  $("clickProgress").style.width = `${percent}%`;
-}
-
-function finishClickGame() {
-  if (!clickRunning) return;
-
-  clickRunning = false;
-  clearInterval(clickTimer);
-  clickTimer = null;
-  $("clickArena").classList.remove("running");
-  $("arenaTarget").classList.remove("show");
-  $("arenaContent").style.opacity = "1";
-  $("startClickBtn").disabled = false;
-  $("startClickBtn").textContent = language === "ar" ? "▶ العب مرة أخرى" : "▶ Play Again";
-
-  const elapsed = Math.max(.001,(performance.now()-clickStartTime)/1000);
-  $("clickCps").textContent = (clickCount/elapsed).toFixed(1);
-  $("clickProgress").style.width = "0%";
-  $("arenaAnimal").textContent = selectedSpeed === "slow" ? "🐢" : selectedSpeed === "fast" ? "🐆" : "🐇";
-  $("arenaTitle").textContent = language === "ar" ? "انتهى التحدي!" : "Challenge complete!";
-  $("arenaSub").textContent = language === "ar"
-    ? `السكور: ${clickScore} | عدد الكلكات: ${clickCount}`
-    : `Score: ${clickScore} | Clicks: ${clickCount}`;
-
-  updateClickStats();
-}
-
-function resetClickGame(showMessage = true) {
-  clickRunning = false;
-  clearInterval(clickTimer);
-  clickTimer = null;
-  clickCount = 0;
-  clickScore = 0;
-  $("clickArena").classList.remove("running");
-  $("arenaTarget").classList.remove("show");
-  $("arenaContent").style.opacity = "1";
-  $("startClickBtn").disabled = false;
-  $("startClickBtn").textContent = language === "ar" ? "▶ ابدأ التحدي" : "▶ Start Challenge";
-  $("clickProgress").style.width = "100%";
-  $("arenaAnimal").textContent = speedModes[selectedSpeed].animal;
-  $("arenaTitle").textContent = language === "ar" ? "جاهز للتحدي؟" : "Ready for the challenge?";
-  $("arenaSub").textContent = language === "ar"
-    ? "اضغط ابدأ ثم انقر على الأهداف بأسرع ما تستطيع!"
-    : "Press Start and click the targets as fast as you can!";
-  updateClickStats();
-}
-
-$("arenaTarget").addEventListener("pointerdown",hitTarget);
-$("startClickBtn").addEventListener("click",startClickGame);
-$("resetClickBtn").addEventListener("click",() => resetClickGame());
-
-function setLanguage(next) {
-  language = next;
-
-  document.documentElement.lang = language;
-  document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
-
-  document.querySelectorAll("[data-ar][data-en]").forEach(element => {
-    element.textContent = element.dataset[language];
-  });
-
-  $("languageBtn").textContent = language === "ar" ? "🌐 English" : "🌐 العربية";
-  updateSmooth();
-  renderHistory();
-
-  if (!running) {
-    setStatus(false,language === "ar" ? "متوقفة" : "Stopped");
-    $("cameraMessage").textContent = language === "ar" ? "الكاميرا غير مفعّلة" : "Camera is off";
-    $("handStatus").textContent = language === "ar" ? "لم يتم اكتشاف يد" : "No hand detected";
-  }
-
-  $("arenaTitle").textContent = clickRunning
-    ? (language === "ar" ? "التحدي يعمل!" : "Challenge running!")
-    : (language === "ar" ? "جاهز للتحدي؟" : "Ready for the challenge?");
-
-  $("arenaSub").textContent = language === "ar"
-    ? `مدة التحدي ${speedModes[selectedSpeed].duration} ثانية. اضغط ابدأ!`
-    : `Challenge duration: ${speedModes[selectedSpeed].duration} seconds. Press Start!`;
-
-  $("startClickBtn").textContent = clickRunning
-    ? (language === "ar" ? "🏃 التحدي يعمل..." : "🏃 Running...")
-    : (language === "ar" ? "▶ ابدأ التحدي" : "▶ Start Challenge");
-
-  updateClickStats();
-}
-
-$("startCameraBtn").addEventListener("click",startCamera);
-$("stopCameraBtn").addEventListener("click",stopCamera);
+$("startBtn").addEventListener("click",startCamera);
+$("stopBtn").addEventListener("click",stopCamera);
 $("saveBtn").addEventListener("click",saveStatistics);
 $("resetBtn").addEventListener("click",resetStatistics);
-$("languageBtn").addEventListener("click",() => setLanguage(language === "ar" ? "en" : "ar"));
 
-$("themeBtn").addEventListener("click",() => {
-  const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
-  document.documentElement.dataset.theme = next;
-  $("themeBtn").textContent = next === "light" ? "🌙" : "☀️";
-  try { localStorage.setItem("gesture_theme",next); } catch(error) {}
+function setLanguage(next) {
+ language=next;
+
+ document.documentElement.lang=language;
+ document.documentElement.dir=language==="ar"?"rtl":"ltr";
+
+ document.querySelectorAll("[data-ar][data-en]").forEach(element=>{
+  element.textContent=element.dataset[language];
+ });
+
+ $("languageBtn").textContent=language==="ar"?"🌐 English":"🌐 العربية";
+
+ if(!running) {
+  $("status").textContent=language==="ar"?"● متوقفة":"● Stopped";
+  $("cameraMessage").textContent=language==="ar"?"الكاميرا غير مفعّلة":"Camera off";
+  $("handStatus").textContent=language==="ar"?"لا توجد يد":"No hand detected";
+ }
+
+ renderHistory();
+}
+
+$("languageBtn").addEventListener("click",()=>{
+ setLanguage(language==="ar"?"en":"ar");
+});
+
+$("themeBtn").addEventListener("click",()=>{
+ const next=document.documentElement.dataset.theme==="dark"?"light":"dark";
+
+ document.documentElement.dataset.theme=next;
+ $("themeBtn").textContent=next==="light"?"🌙":"☀️";
+
+ try {
+  localStorage.setItem("gesture_theme",next);
+ } catch(error) {}
 });
 
 try {
-  const savedTheme = localStorage.getItem("gesture_theme");
-  if (savedTheme === "light" || savedTheme === "dark") {
-    document.documentElement.dataset.theme = savedTheme;
-    $("themeBtn").textContent = savedTheme === "light" ? "🌙" : "☀️";
-  }
+ const saved=localStorage.getItem("gesture_theme");
+
+ if(saved==="light" || saved==="dark") {
+  document.documentElement.dataset.theme=saved;
+  $("themeBtn").textContent=saved==="light"?"🌙":"☀️";
+ }
 } catch(error) {}
 
-updateThreshold();
-updateSmooth();
 updateCounts();
 renderHistory();
-setStatus(false,"متوقفة");
-resetClickGame(false);
 
-window.addEventListener("beforeunload",() => {
-  stopCamera();
-  clearInterval(clickTimer);
+window.addEventListener("beforeunload",()=>{
+ stopCamera();
 });
 </script>
+
 </body>
 </html>
