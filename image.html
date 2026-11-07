@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
@@ -45,6 +44,79 @@ body {
     font-family:Tahoma,Arial,sans-serif;
     isolation:isolate;
     overflow-x:hidden;
+}
+
+/* INTRO */
+
+#intro {
+    position:fixed;
+    inset:0;
+    z-index:60;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:radial-gradient(circle at 50% 42%,#181505,#050505 72%);
+    transition:opacity .65s ease,visibility .65s;
+}
+
+#intro.hide {
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.intro-inner {
+    text-align:center;
+    padding:20px;
+}
+
+.intro-logo {
+    font-size:clamp(42px,9vw,85px);
+    font-weight:bold;
+    color:#ffdc43;
+    letter-spacing:4px;
+    text-shadow:0 0 30px rgba(255,220,67,.6);
+    animation:titleGlow 2s infinite alternate;
+    margin-bottom:8px;
+}
+
+.intro-sub {
+    color:#aaa99f;
+    letter-spacing:6px;
+    margin-bottom:30px;
+    font-size:14px;
+}
+
+.intro-bar {
+    width:230px;
+    height:4px;
+    background:rgba(255,255,255,.12);
+    border-radius:4px;
+    margin:0 auto;
+    overflow:hidden;
+}
+
+#introFill {
+    display:block;
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,#d5aa00,#ffe66b);
+    border-radius:4px;
+    transition:width 1.9s ease;
+}
+
+#introBtn {
+    margin-top:26px;
+    opacity:0;
+    transform:translateY(8px);
+    transition:.4s;
+    pointer-events:none;
+}
+
+#introBtn.show {
+    opacity:1;
+    transform:none;
+    pointer-events:auto;
 }
 
 /* BACKGROUND EFFECTS */
@@ -258,11 +330,38 @@ canvas {
     touch-action:none;
 }
 
-#editCanvas,#retouchCanvas {
+#editCanvas {
     display:none;
     max-height:650px;
     object-fit:contain;
     cursor:crosshair;
+}
+
+#retouchWrap {
+    position:relative;
+    display:none;
+    max-width:100%;
+    max-height:650px;
+}
+
+#retouchCanvas {
+    max-height:650px;
+    object-fit:contain;
+    cursor:crosshair;
+}
+
+#retouchMask {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    cursor:crosshair;
+    pointer-events:none;
+}
+
+#retouchMask.ai-active {
+    pointer-events:auto;
 }
 
 .drop {
@@ -375,27 +474,31 @@ input[type=text],select,input[type=number] {
         grid-template-columns:1fr;
     }
 
-    .sidebar {
+.sidebar {
         max-height:none;
     }
 
-    .stage {
+.stage {
         min-height:330px;
     }
 
-    .cards {
+.cards {
         grid-template-columns:1fr;
     }
 
-    .card {
+.card {
         min-height:140px;
     }
 
-    #editCanvas,#retouchCanvas {
+#editCanvas {
         max-height:420px;
     }
 
-    header h2 {
+#retouchWrap {
+        max-height:420px;
+    }
+
+header h2 {
         font-size:18px;
     }
 }
@@ -405,6 +508,17 @@ input[type=text],select,input[type=number] {
 <body>
 
 <canvas id="cosmicBackground"></canvas>
+
+<!-- INTRO -->
+
+<div id="intro">
+    <div class="intro-inner">
+        <div class="intro-logo">image-001</div>
+        <div class="intro-sub">CREATIVE IMAGE EDITOR</div>
+        <div class="intro-bar"><span id="introFill"></span></div>
+        <button class="primary" id="introBtn">ابدأ</button>
+    </div>
+</div>
 
 <header>
     <h2>image-001</h2>
@@ -420,39 +534,39 @@ input[type=text],select,input[type=number] {
 
 <section id="home" class="page active">
 
-    <div class="hero">
+<div class="hero">
         <h1>image-001</h1>
         <p>Creative Image Editor</p>
     </div>
 
-    <div class="cards">
+<div class="cards">
 
-        <article class="card" data-page="editor">
+<article class="card" data-page="editor">
             <span class="symbol">01</span>
             <h2>تحرير الصور</h2>
         </article>
 
-        <article class="card" data-page="retouch">
+<article class="card" data-page="retouch">
             <span class="symbol">02</span>
             <h2>تنظيف الصور</h2>
         </article>
 
-        <article class="card" data-page="drawing">
+<article class="card" data-page="drawing">
             <span class="symbol">03</span>
             <h2>الرسم</h2>
         </article>
 
-    </div>
+</div>
 </section>
 
 <!-- IMAGE EDITOR -->
 
 <section id="editor" class="page">
 
-    <div class="heading">
+<div class="heading">
         <h1>تحرير الصور</h1>
 
-        <div class="row">
+<div class="row">
             <button id="rotateBtn">تدوير</button>
             <button id="flipBtn">عكس</button>
             <button id="resetEdit">إعادة ضبط</button>
@@ -460,52 +574,52 @@ input[type=text],select,input[type=number] {
         </div>
     </div>
 
-    <div class="layout">
+<div class="layout">
 
-        <div class="panel">
+<div class="panel">
 
-            <div class="toolbar">
+<div class="toolbar">
                 <button class="primary" id="chooseEdit">اختيار صورة</button>
                 <input id="editFile" type="file" accept="image/*" hidden>
                 <span id="editInfo" class="hint">لم يتم اختيار صورة</span>
             </div>
 
-            <div class="stage" id="editStage">
+<div class="stage" id="editStage">
 
-                <div class="drop" id="editDrop">
+<div class="drop" id="editDrop">
                     <h2>اختر صورة للتعديل</h2>
                 </div>
 
-                <canvas id="editCanvas"></canvas>
+<canvas id="editCanvas"></canvas>
 
-            </div>
+</div>
         </div>
 
-        <aside class="panel sidebar">
+<aside class="panel sidebar">
 
-            <h3>أدوات التعديل</h3>
+<h3>أدوات التعديل</h3>
 
-            <div class="control">
+<div class="control">
                 <label>الإضاءة <span id="brightVal" class="value">100%</span></label>
                 <input id="bright" type="range" min="0" max="200" value="100">
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>التباين <span id="contrastVal" class="value">100%</span></label>
                 <input id="contrast" type="range" min="0" max="200" value="100">
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>التشبع <span id="saturationVal" class="value">100%</span></label>
                 <input id="saturation" type="range" min="0" max="200" value="100">
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>التمويه <span id="blurVal" class="value">0px</span></label>
                 <input id="blur" type="range" min="0" max="10" value="0">
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>الفلاتر</label>
                 <select id="filter">
                     <option value="none">بدون فلتر</option>
@@ -518,7 +632,7 @@ input[type=text],select,input[type=number] {
                 </select>
             </div>
 
-        </aside>
+</aside>
     </div>
 </section>
 
@@ -526,52 +640,62 @@ input[type=text],select,input[type=number] {
 
 <section id="retouch" class="page">
 
-    <div class="heading">
+<div class="heading">
         <h1>تنظيف الصور</h1>
 
-        <div class="row">
+<div class="row">
             <button id="undoRetouch">تراجع</button>
+            <button id="clearMaskBtn" style="display:none">مسح التحديد</button>
+            <button id="aiRemoveBtn" style="display:none">إزالة العلامة المائية (AI)</button>
             <button class="primary" id="exportRetouch">تنزيل الصورة</button>
         </div>
     </div>
 
-    <div class="layout">
+<div class="layout">
 
-        <div class="panel">
+<div class="panel">
 
-            <div class="toolbar">
+<div class="toolbar">
                 <button class="primary" id="chooseRetouch">اختيار صورة</button>
                 <input id="retouchFile" type="file" accept="image/*" hidden>
+                <span id="retouchInfo" class="hint"></span>
             </div>
 
-            <div class="stage">
+<div class="stage">
 
-                <div class="drop" id="retouchDrop">
+<div class="drop" id="retouchDrop">
                     <h2>اختر صورة لتنظيفها</h2>
                 </div>
 
-                <canvas id="retouchCanvas"></canvas>
+<div id="retouchWrap">
+                    <canvas id="retouchCanvas"></canvas>
+                    <canvas id="retouchMask"></canvas>
+                </div>
 
-            </div>
+</div>
         </div>
 
-        <aside class="panel sidebar">
+<aside class="panel sidebar">
 
-            <h3>أدوات التنظيف</h3>
+<h3>أدوات التنظيف</h3>
 
-            <div class="control">
+<div class="control">
                 <label>الأداة</label>
                 <select id="retouchTool">
                     <option value="blur">تمويه</option>
+                    <option value="ai">ممحاة ذكية (علامات مائية)</option>
                 </select>
+                <p class="hint" id="aiHint" style="display:none">
+                    حدد العلامة المائية بالفرشاة، ثم اضغط «إزالة العلامة المائية (AI)».
+                </p>
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>حجم الفرشاة <span id="retouchSizeVal" class="value">30px</span></label>
                 <input id="retouchSize" type="range" min="5" max="100" value="30">
             </div>
 
-        </aside>
+</aside>
     </div>
 </section>
 
@@ -579,38 +703,49 @@ input[type=text],select,input[type=number] {
 
 <section id="drawing" class="page">
 
-    <div class="heading">
+<div class="heading">
         <h1>الرسم</h1>
 
-        <div class="row">
+<div class="row">
             <button id="undoDrawing">تراجع</button>
             <button id="clearDrawing">مسح الرسم</button>
             <button class="primary" id="exportDrawing">تنزيل الرسم</button>
         </div>
     </div>
 
-    <div class="layout">
+<div class="layout">
 
-        <div class="panel">
+<div class="panel">
 
-            <div class="toolbar">
+<div class="toolbar">
                 <span>لوحة الرسم</span>
             </div>
 
-            <div class="stage">
+<div class="stage">
                 <canvas id="drawingCanvas" width="1200" height="800"></canvas>
             </div>
 
-        </div>
+</div>
 
-        <aside class="panel sidebar">
+<aside class="panel sidebar">
 
-            <h3>أدوات الرسم</h3>
+<h3>أدوات الرسم</h3>
 
-            <div class="control">
+<div class="control">
+                <label>الأداة</label>
+                <select id="drawTool">
+                    <option value="brush">فرشاة حرة</option>
+                    <option value="line">خط مستقيم</option>
+                    <option value="rect">مستطيل</option>
+                    <option value="ellipse">دائرة / بيضاوي</option>
+                    <option value="fill">تعبئة (دلو)</option>
+                </select>
+            </div>
+
+<div class="control">
                 <label>نوع الفرشاة</label>
 
-                <select id="brushType">
+<select id="brushType">
                     <option value="pencil">قلم رصاص</option>
                     <option value="ink">حبر</option>
                     <option value="soft">قلم ناعم</option>
@@ -621,6 +756,7 @@ input[type=text],select,input[type=number] {
                     <option value="oil">فرشاة زيتية</option>
                     <option value="crayon">قلم شمع</option>
                     <option value="neon">نيون</option>
+                    <option value="sparkle">شرارة</option>
                     <option value="calligraphy">خط عريض</option>
                     <option value="pixel">بكسل</option>
                     <option value="rainbow">قوس قزح</option>
@@ -628,27 +764,27 @@ input[type=text],select,input[type=number] {
                 </select>
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>لون الفرشاة</label>
                 <input id="brushColor" type="color" value="#111111">
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>حجم الفرشاة <span id="brushSizeVal" class="value">8px</span></label>
                 <input id="brushSize" type="range" min="1" max="100" value="8">
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>الشفافية <span id="opacityVal" class="value">100%</span></label>
                 <input id="opacity" type="range" min="5" max="100" value="100">
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>تنعيم الخط <span id="smoothVal" class="value">50%</span></label>
                 <input id="smooth" type="range" min="0" max="100" value="50">
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>شكل الفرشاة</label>
                 <select id="brushShape">
                     <option value="round">دائري</option>
@@ -657,13 +793,13 @@ input[type=text],select,input[type=number] {
                 </select>
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>خلفية اللوحة</label>
                 <input id="backgroundColor" type="color" value="#ffffff">
                 <button class="full" id="applyBackground">تغيير الخلفية</button>
             </div>
 
-        </aside>
+</aside>
     </div>
 </section>
 
@@ -682,9 +818,9 @@ function message(text) {
     t.textContent = text;
     t.classList.add("show");
 
-    clearTimeout(message.timer);
+clearTimeout(message.timer);
 
-    message.timer = setTimeout(() => {
+message.timer = setTimeout(() => {
         t.classList.remove("show");
     }, 2200);
 }
@@ -707,6 +843,28 @@ $("#themeBtn").onclick = () => {
         root.dataset.theme === "dark" ? "light" : "dark";
 };
 
+/* INTRO */
+
+(() => {
+    const intro = $("#intro");
+
+requestAnimationFrame(() => {
+        $("#introFill").style.width = "100%";
+    });
+
+setTimeout(() => $("#introBtn").classList.add("show"), 2000);
+
+const enter = () => intro.classList.add("hide");
+
+$("#introBtn").onclick = enter;
+
+setTimeout(() => {
+        intro.onclick = () => {
+            if ($("#introBtn").classList.contains("show")) enter();
+        };
+    }, 2100);
+})();
+
 /* IMAGE LOADING */
 
 function loadImage(file, callback) {
@@ -715,20 +873,20 @@ function loadImage(file, callback) {
         return;
     }
 
-    const url = URL.createObjectURL(file);
+const url = URL.createObjectURL(file);
     const img = new Image();
 
-    img.onload = () => {
+img.onload = () => {
         callback(img, file.name);
         URL.revokeObjectURL(url);
     };
 
-    img.onerror = () => {
+img.onerror = () => {
         URL.revokeObjectURL(url);
         message("تعذر فتح الصورة");
     };
 
-    img.src = url;
+img.src = url;
 }
 
 function downloadCanvas(canvas, name) {
@@ -738,14 +896,14 @@ function downloadCanvas(canvas, name) {
             return;
         }
 
-        const url = URL.createObjectURL(blob);
+const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
 
-        a.href = url;
+a.href = url;
         a.download = name;
         a.click();
 
-        setTimeout(() => URL.revokeObjectURL(url), 1500);
+setTimeout(() => URL.revokeObjectURL(url), 1500);
     }, "image/png");
 }
 
@@ -755,18 +913,18 @@ function attachDrop(zone, callback) {
         zone.style.borderColor = "#ffffff";
     });
 
-    zone.addEventListener("dragleave", () => {
+zone.addEventListener("dragleave", () => {
         zone.style.borderColor = "";
     });
 
-    zone.addEventListener("drop", e => {
+zone.addEventListener("drop", e => {
         e.preventDefault();
 
-        const file = e.dataTransfer.files[0];
+const file = e.dataTransfer.files[0];
         if (file) loadImage(file, callback);
     });
 
-    zone.onclick = () => {
+zone.onclick = () => {
         const input = zone.parentElement.querySelector('input[type="file"]');
         if (input) input.click();
     };
@@ -785,54 +943,54 @@ let editFlip = false;
 function renderEdit() {
     if (!editImage) return;
 
-    const rotated = Math.abs(editRotation % 180) === 90;
+const rotated = Math.abs(editRotation % 180) === 90;
     const w = editImage.naturalWidth;
     const h = editImage.naturalHeight;
 
-    editCanvas.width = rotated ? h : w;
+editCanvas.width = rotated ? h : w;
     editCanvas.height = rotated ? w : h;
 
-    editCtx.clearRect(0,0,editCanvas.width,editCanvas.height);
+editCtx.clearRect(0,0,editCanvas.width,editCanvas.height);
 
-    editCtx.save();
+editCtx.save();
 
-    editCtx.filter =
+editCtx.filter =
         `brightness(${$("#bright").value}%)
          contrast(${$("#contrast").value}%)
          saturate(${$("#saturation").value}%)
          blur(${$("#blur").value}px)
          ${$("#filter").value === "none" ? "" : $("#filter").value}`;
 
-    editCtx.translate(editCanvas.width/2,editCanvas.height/2);
+editCtx.translate(editCanvas.width/2,editCanvas.height/2);
     editCtx.rotate(editRotation * Math.PI / 180);
     editCtx.scale(editFlip ? -1 : 1,1);
 
-    editCtx.drawImage(editImage,-w/2,-h/2,w,h);
+editCtx.drawImage(editImage,-w/2,-h/2,w,h);
 
-    editCtx.restore();
+editCtx.restore();
 }
 
 function loadEdit(img,name) {
     editImage = img;
     editName = name.replace(/\.[^.]+$/,"") || "image";
 
-    editRotation = 0;
+editRotation = 0;
     editFlip = false;
 
-    $("#editDrop").style.display = "none";
+$("#editDrop").style.display = "none";
     editCanvas.style.display = "block";
 
-    $("#editInfo").textContent =
+$("#editInfo").textContent =
         `${img.naturalWidth} × ${img.naturalHeight}`;
 
-    ["bright","contrast","saturation"].forEach(id => {
+["bright","contrast","saturation"].forEach(id => {
         $("#" + id).value = 100;
     });
 
-    $("#blur").value = 0;
+$("#blur").value = 0;
     $("#filter").value = "none";
 
-    updateEditValues();
+updateEditValues();
     renderEdit();
 }
 
@@ -861,38 +1019,38 @@ $("#editFile").onchange = () => {
 $("#rotateBtn").onclick = () => {
     if (!editImage) return message("اختر صورة أولًا");
 
-    editRotation = (editRotation + 90) % 360;
+editRotation = (editRotation + 90) % 360;
     renderEdit();
 };
 
 $("#flipBtn").onclick = () => {
     if (!editImage) return message("اختر صورة أولًا");
 
-    editFlip = !editFlip;
+editFlip = !editFlip;
     renderEdit();
 };
 
 $("#resetEdit").onclick = () => {
     if (!editImage) return;
 
-    editRotation = 0;
+editRotation = 0;
     editFlip = false;
 
-    ["bright","contrast","saturation"].forEach(id => {
+["bright","contrast","saturation"].forEach(id => {
         $("#" + id).value = 100;
     });
 
-    $("#blur").value = 0;
+$("#blur").value = 0;
     $("#filter").value = "none";
 
-    updateEditValues();
+updateEditValues();
     renderEdit();
 };
 
 $("#exportEdit").onclick = () => {
     if (!editImage) return message("اختر صورة أولًا");
 
-    renderEdit();
+renderEdit();
     downloadCanvas(editCanvas,editName + "-edited.png");
 };
 
@@ -902,24 +1060,35 @@ attachDrop($("#editDrop"),loadEdit);
 
 const retouchCanvas = $("#retouchCanvas");
 const retouchCtx = retouchCanvas.getContext("2d");
+const maskCanvas = $("#retouchMask");
+const maskCtx = maskCanvas.getContext("2d");
 
 let retouchImage = null;
 let retouchHistory = [];
 let retouchDown = false;
 let retouchLast = null;
+let maskDown = false;
+let maskLast = null;
 
 function loadRetouch(img) {
     retouchImage = img;
 
-    retouchCanvas.width = img.naturalWidth;
+retouchCanvas.width = img.naturalWidth;
     retouchCanvas.height = img.naturalHeight;
 
-    retouchCtx.drawImage(img,0,0);
+maskCanvas.width = img.naturalWidth;
+    maskCanvas.height = img.naturalHeight;
+    maskCtx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
 
-    $("#retouchDrop").style.display = "none";
-    retouchCanvas.style.display = "block";
+retouchCtx.drawImage(img,0,0);
 
-    retouchHistory = [];
+$("#retouchDrop").style.display = "none";
+    $("#retouchWrap").style.display = "inline-block";
+
+$("#retouchInfo").textContent =
+        `${img.naturalWidth} × ${img.naturalHeight}`;
+
+retouchHistory = [];
 }
 
 $("#chooseRetouch").onclick = () => $("#retouchFile").click();
@@ -933,7 +1102,7 @@ attachDrop($("#retouchDrop"),loadRetouch);
 function retouchPoint(e) {
     const r = retouchCanvas.getBoundingClientRect();
 
-    return {
+return {
         x:(e.clientX-r.left)*retouchCanvas.width/r.width,
         y:(e.clientY-r.top)*retouchCanvas.height/r.height
     };
@@ -944,30 +1113,30 @@ function saveRetouch() {
         retouchCtx.getImageData(0,0,retouchCanvas.width,retouchCanvas.height)
     );
 
-    if (retouchHistory.length > 12) retouchHistory.shift();
+if (retouchHistory.length > 12) retouchHistory.shift();
 }
 
 function retouchAt(p) {
     const size = Number($("#retouchSize").value);
 
-    const x = Math.max(0,Math.floor(p.x-size));
+const x = Math.max(0,Math.floor(p.x-size));
     const y = Math.max(0,Math.floor(p.y-size));
 
-    const w = Math.min(retouchCanvas.width-x,size*2);
+const w = Math.min(retouchCanvas.width-x,size*2);
     const h = Math.min(retouchCanvas.height-y,size*2);
 
-    if (w < 1 || h < 1) return;
+if (w < 1 || h < 1) return;
 
-    const temp = document.createElement("canvas");
+const temp = document.createElement("canvas");
     temp.width = w;
     temp.height = h;
 
-    const tc = temp.getContext("2d");
+const tc = temp.getContext("2d");
 
-    tc.filter = `blur(${Math.max(2,size/5)}px)`;
+tc.filter = `blur(${Math.max(2,size/5)}px)`;
     tc.drawImage(retouchCanvas,x,y,w,h,0,0,w,h);
 
-    retouchCtx.save();
+retouchCtx.save();
     retouchCtx.beginPath();
     retouchCtx.arc(p.x,p.y,size,0,Math.PI*2);
     retouchCtx.clip();
@@ -979,41 +1148,267 @@ $("#retouchSize").oninput = () => {
     $("#retouchSizeVal").textContent = $("#retouchSize").value + "px";
 };
 
+/* MASK PAINTING (AI SELECTION) */
+
+function maskPoint(e) {
+    const r = maskCanvas.getBoundingClientRect();
+
+return {
+        x:(e.clientX-r.left)*maskCanvas.width/r.width,
+        y:(e.clientY-r.top)*maskCanvas.height/r.height
+    };
+}
+
+function maskPaint(p) {
+    const s = Number($("#retouchSize").value);
+
+maskCtx.fillStyle = "rgba(255,45,95,.5)";
+    maskCtx.beginPath();
+    maskCtx.arc(p.x,p.y,s,0,Math.PI*2);
+    maskCtx.fill();
+}
+
+maskCanvas.addEventListener("pointerdown",e => {
+    maskDown = true;
+    maskCanvas.setPointerCapture(e.pointerId);
+
+maskLast = maskPoint(e);
+    maskPaint(maskLast);
+});
+
+maskCanvas.addEventListener("pointermove",e => {
+    if (!maskDown) return;
+
+const p = maskPoint(e);
+    const dist = Math.hypot(p.x-maskLast.x,p.y-maskLast.y);
+    const step = Math.max(2,Number($("#retouchSize").value)/4);
+    const n = Math.max(1,Math.ceil(dist/step));
+
+for (let i=1;i<=n;i++) {
+        maskPaint({
+            x:maskLast.x+(p.x-maskLast.x)*i/n,
+            y:maskLast.y+(p.y-maskLast.y)*i/n
+        });
+    }
+
+maskLast = p;
+});
+
+["pointerup","pointercancel","lostpointercapture"].forEach(ev => {
+    maskCanvas.addEventListener(ev,() => {
+        maskDown = false;
+        maskLast = null;
+    });
+});
+
+/* AI INPAINTING ENGINE */
+
+function dilateMask(m,w,h,r) {
+    let cur = m;
+
+for (let pass=0;pass<r;pass++) {
+        const next = new Uint8Array(cur);
+
+for (let y=0;y<h;y++) {
+            for (let x=0;x<w;x++) {
+                const i = y*w+x;
+                if (cur[i]) continue;
+
+let near = false;
+
+for (let dy=-1;dy<=1 && !near;dy++) {
+                    for (let dx=-1;dx<=1;dx++) {
+                        const nx=x+dx, ny=y+dy;
+
+if (nx>=0 && nx<w && ny>=0 && ny<h && cur[ny*w+nx]) {
+                            near = true;
+                            break;
+                        }
+                    }
+                }
+
+if (near) next[i] = 1;
+            }
+        }
+
+cur = next;
+    }
+
+return cur;
+}
+
+function inpaintRegion(ctx,w,h,maskSrc) {
+    const mData = maskSrc.getContext("2d").getImageData(0,0,w,h).data;
+
+const origMask = new Uint8Array(w*h);
+    let count = 0;
+
+for (let i=0;i<w*h;i++) {
+        if (mData[i*4+3] > 20) {
+            origMask[i] = 1;
+            count++;
+        }
+    }
+
+if (!count) return false;
+
+// توسيع التحديد قليلًا لالتقاط حواف العلامة
+    let need = dilateMask(origMask,w,h,2);
+
+const img = ctx.getImageData(0,0,w,h);
+    const d = img.data;
+
+let remaining = 0;
+    for (let i=0;i<w*h;i++) remaining += need[i];
+
+// تعبئة طبقة-بطبقة من الحدود نحو الداخل
+    let guard = 0;
+
+while (remaining > 0 && guard < 4000) {
+        const ups = [];
+
+for (let y=0;y<h;y++) {
+            for (let x=0;x<w;x++) {
+                const i = y*w+x;
+                if (!need[i]) continue;
+
+let r=0,g=0,b=0,a=0,c=0;
+
+for (let dy=-1;dy<=1;dy++) {
+                    for (let dx=-1;dx<=1;dx++) {
+                        if (!dx && !dy) continue;
+
+const nx=x+dx, ny=y+dy;
+                        if (nx<0||nx>=w||ny<0||ny>=h) continue;
+
+const ni = ny*w+nx;
+                        if (need[ni]) continue;
+
+r+=d[ni*4]; g+=d[ni*4+1];
+                        b+=d[ni*4+2]; a+=d[ni*4+3]; c++;
+                    }
+                }
+
+if (c) ups.push([i,r/c,g/c,b/c,a/c]);
+            }
+        }
+
+if (!ups.length) break;
+
+for (const [i,r,g,b,a] of ups) {
+            d[i*4]=r; d[i*4+1]=g; d[i*4+2]=b; d[i*4+3]=a;
+            need[i]=0;
+            remaining--;
+        }
+
+guard++;
+    }
+
+// تنعيم المنطقة الممتلئة لدمجها بالخلفية
+    const tmp = new Uint8ClampedArray(d.length);
+
+for (let pass=0;pass<2;pass++) {
+        tmp.set(d);
+
+for (let y=0;y<h;y++) {
+            for (let x=0;x<w;x++) {
+                const i = y*w+x;
+                if (!origMask[i]) continue;
+
+let r=0,g=0,b=0,a=0,c=0;
+
+for (let dy=-2;dy<=2;dy++) {
+                    for (let dx=-2;dx<=2;dx++) {
+                        const nx=x+dx, ny=y+dy;
+                        if (nx<0||nx>=w||ny<0||ny>=h) continue;
+
+const ni = (ny*w+nx)*4;
+                        r+=tmp[ni]; g+=tmp[ni+1];
+                        b+=tmp[ni+2]; a+=tmp[ni+3]; c++;
+                    }
+                }
+
+d[i*4]=r/c; d[i*4+1]=g/c; d[i*4+2]=b/c; d[i*4+3]=a/c;
+            }
+        }
+    }
+
+ctx.putImageData(img,0,0);
+    return true;
+}
+
+$("#retouchTool").onchange = () => {
+    const ai = $("#retouchTool").value === "ai";
+
+maskCanvas.classList.toggle("ai-active",ai);
+    $("#aiRemoveBtn").style.display = ai ? "" : "none";
+    $("#clearMaskBtn").style.display = ai ? "" : "none";
+    $("#aiHint").style.display = ai ? "" : "none";
+};
+
+$("#clearMaskBtn").onclick = () => {
+    maskCtx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
+    message("تم مسح التحديد");
+};
+
+$("#aiRemoveBtn").onclick = () => {
+    if (!retouchImage) return message("اختر صورة أولًا");
+
+message("جاري التحليل وإزالة العلامة...");
+
+setTimeout(() => {
+        saveRetouch();
+
+const ok = inpaintRegion(
+            retouchCtx,
+            retouchCanvas.width,
+            retouchCanvas.height,
+            maskCanvas
+        );
+
+maskCtx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
+
+message(ok
+            ? "تمت إزالة العلامة المائية بنجاح"
+            : "حدد العلامة المائية بالفرشاة أولًا");
+    }, 40);
+};
+
 retouchCanvas.addEventListener("pointerdown",e => {
     if (!retouchImage) return;
 
-    retouchDown = true;
+retouchDown = true;
     retouchCanvas.setPointerCapture(e.pointerId);
 
-    saveRetouch();
+saveRetouch();
 
-    retouchLast = retouchPoint(e);
+retouchLast = retouchPoint(e);
     retouchAt(retouchLast);
 });
 
 retouchCanvas.addEventListener("pointermove",e => {
     if (!retouchDown) return;
 
-    const p = retouchPoint(e);
+const p = retouchPoint(e);
 
-    const distance = Math.hypot(
+const distance = Math.hypot(
         p.x-retouchLast.x,
         p.y-retouchLast.y
     );
 
-    const step = Math.max(2,Number($("#retouchSize").value)/4);
+const step = Math.max(2,Number($("#retouchSize").value)/4);
     const count = Math.max(1,Math.ceil(distance/step));
 
-    const old = {...retouchLast};
+const old = {...retouchLast};
 
-    for (let i=1;i<=count;i++) {
+for (let i=1;i<=count;i++) {
         retouchAt({
             x:old.x+(p.x-old.x)*i/count,
             y:old.y+(p.y-old.y)*i/count
         });
     }
 
-    retouchLast = p;
+retouchLast = p;
 });
 
 ["pointerup","pointercancel","lostpointercapture"].forEach(ev => {
@@ -1026,13 +1421,13 @@ retouchCanvas.addEventListener("pointermove",e => {
 $("#undoRetouch").onclick = () => {
     if (!retouchHistory.length) return;
 
-    retouchCtx.putImageData(retouchHistory.pop(),0,0);
+retouchCtx.putImageData(retouchHistory.pop(),0,0);
 };
 
 $("#exportRetouch").onclick = () => {
     if (!retouchImage) return message("اختر صورة أولًا");
 
-    downloadCanvas(retouchCanvas,"image-001-retouched.png");
+downloadCanvas(retouchCanvas,"image-001-retouched.png");
 };
 
 /* DRAWING */
@@ -1045,16 +1440,18 @@ let drawLast = null;
 let drawHistory = [];
 let drawBackground = "#ffffff";
 let rainbowHue = 0;
+let shapeStart = null;
+let shapeSnap = null;
 
 function resetDrawing() {
     drawCtx.save();
 
-    drawCtx.globalAlpha = 1;
+drawCtx.globalAlpha = 1;
     drawCtx.globalCompositeOperation = "source-over";
     drawCtx.fillStyle = drawBackground;
     drawCtx.fillRect(0,0,drawCanvas.width,drawCanvas.height);
 
-    drawCtx.restore();
+drawCtx.restore();
 }
 
 function saveDrawing() {
@@ -1062,13 +1459,13 @@ function saveDrawing() {
         drawCtx.getImageData(0,0,drawCanvas.width,drawCanvas.height)
     );
 
-    if (drawHistory.length > 25) drawHistory.shift();
+if (drawHistory.length > 25) drawHistory.shift();
 }
 
 function drawPoint(e) {
     const r = drawCanvas.getBoundingClientRect();
 
-    return {
+return {
         x:(e.clientX-r.left)*drawCanvas.width/r.width,
         y:(e.clientY-r.top)*drawCanvas.height/r.height
     };
@@ -1087,9 +1484,9 @@ function currentBrush() {
 function paintPoint(p,b) {
     const c = drawCtx;
 
-    c.save();
+c.save();
 
-    c.globalAlpha = b.opacity;
+c.globalAlpha = b.opacity;
     c.globalCompositeOperation = "source-over";
     c.lineCap = b.shape === "square" ? "square" : "round";
     c.lineJoin = "round";
@@ -1099,82 +1496,105 @@ function paintPoint(p,b) {
     c.shadowBlur = 0;
     c.setLineDash([]);
 
-    switch (b.type) {
+switch (b.type) {
         case "eraser":
             c.globalCompositeOperation = "destination-out";
             break;
 
-        case "pencil":
+case "pencil":
             c.globalAlpha *= .65;
             c.lineWidth = Math.max(1,b.size*.55);
             break;
 
-        case "ink":
+case "ink":
             c.lineWidth = Math.max(1,b.size*.72);
             break;
 
-        case "soft":
+case "soft":
             c.globalAlpha *= .5;
             c.shadowColor = b.color;
             c.shadowBlur = 5;
             break;
 
-        case "marker":
+case "marker":
             c.globalAlpha *= .78;
             c.lineWidth = b.size*1.3;
             break;
 
-        case "highlighter":
+case "highlighter":
             c.globalAlpha *= .25;
             c.lineWidth = b.size*2.2;
             c.lineCap = "square";
             break;
 
-        case "watercolor":
+case "watercolor":
             c.globalAlpha *= .2;
             c.lineWidth = b.size*1.8;
             break;
 
-        case "oil":
+case "oil":
             c.globalAlpha *= .9;
             c.lineWidth = b.size*.85;
             break;
 
-        case "crayon":
+case "crayon":
             c.globalAlpha *= .7;
             break;
 
-        case "neon":
+case "neon":
             c.shadowColor = b.color;
             c.shadowBlur = Math.max(8,b.size*2);
             c.lineWidth = Math.max(1,b.size*.7);
             break;
 
-        case "calligraphy":
+case "sparkle":
+            c.globalAlpha *= .9;
+            c.lineWidth = 1;
+
+for (let i=0;i<6;i++) {
+                const a = Math.random()*Math.PI*2;
+                const r = Math.random()*b.size;
+
+const sx = p.x+Math.cos(a)*r;
+                const sy = p.y+Math.sin(a)*r;
+                const s = .5+Math.random()*1.8;
+
+c.beginPath();
+                c.moveTo(sx-s*3,sy);
+                c.lineTo(sx+s*3,sy);
+                c.moveTo(sx,sy-s*3);
+                c.lineTo(sx,sy+s*3);
+                c.stroke();
+            }
+
+c.restore();
+            return;
+
+case "calligraphy":
             c.lineCap = "butt";
             c.lineWidth = b.size*1.2;
             break;
 
-        case "pixel":
+case "pixel":
             c.lineCap = "square";
             c.lineWidth = Math.max(4,Math.round(b.size/3)*3);
             break;
 
-        case "rainbow":
+case "rainbow":
             c.strokeStyle = `hsl(${rainbowHue%360} 100% 50%)`;
             c.fillStyle = c.strokeStyle;
             rainbowHue += 5;
             break;
 
-        case "airbrush":
+case "airbrush":
             c.globalAlpha *= .12;
 
-            for (let i=0;i<Math.max(20,b.size*2);i++) {
+for (let i=0;i<Math.max(20,b.size*2);i++) {
                 const angle = Math.random()*Math.PI*2;
                 const radius = Math.random()*b.size;
                 const dot = Math.random()*Math.max(1,b.size/10);
 
-                c.beginPath();
+c.beginPath();
                 c.arc(
                     p.x+Math.cos(angle)*radius,
                     p.y+Math.sin(angle)*radius,
@@ -1183,15 +1603,15 @@ function paintPoint(p,b) {
                 c.fill();
             }
 
-            c.restore();
+c.restore();
             return;
     }
 
-    if (b.shape === "flat" && b.type !== "eraser") {
+if (b.shape === "flat" && b.type !== "eraser") {
         c.lineCap = "butt";
     }
 
-    if (!drawLast) {
+if (!drawLast) {
         c.beginPath();
         c.arc(p.x,p.y,Math.max(1,c.lineWidth/2),0,Math.PI*2);
         c.fill();
@@ -1201,7 +1621,7 @@ function paintPoint(p,b) {
         c.lineTo(p.x,p.y);
         c.stroke();
 
-        if (b.type === "watercolor") {
+if (b.type === "watercolor") {
             c.globalAlpha *= .4;
             c.lineWidth = b.size*2.2;
             c.beginPath();
@@ -1210,7 +1630,7 @@ function paintPoint(p,b) {
             c.stroke();
         }
 
-        if (b.type === "crayon") {
+if (b.type === "crayon") {
             c.globalAlpha *= .3;
             c.lineWidth = Math.max(1,b.size*.3);
             c.setLineDash([1,3]);
@@ -1221,7 +1641,104 @@ function paintPoint(p,b) {
         }
     }
 
+c.restore();
+}
+
+/* SHAPES */
+
+function drawShape(p,b,tool) {
+    drawCtx.putImageData(shapeSnap,0,0);
+
+const c = drawCtx;
+
+c.save();
+
+c.globalAlpha = b.opacity;
+    c.strokeStyle = b.color;
+    c.lineWidth = Math.max(1,b.size);
+    c.lineCap = b.shape === "square" ? "square" : "round";
+    c.lineJoin = "round";
+    c.setLineDash([]);
+
+c.beginPath();
+
+if (tool === "line") {
+        c.moveTo(shapeStart.x,shapeStart.y);
+        c.lineTo(p.x,p.y);
+    } else if (tool === "rect") {
+        c.rect(
+            Math.min(shapeStart.x,p.x),
+            Math.min(shapeStart.y,p.y),
+            Math.abs(p.x-shapeStart.x),
+            Math.abs(p.y-shapeStart.y)
+        );
+    } else {
+        c.ellipse(
+            (shapeStart.x+p.x)/2,
+            (shapeStart.y+p.y)/2,
+            Math.abs(p.x-shapeStart.x)/2,
+            Math.abs(p.y-shapeStart.y)/2,
+            0,0,Math.PI*2
+        );
+    }
+
+c.stroke();
     c.restore();
+}
+
+/* FLOOD FILL */
+
+function floodFill(canvas,ctx,x,y,hexColor,tol) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+
+const w = canvas.width, h = canvas.height;
+
+if (x<0||y<0||x>=w||y>=h) return;
+
+const img = ctx.getImageData(0,0,w,h);
+    const d = img.data;
+
+const si = (y*w+x)*4;
+    const tr=d[si], tg=d[si+1], tb=d[si+2], ta=d[si+3];
+
+const nr=parseInt(hexColor.slice(1,3),16);
+    const ng=parseInt(hexColor.slice(3,5),16);
+    const nb=parseInt(hexColor.slice(5,7),16);
+
+const alpha = Number($("#opacity").value)/100;
+
+const match = i =>
+        Math.abs(d[i]-tr)<=tol &&
+        Math.abs(d[i+1]-tg)<=tol &&
+        Math.abs(d[i+2]-tb)<=tol &&
+        Math.abs(d[i+3]-ta)<=tol;
+
+const seen = new Uint8Array(w*h);
+    const stack = [[x,y]];
+
+while (stack.length) {
+        const [cx,cy] = stack.pop();
+        const ci = cy*w+cx;
+
+if (seen[ci]) continue;
+        seen[ci] = 1;
+
+const i = ci*4;
+        if (!match(i)) continue;
+
+d[i]   = d[i]*(1-alpha)+nr*alpha;
+        d[i+1] = d[i+1]*(1-alpha)+ng*alpha;
+        d[i+2] = d[i+2]*(1-alpha)+nb*alpha;
+        d[i+3] = 255;
+
+if (cx>0) stack.push([cx-1,cy]);
+        if (cx<w-1) stack.push([cx+1,cy]);
+        if (cy>0) stack.push([cx,cy-1]);
+        if (cy<h-1) stack.push([cx,cy+1]);
+    }
+
+ctx.putImageData(img,0,0);
 }
 
 resetDrawing();
@@ -1230,36 +1747,59 @@ drawCanvas.addEventListener("pointerdown",e => {
     drawing = true;
     drawCanvas.setPointerCapture(e.pointerId);
 
-    saveDrawing();
+saveDrawing();
 
-    drawLast = drawPoint(e);
-    paintPoint(drawLast,currentBrush());
+const tool = $("#drawTool").value;
+    const p = drawPoint(e);
+
+if (tool === "fill") {
+        floodFill(drawCanvas,drawCtx,p.x,p.y,$("#brushColor").value,40);
+        drawing = false;
+        return;
+    }
+
+if (tool !== "brush") {
+        shapeStart = p;
+        shapeSnap = drawCtx.getImageData(0,0,drawCanvas.width,drawCanvas.height);
+        return;
+    }
+
+drawLast = p;
+    paintPoint(p,currentBrush());
 });
 
 drawCanvas.addEventListener("pointermove",e => {
     if (!drawing) return;
 
+const tool = $("#drawTool").value;
     const p = drawPoint(e);
     const b = currentBrush();
 
-    const distance = Math.hypot(
+if (tool === "line" || tool === "rect" || tool === "ellipse") {
+        if (shapeStart) drawShape(p,b,tool);
+        return;
+    }
+
+if (tool === "fill" || !drawLast) return;
+
+const distance = Math.hypot(
         p.x-drawLast.x,
         p.y-drawLast.y
     );
 
-    const smooth = Number($("#smooth").value);
+const smooth = Number($("#smooth").value);
     const spacing = Math.max(1,b.size*(1-smooth/130));
     const count = Math.max(1,Math.ceil(distance/spacing));
 
-    const previous = {...drawLast};
+const previous = {...drawLast};
 
-    for (let i=1;i<=count;i++) {
+for (let i=1;i<=count;i++) {
         const next = {
             x:previous.x+(p.x-previous.x)*i/count,
             y:previous.y+(p.y-previous.y)*i/count
         };
 
-        paintPoint(next,b);
+paintPoint(next,b);
         drawLast = next;
     }
 });
@@ -1268,6 +1808,8 @@ drawCanvas.addEventListener("pointermove",e => {
     drawCanvas.addEventListener(ev,() => {
         drawing = false;
         drawLast = null;
+        shapeStart = null;
+        shapeSnap = null;
         drawCtx.beginPath();
     });
 });
@@ -1287,7 +1829,7 @@ $("#smooth").oninput = () => {
 $("#undoDrawing").onclick = () => {
     if (!drawHistory.length) return;
 
-    drawCtx.putImageData(drawHistory.pop(),0,0);
+drawCtx.putImageData(drawHistory.pop(),0,0);
 };
 
 $("#clearDrawing").onclick = () => {
@@ -1311,289 +1853,9 @@ $("#exportDrawing").onclick = () => {
     const canvas = $("#cosmicBackground");
     const ctx = canvas.getContext("2d");
 
-    let W = 0;
+let W = 0;
     let H = 0;
     let dpr = 1;
     let time = 0;
     let particles = [];
-    let stars = [];
-
-    const mouse = {
-        x:innerWidth/2,
-        y:innerHeight/2,
-        active:false
-    };
-
-    const hole = {
-        x:innerWidth*.72,
-        y:innerHeight*.52,
-        radius:43
-    };
-
-    function resize() {
-        dpr = Math.min(window.devicePixelRatio || 1,1.5);
-
-        W = window.innerWidth;
-        H = window.innerHeight;
-
-        canvas.width = Math.floor(W*dpr);
-        canvas.height = Math.floor(H*dpr);
-
-        canvas.style.width = W+"px";
-        canvas.style.height = H+"px";
-
-        ctx.setTransform(dpr,0,0,dpr,0,0);
-
-        createParticles();
-    }
-
-    function createParticles() {
-        particles = [];
-        stars = [];
-
-        const amount = Math.min(450,Math.floor(W*H/3000));
-
-        for (let i=0;i<amount;i++) {
-            particles.push({
-                angle:Math.random()*Math.PI*2,
-                distance:60+Math.random()*270,
-                speed:.002+Math.random()*.006,
-                size:.5+Math.random()*1.8,
-                alpha:.15+Math.random()*.65
-            });
-        }
-
-        for (let i=0;i<100;i++) {
-            stars.push({
-                x:Math.random()*W,
-                y:Math.random()*H,
-                size:.5+Math.random()*1.3,
-                alpha:.15+Math.random()*.5
-            });
-        }
-    }
-
-    function drawStars() {
-        stars.forEach(s => {
-            const flicker = .7+Math.sin(time*2+s.x)*.3;
-
-            ctx.beginPath();
-            ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
-            ctx.fillStyle = `rgba(255,255,255,${s.alpha*flicker})`;
-            ctx.fill();
-        });
-    }
-
-    /* TORNADO */
-
-    function drawTornado() {
-        const cx = W*.22;
-        const cy = H*.57;
-
-        ctx.save();
-
-        for (let i=0;i<11;i++) {
-            const progress = i/11;
-            const y = cy-220+progress*440;
-            const width = 12+progress*115;
-            const rotation = time*(1.1+progress)+i*.7;
-
-            ctx.beginPath();
-
-            for (let j=0;j<=120;j++) {
-                const t = j/120;
-                const angle = rotation+t*Math.PI*5;
-                const r = width*t;
-
-                const px = cx+Math.cos(angle)*r;
-                const py = y+Math.sin(angle)*r*.24;
-
-                if (j===0) ctx.moveTo(px,py);
-                else ctx.lineTo(px,py);
-            }
-
-            ctx.strokeStyle = i%2===0
-                ? "rgba(255,255,255,.23)"
-                : "rgba(255,220,90,.30)";
-
-            ctx.lineWidth = 1.5+progress*2;
-            ctx.shadowColor = "#ffe17a";
-            ctx.shadowBlur = 10;
-            ctx.stroke();
-        }
-
-        // دوامة مركزية
-        for (let i=0;i<75;i++) {
-            const angle = time*2+i*.4;
-            const progress = i/75;
-            const r = 5+progress*125;
-
-            const x = cx+Math.cos(angle)*r;
-            const y = cy+Math.sin(angle)*r*1.8;
-
-            ctx.beginPath();
-            ctx.arc(x,y,1+progress,0,Math.PI*2);
-            ctx.fillStyle = "rgba(255,255,255,.5)";
-            ctx.fill();
-        }
-
-        ctx.restore();
-    }
-
-    /* BLACK HOLE */
-
-    function drawBlackHole(x,y,radius) {
-        ctx.save();
-
-        // الهالة الخارجية
-        const glow = ctx.createRadialGradient(
-            x,y,radius*.3,
-            x,y,radius*3.8
-        );
-
-        glow.addColorStop(0,"rgba(255,255,255,.13)");
-        glow.addColorStop(.3,"rgba(255,220,80,.12)");
-        glow.addColorStop(1,"rgba(0,0,0,0)");
-
-        ctx.fillStyle = glow;
-        ctx.beginPath();
-        ctx.arc(x,y,radius*3.8,0,Math.PI*2);
-        ctx.fill();
-
-        // حلقات الضوء
-        for (let i=0;i<4;i++) {
-            ctx.beginPath();
-
-            ctx.ellipse(
-                x,y,
-                radius*(1.25+i*.25),
-                radius*(.35+i*.08),
-                time*.35+i,
-                0,Math.PI*2
-            );
-
-            ctx.strokeStyle = i%2===0
-                ? "rgba(255,255,255,.65)"
-                : "rgba(255,220,70,.6)";
-
-            ctx.lineWidth = 2;
-            ctx.shadowColor = "#ffe36a";
-            ctx.shadowBlur = 17;
-            ctx.stroke();
-        }
-
-        // القرص المضيء
-        ctx.beginPath();
-
-        ctx.ellipse(
-            x,y,
-            radius*1.9,
-            radius*.45,
-            time*.12,
-            0,Math.PI*2
-        );
-
-        ctx.strokeStyle = "rgba(255,255,255,.85)";
-        ctx.lineWidth = 4;
-        ctx.shadowColor = "#ffe36a";
-        ctx.shadowBlur = 22;
-        ctx.stroke();
-
-        // مركز الثقب الأسود
-        ctx.shadowBlur = 0;
-
-        const center = ctx.createRadialGradient(
-            x-radius*.2,y-radius*.2,1,
-            x,y,radius
-        );
-
-        center.addColorStop(0,"#000000");
-        center.addColorStop(.7,"#000000");
-        center.addColorStop(1,"#17130a");
-
-        ctx.fillStyle = center;
-        ctx.beginPath();
-        ctx.arc(x,y,radius,0,Math.PI*2);
-        ctx.fill();
-
-        ctx.restore();
-    }
-
-    /* PARTICLES */
-
-    function drawParticles(x,y) {
-        particles.forEach(p => {
-            p.angle += p.speed;
-
-            const px = x+Math.cos(p.angle)*p.distance;
-            const py = y+Math.sin(p.angle)*p.distance*.55;
-
-            ctx.beginPath();
-            ctx.arc(px,py,p.size,0,Math.PI*2);
-
-            ctx.fillStyle =
-                `rgba(255,225,150,${p.alpha})`;
-
-            ctx.shadowColor = "#ffe58a";
-            ctx.shadowBlur = 8;
-            ctx.fill();
-            ctx.shadowBlur = 0;
-        });
-    }
-
-    function animate() {
-        time += .012;
-
-        ctx.clearRect(0,0,W,H);
-
-        // الخلفية
-        const bg = ctx.createRadialGradient(
-            W*.5,H*.5,10,
-            W*.5,H*.5,Math.max(W,H)*.8
-        );
-
-        bg.addColorStop(0,"#17140b");
-        bg.addColorStop(.45,"#090909");
-        bg.addColorStop(1,"#020202");
-
-        ctx.fillStyle = bg;
-        ctx.fillRect(0,0,W,H);
-
-        drawStars();
-        drawTornado();
-
-        // متابعة الماوس
-        if (mouse.active) {
-            hole.x += (mouse.x-hole.x)*.035;
-            hole.y += (mouse.y-hole.y)*.035;
-        } else {
-            hole.x += (W*.72-hole.x)*.009;
-            hole.y += (H*.52-hole.y)*.009;
-        }
-
-        drawParticles(hole.x,hole.y);
-        drawBlackHole(hole.x,hole.y,hole.radius);
-
-        requestAnimationFrame(animate);
-    }
-
-    window.addEventListener("mousemove",e => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-        mouse.active = true;
-    });
-
-    window.addEventListener("mouseleave",() => {
-        mouse.active = false;
-    });
-
-    window.addEventListener("resize",resize);
-
-    resize();
-    animate();
-})();
-
-</script>
-
-</body>
-</html>
+    let stars =
