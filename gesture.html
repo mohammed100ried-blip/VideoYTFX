@@ -12,889 +12,889 @@
 
 <style>
 :root {
- --bg:#020804;
- --panel:rgba(5,20,11,.91);
- --panel2:rgba(8,30,17,.88);
- --border:rgba(57,255,136,.2);
- --text:#edfff1;
- --muted:#86a993;
- --green:#22c55e;
- --neon:#39ff88;
- --cyan:#7af7ff;
- --glow:rgba(34,197,94,.22);
- --red:#fb425c;
+--bg:#020804;
+--panel:rgba(5,20,11,.91);
+--panel2:rgba(8,30,17,.88);
+--border:rgba(57,255,136,.2);
+--text:#edfff1;
+--muted:#86a993;
+--green:#22c55e;
+--neon:#39ff88;
+--cyan:#7af7ff;
+--glow:rgba(34,197,94,.22);
+--red:#fb425c;
 }
 
 [data-theme="light"] {
- --bg:#effcf3;
- --panel:rgba(255,255,255,.94);
- --panel2:rgba(235,250,240,.95);
- --border:rgba(22,163,74,.2);
- --text:#092b16;
- --muted:#54745f;
- --green:#16a34a;
- --neon:#00a844;
- --cyan:#087f91;
- --glow:rgba(22,163,74,.14);
- --red:#d6334c;
+--bg:#effcf3;
+--panel:rgba(255,255,255,.94);
+--panel2:rgba(235,250,240,.95);
+--border:rgba(22,163,74,.2);
+--text:#092b16;
+--muted:#54745f;
+--green:#16a34a;
+--neon:#00a844;
+--cyan:#087f91;
+--glow:rgba(22,163,74,.14);
+--red:#d6334c;
 }
 
 * {
- box-sizing:border-box;
- margin:0;
- padding:0;
+box-sizing:border-box;
+margin:0;
+padding:0;
 }
 
 body {
- min-height:100vh;
- overflow-x:hidden;
- background:var(--bg);
- color:var(--text);
- font-family:'Tajawal',sans-serif;
- transition:background .3s,color .3s;
+min-height:100vh;
+overflow-x:hidden;
+background:var(--bg);
+color:var(--text);
+font-family:'Tajawal',sans-serif;
+transition:background .3s,color .3s;
 }
 
 button,select,input {
- font:inherit;
+font:inherit;
 }
 
 button {
- cursor:pointer;
+cursor:pointer;
 }
 
 button:disabled {
- opacity:.45;
- cursor:not-allowed;
+opacity:.45;
+cursor:not-allowed;
 }
 
 body::before {
- content:"";
- position:fixed;
- inset:0;
- z-index:-4;
- pointer-events:none;
- background-image:
-  linear-gradient(rgba(34,197,94,.04) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(34,197,94,.04) 1px,transparent 1px);
- background-size:44px 44px;
+content:"";
+position:fixed;
+inset:0;
+z-index:-4;
+pointer-events:none;
+background-image:
+linear-gradient(rgba(34,197,94,.04) 1px,transparent 1px),
+linear-gradient(90deg,rgba(34,197,94,.04) 1px,transparent 1px);
+background-size:44px 44px;
 }
 
 body::after {
- content:"";
- position:fixed;
- inset:0;
- z-index:-3;
- pointer-events:none;
- background:
-  radial-gradient(ellipse at 15% 10%,rgba(0,255,100,.12),transparent 36%),
-  radial-gradient(ellipse at 85% 80%,rgba(0,255,100,.09),transparent 36%);
+content:"";
+position:fixed;
+inset:0;
+z-index:-3;
+pointer-events:none;
+background:
+radial-gradient(ellipse at 15% 10%,rgba(0,255,100,.12),transparent 36%),
+radial-gradient(ellipse at 85% 80%,rgba(0,255,100,.09),transparent 36%);
 }
 
 /* Rain and storm */
 
 .rain {
- position:fixed;
- inset:0;
- z-index:-2;
- pointer-events:none;
- overflow:hidden;
- opacity:.22;
- background:repeating-linear-gradient(
-  105deg,
-  transparent 0 75px,
-  rgba(170,255,210,.10) 76px,
-  transparent 78px
- );
- animation:rainMove .55s linear infinite;
+position:fixed;
+inset:0;
+z-index:-2;
+pointer-events:none;
+overflow:hidden;
+opacity:.22;
+background:repeating-linear-gradient(
+105deg,
+transparent 0 75px,
+rgba(170,255,210,.10) 76px,
+transparent 78px
+);
+animation:rainMove .55s linear infinite;
 }
 
 @keyframes rainMove {
- to {
-  background-position:0 180px;
- }
+to {
+background-position:0 180px;
+}
 }
 
 .lightning-flash {
- position:fixed;
- inset:0;
- z-index:80;
- pointer-events:none;
- background:rgba(230,255,240,0);
- opacity:0;
+position:fixed;
+inset:0;
+z-index:80;
+pointer-events:none;
+background:rgba(230,255,240,0);
+opacity:0;
 }
 
 .lightning-flash.flash {
- animation:flashScreen .38s ease-out;
+animation:flashScreen .38s ease-out;
 }
 
 @keyframes flashScreen {
- 0% {opacity:0}
- 12% {opacity:.55;background:rgba(240,255,247,.8)}
- 24% {opacity:.05}
- 37% {opacity:.35}
- 100% {opacity:0}
+0% {opacity:0}
+12% {opacity:.55;background:rgba(240,255,247,.8)}
+24% {opacity:.05}
+37% {opacity:.35}
+100% {opacity:0}
 }
 
 .bolt {
- position:fixed;
- z-index:81;
- top:-5%;
- width:clamp(80px,16vw,190px);
- height:70vh;
- pointer-events:none;
- opacity:0;
- filter:drop-shadow(0 0 9px #fff) drop-shadow(0 0 18px #9cffc2);
- clip-path:polygon(
-  53% 0,67% 0,53% 38%,75% 38%,
-  30% 100%,43% 55%,23% 55%
- );
- background:linear-gradient(#fff,#caffdd,#fff);
- transform:scaleY(.8);
+position:fixed;
+z-index:81;
+top:-5%;
+width:clamp(80px,16vw,190px);
+height:70vh;
+pointer-events:none;
+opacity:0;
+filter:drop-shadow(0 0 9px #fff) drop-shadow(0 0 18px #9cffc2);
+clip-path:polygon(
+53% 0,67% 0,53% 38%,75% 38%,
+30% 100%,43% 55%,23% 55%
+);
+background:linear-gradient(#fff,#caffdd,#fff);
+transform:scaleY(.8);
 }
 
 .bolt.show {
- animation:boltStrike .45s ease-out;
+animation:boltStrike .45s ease-out;
 }
 
 @keyframes boltStrike {
- 0% {opacity:0;transform:scaleY(.5) translateY(-20px)}
- 15% {opacity:1}
- 35% {opacity:.15}
- 48% {opacity:.9}
- 100% {opacity:0;transform:scaleY(1.05) translateY(12px)}
+0% {opacity:0;transform:scaleY(.5) translateY(-20px)}
+15% {opacity:1}
+35% {opacity:.15}
+48% {opacity:.9}
+100% {opacity:0;transform:scaleY(1.05) translateY(12px)}
 }
 
 /* Intro: GESTURE is struck by lightning from above */
 
 .intro {
- position:fixed;
- inset:0;
- z-index:1000;
- display:grid;
- place-items:center;
- overflow:hidden;
- background:
-  radial-gradient(ellipse at center,rgba(12,73,37,.45),transparent 52%),
-  #020804;
- transition:opacity .85s ease,visibility .85s ease;
+position:fixed;
+inset:0;
+z-index:1000;
+display:grid;
+place-items:center;
+overflow:hidden;
+background:
+radial-gradient(ellipse at center,rgba(12,73,37,.45),transparent 52%),
+#020804;
+transition:opacity .85s ease,visibility .85s ease;
 }
 
 .intro.done {
- opacity:0;
- visibility:hidden;
- pointer-events:none;
+opacity:0;
+visibility:hidden;
+pointer-events:none;
 }
 
 .intro-grid {
- position:absolute;
- inset:0;
- background-image:
-  linear-gradient(rgba(57,255,136,.045) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(57,255,136,.045) 1px,transparent 1px);
- background-size:45px 45px;
- mask-image:radial-gradient(ellipse,black,transparent 76%);
+position:absolute;
+inset:0;
+background-image:
+linear-gradient(rgba(57,255,136,.045) 1px,transparent 1px),
+linear-gradient(90deg,rgba(57,255,136,.045) 1px,transparent 1px);
+background-size:45px 45px;
+mask-image:radial-gradient(ellipse,black,transparent 76%);
 }
 
 .intro-title {
- position:relative;
- z-index:2;
- display:flex;
- gap:2px;
- direction:ltr;
- font-family:'Orbitron',sans-serif;
- font-size:clamp(3.4rem,11vw,8rem);
- font-weight:900;
- letter-spacing:2px;
- color:transparent;
- background:linear-gradient(90deg,#d8ffe5,#39ff88,#fff,#19e86b);
- background-size:250% auto;
- background-clip:text;
- -webkit-background-clip:text;
- filter:drop-shadow(0 0 22px rgba(57,255,136,.55));
+position:relative;
+z-index:2;
+display:flex;
+gap:2px;
+direction:ltr;
+font-family:'Orbitron',sans-serif;
+font-size:clamp(3.4rem,11vw,8rem);
+font-weight:900;
+letter-spacing:2px;
+color:transparent;
+background:linear-gradient(90deg,#d8ffe5,#39ff88,#fff,#19e86b);
+background-size:250% auto;
+background-clip:text;
+-webkit-background-clip:text;
+filter:drop-shadow(0 0 22px rgba(57,255,136,.55));
 }
 
 .intro-title span {
- opacity:0;
- transform:translateY(34px) scale(.8);
- animation:letterIn .65s cubic-bezier(.2,.8,.2,1) forwards;
- animation-delay:calc(var(--i)*.105s);
+opacity:0;
+transform:translateY(34px) scale(.8);
+animation:letterIn .65s cubic-bezier(.2,.8,.2,1) forwards;
+animation-delay:calc(var(--i)*.105s);
 }
 
 @keyframes letterIn {
- to {
-  opacity:1;
-  transform:translateY(0) scale(1);
- }
+to {
+opacity:1;
+transform:translateY(0) scale(1);
+}
 }
 
 .intro-bolt {
- position:absolute;
- z-index:4;
- top:-14%;
- left:50%;
- width:clamp(95px,15vw,180px);
- height:88vh;
- opacity:0;
- pointer-events:none;
- transform:translateX(-50%);
- clip-path:polygon(
-  47% 0,61% 0,52% 28%,72% 28%,
-  34% 67%,46% 43%,27% 43%
- );
- background:linear-gradient(
-  180deg,#fff 0%,#dffff0 42%,#70ffab 76%,#fff 100%
- );
- filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 22px #a0ffc4);
+position:absolute;
+z-index:4;
+top:-14%;
+left:50%;
+width:clamp(95px,15vw,180px);
+height:88vh;
+opacity:0;
+pointer-events:none;
+transform:translateX(-50%);
+clip-path:polygon(
+47% 0,61% 0,52% 28%,72% 28%,
+34% 67%,46% 43%,27% 43%
+);
+background:linear-gradient(
+180deg,#fff 0%,#dffff0 42%,#70ffab 76%,#fff 100%
+);
+filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 22px #a0ffc4);
 }
 
 .intro.strike .intro-bolt {
- animation:introBoltStrike .62s cubic-bezier(.2,.75,.2,1) forwards;
+animation:introBoltStrike .62s cubic-bezier(.2,.75,.2,1) forwards;
 }
 
 @keyframes introBoltStrike {
- 0% {
-  opacity:0;
-  transform:translate(-50%,-75vh) scaleY(.35);
- }
- 16% {opacity:1}
- 35% {opacity:.35}
- 49% {opacity:1}
- 100% {
-  opacity:0;
-  transform:translate(-50%,10vh) scaleY(1.05);
- }
+0% {
+opacity:0;
+transform:translate(-50%,-75vh) scaleY(.35);
+}
+16% {opacity:1}
+35% {opacity:.35}
+49% {opacity:1}
+100% {
+opacity:0;
+transform:translate(-50%,10vh) scaleY(1.05);
+}
 }
 
 .intro-flash {
- position:absolute;
- inset:0;
- z-index:5;
- opacity:0;
- pointer-events:none;
- background:rgba(235,255,243,.9);
+position:absolute;
+inset:0;
+z-index:5;
+opacity:0;
+pointer-events:none;
+background:rgba(235,255,243,.9);
 }
 
 .intro.strike .intro-flash {
- animation:introImpact .38s ease-out forwards;
+animation:introImpact .38s ease-out forwards;
 }
 
 @keyframes introImpact {
- 0% {opacity:0}
- 14% {opacity:.72}
- 30% {opacity:.08}
- 46% {opacity:.38}
- 100% {opacity:0}
+0% {opacity:0}
+14% {opacity:.72}
+30% {opacity:.08}
+46% {opacity:.38}
+100% {opacity:0}
 }
 
 .intro-title.burn span {
- animation:burnLetter .7s ease-in forwards;
- animation-delay:calc(var(--i)*.035s);
+animation:burnLetter .7s ease-in forwards;
+animation-delay:calc(var(--i)*.035s);
 }
 
 @keyframes burnLetter {
- 0% {
-  opacity:1;
-  transform:translateY(0) scale(1);
-  filter:brightness(1);
- }
- 22% {
-  opacity:1;
-  transform:translateY(-3px) scale(1.08);
-  filter:brightness(5) sepia(1) saturate(8) drop-shadow(0 0 22px #fff);
- }
- 48% {
-  opacity:.9;
-  transform:translateY(-12px) scale(1.02);
-  filter:brightness(3) sepia(1) saturate(9) blur(1px) drop-shadow(0 0 24px #ff9b42);
- }
- 100% {
-  opacity:0;
-  transform:translateY(-52px) scale(.72) rotate(5deg);
-  filter:blur(18px) brightness(2);
- }
+0% {
+opacity:1;
+transform:translateY(0) scale(1);
+filter:brightness(1);
+}
+22% {
+opacity:1;
+transform:translateY(-3px) scale(1.08);
+filter:brightness(5) sepia(1) saturate(8) drop-shadow(0 0 22px #fff);
+}
+48% {
+opacity:.9;
+transform:translateY(-12px) scale(1.02);
+filter:brightness(3) sepia(1) saturate(9) blur(1px) drop-shadow(0 0 24px #ff9b42);
+}
+100% {
+opacity:0;
+transform:translateY(-52px) scale(.72) rotate(5deg);
+filter:blur(18px) brightness(2);
+}
 }
 
 .intro.strike {
- animation:introShake .38s ease-out;
+animation:introShake .38s ease-out;
 }
 
 @keyframes introShake {
- 0%,100% {transform:translateX(0)}
- 20% {transform:translateX(-5px)}
- 45% {transform:translateX(4px)}
- 70% {transform:translateX(-2px)}
+0%,100% {transform:translateX(0)}
+20% {transform:translateX(-5px)}
+45% {transform:translateX(4px)}
+70% {transform:translateX(-2px)}
 }
 
 /* App shell */
 
 .navbar {
- position:sticky;
- top:0;
- z-index:20;
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:12px;
- padding:13px 5%;
- background:var(--panel);
- backdrop-filter:blur(20px);
- -webkit-backdrop-filter:blur(20px);
- border-bottom:1px solid var(--border);
- opacity:0;
- animation:uiIn .7s ease 3.65s forwards;
+position:sticky;
+top:0;
+z-index:20;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+padding:13px 5%;
+background:var(--panel);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+border-bottom:1px solid var(--border);
+opacity:0;
+animation:uiIn .7s ease 3.65s forwards;
 }
 
 .brand {
- display:flex;
- align-items:center;
- gap:12px;
- color:var(--text);
- text-decoration:none;
- font:800 1.15rem 'Orbitron',sans-serif;
- letter-spacing:1px;
+display:flex;
+align-items:center;
+gap:12px;
+color:var(--text);
+text-decoration:none;
+font:800 1.15rem 'Orbitron',sans-serif;
+letter-spacing:1px;
 }
 
 .brand-icon {
- width:42px;
- height:42px;
- display:grid;
- place-items:center;
- border-radius:13px;
- background:linear-gradient(135deg,#064e27,#22c55e);
- box-shadow:0 0 22px var(--glow);
- font-size:23px;
+width:42px;
+height:42px;
+display:grid;
+place-items:center;
+border-radius:13px;
+background:linear-gradient(135deg,#064e27,#22c55e);
+box-shadow:0 0 22px var(--glow);
+font-size:23px;
 }
 
 .nav-actions {
- display:flex;
- gap:8px;
- flex-wrap:wrap;
+display:flex;
+gap:8px;
+flex-wrap:wrap;
 }
 
 .btn {
- padding:10px 15px;
- border:1px solid var(--border);
- border-radius:11px;
- background:var(--panel2);
- color:var(--text);
- transition:.2s;
+padding:10px 15px;
+border:1px solid var(--border);
+border-radius:11px;
+background:var(--panel2);
+color:var(--text);
+transition:.2s;
 }
 
 .btn:hover:not(:disabled) {
- border-color:var(--neon);
- box-shadow:0 0 16px var(--glow);
- transform:translateY(-2px);
+border-color:var(--neon);
+box-shadow:0 0 16px var(--glow);
+transform:translateY(-2px);
 }
 
 .btn-primary {
- color:white;
- border:0;
- background:linear-gradient(120deg,#04752e,#22c55e);
- box-shadow:0 0 20px rgba(34,197,94,.15);
+color:white;
+border:0;
+background:linear-gradient(120deg,#04752e,#22c55e);
+box-shadow:0 0 20px rgba(34,197,94,.15);
 }
 
 .btn-danger {
- color:white;
- border:0;
- background:linear-gradient(120deg,#991b1b,#dc2626);
+color:white;
+border:0;
+background:linear-gradient(120deg,#991b1b,#dc2626);
 }
 
 .btn-sound {
- color:var(--cyan);
- border-color:rgba(122,247,255,.3);
+color:var(--cyan);
+border-color:rgba(122,247,255,.3);
 }
 
 .hero {
- text-align:center;
- padding:42px 15px 26px;
- opacity:0;
- animation:uiIn .7s ease 3.8s forwards;
+text-align:center;
+padding:42px 15px 26px;
+opacity:0;
+animation:uiIn .7s ease 3.8s forwards;
 }
 
 .hero h1 {
- display:inline-block;
- font:900 clamp(2.5rem,7vw,5rem) 'Orbitron',sans-serif;
- letter-spacing:-2px;
- color:transparent;
- background:linear-gradient(90deg,#d8ffe5,#39ff88,#fff,#19e86b,#d8ffe5);
- background-size:300% auto;
- background-clip:text;
- -webkit-background-clip:text;
- filter:drop-shadow(0 0 18px rgba(34,255,115,.4));
- animation:titleFlow 5s linear infinite;
+display:inline-block;
+font:900 clamp(2.5rem,7vw,5rem) 'Orbitron',sans-serif;
+letter-spacing:-2px;
+color:transparent;
+background:linear-gradient(90deg,#d8ffe5,#39ff88,#fff,#19e86b,#d8ffe5);
+background-size:300% auto;
+background-clip:text;
+-webkit-background-clip:text;
+filter:drop-shadow(0 0 18px rgba(34,255,115,.4));
+animation:titleFlow 5s linear infinite;
 }
 
 .hero p {
- color:var(--muted);
- margin-top:10px;
- font-size:.95rem;
+color:var(--muted);
+margin-top:10px;
+font-size:.95rem;
 }
 
 @keyframes titleFlow {
- to {background-position:300% center}
+to {background-position:300% center}
 }
 
 .workspace {
- width:min(1350px,94%);
- margin:auto;
- padding-bottom:55px;
- display:grid;
- grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);
- gap:20px;
- opacity:0;
- animation:uiIn .7s ease 4s forwards;
+width:min(1350px,94%);
+margin:auto;
+padding-bottom:55px;
+display:grid;
+grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);
+gap:20px;
+opacity:0;
+animation:uiIn .7s ease 4s forwards;
 }
 
 @keyframes uiIn {
- from {
-  opacity:0;
-  transform:translateY(22px);
-  filter:blur(6px);
- }
- to {
-  opacity:1;
-  transform:translateY(0);
-  filter:blur(0);
- }
+from {
+opacity:0;
+transform:translateY(22px);
+filter:blur(6px);
+}
+to {
+opacity:1;
+transform:translateY(0);
+filter:blur(0);
+}
 }
 
 .column {
- min-width:0;
+min-width:0;
 }
 
 .panel {
- min-width:0;
- padding:21px;
- margin-bottom:20px;
- border:1px solid var(--border);
- border-radius:18px;
- background:var(--panel);
- box-shadow:0 12px 35px rgba(0,0,0,.12);
- backdrop-filter:blur(15px);
- -webkit-backdrop-filter:blur(15px);
- animation:panelAppear .6s both;
+min-width:0;
+padding:21px;
+margin-bottom:20px;
+border:1px solid var(--border);
+border-radius:18px;
+background:var(--panel);
+box-shadow:0 12px 35px rgba(0,0,0,.12);
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+animation:panelAppear .6s both;
 }
 
 @keyframes panelAppear {
- from {
-  opacity:0;
-  transform:translateY(15px);
- }
- to {
-  opacity:1;
-  transform:translateY(0);
- }
+from {
+opacity:0;
+transform:translateY(15px);
+}
+to {
+opacity:1;
+transform:translateY(0);
+}
 }
 
 .panel-head {
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
- margin-bottom:18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-bottom:18px;
 }
 
 .panel-head h2,
 .panel-head h3 {
- font-size:1.12rem;
- font-weight:800;
+font-size:1.12rem;
+font-weight:800;
 }
 
 .muted {
- color:var(--muted);
- font-size:.85rem;
+color:var(--muted);
+font-size:.85rem;
 }
 
 .status {
- padding:5px 12px;
- border:1px solid var(--border);
- border-radius:30px;
- color:var(--muted);
- font-size:.82rem;
- white-space:nowrap;
+padding:5px 12px;
+border:1px solid var(--border);
+border-radius:30px;
+color:var(--muted);
+font-size:.82rem;
+white-space:nowrap;
 }
 
 .status.active {
- color:var(--neon);
- border-color:var(--green);
- box-shadow:0 0 12px var(--glow);
+color:var(--neon);
+border-color:var(--green);
+box-shadow:0 0 12px var(--glow);
 }
 
 .status.error {
- color:#ff8090;
- border-color:#dc2626;
+color:#ff8090;
+border-color:#dc2626;
 }
 
 /* Camera */
 
 .camera-box {
- position:relative;
- width:100%;
- aspect-ratio:4/3;
- overflow:hidden;
- border:1px solid var(--border);
- border-radius:15px;
- background:#020804;
- box-shadow:inset 0 0 30px rgba(0,255,100,.08);
+position:relative;
+width:100%;
+aspect-ratio:4/3;
+overflow:hidden;
+border:1px solid var(--border);
+border-radius:15px;
+background:#020804;
+box-shadow:inset 0 0 30px rgba(0,255,100,.08);
 }
 
 #cameraVideo,
 #outputCanvas {
- position:absolute;
- inset:0;
- width:100%;
- height:100%;
- object-fit:cover;
- transform:scaleX(-1);
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+transform:scaleX(-1);
 }
 
 #outputCanvas {
- pointer-events:none;
+pointer-events:none;
 }
 
 .placeholder {
- position:absolute;
- inset:0;
- display:grid;
- place-items:center;
- text-align:center;
- color:#b8d9c1;
- background:radial-gradient(circle,rgba(34,197,94,.08),transparent 65%);
+position:absolute;
+inset:0;
+display:grid;
+place-items:center;
+text-align:center;
+color:#b8d9c1;
+background:radial-gradient(circle,rgba(34,197,94,.08),transparent 65%);
 }
 
 .placeholder.hidden {
- display:none;
+display:none;
 }
 
 .placeholder .icon {
- margin-bottom:10px;
- font-size:4rem;
+margin-bottom:10px;
+font-size:4rem;
 }
 
 .camera-info {
- display:flex;
- justify-content:space-between;
- gap:10px;
- flex-wrap:wrap;
- margin-top:13px;
- color:var(--muted);
- font-size:.87rem;
+display:flex;
+justify-content:space-between;
+gap:10px;
+flex-wrap:wrap;
+margin-top:13px;
+color:var(--muted);
+font-size:.87rem;
 }
 
 .camera-actions {
- display:flex;
- gap:10px;
- margin-top:16px;
- flex-wrap:wrap;
+display:flex;
+gap:10px;
+margin-top:16px;
+flex-wrap:wrap;
 }
 
 .camera-actions button {
- flex:1;
- min-width:135px;
+flex:1;
+min-width:135px;
 }
 
 .camera-options {
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:10px;
- margin-top:13px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:13px;
 }
 
 .camera-options label {
- display:block;
- color:var(--muted);
- font-size:.82rem;
- margin-bottom:5px;
+display:block;
+color:var(--muted);
+font-size:.82rem;
+margin-bottom:5px;
 }
 
 .camera-options select {
- width:100%;
- padding:9px 10px;
- border-radius:9px;
- border:1px solid var(--border);
- background:var(--panel2);
- color:var(--text);
+width:100%;
+padding:9px 10px;
+border-radius:9px;
+border:1px solid var(--border);
+background:var(--panel2);
+color:var(--text);
 }
 
 /* AI and gesture result */
 
 .ai-strip {
- display:grid;
- grid-template-columns:repeat(3,minmax(0,1fr));
- gap:10px;
- margin-top:14px;
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:10px;
+margin-top:14px;
 }
 
 .ai-metric {
- padding:12px;
- border:1px solid var(--border);
- border-radius:12px;
- background:rgba(34,197,94,.035);
- min-width:0;
+padding:12px;
+border:1px solid var(--border);
+border-radius:12px;
+background:rgba(34,197,94,.035);
+min-width:0;
 }
 
 .ai-metric small {
- display:block;
- color:var(--muted);
- font-size:.76rem;
+display:block;
+color:var(--muted);
+font-size:.76rem;
 }
 
 .ai-metric strong {
- display:block;
- margin-top:5px;
- color:var(--neon);
- font:700 1.05rem 'Orbitron',sans-serif;
- overflow-wrap:anywhere;
+display:block;
+margin-top:5px;
+color:var(--neon);
+font:700 1.05rem 'Orbitron',sans-serif;
+overflow-wrap:anywhere;
 }
 
 .gesture-display {
- display:flex;
- align-items:center;
- gap:17px;
- padding:18px;
- border:1px solid var(--border);
- border-radius:15px;
- background:linear-gradient(120deg,rgba(34,197,94,.12),rgba(0,0,0,.05));
+display:flex;
+align-items:center;
+gap:17px;
+padding:18px;
+border:1px solid var(--border);
+border-radius:15px;
+background:linear-gradient(120deg,rgba(34,197,94,.12),rgba(0,0,0,.05));
 }
 
 .gesture-icon {
- width:72px;
- height:72px;
- flex-shrink:0;
- display:grid;
- place-items:center;
- border:1px solid var(--border);
- border-radius:18px;
- background:rgba(34,197,94,.12);
- font-size:2.5rem;
+width:72px;
+height:72px;
+flex-shrink:0;
+display:grid;
+place-items:center;
+border:1px solid var(--border);
+border-radius:18px;
+background:rgba(34,197,94,.12);
+font-size:2.5rem;
 }
 
 .gesture-name {
- color:var(--neon);
- font-size:1.25rem;
- font-weight:800;
+color:var(--neon);
+font-size:1.25rem;
+font-weight:800;
 }
 
 .gesture-description {
- display:none;
+display:none;
 }
 
 .movement-track {
- height:7px;
- border-radius:10px;
- background:rgba(57,255,136,.1);
- overflow:hidden;
- margin-top:13px;
+height:7px;
+border-radius:10px;
+background:rgba(57,255,136,.1);
+overflow:hidden;
+margin-top:13px;
 }
 
 #movementBar {
- height:100%;
- width:0;
- background:linear-gradient(90deg,#16a34a,#7affaa);
- transition:width .12s;
+height:100%;
+width:0;
+background:linear-gradient(90deg,#16a34a,#7affaa);
+transition:width .12s;
 }
 
 /* Statistics */
 
 .stats {
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:12px;
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:12px;
 }
 
 .stat {
- padding:16px;
- border:1px solid var(--border);
- border-radius:14px;
- background:rgba(34,197,94,.035);
+padding:16px;
+border:1px solid var(--border);
+border-radius:14px;
+background:rgba(34,197,94,.035);
 }
 
 .stat-label {
- color:var(--muted);
- font-size:.85rem;
+color:var(--muted);
+font-size:.85rem;
 }
 
 .stat-value {
- margin-top:8px;
- color:var(--neon);
- font-family:'Orbitron',sans-serif;
- font-size:1.65rem;
- overflow-wrap:anywhere;
+margin-top:8px;
+color:var(--neon);
+font-family:'Orbitron',sans-serif;
+font-size:1.65rem;
+overflow-wrap:anywhere;
 }
 
 .movement-list {
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:9px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
 }
 
 .movement {
- display:flex;
- justify-content:space-between;
- align-items:center;
- padding:11px 12px;
- border:1px solid var(--border);
- border-radius:11px;
- background:rgba(34,197,94,.035);
- transition:.2s;
- gap:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:11px 12px;
+border:1px solid var(--border);
+border-radius:11px;
+background:rgba(34,197,94,.035);
+transition:.2s;
+gap:8px;
 }
 
 .movement:hover {
- border-color:var(--neon);
- transform:translateY(-2px);
+border-color:var(--neon);
+transform:translateY(-2px);
 }
 
 .movement strong {
- color:var(--neon);
- font-family:'Orbitron',sans-serif;
+color:var(--neon);
+font-family:'Orbitron',sans-serif;
 }
 
 /* Settings */
 
 .settings {
- display:grid;
- gap:19px;
+display:grid;
+gap:19px;
 }
 
 .setting label {
- display:block;
- margin-bottom:9px;
- font-weight:700;
+display:block;
+margin-bottom:9px;
+font-weight:700;
 }
 
 .setting-row {
- display:grid;
- grid-template-columns:1fr 65px;
- align-items:center;
- gap:12px;
+display:grid;
+grid-template-columns:1fr 65px;
+align-items:center;
+gap:12px;
 }
 
 input[type=range] {
- width:100%;
- accent-color:var(--green);
- cursor:pointer;
+width:100%;
+accent-color:var(--green);
+cursor:pointer;
 }
 
 .output {
- color:var(--neon);
- font-family:'Orbitron',sans-serif;
- text-align:left;
+color:var(--neon);
+font-family:'Orbitron',sans-serif;
+text-align:left;
 }
 
 /* History */
 
 .history {
- display:grid;
- gap:8px;
- max-height:330px;
- overflow:auto;
+display:grid;
+gap:8px;
+max-height:330px;
+overflow:auto;
 }
 
 .history-item {
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
- padding:11px;
- border-bottom:1px solid var(--border);
- font-size:.9rem;
- animation:historyIn .25s ease;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+padding:11px;
+border-bottom:1px solid var(--border);
+font-size:.9rem;
+animation:historyIn .25s ease;
 }
 
 @keyframes historyIn {
- from {
-  opacity:0;
-  transform:translateX(10px);
- }
- to {
-  opacity:1;
-  transform:translateX(0);
- }
+from {
+opacity:0;
+transform:translateX(10px);
+}
+to {
+opacity:1;
+transform:translateX(0);
+}
 }
 
 .history-item span:last-child {
- color:var(--muted);
- direction:ltr;
- font-size:.8rem;
+color:var(--muted);
+direction:ltr;
+font-size:.8rem;
 }
 
 .empty {
- padding:15px;
- text-align:center;
- color:var(--muted);
+padding:15px;
+text-align:center;
+color:var(--muted);
 }
 
 .actions {
- display:flex;
- gap:10px;
- margin-top:17px;
+display:flex;
+gap:10px;
+margin-top:17px;
 }
 
 .actions button {
- flex:1;
+flex:1;
 }
 
 footer {
- padding:25px;
- text-align:center;
- border-top:1px solid var(--border);
- color:var(--muted);
- background:var(--panel);
+padding:25px;
+text-align:center;
+border-top:1px solid var(--border);
+color:var(--muted);
+background:var(--panel);
 }
 
 .toast {
- position:fixed;
- bottom:20px;
- left:50%;
- z-index:120;
- max-width:90%;
- padding:12px 20px;
- border:1px solid #22c55e;
- border-radius:12px;
- color:#d1fae5;
- background:#052e16;
- opacity:0;
- pointer-events:none;
- transform:translate(-50%,20px);
- transition:.25s;
- text-align:center;
+position:fixed;
+bottom:20px;
+left:50%;
+z-index:120;
+max-width:90%;
+padding:12px 20px;
+border:1px solid #22c55e;
+border-radius:12px;
+color:#d1fae5;
+background:#052e16;
+opacity:0;
+pointer-events:none;
+transform:translate(-50%,20px);
+transition:.25s;
+text-align:center;
 }
 
 .toast.show {
- opacity:1;
- transform:translate(-50%,0);
+opacity:1;
+transform:translate(-50%,0);
 }
 
 @media(max-width:850px) {
- .workspace {
-  grid-template-columns:1fr;
- }
+.workspace {
+grid-template-columns:1fr;
+}
 }
 
 @media(max-width:520px) {
- .navbar {padding:11px 4%}
- .brand {font-size:.95rem}
- .nav-actions button {padding:8px;font-size:.78rem}
- .hero {padding:30px 10px 25px}
- .panel {padding:15px}
- .camera-actions {flex-direction:column}
- .gesture-display {padding:12px}
- .gesture-icon {width:58px;height:58px}
- .stats {grid-template-columns:1fr 1fr}
- .camera-options {grid-template-columns:1fr}
- .ai-strip {grid-template-columns:1fr 1fr 1fr}
- .ai-metric {padding:9px 7px}
- .ai-metric strong {font-size:.85rem}
+.navbar {padding:11px 4%}
+.brand {font-size:.95rem}
+.nav-actions button {padding:8px;font-size:.78rem}
+.hero {padding:30px 10px 25px}
+.panel {padding:15px}
+.camera-actions {flex-direction:column}
+.gesture-display {padding:12px}
+.gesture-icon {width:58px;height:58px}
+.stats {grid-template-columns:1fr 1fr}
+.camera-options {grid-template-columns:1fr}
+.ai-strip {grid-template-columns:1fr 1fr 1fr}
+.ai-metric {padding:9px 7px}
+.ai-metric strong {font-size:.85rem}
 }
 
 @media(prefers-reduced-motion:reduce) {
- *,
- *::before,
- *::after {
-  animation-duration:.01ms!important;
-  transition-duration:.01ms!important;
- }
+*,
+*::before,
+*::after {
+animation-duration:.01ms!important;
+transition-duration:.01ms!important;
+}
 }
 </style>
 </head>
@@ -908,276 +908,276 @@ footer {
 <!-- INTRO: GESTURE ONLY -->
 
 <div class="intro" id="intro" aria-label="Gesture intro">
- <div class="intro-grid"></div>
- <div class="intro-title" id="introTitle"></div>
- <div class="intro-bolt"></div>
- <div class="intro-flash"></div>
+<div class="intro-grid"></div>
+<div class="intro-title" id="introTitle"></div>
+<div class="intro-bolt"></div>
+<div class="intro-flash"></div>
 </div>
 
 <nav class="navbar">
- <a href="gesture.html" class="brand">
-  <span class="brand-icon">✋</span>
-  <span>GESTURE <span style="color:var(--neon)">AI</span></span>
- </a>
+<a href="gesture.html" class="brand">
+<span class="brand-icon"></span>
+<span>GESTURE <span style="color:var(--neon)">AI</span></span>
+</a>
 
- <div class="nav-actions">
-  <button class="btn btn-sound" id="soundBtn" type="button">
-   🔇 <span data-ar="صوت الرعد: مغلق" data-en="Thunder: Off">صوت الرعد: مغلق</span>
-  </button>
+<div class="nav-actions">
+<button class="btn btn-sound" id="soundBtn" type="button">
+<span data-ar=" : " data-en="Thunder: Off"> : </span>
+</button>
 
-  <button class="btn" id="languageBtn" type="button">🌐 English</button>
-  <button class="btn" id="themeBtn" type="button">☀️</button>
- </div>
+<button class="btn" id="languageBtn" type="button"> English</button>
+<button class="btn" id="themeBtn" type="button"></button>
+</div>
 </nav>
 
 <header class="hero">
- <h1>GESTURE AI</h1>
+<h1>GESTURE AI</h1>
 </header>
 
 <main class="workspace">
 
- <div class="column">
+<div class="column">
 
-  <!-- CAMERA -->
+<!-- CAMERA -->
 
-  <section class="panel">
-   <div class="panel-head">
-    <h2 data-ar="كاميرا التتبّع الذكي" data-en="AI Tracking Camera">كاميرا التتبّع الذكي</h2>
-    <span class="status" id="status">● متوقفة</span>
-   </div>
+<section class="panel">
+<div class="panel-head">
+<h2 data-ar=" " data-en="AI Tracking Camera"> </h2>
+<span class="status" id="status"> </span>
+</div>
 
-   <div class="camera-box">
-    <video id="cameraVideo" autoplay playsinline muted></video>
-    <canvas id="outputCanvas"></canvas>
+<div class="camera-box">
+<video id="cameraVideo" autoplay playsinline muted></video>
+<canvas id="outputCanvas"></canvas>
 
-    <div class="placeholder" id="placeholder">
-     <div>
-      <div class="icon">✋</div>
-     </div>
-    </div>
-   </div>
+<div class="placeholder" id="placeholder">
+<div>
+<div class="icon"></div>
+</div>
+</div>
+</div>
 
-   <div class="camera-info">
-    <span id="cameraMessage">الكاميرا غير مفعّلة</span>
-    <span id="handStatus">لا توجد يد</span>
-   </div>
+<div class="camera-info">
+<span id="cameraMessage"> </span>
+<span id="handStatus"> </span>
+</div>
 
-   <div class="camera-options">
-    <div>
-     <label for="cameraSelect" data-ar="اختيار الكاميرا" data-en="Camera device">اختيار الكاميرا</label>
-     <select id="cameraSelect">
-      <option value="">الكاميرا الافتراضية</option>
-     </select>
-    </div>
+<div class="camera-options">
+<div>
+<label for="cameraSelect" data-ar=" " data-en="Camera device"> </label>
+<select id="cameraSelect">
+<option value=""> </option>
+</select>
+</div>
 
-    <div>
-     <label for="qualitySelect" data-ar="دقة الكاميرا" data-en="Camera resolution">دقة الكاميرا</label>
-     <select id="qualitySelect">
-      <option value="640x480">480p</option>
-      <option value="1280x720" selected>720p</option>
-      <option value="1920x1080">1080p</option>
-     </select>
-    </div>
-   </div>
+<div>
+<label for="qualitySelect" data-ar=" " data-en="Camera resolution"> </label>
+<select id="qualitySelect">
+<option value="640x480">480p</option>
+<option value="1280x720" selected>720p</option>
+<option value="1920x1080">1080p</option>
+</select>
+</div>
+</div>
 
-   <div class="camera-actions">
-    <button class="btn btn-primary" id="startBtn" type="button">
-     ▶ <span data-ar="تشغيل الكاميرا" data-en="Start Camera">تشغيل الكاميرا</span>
-    </button>
+<div class="camera-actions">
+<button class="btn btn-primary" id="startBtn" type="button">
+<span data-ar=" " data-en="Start Camera"> </span>
+</button>
 
-    <button class="btn" id="stopBtn" type="button" disabled>
-     ■ <span data-ar="إيقاف الكاميرا" data-en="Stop Camera">إيقاف الكاميرا</span>
-    </button>
-   </div>
+<button class="btn" id="stopBtn" type="button" disabled>
+<span data-ar=" " data-en="Stop Camera"> </span>
+</button>
+</div>
 
-   <div class="ai-strip">
-    <div class="ai-metric">
-     <small data-ar="ثقة اكتشاف اليد" data-en="Detection confidence">ثقة اكتشاف اليد</small>
-     <strong id="confidence">--%</strong>
-    </div>
+<div class="ai-strip">
+<div class="ai-metric">
+<small data-ar=" " data-en="Detection confidence"> </small>
+<strong id="confidence">--%</strong>
+</div>
 
-    <div class="ai-metric">
-     <small data-ar="سرعة المعالجة" data-en="Processing FPS">سرعة المعالجة</small>
-     <strong id="fps">--</strong>
-    </div>
+<div class="ai-metric">
+<small data-ar=" " data-en="Processing FPS"> </small>
+<strong id="fps">--</strong>
+</div>
 
-    <div class="ai-metric">
-     <small data-ar="حالة الذكاء" data-en="AI model">حالة الذكاء</small>
-     <strong id="modelState">READY</strong>
-    </div>
-   </div>
-  </section>
+<div class="ai-metric">
+<small data-ar=" " data-en="AI model"> </small>
+<strong id="modelState">READY</strong>
+</div>
+</div>
+</section>
 
-  <!-- DETECTED GESTURE -->
+<!-- DETECTED GESTURE -->
 
-  <section class="panel">
-   <div class="panel-head">
-    <h3 data-ar="الحركة التي اكتشفها الذكاء الاصطناعي" data-en="AI Gesture Recognition">الحركة التي اكتشفها الذكاء الاصطناعي</h3>
-    <span class="muted">LIVE AI</span>
-   </div>
+<section class="panel">
+<div class="panel-head">
+<h3 data-ar=" " data-en="AI Gesture Recognition"> </h3>
+<span class="muted">LIVE AI</span>
+</div>
 
-   <div class="gesture-display">
-    <div class="gesture-icon" id="gestureEmoji">✋</div>
-    <div>
-     <div class="gesture-name" id="gestureName">بانتظار الحركة</div>
-     <div class="gesture-description" id="gestureDesc">ضع يدك أمام الكاميرا لبدء التعرّف.</div>
-    </div>
-   </div>
+<div class="gesture-display">
+<div class="gesture-icon" id="gestureEmoji"></div>
+<div>
+<div class="gesture-name" id="gestureName"> </div>
+<div class="gesture-description" id="gestureDesc"> .</div>
+</div>
+</div>
 
-   <div class="movement-track">
-    <div id="movementBar"></div>
-   </div>
+<div class="movement-track">
+<div id="movementBar"></div>
+</div>
 
-   <p class="muted" style="margin-top:8px;display:none" id="movementInfo">لا توجد حركة مسجلة حالياً.</p>
-  </section>
+<p class="muted" style="margin-top:8px;display:none" id="movementInfo"> .</p>
+</section>
 
-  <!-- HISTORY -->
+<!-- HISTORY -->
 
-  <section class="panel">
-   <div class="panel-head">
-    <h3 data-ar="سجل الحركات المكتشفة" data-en="Detected Movement History">سجل الحركات المكتشفة</h3>
-    <span class="muted">LAST 12</span>
-   </div>
+<section class="panel">
+<div class="panel-head">
+<h3 data-ar=" " data-en="Detected Movement History"> </h3>
+<span class="muted">LAST 12</span>
+</div>
 
-   <div class="history" id="history">
-    <div class="empty">لا توجد حركات حتى الآن.</div>
-   </div>
-  </section>
+<div class="history" id="history">
+<div class="empty"> .</div>
+</div>
+</section>
 
- </div>
+</div>
 
- <aside class="column">
+<aside class="column">
 
-  <!-- SETTINGS -->
+<!-- SETTINGS -->
 
-  <section class="panel">
-   <div class="panel-head">
-    <h3 data-ar="إعدادات التعرّف" data-en="Recognition Settings">إعدادات التعرّف</h3>
-   </div>
+<section class="panel">
+<div class="panel-head">
+<h3 data-ar=" " data-en="Recognition Settings"> </h3>
+</div>
 
-   <div class="settings">
+<div class="settings">
 
-    <div class="setting">
-     <label for="sensitivity" data-ar="حساسية الحركة الحرة" data-en="Free movement sensitivity">حساسية الحركة الحرة</label>
+<div class="setting">
+<label for="sensitivity" data-ar=" " data-en="Free movement sensitivity"> </label>
 
-     <div class="setting-row">
-      <input type="range" id="sensitivity" min="10" max="45" value="22">
-      <output class="output" id="sensitivityOut">0.22</output>
-     </div>
-    </div>
+<div class="setting-row">
+<input type="range" id="sensitivity" min="10" max="45" value="22">
+<output class="output" id="sensitivityOut">0.22</output>
+</div>
+</div>
 
-    <div class="setting">
-     <label for="smoothing" data-ar="تنعيم التتبّع" data-en="Tracking smoothing">تنعيم التتبّع</label>
+<div class="setting">
+<label for="smoothing" data-ar=" " data-en="Tracking smoothing"> </label>
 
-     <div class="setting-row">
-      <input type="range" id="smoothing" min="1" max="10" value="4">
-      <output class="output" id="smoothingOut">4</output>
-     </div>
-    </div>
+<div class="setting-row">
+<input type="range" id="smoothing" min="1" max="10" value="4">
+<output class="output" id="smoothingOut">4</output>
+</div>
+</div>
 
-    <div class="setting">
-     <label for="confidenceLimit" data-ar="دقة اكتشاف اليد المطلوبة" data-en="Minimum detection confidence">دقة اكتشاف اليد المطلوبة</label>
+<div class="setting">
+<label for="confidenceLimit" data-ar=" " data-en="Minimum detection confidence"> </label>
 
-     <div class="setting-row">
-      <input type="range" id="confidenceLimit" min="50" max="90" value="65">
-      <output class="output" id="confidenceOut">65%</output>
-     </div>
-    </div>
+<div class="setting-row">
+<input type="range" id="confidenceLimit" min="50" max="90" value="65">
+<output class="output" id="confidenceOut">65%</output>
+</div>
+</div>
 
-   </div>
-  </section>
+</div>
+</section>
 
-  <!-- STATISTICS -->
+<!-- STATISTICS -->
 
-  <section class="panel">
-   <div class="panel-head">
-    <h3 data-ar="إحصائيات النظام" data-en="System Statistics">إحصائيات النظام</h3>
-   </div>
+<section class="panel">
+<div class="panel-head">
+<h3 data-ar=" " data-en="System Statistics"> </h3>
+</div>
 
-   <div class="stats">
-    <div class="stat">
-     <div class="stat-label" data-ar="إجمالي الحركات" data-en="Total gestures">إجمالي الحركات</div>
-     <div class="stat-value" id="total">0</div>
-    </div>
+<div class="stats">
+<div class="stat">
+<div class="stat-label" data-ar=" " data-en="Total gestures"> </div>
+<div class="stat-value" id="total">0</div>
+</div>
 
-    <div class="stat">
-     <div class="stat-label" data-ar="آخر حركة" data-en="Last gesture">آخر حركة</div>
-     <div class="stat-value" id="last">—</div>
-    </div>
-   </div>
-  </section>
+<div class="stat">
+<div class="stat-label" data-ar=" " data-en="Last gesture"> </div>
+<div class="stat-value" id="last"></div>
+</div>
+</div>
+</section>
 
-  <!-- GESTURE TYPES -->
+<!-- GESTURE TYPES -->
 
-  <section class="panel">
-   <div class="panel-head">
-    <h3 data-ar="أنواع الحركات" data-en="Gesture Types">أنواع الحركات</h3>
-   </div>
+<section class="panel">
+<div class="panel-head">
+<h3 data-ar=" " data-en="Gesture Types"> </h3>
+</div>
 
-   <div class="movement-list">
+<div class="movement-list">
 
-    <div class="movement">
-     <span>👉 <span data-ar="يمين" data-en="Right">يمين</span></span>
-     <strong id="right">0</strong>
-    </div>
+<div class="movement">
+<span> <span data-ar="" data-en="Right"></span></span>
+<strong id="right">0</strong>
+</div>
 
-    <div class="movement">
-     <span>👈 <span data-ar="يسار" data-en="Left">يسار</span></span>
-     <strong id="left">0</strong>
-    </div>
+<div class="movement">
+<span> <span data-ar="" data-en="Left"></span></span>
+<strong id="left">0</strong>
+</div>
 
-    <div class="movement">
-     <span>👆 <span data-ar="أعلى" data-en="Up">أعلى</span></span>
-     <strong id="up">0</strong>
-    </div>
+<div class="movement">
+<span> <span data-ar="" data-en="Up"></span></span>
+<strong id="up">0</strong>
+</div>
 
-    <div class="movement">
-     <span>👇 <span data-ar="أسفل" data-en="Down">أسفل</span></span>
-     <strong id="down">0</strong>
-    </div>
+<div class="movement">
+<span> <span data-ar="" data-en="Down"></span></span>
+<strong id="down">0</strong>
+</div>
 
-    <div class="movement">
-     <span>🖐️ <span data-ar="كف مفتوح" data-en="Open palm">كف مفتوح</span></span>
-     <strong id="palm">0</strong>
-    </div>
+<div class="movement">
+<span> <span data-ar=" " data-en="Open palm"> </span></span>
+<strong id="palm">0</strong>
+</div>
 
-    <div class="movement">
-     <span>✊ <span data-ar="قبضة" data-en="Fist">قبضة</span></span>
-     <strong id="fist">0</strong>
-    </div>
+<div class="movement">
+<span> <span data-ar="" data-en="Fist"></span></span>
+<strong id="fist">0</strong>
+</div>
 
-    <div class="movement">
-     <span>✌️ <span data-ar="إشارة السلام" data-en="Peace sign">إشارة السلام</span></span>
-     <strong id="peace">0</strong>
-    </div>
+<div class="movement">
+<span> <span data-ar=" " data-en="Peace sign"> </span></span>
+<strong id="peace">0</strong>
+</div>
 
-    <div class="movement">
-     <span>☝️ <span data-ar="الإشارة" data-en="Pointing">الإشارة</span></span>
-     <strong id="point">0</strong>
-    </div>
+<div class="movement">
+<span> <span data-ar="" data-en="Pointing"></span></span>
+<strong id="point">0</strong>
+</div>
 
-    <div class="movement">
-     <span>👍 <span data-ar="إعجاب للأعلى" data-en="Thumbs up">إعجاب للأعلى</span></span>
-     <strong id="thumbsup">0</strong>
-    </div>
+<div class="movement">
+<span> <span data-ar=" " data-en="Thumbs up"> </span></span>
+<strong id="thumbsup">0</strong>
+</div>
 
-    <div class="movement">
-     <span>👎 <span data-ar="إعجاب للأسفل" data-en="Thumbs down">إعجاب للأسفل</span></span>
-     <strong id="thumbdown">0</strong>
-    </div>
+<div class="movement">
+<span> <span data-ar=" " data-en="Thumbs down"> </span></span>
+<strong id="thumbdown">0</strong>
+</div>
 
-   </div>
+</div>
 
-   <div class="actions">
-    <button class="btn btn-primary" id="saveBtn" type="button">💾 <span data-ar="حفظ التقرير" data-en="Save report">حفظ التقرير</span></button>
-    <button class="btn btn-danger" id="resetBtn" type="button">↻ <span data-ar="تصفير" data-en="Reset">تصفير</span></button>
-   </div>
-  </section>
+<div class="actions">
+<button class="btn btn-primary" id="saveBtn" type="button"> <span data-ar=" " data-en="Save report"> </span></button>
+<button class="btn btn-danger" id="resetBtn" type="button"> <span data-ar="" data-en="Reset"></span></button>
+</div>
+</section>
 
- </aside>
+</aside>
 </main>
 
-<footer>GESTURE AI · REAL-TIME HAND TRACKING</footer>
+<footer>GESTURE AI REAL-TIME HAND TRACKING</footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -1186,7 +1186,7 @@ footer {
 const $ = id => document.getElementById(id);
 
 /* =========================
-   App state
+App state
 ========================= */
 
 let language = 'ar';
@@ -1224,1379 +1224,1387 @@ let thunderTimer = null;
 let cameraDevices = [];
 
 const counts = {
- right:0,
- left:0,
- up:0,
- down:0,
- palm:0,
- fist:0,
- peace:0,
- point:0,
- thumbsup:0,
- thumbdown:0
+right:0,
+left:0,
+up:0,
+down:0,
+palm:0,
+fist:0,
+peace:0,
+point:0,
+thumbsup:0,
+thumbdown:0
 };
 
 const gestures = {
- right:{emoji:'👉',ar:'يمين',en:'Right'},
- left:{emoji:'👈',ar:'يسار',en:'Left'},
- up:{emoji:'👆',ar:'أعلى',en:'Up'},
- down:{emoji:'👇',ar:'أسفل',en:'Down'},
- palm:{emoji:'🖐️',ar:'كف مفتوح',en:'Open palm'},
- fist:{emoji:'✊',ar:'قبضة اليد',en:'Fist'},
- peace:{emoji:'✌️',ar:'إشارة السلام',en:'Peace sign'},
- point:{emoji:'☝️',ar:'إشارة بالسبابة',en:'Pointing'},
- thumbsup:{emoji:'👍',ar:'إعجاب للأعلى',en:'Thumbs up'},
- thumbdown:{emoji:'👎',ar:'إعجاب للأسفل',en:'Thumbs down'}
+right:{emoji:'',ar:'',en:'Right'},
+left:{emoji:'',ar:'',en:'Left'},
+up:{emoji:'',ar:'',en:'Up'},
+down:{emoji:'',ar:'',en:'Down'},
+palm:{emoji:'',ar:' ',en:'Open palm'},
+fist:{emoji:'',ar:' ',en:'Fist'},
+peace:{emoji:'',ar:' ',en:'Peace sign'},
+point:{emoji:'',ar:' ',en:'Pointing'},
+thumbsup:{emoji:'',ar:' ',en:'Thumbs up'},
+thumbdown:{emoji:'',ar:' ',en:'Thumbs down'}
 };
 
 const text = {
- ar:{
-  stopped:'● متوقفة',
-  active:'● نشطة',
-  cameraOff:'الكاميرا غير مفعّلة',
-  noHand:'لا توجد يد',
-  handFound:'تم اكتشاف اليد',
-  waiting:'بانتظار الحركة',
-  waitingDesc:'ضع يدك أمام الكاميرا لبدء التعرّف.',
-  noMotion:'لا توجد حركة مسجلة حالياً.',
-  detected:'تم اكتشاف الحركة من مسار اليد الحقيقي.',
-  startError:'تعذر تشغيل الكاميرا. تحقق من الإذن أو اتصال الكاميرا.',
-  noCamera:'لم يتم العثور على كاميرا.',
-  permission:'يرجى السماح باستخدام الكاميرا.',
-  secure:'افتح الصفحة عبر HTTPS أو localhost.',
-  modelMissing:'تعذر تحميل نموذج MediaPipe. تحقق من اتصال الإنترنت.',
-  cameraStarting:'جارٍ تشغيل الكاميرا وتحميل نموذج الذكاء الاصطناعي...',
-  cameraRunning:'الكاميرا تعمل ونموذج التتبع نشط.',
-  cameraStopped:'تم إيقاف الكاميرا.',
-  saved:'تم حفظ التقرير.',
-  reset:'تم تصفير الإحصائيات.',
-  aiReady:'READY',
-  aiLoading:'LOADING',
-  aiLive:'TRACKING',
-  aiError:'ERROR',
-  noSound:'🔇 صوت الرعد: مغلق',
-  soundOn:'🔊 صوت الرعد: يعمل',
-  defaultCamera:'الكاميرا الافتراضية',
-  confidence:'ثقة اكتشاف اليد',
-  fps:'سرعة المعالجة',
-  noAudio:'الصوت غير مفعّل',
-  openHand:'افتح يدك أمام الكاميرا',
-  moveHand:'حرّك يدك بحرية لرصد الاتجاه',
-  confidenceLow:'ثقة الاكتشاف منخفضة؛ قرّب اليد من الكاميرا وحسّن الإضاءة.'
- },
+ar:{
+stopped:' ',
+active:' ',
+cameraOff:' ',
+noHand:' ',
+handFound:' ',
+waiting:' ',
+waitingDesc:' .',
+noMotion:' .',
+detected:' .',
+startError:' . .',
+noCamera:' .',
+permission:' .',
+secure:' HTTPS localhost.',
+modelMissing:' MediaPipe. .',
+cameraStarting:' ...',
+cameraRunning:' .',
+cameraStopped:' .',
+saved:' .',
+reset:' .',
+aiReady:'READY',
+aiLoading:'LOADING',
+aiLive:'TRACKING',
+aiError:'ERROR',
+noSound:' : ',
+soundOn:' : ',
+defaultCamera:' ',
+confidence:' ',
+fps:' ',
+noAudio:' ',
+openHand:' ',
+moveHand:' ',
+confidenceLow:' .'
+},
 
- en:{
-  stopped:'● Stopped',
-  active:'● Active',
-  cameraOff:'Camera is off',
-  noHand:'No hand detected',
-  handFound:'Hand detected',
-  waiting:'Waiting for gesture',
-  waitingDesc:'Place your hand in front of the camera to begin.',
-  noMotion:'No movement recorded yet.',
-  detected:'Movement detected from the real hand trajectory.',
-  startError:'Could not start camera. Check permission and camera connection.',
-  noCamera:'No camera was found.',
-  permission:'Please allow camera access.',
-  secure:'Open this page over HTTPS or localhost.',
-  modelMissing:'MediaPipe model failed to load. Check your internet connection.',
-  cameraStarting:'Starting camera and loading the AI model...',
-  cameraRunning:'Camera is running and hand tracking is active.',
-  cameraStopped:'Camera stopped.',
-  saved:'Report saved.',
-  reset:'Statistics reset.',
-  aiReady:'READY',
-  aiLoading:'LOADING',
-  aiLive:'TRACKING',
-  aiError:'ERROR',
-  noSound:'🔇 Thunder: Off',
-  soundOn:'🔊 Thunder: On',
-  defaultCamera:'Default camera',
-  confidence:'Detection confidence',
-  fps:'Processing FPS',
-  noAudio:'Sound is off',
-  openHand:'Show your hand to the camera',
-  moveHand:'Move freely to detect direction',
-  confidenceLow:'Detection confidence is low. Move closer and improve lighting.'
- }
+en:{
+stopped:' Stopped',
+active:' Active',
+cameraOff:'Camera is off',
+noHand:'No hand detected',
+handFound:'Hand detected',
+waiting:'Waiting for gesture',
+waitingDesc:'Place your hand in front of the camera to begin.',
+noMotion:'No movement recorded yet.',
+detected:'Movement detected from the real hand trajectory.',
+startError:'Could not start camera. Check permission and camera connection.',
+noCamera:'No camera was found.',
+permission:'Please allow camera access.',
+secure:'Open this page over HTTPS or localhost.',
+modelMissing:'MediaPipe model failed to load. Check your internet connection.',
+cameraStarting:'Starting camera and loading the AI model...',
+cameraRunning:'Camera is running and hand tracking is active.',
+cameraStopped:'Camera stopped.',
+saved:'Report saved.',
+reset:'Statistics reset.',
+aiReady:'READY',
+aiLoading:'LOADING',
+aiLive:'TRACKING',
+aiError:'ERROR',
+noSound:' Thunder: Off',
+soundOn:' Thunder: On',
+defaultCamera:'Default camera',
+confidence:'Detection confidence',
+fps:'Processing FPS',
+noAudio:'Sound is off',
+openHand:'Show your hand to the camera',
+moveHand:'Move freely to detect direction',
+confidenceLow:'Detection confidence is low. Move closer and improve lighting.'
+}
 };
 
 function tr(key) {
- return text[language][key] || key;
+return text[language][key] || key;
 }
 
 function notify(message) {
- $('toast').textContent = message;
- $('toast').classList.add('show');
+$('toast').textContent = message;
+$('toast').classList.add('show');
 
- clearTimeout(notify.timer);
+clearTimeout(notify.timer);
 
- notify.timer = setTimeout(() => {
-  $('toast').classList.remove('show');
- },2600);
+notify.timer = setTimeout(() => {
+$('toast').classList.remove('show');
+},2600);
 }
 
 function setStatus(label,kind='') {
- $('status').textContent = label;
- $('status').className = 'status ' + kind;
+$('status').textContent = label;
+$('status').className = 'status ' + kind;
 }
 
 function resetTrackingState() {
- smoothedCenter = null;
- trajectory = [];
- lastStaticGesture = '';
- staticFrames = 0;
- staticGestureFired = false;
+smoothedCenter = null;
+trajectory = [];
+lastStaticGesture = '';
+staticFrames = 0;
+staticGestureFired = false;
 }
 
 /* =========================
-   Intro animation
+Intro animation
 ========================= */
 
 (function buildIntro() {
 
- const title = $('introTitle');
+const title = $('introTitle');
 
- [...'GESTURE'].forEach((char,index) => {
-  const span = document.createElement('span');
+[...'GESTURE'].forEach((char,index) => {
+const span = document.createElement('span');
 
-  span.textContent = char;
-  span.style.setProperty('--i',index);
+span.textContent = char;
+span.style.setProperty('--i',index);
 
-  title.appendChild(span);
- });
+title.appendChild(span);
+});
 
- const reduced = window.matchMedia(
-  '(prefers-reduced-motion: reduce)'
- ).matches;
+const reduced = window.matchMedia(
+'(prefers-reduced-motion: reduce)'
+).matches;
 
- if(reduced) {
-  $('intro').classList.add('done');
+if(reduced) {
+$('intro').classList.add('done');
 
-  setTimeout(() => {
-   const intro = $('intro');
-   if(intro) intro.remove();
-  },900);
+setTimeout(() => {
+const intro = $('intro');
+if(intro) intro.remove();
+},900);
 
-  return;
- }
+return;
+}
 
- // A lightning bolt drops from the top,
- // strikes GESTURE, then burns the letters away.
+setTimeout(() => {
+$('intro').classList.add('strike');
+title.classList.add('burn');
 
- setTimeout(() => {
-  $('intro').classList.add('strike');
-  title.classList.add('burn');
+const flash = $('lightningFlash');
 
-  const flash = $('lightningFlash');
+if(flash) {
+flash.classList.remove('flash');
+void flash.offsetWidth;
+flash.classList.add('flash');
+}
 
-  if(flash) {
-   flash.classList.remove('flash');
-   void flash.offsetWidth;
-   flash.classList.add('flash');
-  }
+},2250);
 
- },2250);
+setTimeout(() => {
+$('intro').classList.add('done');
+},2920);
 
- setTimeout(() => {
-  $('intro').classList.add('done');
- },2920);
-
- setTimeout(() => {
-  const intro = $('intro');
-  if(intro) intro.remove();
- },3900);
+setTimeout(() => {
+const intro = $('intro');
+if(intro) intro.remove();
+},3900);
 
 })();
 
 /* =========================
-   Thunder sound (generated)
+Thunder sound (generated)
 ========================= */
 
 async function enableSound() {
 
- const AC = window.AudioContext || window.webkitAudioContext;
+const AC = window.AudioContext || window.webkitAudioContext;
 
- if(!AC) {
-  notify(
-   language === 'ar'
-    ? 'الصوت غير مدعوم في هذا المتصفح.'
-    : 'Audio is not supported.'
-  );
-  return;
- }
+if(!AC) {
+notify(
+language === 'ar'
+? ' .'
+: 'Audio is not supported.'
+);
+return;
+}
 
- try {
+try {
 
-  if(!audioContext) {
-   audioContext = new AC();
-  }
+if(!audioContext) {
+audioContext = new AC();
+}
 
-  if(audioContext.state === 'suspended') {
-   await audioContext.resume();
-  }
+if(audioContext.state === 'suspended') {
+await audioContext.resume();
+}
 
-  soundEnabled = true;
+soundEnabled = true;
 
-  $('soundBtn').innerHTML = tr('soundOn');
+$('soundBtn').innerHTML = tr('soundOn');
 
-  scheduleThunder();
+scheduleThunder();
 
- } catch(error) {
+} catch(error) {
 
-  console.error(error);
+console.error(error);
 
-  notify(
-   language === 'ar'
-    ? 'تعذر تفعيل الصوت.'
-    : 'Could not enable sound.'
-  );
+notify(
+language === 'ar'
+? ' .'
+: 'Could not enable sound.'
+);
 
- }
+}
 
 }
 
 function disableSound() {
 
- soundEnabled = false;
+soundEnabled = false;
 
- clearTimeout(thunderTimer);
+clearTimeout(thunderTimer);
 
- $('soundBtn').innerHTML = tr('noSound');
+$('soundBtn').innerHTML = tr('noSound');
 
 }
 
 function playThunder() {
 
- if(!soundEnabled || !audioContext || audioContext.state !== 'running') {
-  return;
- }
+if(!soundEnabled || !audioContext || audioContext.state !== 'running') {
+return;
+}
 
- const now = audioContext.currentTime;
- const duration = 2.3;
+const now = audioContext.currentTime;
+const duration = 2.3;
 
- const buffer = audioContext.createBuffer(
-  1,
-  Math.floor(audioContext.sampleRate * duration),
-  audioContext.sampleRate
- );
+const buffer = audioContext.createBuffer(
+1,
+Math.floor(audioContext.sampleRate * duration),
+audioContext.sampleRate
+);
 
- const data = buffer.getChannelData(0);
+const data = buffer.getChannelData(0);
 
- for(let i = 0; i < data.length; i++) {
+for(let i = 0; i < data.length; i++) {
 
-  const fade = 1 - i / data.length;
+const fade = 1 - i / data.length;
 
-  data[i] = (Math.random() * 2 - 1) * fade * fade;
+data[i] = (Math.random() * 2 - 1) * fade * fade;
 
- }
+}
 
- const noise = audioContext.createBufferSource();
+const noise = audioContext.createBufferSource();
 
- noise.buffer = buffer;
+noise.buffer = buffer;
 
- const low = audioContext.createBiquadFilter();
+const low = audioContext.createBiquadFilter();
 
- low.type = 'lowpass';
+low.type = 'lowpass';
 
- low.frequency.setValueAtTime(170,now);
+low.frequency.setValueAtTime(170,now);
 
- low.frequency.exponentialRampToValueAtTime(48,now + 1.9);
+low.frequency.exponentialRampToValueAtTime(48,now + 1.9);
 
- const gain = audioContext.createGain();
+const gain = audioContext.createGain();
 
- gain.gain.setValueAtTime(.0001,now);
+gain.gain.setValueAtTime(.0001,now);
 
- gain.gain.exponentialRampToValueAtTime(.22,now + .045);
+gain.gain.exponentialRampToValueAtTime(.22,now + .045);
 
- gain.gain.exponentialRampToValueAtTime(.0001,now + duration);
+gain.gain.exponentialRampToValueAtTime(.0001,now + duration);
 
- noise.connect(low);
- low.connect(gain);
- gain.connect(audioContext.destination);
+noise.connect(low);
+low.connect(gain);
+gain.connect(audioContext.destination);
 
- noise.start(now);
- noise.stop(now + duration);
+noise.start(now);
+noise.stop(now + duration);
 
 }
 
 function flashLightning() {
 
- const flash = $('lightningFlash');
- const bolt = $('bolt');
+const flash = $('lightningFlash');
+const bolt = $('bolt');
 
- const left = 8 + Math.random() * 77;
+const left = 8 + Math.random() * 77;
 
- bolt.style.left = left + '%';
+bolt.style.left = left + '%';
 
- bolt.classList.remove('show');
- flash.classList.remove('flash');
+bolt.classList.remove('show');
+flash.classList.remove('flash');
 
- void bolt.offsetWidth;
+void bolt.offsetWidth;
 
- bolt.classList.add('show');
- flash.classList.add('flash');
+bolt.classList.add('show');
+flash.classList.add('flash');
 
- if(soundEnabled) {
-  setTimeout(playThunder,180 + Math.random() * 350);
- }
+if(soundEnabled) {
+setTimeout(playThunder,180 + Math.random() * 350);
+}
 
 }
 
 function scheduleThunder() {
 
- clearTimeout(thunderTimer);
+clearTimeout(thunderTimer);
 
- if(!soundEnabled) return;
+if(!soundEnabled) return;
 
- thunderTimer = setTimeout(() => {
+thunderTimer = setTimeout(() => {
 
-  flashLightning();
+flashLightning();
 
-  scheduleThunder();
+scheduleThunder();
 
- },7000 + Math.random() * 11000);
+},7000 + Math.random() * 11000);
 
 }
 
 $('soundBtn').addEventListener('click',() => {
- soundEnabled ? disableSound() : enableSound();
+soundEnabled ? disableSound() : enableSound();
 });
 
 /* =========================
-   Stats and history
+Stats and history
 ========================= */
 
 function updateCounts() {
 
- $('total').textContent = total;
+$('total').textContent = total;
 
- Object.keys(counts).forEach(key => {
-  $(key).textContent = counts[key];
- });
+Object.keys(counts).forEach(key => {
+$(key).textContent = counts[key];
+});
 
 }
 
 function renderHistory() {
 
- const container = $('history');
+const container = $('history');
 
- container.replaceChildren();
+container.replaceChildren();
 
- if(!historyItems.length) {
+if(!historyItems.length) {
 
-  const empty = document.createElement('div');
+const empty = document.createElement('div');
 
-  empty.className = 'empty';
+empty.className = 'empty';
 
-  empty.textContent = language === 'ar'
-   ? 'لا توجد حركات حتى الآن.'
-   : 'No movements yet.';
+empty.textContent = language === 'ar'
+? ' .'
+: 'No movements yet.';
 
-  container.appendChild(empty);
+container.appendChild(empty);
 
-  return;
+return;
 
- }
+}
 
- historyItems.forEach(item => {
+historyItems.forEach(item => {
 
-  const row = document.createElement('div');
+const row = document.createElement('div');
 
-  row.className = 'history-item';
+row.className = 'history-item';
 
-  const name = document.createElement('span');
+const name = document.createElement('span');
 
-  name.textContent = item.emoji + ' ' + (
-   language === 'ar' ? item.ar : item.en
-  );
+name.textContent = item.emoji + ' ' + (
+language === 'ar' ? item.ar : item.en
+);
 
-  const time = document.createElement('span');
+const time = document.createElement('span');
 
-  time.textContent = item.time;
+time.textContent = item.time;
 
-  row.append(name,time);
+row.append(name,time);
 
-  container.appendChild(row);
+container.appendChild(row);
 
- });
+});
 
 }
 
 function registerGesture(key,details={}) {
 
- const gesture = gestures[key];
+const gesture = gestures[key];
 
- if(!gesture) return;
+if(!gesture) return;
 
- total++;
+total++;
 
- counts[key]++;
+counts[key]++;
 
- $('gestureEmoji').textContent = gesture.emoji;
+$('gestureEmoji').textContent = gesture.emoji;
 
- $('gestureName').textContent =
-  language === 'ar' ? gesture.ar : gesture.en;
+$('gestureName').textContent =
+language === 'ar' ? gesture.ar : gesture.en;
 
- $('gestureDesc').textContent = tr('detected');
+$('gestureDesc').textContent = tr('detected');
 
- $('last').textContent = gesture.emoji;
+$('last').textContent = gesture.emoji;
 
- historyItems.unshift({
-  emoji:gesture.emoji,
-  ar:gesture.ar,
-  en:gesture.en,
-  time:new Date().toLocaleTimeString(
-   language === 'ar' ? 'ar' : 'en'
-  )
- });
+historyItems.unshift({
+emoji:gesture.emoji,
+ar:gesture.ar,
+en:gesture.en,
+time:new Date().toLocaleTimeString(
+language === 'ar' ? 'ar' : 'en'
+)
+});
 
- historyItems = historyItems.slice(0,12);
+historyItems = historyItems.slice(0,12);
 
- updateCounts();
+updateCounts();
 
- renderHistory();
+renderHistory();
 
- if(details.magnitude !== undefined) {
+if(details.magnitude !== undefined) {
 
-  const percent = Math.min(
-   100,
-   Math.round(details.magnitude * 170)
-  );
+const percent = Math.min(
+100,
+Math.round(details.magnitude * 170)
+);
 
-  $('movementBar').style.width = percent + '%';
+$('movementBar').style.width = percent + '%';
 
- }
+}
 
 }
 
 /* =========================
-   Geometry helpers
+Geometry helpers
 ========================= */
 
 function distance(a,b) {
- return Math.hypot(a.x-b.x,a.y-b.y);
+return Math.hypot(a.x-b.x,a.y-b.y);
 }
 
 function averagePoint(points) {
 
- return points.reduce((p,v) => ({
-  x:p.x + v.x / points.length,
-  y:p.y + v.y / points.length
- }),{x:0,y:0});
+return points.reduce((p,v) => ({
+x:p.x + v.x / points.length,
+y:p.y + v.y / points.length
+}),{x:0,y:0});
 
 }
 
 function getHandScale(landmarks) {
 
- const xs = landmarks.map(p => p.x);
- const ys = landmarks.map(p => p.y);
+const xs = landmarks.map(p => p.x);
+const ys = landmarks.map(p => p.y);
 
- const width = Math.max(...xs) - Math.min(...xs);
- const height = Math.max(...ys) - Math.min(...ys);
+const width = Math.max(...xs) - Math.min(...xs);
+const height = Math.max(...ys) - Math.min(...ys);
 
- return Math.max(width,height,.055);
+return Math.max(width,height,.055);
 
 }
 
 function getPalmCenter(landmarks) {
 
- return averagePoint([
-  landmarks[0],
-  landmarks[5],
-  landmarks[9],
-  landmarks[13],
-  landmarks[17]
- ]);
+return averagePoint([
+landmarks[0],
+landmarks[5],
+landmarks[9],
+landmarks[13],
+landmarks[17]
+]);
 
 }
 
 /* =========================
-   Hand skeleton drawing
+Hand skeleton drawing
 ========================= */
 
 const connections = [
- [0,1],[1,2],[2,3],[3,4],
- [0,5],[5,6],[6,7],[7,8],
- [5,9],[9,10],[10,11],[11,12],
- [9,13],[13,14],[14,15],[15,16],
- [13,17],[17,18],[18,19],[19,20],[0,17]
+[0,1],[1,2],[2,3],[3,4],
+[0,5],[5,6],[6,7],[7,8],
+[5,9],[9,10],[10,11],[11,12],
+[9,13],[13,14],[14,15],[15,16],
+[13,17],[17,18],[18,19],[19,20],[0,17]
 ];
 
 function drawHand(ctx,landmarks,width,height) {
 
- ctx.save();
+ctx.save();
 
- ctx.lineCap = 'round';
- ctx.lineJoin = 'round';
+ctx.lineCap = 'round';
+ctx.lineJoin = 'round';
 
- ctx.strokeStyle = '#39ff88';
- ctx.fillStyle = '#f4fff8';
+ctx.strokeStyle = '#39ff88';
+ctx.fillStyle = '#f4fff8';
 
- ctx.lineWidth = Math.max(2,width / 330);
+ctx.lineWidth = Math.max(2,width / 330);
 
- ctx.shadowColor = '#39ff88';
- ctx.shadowBlur = 9;
+ctx.shadowColor = '#39ff88';
+ctx.shadowBlur = 9;
 
- connections.forEach(([a,b]) => {
+connections.forEach(([a,b]) => {
 
-  ctx.beginPath();
+ctx.beginPath();
 
-  ctx.moveTo(
-   landmarks[a].x * width,
-   landmarks[a].y * height
-  );
+ctx.moveTo(
+landmarks[a].x * width,
+landmarks[a].y * height
+);
 
-  ctx.lineTo(
-   landmarks[b].x * width,
-   landmarks[b].y * height
-  );
+ctx.lineTo(
+landmarks[b].x * width,
+landmarks[b].y * height
+);
 
-  ctx.stroke();
+ctx.stroke();
 
- });
+});
 
- ctx.shadowBlur = 12;
+ctx.shadowBlur = 12;
 
- landmarks.forEach((point,index) => {
+landmarks.forEach((point,index) => {
 
-  ctx.beginPath();
+ctx.beginPath();
 
-  ctx.arc(
-   point.x * width,
-   point.y * height,
-   index === 0 ? 5 : Math.max(2.3,width / 230),
-   0,
-   Math.PI * 2
-  );
+ctx.arc(
+point.x * width,
+point.y * height,
+index === 0 ? 5 : Math.max(2.3,width / 230),
+0,
+Math.PI * 2
+);
 
-  ctx.fill();
+ctx.fill();
 
- });
+});
 
- ctx.restore();
+ctx.restore();
 
 }
 
 function drawMotionTrail() {
 
- if(trajectory.length < 2) return;
+if(trajectory.length < 2) return;
 
- const ctx = $('outputCanvas').getContext('2d');
+const ctx = $('outputCanvas').getContext('2d');
 
- const w = $('outputCanvas').width;
- const h = $('outputCanvas').height;
+const w = $('outputCanvas').width;
+const h = $('outputCanvas').height;
 
- ctx.save();
+ctx.save();
 
- ctx.beginPath();
+ctx.beginPath();
 
- ctx.lineWidth = Math.max(2,w / 250);
+ctx.lineWidth = Math.max(2,w / 250);
 
- ctx.strokeStyle = 'rgba(122,247,255,.8)';
+ctx.strokeStyle = 'rgba(122,247,255,.8)';
 
- ctx.shadowColor = '#7af7ff';
- ctx.shadowBlur = 12;
+ctx.shadowColor = '#7af7ff';
+ctx.shadowBlur = 12;
 
- trajectory.forEach((point,index) => {
+trajectory.forEach((point,index) => {
 
-  const x = point.x * w;
-  const y = point.y * h;
+const x = point.x * w;
+const y = point.y * h;
 
-  if(index === 0) {
-   ctx.moveTo(x,y);
-  } else {
-   ctx.lineTo(x,y);
-  }
+if(index === 0) {
+ctx.moveTo(x,y);
+} else {
+ctx.lineTo(x,y);
+}
 
- });
+});
 
- ctx.stroke();
+ctx.stroke();
 
- ctx.restore();
+ctx.restore();
 
 }
 
 /* =========================
-   AI static gesture classifier
+AI static gesture classifier
 ========================= */
 
 function classifyStaticGesture(hand) {
 
- const wrist = hand[0];
+const wrist = hand[0];
 
- const fingerTips = [8,12,16,20];
- const fingerPips = [6,10,14,18];
+const fingerTips = [8,12,16,20];
+const fingerPips = [6,10,14,18];
 
- const extended = fingerTips.map((tip,index) =>
-  distance(hand[tip],wrist) >
-  distance(hand[fingerPips[index]],wrist) * 1.13
- );
+const extended = fingerTips.map((tip,index) =>
+distance(hand[tip],wrist) >
+distance(hand[fingerPips[index]],wrist) * 1.13
+);
 
- const thumbExtended =
-  distance(hand[4],hand[9]) >
-  distance(hand[3],hand[9]) * 1.12;
+const thumbExtended =
+distance(hand[4],hand[9]) >
+distance(hand[3],hand[9]) * 1.12;
 
- const count = extended.filter(Boolean).length;
+const count = extended.filter(Boolean).length;
 
- const thumbUp =
-  thumbExtended && hand[4].y < hand[3].y - .025;
+const thumbUp =
+thumbExtended && hand[4].y < hand[3].y - .025;
 
- const thumbDown =
-  thumbExtended && hand[4].y > hand[3].y + .025;
+const thumbDown =
+thumbExtended && hand[4].y > hand[3].y + .025;
 
- if(count >= 4) return 'palm';
+if(count >= 4) return 'palm';
 
- if(
-  extended[0] &&
-  extended[1] &&
-  !extended[2] &&
-  !extended[3]
- ) return 'peace';
+if(
+extended[0] &&
+extended[1] &&
+!extended[2] &&
+!extended[3]
+) return 'peace';
 
- if(
-  extended[0] &&
-  !extended[1] &&
-  !extended[2] &&
-  !extended[3]
- ) return 'point';
+if(
+extended[0] &&
+!extended[1] &&
+!extended[2] &&
+!extended[3]
+) return 'point';
 
- if(count === 0 && thumbUp) return 'thumbsup';
+if(count === 0 && thumbUp) return 'thumbsup';
 
- if(count === 0 && thumbDown) return 'thumbdown';
+if(count === 0 && thumbDown) return 'thumbdown';
 
- if(count === 0) return 'fist';
+if(count === 0) return 'fist';
 
- return null;
+return null;
 
 }
 
 function handleStaticGesture(candidate) {
 
- if(!candidate) {
+if(!candidate) {
 
-  lastStaticGesture = '';
-  staticFrames = 0;
-  staticGestureFired = false;
+lastStaticGesture = '';
+staticFrames = 0;
+staticGestureFired = false;
 
-  return;
+return;
 
- }
+}
 
- if(candidate === lastStaticGesture) {
+if(candidate === lastStaticGesture) {
 
-  staticFrames++;
+staticFrames++;
 
- } else {
+} else {
 
-  lastStaticGesture = candidate;
-  staticFrames = 1;
-  staticGestureFired = false;
+lastStaticGesture = candidate;
+staticFrames = 1;
+staticGestureFired = false;
 
- }
+}
 
- const now = performance.now();
+const now = performance.now();
 
- // One event per held pose. Lift or change the fingers to trigger again.
+if(
+staticFrames >= 7 &&
+!staticGestureFired &&
+now - lastStaticAt > 700
+) {
 
- if(
-  staticFrames >= 7 &&
-  !staticGestureFired &&
-  now - lastStaticAt > 700
- ) {
+registerGesture(candidate);
 
-  registerGesture(candidate);
+lastStaticAt = now;
 
-  lastStaticAt = now;
+staticGestureFired = true;
 
-  staticGestureFired = true;
-
- }
+}
 
 }
 
 /* =========================
-   Free directional movement
-   Based on actual palm trajectory, not random values.
+Free directional movement
 ========================= */
 
 function detectFreeMovement(hand) {
 
- const center = getPalmCenter(hand);
- const handScale = getHandScale(hand);
+const center = getPalmCenter(hand);
+const handScale = getHandScale(hand);
 
- const alpha = 1 / Math.max(1,smoothValue);
+const alpha = 1 / Math.max(1,smoothValue);
 
- if(!smoothedCenter) {
+if(!smoothedCenter) {
 
-  smoothedCenter = {...center};
+smoothedCenter = {...center};
 
-  trajectory = [{
-   ...center,
-   t:performance.now()
-  }];
+trajectory = [{
+...center,
+t:performance.now()
+}];
 
-  return false;
+return false;
 
- }
+}
 
- smoothedCenter.x += (center.x - smoothedCenter.x) * alpha;
- smoothedCenter.y += (center.y - smoothedCenter.y) * alpha;
+smoothedCenter.x += (center.x - smoothedCenter.x) * alpha;
+smoothedCenter.y += (center.y - smoothedCenter.y) * alpha;
 
- const now = performance.now();
+const now = performance.now();
 
- trajectory.push({
-  x:smoothedCenter.x,
-  y:smoothedCenter.y,
-  t:now,
-  scale:handScale
- });
+trajectory.push({
+x:smoothedCenter.x,
+y:smoothedCenter.y,
+t:now,
+scale:handScale
+});
 
- trajectory = trajectory.filter(point =>
-  now - point.t < 520
- ).slice(-18);
+trajectory = trajectory.filter(point =>
+now - point.t < 520
+).slice(-18);
 
- if(trajectory.length < 5) return false;
+if(trajectory.length < 5) return false;
 
- const old = trajectory.find(point =>
-  now - point.t >= 190
- ) || trajectory[0];
+const old = trajectory.find(point =>
+now - point.t >= 190
+) || trajectory[0];
 
- // Mirrored screen: invert camera X
+// Mirrored screen: invert camera X
 
- const dx = -(smoothedCenter.x - old.x);
- const dy = smoothedCenter.y - old.y;
+const dx = -(smoothedCenter.x - old.x);
+const dy = smoothedCenter.y - old.y;
 
- const nx = dx / handScale;
- const ny = dy / handScale;
+const nx = dx / handScale;
+const ny = dy / handScale;
 
- const horizontal = Math.abs(nx);
- const vertical = Math.abs(ny);
+const horizontal = Math.abs(nx);
+const vertical = Math.abs(ny);
 
- const magnitude = Math.hypot(nx,ny);
+const magnitude = Math.hypot(nx,ny);
 
- $('movementBar').style.width =
-  Math.min(100,Math.round(magnitude * 180)) + '%';
+$('movementBar').style.width =
+Math.min(100,Math.round(magnitude * 180)) + '%';
 
- const cooldown = 650;
+const cooldown = 650;
 
- const movementActive = magnitude >= threshold * .48;
+const movementActive = magnitude >= threshold * .48;
 
- if(
-  magnitude < threshold ||
-  now - lastMovementAt < cooldown
- ) {
-  return movementActive;
- }
+if(
+magnitude < threshold ||
+now - lastMovementAt < cooldown
+) {
+return movementActive;
+}
 
- let key = null;
+let key = null;
 
- if(horizontal > vertical * 1.18) {
+if(horizontal > vertical * 1.18) {
 
-  key = nx > 0 ? 'right' : 'left';
+key = nx > 0 ? 'right' : 'left';
 
- } else if(vertical > horizontal * 1.18) {
+} else if(vertical > horizontal * 1.18) {
 
-  key = ny > 0 ? 'down' : 'up';
+key = ny > 0 ? 'down' : 'up';
 
- } else if(
-  horizontal > threshold * .72 &&
-  vertical > threshold * .72
- ) {
+} else if(
+horizontal > threshold * .72 &&
+vertical > threshold * .72
+) {
 
-  // For diagonal movements, report the dominant real axis.
+key = horizontal >= vertical
+? (nx > 0 ? 'right' : 'left')
+: (ny > 0 ? 'down' : 'up');
 
-  key = horizontal >= vertical
-   ? (nx > 0 ? 'right' : 'left')
-   : (ny > 0 ? 'down' : 'up');
+}
 
- }
+if(key) {
 
- if(key) {
+registerGesture(key,{magnitude});
 
-  registerGesture(key,{magnitude});
+$('movementInfo').textContent = tr('detected');
 
-  $('movementInfo').textContent = tr('detected');
+lastMovementAt = now;
 
-  lastMovementAt = now;
+trajectory = [{
+...smoothedCenter,
+t:now,
+scale:handScale
+}];
 
-  // Start a new trajectory after a recognized swipe to prevent repeat noise.
+return true;
 
-  trajectory = [{
-   ...smoothedCenter,
-   t:now,
-   scale:handScale
-  }];
+}
 
-  return true;
-
- }
-
- return movementActive;
+return movementActive;
 
 }
 
 /* =========================
-   MediaPipe results
+MediaPipe results
 ========================= */
 
 function drawResults(results) {
 
- const video = $('cameraVideo');
- const canvas = $('outputCanvas');
- const ctx = canvas.getContext('2d');
+const video = $('cameraVideo');
+const canvas = $('outputCanvas');
+const ctx = canvas.getContext('2d');
 
- if(
-  canvas.width !== video.videoWidth ||
-  canvas.height !== video.videoHeight
- ) {
+if(
+canvas.width !== video.videoWidth ||
+canvas.height !== video.videoHeight
+) {
 
-  canvas.width = video.videoWidth || 640;
-  canvas.height = video.videoHeight || 480;
+canvas.width = video.videoWidth || 640;
+canvas.height = video.videoHeight || 480;
 
- }
+}
 
- ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
- const hand = results.multiHandLandmarks?.[0];
+const hand = results.multiHandLandmarks?.[0];
 
- if(!hand) {
+if(!hand) {
 
-  $('handStatus').textContent = tr('noHand');
-  $('confidence').textContent = '--%';
+$('handStatus').textContent = tr('noHand');
+$('confidence').textContent = '--%';
 
-  $('movementInfo').textContent = tr('openHand');
-  $('movementBar').style.width = '0%';
+$('movementInfo').textContent = tr('openHand');
+$('movementBar').style.width = '0%';
 
-  resetTrackingState();
+resetTrackingState();
 
-  return;
+return;
 
- }
+}
 
- const score = results.multiHandedness?.[0]?.score ?? .75;
+const score = results.multiHandedness?.[0]?.score ?? .75;
 
- lastConfidence = score;
+lastConfidence = score;
 
- $('confidence').textContent = Math.round(score * 100) + '%';
+$('confidence').textContent = Math.round(score * 100) + '%';
 
- $('handStatus').textContent = tr('handFound');
+$('handStatus').textContent = tr('handFound');
 
- drawHand(ctx,hand,canvas.width,canvas.height);
+drawHand(ctx,hand,canvas.width,canvas.height);
 
- drawMotionTrail();
+drawMotionTrail();
 
- if(score < minimumConfidence) {
+if(score < minimumConfidence) {
 
-  $('movementInfo').textContent = tr('confidenceLow');
+$('movementInfo').textContent = tr('confidenceLow');
 
-  resetTrackingState();
+resetTrackingState();
 
-  return;
+return;
 
- }
+}
 
- const movementActive = detectFreeMovement(hand);
+const movementActive = detectFreeMovement(hand);
 
- const staticCandidate = classifyStaticGesture(hand);
+const staticCandidate = classifyStaticGesture(hand);
 
- if(!movementActive) {
+if(!movementActive) {
 
-  handleStaticGesture(staticCandidate);
+handleStaticGesture(staticCandidate);
 
- } else {
+} else {
 
-  handleStaticGesture(null);
+handleStaticGesture(null);
 
- }
+}
 
 }
 
 /* =========================
-   Camera devices
+Camera devices
 ========================= */
 
 async function populateCameraList() {
 
- try {
+try {
 
-  const devices = await navigator.mediaDevices.enumerateDevices();
+const devices = await navigator.mediaDevices.enumerateDevices();
 
-  cameraDevices = devices.filter(device =>
-   device.kind === 'videoinput'
-  );
+cameraDevices = devices.filter(device =>
+device.kind === 'videoinput'
+);
 
-  const select = $('cameraSelect');
+const select = $('cameraSelect');
 
-  const selected = select.value;
+const selected = select.value;
 
-  select.replaceChildren();
+select.replaceChildren();
 
-  const defaultOption = document.createElement('option');
+const defaultOption = document.createElement('option');
 
-  defaultOption.value = '';
+defaultOption.value = '';
 
-  defaultOption.textContent = language === 'ar'
-   ? 'الكاميرا الافتراضية'
-   : 'Default camera';
+defaultOption.textContent = language === 'ar'
+? ' '
+: 'Default camera';
 
-  select.appendChild(defaultOption);
+select.appendChild(defaultOption);
 
-  cameraDevices.forEach((device,index) => {
+cameraDevices.forEach((device,index) => {
 
-   const option = document.createElement('option');
+const option = document.createElement('option');
 
-   option.value = device.deviceId;
+option.value = device.deviceId;
 
-   option.textContent = device.label ||
-    `${language === 'ar' ? 'كاميرا' : 'Camera'} ${index + 1}`;
+option.textContent = device.label ||
+`${language === 'ar' ? '' : 'Camera'} ${index + 1}`;
 
-   select.appendChild(option);
+select.appendChild(option);
 
-  });
+});
 
-  if(cameraDevices.some(device =>
-   device.deviceId === selected
-  )) {
+if(cameraDevices.some(device =>
+device.deviceId === selected
+)) {
 
-   select.value = selected;
-
-  }
-
- } catch(error) {
-
-  console.warn('Camera enumeration failed:',error);
-
- }
+select.value = selected;
 
 }
 
-function getCameraConstraints() {
+} catch(error) {
 
- const [width,height] = $('qualitySelect').value
-  .split('x')
-  .map(Number);
+console.warn('Camera enumeration failed:',error);
 
- const selectedDevice = $('cameraSelect').value;
+}
 
- const video = {
-  width:{ideal:width},
-  height:{ideal:height},
-  frameRate:{ideal:30,max:30}
- };
+}
 
- if(selectedDevice) {
+function getCameraConstraints(strict = true) {
 
-  video.deviceId = {exact:selectedDevice};
+const [width,height] = $('qualitySelect').value
+.split('x')
+.map(Number);
 
- } else {
+const selectedDevice = $('cameraSelect').value;
 
-  video.facingMode = 'user';
+const video = strict
+? {
+width:{ideal:width},
+height:{ideal:height},
+frameRate:{ideal:30,max:30}
+}
+: true;
 
- }
+if(strict && selectedDevice) {
+video.deviceId = {exact:selectedDevice};
+} else if(strict) {
+video.facingMode = 'user';
+}
 
- return {
-  audio:false,
-  video
- };
-
+return {audio:false,video};
 }
 
 /* =========================
-   Start AI camera
+Start AI camera
 ========================= */
 
 async function startCamera() {
 
- if(running) return;
+if(running) return;
 
- if(!navigator.mediaDevices?.getUserMedia) {
+if(!navigator.mediaDevices?.getUserMedia) {
 
-  notify(tr('secure'));
+notify(tr('secure'));
 
-  return;
+return;
 
- }
+}
 
- if(typeof Hands === 'undefined') {
+if(typeof Hands === 'undefined') {
 
-  $('modelState').textContent = tr('aiError');
+$('modelState').textContent = tr('aiError');
 
-  notify(tr('modelMissing'));
+notify(tr('modelMissing'));
 
-  return;
+return;
 
- }
+}
 
- $('startBtn').disabled = true;
+$('startBtn').disabled = true;
 
- $('modelState').textContent = tr('aiLoading');
+$('modelState').textContent = tr('aiLoading');
 
- $('cameraMessage').textContent = tr('cameraStarting');
+$('cameraMessage').textContent = tr('cameraStarting');
 
- try {
+try {
 
-  cameraStream = await navigator.mediaDevices.getUserMedia(
-   getCameraConstraints()
-  );
+//
+try {
+cameraStream = await navigator.mediaDevices.getUserMedia(
+getCameraConstraints(true)
+);
+} catch(firstError) {
+cameraStream = await navigator.mediaDevices.getUserMedia(
+getCameraConstraints(false)
+);
+}
 
-  const video = $('cameraVideo');
+const video = $('cameraVideo');
 
-  video.srcObject = cameraStream;
+video.srcObject = cameraStream;
 
-  await video.play();
+//
+await new Promise((resolve,reject) => {
+if(video.readyState >= 2) return resolve();
+video.addEventListener('loadeddata',resolve,{once:true});
+video.addEventListener('error',reject,{once:true});
+setTimeout(resolve,4000);
+});
 
-  hands = new Hands({
-   locateFile:file =>
-    `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
-  });
+await video.play();
 
-  hands.setOptions({
-   maxNumHands:1,
-   modelComplexity:1,
-   minDetectionConfidence:minimumConfidence,
-   minTrackingConfidence:.65
-  });
+hands = new Hands({
+locateFile:file =>
+`https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+});
 
-  hands.onResults(drawResults);
+hands.setOptions({
+maxNumHands:1,
+modelComplexity:1,
+minDetectionConfidence:minimumConfidence,
+minTrackingConfidence:.65
+});
 
-  running = true;
-  processing = false;
+hands.onResults(drawResults);
 
-  lastProcessAt = 0;
-  frameCount = 0;
-  fpsValue = 0;
-  lastFpsAt = performance.now();
+//
+if(hands.initialize) {
+try { await hands.initialize(); } catch(error) {}
+}
 
-  resetTrackingState();
+running = true;
+processing = false;
 
-  $('placeholder').classList.add('hidden');
+lastProcessAt = 0;
+frameCount = 0;
+fpsValue = 0;
+lastFpsAt = performance.now();
 
-  $('cameraMessage').textContent = tr('cameraRunning');
+resetTrackingState();
 
-  setStatus(tr('active'),'active');
+$('placeholder').classList.add('hidden');
 
-  $('stopBtn').disabled = false;
+$('cameraMessage').textContent = tr('cameraRunning');
 
-  $('modelState').textContent = tr('aiLive');
+setStatus(tr('active'),'active');
 
-  await populateCameraList();
+$('stopBtn').disabled = false;
 
-  processFrames();
+$('modelState').textContent = tr('aiLive');
 
- } catch(error) {
+await populateCameraList();
 
-  console.error(error);
+processFrames();
 
-  stopCamera();
+} catch(error) {
 
-  $('modelState').textContent = tr('aiError');
+console.error(error);
 
-  let msg = tr('startError');
+stopCamera();
 
-  if(
-   error.name === 'NotAllowedError' ||
-   error.name === 'PermissionDeniedError'
-  ) {
+$('modelState').textContent = tr('aiError');
 
-   msg = tr('permission');
+let msg = tr('startError');
 
-  } else if(
-   error.name === 'NotFoundError' ||
-   error.name === 'DevicesNotFoundError'
-  ) {
+if(
+error.name === 'NotAllowedError' ||
+error.name === 'PermissionDeniedError'
+) {
 
-   msg = tr('noCamera');
+msg = tr('permission');
 
-  } else if(error.name === 'NotReadableError') {
+} else if(
+error.name === 'NotFoundError' ||
+error.name === 'DevicesNotFoundError'
+) {
 
-   msg = language === 'ar'
-    ? 'الكاميرا مستخدمة في تطبيق آخر.'
-    : 'Camera is busy in another app.';
+msg = tr('noCamera');
 
-  }
+} else if(error.name === 'NotReadableError') {
 
-  $('cameraMessage').textContent = msg;
+msg = language === 'ar'
+? ' .'
+: 'Camera is busy in another app.';
 
-  notify(msg);
+}
 
- } finally {
+$('cameraMessage').textContent = msg;
 
-  $('startBtn').disabled = false;
+notify(msg);
 
- }
+} finally {
+
+$('startBtn').disabled = false;
+
+}
 
 }
 
 /* =========================
-   Frame processing loop
+Frame processing loop
 ========================= */
 
 async function processFrames() {
 
- if(!running) return;
+if(!running) return;
 
- const video = $('cameraVideo');
+const video = $('cameraVideo';
 
- const now = performance.now();
+const now = performance.now();
 
- if(
-  video.readyState >= 2 &&
-  !processing &&
-  now - lastProcessAt >= 33
- ) {
+const hidden = document.hidden;
 
-  processing = true;
+if(
+!hidden &&
+video.readyState >= 2 &&
+video.videoWidth > 0 &&
+!processing &&
+now - lastProcessAt >= 33
+) {
 
-  lastProcessAt = now;
+processing = true;
 
-  try {
+lastProcessAt = now;
 
-   await hands.send({image:video});
+try {
 
-  } catch(error) {
+await hands.send({image:video});
 
-   console.error('AI frame error:',error);
+} catch(error) {
 
-  } finally {
+console.error('AI frame error:',error);
 
-   processing = false;
+} finally {
 
-  }
+processing = false;
 
-  frameCount++;
+}
 
-  if(now - lastFpsAt >= 1000) {
+frameCount++;
 
-   fpsValue = Math.round(
-    frameCount * 1000 / (now - lastFpsAt)
-   );
+if(now - lastFpsAt >= 1000) {
 
-   $('fps').textContent = fpsValue;
+fpsValue = Math.round(
+frameCount * 1000 / (now - lastFpsAt)
+);
 
-   frameCount = 0;
+$('fps').textContent = fpsValue;
 
-   lastFpsAt = now;
+frameCount = 0;
 
-  }
+lastFpsAt = now;
 
- }
+}
 
- if(running) {
+}
 
-  animationFrame = requestAnimationFrame(processFrames);
+if(running) {
 
- }
+animationFrame = requestAnimationFrame(processFrames);
+
+}
 
 }
 
 /* =========================
-   Stop camera safely
+Stop camera safely
 ========================= */
 
 async function stopCamera() {
 
- running = false;
+running = false;
 
- if(animationFrame) {
-  cancelAnimationFrame(animationFrame);
- }
+if(animationFrame) {
+cancelAnimationFrame(animationFrame);
+}
 
- animationFrame = null;
+animationFrame = null;
 
- if(cameraStream) {
+if(cameraStream) {
 
-  cameraStream.getTracks().forEach(track =>
-   track.stop()
-  );
+cameraStream.getTracks().forEach(track =>
+track.stop()
+);
 
-  cameraStream = null;
+cameraStream = null;
 
- }
+}
 
- const video = $('cameraVideo');
+const video = $('cameraVideo');
 
- video.pause();
- video.srcObject = null;
+video.pause();
+video.srcObject = null;
 
- const canvas = $('outputCanvas');
+const canvas = $('outputCanvas');
 
- const ctx = canvas.getContext('2d');
+const ctx = canvas.getContext('2d');
 
- ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
- $('placeholder').classList.remove('hidden');
+$('placeholder').classList.remove('hidden');
 
- $('cameraMessage').textContent = tr('cameraOff');
+$('cameraMessage').textContent = tr('cameraOff');
 
- $('handStatus').textContent = tr('noHand');
+$('handStatus').textContent = tr('noHand');
 
- $('confidence').textContent = '--%';
+$('confidence').textContent = '--%';
 
- $('fps').textContent = '--';
+$('fps').textContent = '--';
 
- $('modelState').textContent = tr('aiReady');
+$('modelState').textContent = tr('aiReady');
 
- setStatus(tr('stopped'));
+setStatus(tr('stopped'));
 
- $('startBtn').disabled = false;
+$('startBtn').disabled = false;
 
- $('stopBtn').disabled = true;
+$('stopBtn').disabled = true;
 
- resetTrackingState();
+resetTrackingState();
 
- if(hands) {
+if(hands) {
 
-  const oldHands = hands;
+const oldHands = hands;
 
-  hands = null;
+hands = null;
 
-  try {
+try {
 
-   await oldHands.close();
+await oldHands.close();
 
-  } catch(error) {
+} catch(error) {
 
-   console.warn(error);
+console.warn(error);
 
-  }
+}
 
- }
+}
 
 }
 
 /* =========================
-   Save and reset
+Save and reset
 ========================= */
 
 function saveStatistics() {
 
- const report = {
-  application:'Gesture AI',
-  date:new Date().toISOString(),
-  total,
-  counts:{...counts},
-  history:historyItems
- };
+const report = {
+application:'Gesture AI',
+date:new Date().toISOString(),
+total,
+counts:{...counts},
+history:historyItems
+};
 
- const blob = new Blob(
-  [JSON.stringify(report,null,2)],
-  {type:'application/json'}
- );
+const blob = new Blob(
+[JSON.stringify(report,null,2)],
+{type:'application/json'}
+);
 
- const url = URL.createObjectURL(blob);
+const url = URL.createObjectURL(blob);
 
- const link = document.createElement('a');
+const link = document.createElement('a');
 
- link.href = url;
+link.href = url;
 
- link.download = 'Gesture-AI-Statistics.json';
+link.download = 'Gesture-AI-Statistics.json';
 
- link.click();
+link.click();
 
- setTimeout(() => URL.revokeObjectURL(url),1500);
+setTimeout(() => URL.revokeObjectURL(url),1500);
 
- notify(tr('saved'));
+notify(tr('saved'));
 
 }
 
 function resetStatistics() {
 
- total = 0;
+total = 0;
 
- historyItems = [];
+historyItems = [];
 
- Object.keys(counts).forEach(key => {
-  counts[key] = 0;
- });
+Object.keys(counts).forEach(key => {
+counts[key] = 0;
+});
 
- $('last').textContent = '—';
+$('last').textContent = '';
 
- $('gestureEmoji').textContent = '✋';
+$('gestureEmoji').textContent = '';
 
- $('gestureName').textContent = tr('waiting');
+$('gestureName').textContent = tr('waiting');
 
- $('gestureDesc').textContent = tr('waitingDesc');
+$('gestureDesc').textContent = tr('waitingDesc');
 
- $('movementInfo').textContent = tr('noMotion');
+$('movementInfo').textContent = tr('noMotion');
 
- $('movementBar').style.width = '0%';
+$('movementBar').style.width = '0%';
 
- updateCounts();
+updateCounts();
 
- renderHistory();
+renderHistory();
 
- notify(tr('reset'));
+notify(tr('reset'));
 
 }
 
 /* =========================
-   Settings
+Settings
 ========================= */
 
 $('sensitivity').addEventListener('input',event => {
 
- threshold = Number(event.target.value) / 100;
+threshold = Number(event.target.value) / 100;
 
- $('sensitivityOut').textContent = threshold.toFixed(2);
+$('sensitivityOut').textContent = threshold.toFixed(2);
 
- trajectory = [];
+trajectory = [];
 
 });
 
 $('smoothing').addEventListener('input',event => {
 
- smoothValue = Number(event.target.value);
+smoothValue = Number(event.target.value);
 
- $('smoothingOut').textContent = smoothValue;
+$('smoothingOut').textContent = smoothValue;
 
- trajectory = [];
+trajectory = [];
 
- smoothedCenter = null;
+smoothedCenter = null;
 
 });
 
 $('confidenceLimit').addEventListener('input',event => {
 
- minimumConfidence = Number(event.target.value) / 100;
+minimumConfidence = Number(event.target.value) / 100;
 
- $('confidenceOut').textContent =
-  Math.round(minimumConfidence * 100) + '%';
+$('confidenceOut').textContent =
+Math.round(minimumConfidence * 100) + '%';
 
- if(hands) {
+if(hands) {
 
-  hands.setOptions({
-   maxNumHands:1,
-   modelComplexity:1,
-   minDetectionConfidence:minimumConfidence,
-   minTrackingConfidence:.65
-  });
+hands.setOptions({
+maxNumHands:1,
+modelComplexity:1,
+minDetectionConfidence:minimumConfidence,
+minTrackingConfidence:.65
+});
 
- }
+}
 
 });
 
 $('cameraSelect').addEventListener('change',async() => {
 
- if(running) {
+if(running) {
 
-  await stopCamera();
+await stopCamera();
 
-  await startCamera();
+await startCamera();
 
- }
+}
 
 });
 
 $('qualitySelect').addEventListener('change',async() => {
 
- if(running) {
+if(running) {
 
-  await stopCamera();
+await stopCamera();
 
-  await startCamera();
+await startCamera();
 
- }
+}
 
 });
 
@@ -2609,104 +2617,104 @@ $('saveBtn').addEventListener('click',saveStatistics);
 $('resetBtn').addEventListener('click',resetStatistics);
 
 /* =========================
-   Language and theme
+Language and theme
 ========================= */
 
 function setLanguage(next) {
 
- language = next === 'en' ? 'en' : 'ar';
+language = next === 'en' ? 'en' : 'ar';
 
- document.documentElement.lang = language;
+document.documentElement.lang = language;
 
- document.documentElement.dir =
-  language === 'ar' ? 'rtl' : 'ltr';
+document.documentElement.dir =
+language === 'ar' ? 'rtl' : 'ltr';
 
- document.querySelectorAll('[data-ar][data-en]').forEach(element => {
+document.querySelectorAll('[data-ar][data-en]').forEach(element => {
 
-  element.textContent = element.dataset[language];
+element.textContent = element.dataset[language];
 
- });
+});
 
- $('languageBtn').textContent =
-  language === 'ar' ? '🌐 English' : '🌐 العربية';
+$('languageBtn').textContent =
+language === 'ar' ? ' English' : ' ';
 
- $('soundBtn').innerHTML =
-  tr(soundEnabled ? 'soundOn' : 'noSound');
+$('soundBtn').innerHTML =
+tr(soundEnabled ? 'soundOn' : 'noSound');
 
- $('status').textContent =
-  running ? tr('active') : tr('stopped');
+$('status').textContent =
+running ? tr('active') : tr('stopped');
 
- $('cameraMessage').textContent =
-  running ? tr('cameraRunning') : tr('cameraOff');
+$('cameraMessage').textContent =
+running ? tr('cameraRunning') : tr('cameraOff');
 
- $('handStatus').textContent = tr('noHand');
+$('handStatus').textContent = tr('noHand');
 
- $('gestureName').textContent = tr('waiting');
+$('gestureName').textContent = tr('waiting');
 
- $('gestureDesc').textContent = tr('waitingDesc');
+$('gestureDesc').textContent = tr('waitingDesc');
 
- $('movementInfo').textContent = tr('noMotion');
+$('movementInfo').textContent = tr('noMotion');
 
- const option = $('cameraSelect').options[0];
+const option = $('cameraSelect').options[0];
 
- if(option) {
+if(option) {
 
-  option.textContent = language === 'ar'
-   ? 'الكاميرا الافتراضية'
-   : 'Default camera';
+option.textContent = language === 'ar'
+? ' '
+: 'Default camera';
 
- }
+}
 
- renderHistory();
+renderHistory();
 
 }
 
 $('languageBtn').addEventListener('click',() => {
 
- setLanguage(language === 'ar' ? 'en' : 'ar');
+setLanguage(language === 'ar' ? 'en' : 'ar');
 
 });
 
 function setTheme(next) {
 
- document.documentElement.dataset.theme = next;
+document.documentElement.dataset.theme = next;
 
- $('themeBtn').textContent =
-  next === 'light' ? '🌙' : '☀️';
+$('themeBtn').textContent =
+next === 'light' ? '' : '';
 
- try {
+try {
 
-  localStorage.setItem('gesture_theme',next);
+localStorage.setItem('gesture_theme',next);
 
- } catch(error) {}
+} catch(error) {}
 
 }
 
 $('themeBtn').addEventListener('click',() => {
 
- const next =
-  document.documentElement.dataset.theme === 'dark'
-   ? 'light'
-   : 'dark';
+const next =
+document.documentElement.dataset.theme === 'dark'
+? 'light'
+: 'dark';
 
- setTheme(next);
+setTheme(next);
 
 });
 
 try {
 
- const saved = localStorage.getItem('gesture_theme');
+const saved = localStorage.getItem('gesture_theme');
 
- if(saved === 'light' || saved === 'dark') {
+if(saved === 'light' || saved === 'dark') {
 
-  setTheme(saved);
+setTheme(saved);
 
- }
+}
 
 } catch(error) {}
 
 /* =========================
-   Initialize and cleanup
+Initialize and cleanup
 ========================= */
 
 updateCounts();
@@ -2715,34 +2723,41 @@ renderHistory();
 
 if(navigator.mediaDevices?.enumerateDevices) {
 
- populateCameraList();
+populateCameraList();
 
 }
 
+document.addEventListener('visibilitychange',() => {
+if(document.hidden) {
+resetTrackingState();
+$('movementBar').style.width = '0%';
+}
+});
+
 window.addEventListener('beforeunload',() => {
 
- running = false;
+running = false;
 
- if(animationFrame) {
-  cancelAnimationFrame(animationFrame);
- }
+if(animationFrame) {
+cancelAnimationFrame(animationFrame);
+}
 
- if(cameraStream) {
+if(cameraStream) {
 
-  cameraStream.getTracks().forEach(track =>
-   track.stop()
-  );
+cameraStream.getTracks().forEach(track =>
+track.stop()
+);
 
- }
+}
 
- clearTimeout(thunderTimer);
+clearTimeout(thunderTimer);
 
- if(audioContext) {
-  audioContext.close().catch(() => {});
- }
+if(audioContext) {
+audioContext.close().catch(() => {});
+}
 
 });
 
 </script>
 </body>
-</html> اريد ان تضيف ai خاص بلموقع و الكمرا و كلام و يكون في تغير و خلي الافكتات واقعيه
+</html>
