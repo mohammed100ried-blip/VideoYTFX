@@ -151,7 +151,9 @@ animation: particleUp linear infinite;
 100% { transform: translateY(-110vh); opacity: 0; }
 }
 
-/* Cinematic intro */
+/* ================================================================
+   Cinematic intro — صورتك خلفية + أنيميشن الكلمة
+   ================================================================ */
 
 .intro-screen {
 position: fixed;
@@ -161,43 +163,42 @@ display: grid;
 place-items: center;
 overflow: hidden;
 isolation: isolate;
-background:
-linear-gradient(180deg, rgba(3, 5, 12, .12), rgba(3, 5, 12, .46) 58%, #030308 100%),
-radial-gradient(ellipse at 50% 55%, rgba(255, 125, 76, .32), transparent 31%),
-linear-gradient(180deg, #121b2b 0%, #39465b 32%, #c66e62 69%, #11131d 100%);
+background: #030308;
 transition: opacity .9s ease, visibility .9s ease;
 }
 
-.intro-screen::before {
-content: "";
-position: absolute;
-z-index: 2;
-inset: 0;
-pointer-events: none;
-background:
-radial-gradient(ellipse at center, transparent 22%, rgba(0, 0, 0, .5) 100%),
-linear-gradient(180deg, rgba(0, 0, 0, .24), transparent 30%, rgba(0, 0, 0, .4));
-}
+/* ===== صورتك كخلفية كاملة للانترو (my-image.png) ===== */
 
-.intro-screen.finished {
-opacity: 0;
-visibility: hidden;
-pointer-events: none;
-}
-
-.intro-sun {
+.intro-photo {
 position: absolute;
-top: 31%;
-left: 50%;
 z-index: 0;
-width: min(30vw, 330px);
-aspect-ratio: 1;
-border-radius: 50%;
-transform: translateX(-50%);
-background: radial-gradient(circle, #ffe7bd 0%, #ffae7d 44%, rgba(255, 123, 91, .12) 71%, transparent 73%);
-filter: blur(.5px);
-box-shadow: 0 0 110px rgba(255, 139, 97, .35);
-animation: sunRise 5.6s ease both;
+inset: 0;
+background-image: url("my-image.png");
+background-size: cover;
+background-position: center;
+transform: scale(1.12);
+transform-origin: center;
+animation: photoZoom 7s ease-out forwards, photoDrift 9s ease-in-out 7s infinite alternate;
+}
+
+/* تدرج داكن فوق الصورة حتى يظهر العنوان بوضوح */
+.intro-shade {
+position: absolute;
+z-index: 1;
+inset: 0;
+background:
+linear-gradient(180deg, rgba(3, 5, 12, .38), rgba(3, 5, 12, .42) 55%, rgba(3, 5, 12, .88) 100%),
+radial-gradient(ellipse at 50% 42%, transparent 30%, rgba(0, 0, 0, .55) 100%);
+}
+
+@keyframes photoZoom {
+from { transform: scale(1.35); opacity: 0; filter: brightness(.55) saturate(.7); }
+to { transform: scale(1.08); opacity: 1; filter: brightness(.85) saturate(1); }
+}
+
+@keyframes photoDrift {
+from { transform: scale(1.08) translateX(-1.5%); }
+to { transform: scale(1.14) translateX(1.5%); }
 }
 
 .intro-haze {
@@ -205,23 +206,24 @@ position: absolute;
 z-index: 1;
 inset: 18% -20% 15%;
 background:
-radial-gradient(ellipse at 25% 75%, rgba(255, 166, 115, .2), transparent 45%),
-radial-gradient(ellipse at 75% 76%, rgba(66, 113, 176, .25), transparent 40%);
+radial-gradient(ellipse at 25% 75%, rgba(255, 166, 115, .18), transparent 45%),
+radial-gradient(ellipse at 75% 76%, rgba(66, 113, 176, .22), transparent 40%);
 filter: blur(24px);
 animation: hazeDrift 8s ease-in-out infinite alternate;
 }
 
+/* المدينة تبقى كسيلويت أسفل الصورة */
 .city {
 position: absolute;
-z-index: 1;
+z-index: 2;
 right: 0;
 bottom: 0;
 left: 0;
-height: 43%;
+height: 34%;
 display: flex;
 align-items: end;
 justify-content: space-around;
-background: linear-gradient(180deg, transparent, rgba(3, 5, 11, .3) 22%, #070a11 92%);
+background: linear-gradient(180deg, transparent, rgba(3, 5, 11, .45) 30%, #070a11 95%);
 }
 
 .building {
@@ -245,7 +247,7 @@ background: linear-gradient(90deg, rgba(0, 0, 0, .26), transparent 38%, rgba(0, 
 
 .rooftop-lines {
 position: absolute;
-z-index: 2;
+z-index: 3;
 right: -10%;
 bottom: -22%;
 left: -10%;
@@ -258,14 +260,33 @@ linear-gradient(180deg, transparent, #080a10 45%),
 repeating-linear-gradient(90deg, transparent 0 8%, rgba(246, 151, 103, .15) 8.1% 8.3%, transparent 8.4% 16%);
 }
 
+.intro-screen::before {
+content: "";
+position: absolute;
+z-index: 4;
+inset: 0;
+pointer-events: none;
+background:
+radial-gradient(ellipse at center, transparent 22%, rgba(0, 0, 0, .5) 100%),
+linear-gradient(180deg, rgba(0, 0, 0, .24), transparent 30%, rgba(0, 0, 0, .4));
+}
+
+.intro-screen.finished {
+opacity: 0;
+visibility: hidden;
+pointer-events: none;
+}
+
 .intro-content {
 position: relative;
-z-index: 4;
+z-index: 5;
 width: min(1000px, 94%);
 padding: 24px;
 text-align: center;
 transform: translateY(-4vh);
 }
+
+/* ===== كلمة VideoYTFX — دخول متسلسل + دوران + نيون نابض ===== */
 
 .intro-logo {
 display: flex;
@@ -285,14 +306,54 @@ font-weight: 900;
 line-height: 1;
 letter-spacing: clamp(0px, .3vw, 3px);
 -webkit-text-stroke: 1px rgba(35, 22, 20, .45);
+opacity: 0;
+transform: translateY(120px) rotate(-14deg) scale(.6);
+animation:
+letterDrop .7s cubic-bezier(.18, 1.2, .28, 1) forwards,
+neonPulse 2.4s ease-in-out infinite alternate;
+animation-delay:
+calc(var(--i) * .09s + .3s),
+calc(var(--i) * .09s + 1.6s);
+}
+
+@keyframes letterDrop {
+60% { opacity: 1; transform: translateY(-14px) rotate(6deg) scale(1.12); }
+to { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
+}
+
+@keyframes neonPulse {
+from {
 text-shadow:
 2px 3px 0 #884238,
 4px 7px 0 rgba(14, 10, 13, .6),
-0 0 30px rgba(255, 189, 137, .36);
-opacity: 0;
-transform: translateY(30px) scale(.9);
-animation: titleLetter .6s cubic-bezier(.2, .8, .2, 1) forwards;
-animation-delay: calc(var(--i) * .065s + .25s);
+0 0 18px rgba(255, 189, 137, .4);
+}
+to {
+text-shadow:
+2px 3px 0 #884238,
+4px 7px 0 rgba(14, 10, 13, .6),
+0 0 32px rgba(255, 189, 137, .95),
+0 0 70px rgba(255, 123, 91, .55),
+0 0 120px rgba(255, 23, 68, .35);
+}
+}
+
+/* لمعان ضوئي يمر فوق الكلمة */
+.intro-logo::after {
+content: "";
+position: absolute;
+inset: 0;
+background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .5) 50%, transparent 60%);
+background-size: 250% 100%;
+background-position: 200% 0;
+mix-blend-mode: overlay;
+pointer-events: none;
+animation: shineSweep 3.2s ease-in-out 1.8s infinite;
+}
+
+@keyframes shineSweep {
+0%, 55% { background-position: 200% 0; }
+75%, 100% { background-position: -120% 0; }
 }
 
 .intro-subtitle {
@@ -317,7 +378,7 @@ animation: lineReveal .9s ease 1.12s forwards;
 
 .skip-intro {
 position: absolute;
-z-index: 5;
+z-index: 6;
 right: 22px;
 bottom: 20px;
 padding: 10px 15px;
@@ -340,18 +401,9 @@ background: rgba(255, 255, 255, .16);
 transform: translateY(-2px);
 }
 
-@keyframes sunRise {
-from { opacity: .35; transform: translate(-50%, 18px) scale(.9); }
-to { opacity: 1; transform: translate(-50%, 0) scale(1); }
-}
-
 @keyframes hazeDrift {
 from { transform: translateX(-2%) scale(1); }
 to { transform: translateX(2%) scale(1.08); }
-}
-
-@keyframes titleLetter {
-to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes subtitleReveal {
@@ -452,7 +504,7 @@ position: relative;
 display: grid;
 place-items: center;
 min-height: 48vh;
-padding: 80px 20px 50px;
+padding: 70px 20px 50px;
 text-align: center;
 }
 
@@ -693,7 +745,7 @@ font-size: .88rem;
 .brand { font-size: 1.05rem; }
 .nav-actions { gap: 6px; }
 .btn-ui { padding: 8px 10px; font-size: .84rem; }
-.hero { min-height: auto; padding: 70px 18px 40px; }
+.hero { min-height: auto; padding: 55px 18px 40px; }
 .hero h1 { font-size: clamp(2.8rem, 13vw, 4rem); letter-spacing: -1.5px; }
 .cta-group { flex-direction: column; width: 100%; }
 .btn-primary, .btn-secondary { width: 100%; }
@@ -736,10 +788,13 @@ filter: none;
 <span></span><span></span><span></span>
 </div>
 
-<!-- Cinematic open-world inspired intro -->
+<!-- Cinematic intro — صورتك خلفية + أنيميشن الكلمة -->
 <div class="intro-screen" id="introScreen" aria-label="VideoYTFX intro">
-<div class="intro-sun"></div>
-<div class="intro-haze"></div>
+
+<!-- ===== صورتك هنا ===== -->
+<div class="intro-photo" aria-hidden="true"></div>
+<div class="intro-shade" aria-hidden="true"></div>
+<div class="intro-haze" aria-hidden="true"></div>
 
 <div class="city" aria-hidden="true">
 <i class="building" style="--height:48%"></i>
@@ -755,12 +810,14 @@ filter: none;
 
 <div class="intro-content">
 <div class="intro-logo" id="introLogo" aria-label="VideoYTFX"></div>
-<div class="intro-subtitle">CREATIVE VIDEO & IMAGE STUDIO</div>
+<div class="intro-subtitle">
+<span data-en="CREATIVE VIDEO & IMAGE STUDIO" data-ar="استوديو إبداعي للفيديو والصور">CREATIVE VIDEO & IMAGE STUDIO</span>
+</div>
 <div class="intro-line"></div>
 </div>
 
 <button class="skip-intro" id="skipIntro" type="button">
-<span data-en="Skip intro" data-ar=" ">Skip intro</span>
+<span data-en="Skip intro" data-ar="تخطي المقدمة">Skip intro</span>
 </button>
 </div>
 
@@ -773,7 +830,7 @@ filter: none;
 </button>
 
 <button class="btn-ui" id="themeBtn" type="button">
-<span id="themeLabel">Light</span>
+<span id="themeLabel"></span>
 </button>
 </div>
 </nav>
@@ -785,18 +842,18 @@ filter: none;
 
 <p class="hero-description"
 data-en="A creative space for video, images, and gesture-powered tools."
-data-ar=" .">
+data-ar="مساحة إبداعية للفيديو والصور وأدوات تعمل بالإيماءات.">
 A creative space for video, images, and gesture-powered tools.
 </p>
 
 <div class="cta-group">
 <a class="btn-primary"
 href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download/VideoYTFX.exe">
-<span data-en="Download" data-ar="">Download</span>
+<span data-en="Download" data-ar="تنزيل">Download</span>
 </a>
 
 <a class="btn-secondary" href="gesture.html">
-<span data-en="Gesture AI" data-ar=" ">Gesture AI</span>
+<span data-en="Gesture AI" data-ar="ذكاء الإيماءات">Gesture AI</span>
 </a>
 </div>
 </div>
@@ -805,29 +862,29 @@ href="https://github.com/mohammed100ried-blip/VideoYTFX/releases/latest/download
 <section class="features" aria-label="VideoYTFX features">
 <a href="downloads.html" class="card reveal">
 <div class="card-number">01</div>
-<h3 data-en="Downloads" data-ar="">Downloads</h3>
+<h3 data-en="Downloads" data-ar="التنزيلات">Downloads</h3>
 </a>
 
 <a href="image.html" class="card image-card reveal">
 <div class="card-number">02</div>
-<h3 data-en="Image Studio" data-ar=" ">Image Studio</h3>
+<h3 data-en="Image Studio" data-ar="استوديو الصور">Image Studio</h3>
 </a>
 
 <a href="video.html" class="card video-card reveal">
 <div class="card-number">03</div>
-<h3 data-en="Video Studio" data-ar=" ">Video Studio</h3>
+<h3 data-en="Video Studio" data-ar="استوديو الفيديو">Video Studio</h3>
 </a>
 
 <a href="gesture.html" class="card gesture-card reveal">
 <div class="gesture-orb" aria-hidden="true"></div>
 <div class="card-number">04</div>
-<h3 data-en="Gesture AI" data-ar=" ">Gesture AI</h3>
+<h3 data-en="Gesture AI" data-ar="ذكاء الإيماءات">Gesture AI</h3>
 </a>
 </section>
 </main>
 
 <footer>
-<span data-en=" 2026 VideoYTFX" data-ar=" 2026 VideoYTFX"> 2026 VideoYTFX</span>
+<span data-en="© 2026 VideoYTFX" data-ar="© 2026 VideoYTFX">© 2026 VideoYTFX</span>
 </footer>
 
 <script>
@@ -853,6 +910,19 @@ localStorage.setItem(key, value);
 }
 }
 
+function updateThemeLabel() {
+const theme = document.documentElement.dataset.theme;
+const isArabic = document.documentElement.lang === "ar";
+
+const labels = {
+dark: { en: "Light", ar: "فاتح" },
+light: { en: "Dark", ar: "غامق" }
+};
+
+document.getElementById("themeLabel").textContent =
+labels[theme][isArabic ? "ar" : "en"];
+}
+
 function setLanguage(language) {
 const selectedLanguage = language === "ar" ? "ar" : "en";
 
@@ -864,8 +934,9 @@ element.textContent = element.dataset[selectedLanguage];
 });
 
 document.getElementById("langLabel").textContent =
-selectedLanguage === "en" ? "" : "English";
+selectedLanguage === "en" ? "العربية" : "English";
 
+updateThemeLabel();
 savePreference("app_lang", selectedLanguage);
 }
 
@@ -879,12 +950,10 @@ const selectedTheme = theme === "light" ? "light" : "dark";
 
 document.documentElement.dataset.theme = selectedTheme;
 
-document.getElementById("themeLabel").textContent =
-selectedTheme === "light" ? "Dark" : "Light";
-
 document.querySelector('meta[name="theme-color"]').content =
 selectedTheme === "light" ? "#f1f4fa" : "#030308";
 
+updateThemeLabel();
 savePreference("app_theme", selectedTheme);
 }
 
@@ -927,8 +996,8 @@ document.getElementById("skipIntro").addEventListener("click", finishIntro);
 
 createAnimatedLogo();
 
-setLanguage(readPreference("app_lang", "en"));
 setTheme(readPreference("app_theme", "dark"));
+setLanguage(readPreference("app_lang", "en"));
 
 if (reducedMotion) {
 finishIntro();
