@@ -164,167 +164,6 @@ animation:boltStrike .45s ease-out;
 100% {opacity:0;transform:scaleY(1.05) translateY(12px)}
 }
 
-/* Intro: GESTURE is struck by lightning from above */
-
-.intro {
-position:fixed;
-inset:0;
-z-index:1000;
-display:grid;
-place-items:center;
-overflow:hidden;
-background:
-radial-gradient(ellipse at center,rgba(12,73,37,.45),transparent 52%),
-#020804;
-transition:opacity .85s ease,visibility .85s ease;
-}
-
-.intro.done {
-opacity:0;
-visibility:hidden;
-pointer-events:none;
-}
-
-.intro-grid {
-position:absolute;
-inset:0;
-background-image:
-linear-gradient(rgba(57,255,136,.045) 1px,transparent 1px),
-linear-gradient(90deg,rgba(57,255,136,.045) 1px,transparent 1px);
-background-size:45px 45px;
-mask-image:radial-gradient(ellipse,black,transparent 76%);
-}
-
-.intro-title {
-position:relative;
-z-index:2;
-display:flex;
-gap:2px;
-direction:ltr;
-font-family:'Orbitron',sans-serif;
-font-size:clamp(3.4rem,11vw,8rem);
-font-weight:900;
-letter-spacing:2px;
-color:transparent;
-background:linear-gradient(90deg,#d8ffe5,#39ff88,#fff,#19e86b);
-background-size:250% auto;
-background-clip:text;
--webkit-background-clip:text;
-filter:drop-shadow(0 0 22px rgba(57,255,136,.55));
-}
-
-.intro-title span {
-opacity:0;
-transform:translateY(34px) scale(.8);
-animation:letterIn .65s cubic-bezier(.2,.8,.2,1) forwards;
-animation-delay:calc(var(--i)*.105s);
-}
-
-@keyframes letterIn {
-to {
-opacity:1;
-transform:translateY(0) scale(1);
-}
-}
-
-.intro-bolt {
-position:absolute;
-z-index:4;
-top:-14%;
-left:50%;
-width:clamp(95px,15vw,180px);
-height:88vh;
-opacity:0;
-pointer-events:none;
-transform:translateX(-50%);
-clip-path:polygon(
-47% 0,61% 0,52% 28%,72% 28%,
-34% 67%,46% 43%,27% 43%
-);
-background:linear-gradient(
-180deg,#fff 0%,#dffff0 42%,#70ffab 76%,#fff 100%
-);
-filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 22px #a0ffc4);
-}
-
-.intro.strike .intro-bolt {
-animation:introBoltStrike .62s cubic-bezier(.2,.75,.2,1) forwards;
-}
-
-@keyframes introBoltStrike {
-0% {
-opacity:0;
-transform:translate(-50%,-75vh) scaleY(.35);
-}
-16% {opacity:1}
-35% {opacity:.35}
-49% {opacity:1}
-100% {
-opacity:0;
-transform:translate(-50%,10vh) scaleY(1.05);
-}
-}
-
-.intro-flash {
-position:absolute;
-inset:0;
-z-index:5;
-opacity:0;
-pointer-events:none;
-background:rgba(235,255,243,.9);
-}
-
-.intro.strike .intro-flash {
-animation:introImpact .38s ease-out forwards;
-}
-
-@keyframes introImpact {
-0% {opacity:0}
-14% {opacity:.72}
-30% {opacity:.08}
-46% {opacity:.38}
-100% {opacity:0}
-}
-
-.intro-title.burn span {
-animation:burnLetter .7s ease-in forwards;
-animation-delay:calc(var(--i)*.035s);
-}
-
-@keyframes burnLetter {
-0% {
-opacity:1;
-transform:translateY(0) scale(1);
-filter:brightness(1);
-}
-22% {
-opacity:1;
-transform:translateY(-3px) scale(1.08);
-filter:brightness(5) sepia(1) saturate(8) drop-shadow(0 0 22px #fff);
-}
-48% {
-opacity:.9;
-transform:translateY(-12px) scale(1.02);
-filter:brightness(3) sepia(1) saturate(9) blur(1px) drop-shadow(0 0 24px #ff9b42);
-}
-100% {
-opacity:0;
-transform:translateY(-52px) scale(.72) rotate(5deg);
-filter:blur(18px) brightness(2);
-}
-}
-
-.intro.strike {
-animation:introShake .38s ease-out;
-}
-
-@keyframes introShake {
-0%,100% {transform:translateX(0)}
-20% {transform:translateX(-5px)}
-45% {transform:translateX(4px)}
-70% {transform:translateX(-2px)}
-}
-
 /* App shell */
 
 .navbar {
@@ -340,8 +179,6 @@ background:var(--panel);
 backdrop-filter:blur(20px);
 -webkit-backdrop-filter:blur(20px);
 border-bottom:1px solid var(--border);
-opacity:0;
-animation:uiIn .7s ease 3.65s forwards;
 }
 
 .brand {
@@ -407,8 +244,6 @@ border-color:rgba(122,247,255,.3);
 .hero {
 text-align:center;
 padding:42px 15px 26px;
-opacity:0;
-animation:uiIn .7s ease 3.8s forwards;
 }
 
 .hero h1 {
@@ -424,12 +259,6 @@ filter:drop-shadow(0 0 18px rgba(34,255,115,.4));
 animation:titleFlow 5s linear infinite;
 }
 
-.hero p {
-color:var(--muted);
-margin-top:10px;
-font-size:.95rem;
-}
-
 @keyframes titleFlow {
 to {background-position:300% center}
 }
@@ -441,21 +270,6 @@ padding-bottom:55px;
 display:grid;
 grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);
 gap:20px;
-opacity:0;
-animation:uiIn .7s ease 4s forwards;
-}
-
-@keyframes uiIn {
-from {
-opacity:0;
-transform:translateY(22px);
-filter:blur(6px);
-}
-to {
-opacity:1;
-transform:translateY(0);
-filter:blur(0);
-}
 }
 
 .column {
@@ -905,15 +719,6 @@ transition-duration:.01ms!important;
 <div class="lightning-flash" id="lightningFlash"></div>
 <div class="bolt" id="bolt"></div>
 
-<!-- INTRO: GESTURE ONLY -->
-
-<div class="intro" id="intro" aria-label="Gesture intro">
-<div class="intro-grid"></div>
-<div class="intro-title" id="introTitle"></div>
-<div class="intro-bolt"></div>
-<div class="intro-flash"></div>
-</div>
-
 <nav class="navbar">
 <a href="gesture.html" class="brand">
 <span class="brand-icon"></span>
@@ -1348,63 +1153,6 @@ lastStaticGesture = '';
 staticFrames = 0;
 staticGestureFired = false;
 }
-
-/* =========================
-Intro animation
-========================= */
-
-(function buildIntro() {
-
-const title = $('introTitle');
-
-[...'GESTURE'].forEach((char,index) => {
-const span = document.createElement('span');
-
-span.textContent = char;
-span.style.setProperty('--i',index);
-
-title.appendChild(span);
-});
-
-const reduced = window.matchMedia(
-'(prefers-reduced-motion: reduce)'
-).matches;
-
-if(reduced) {
-$('intro').classList.add('done');
-
-setTimeout(() => {
-const intro = $('intro');
-if(intro) intro.remove();
-},900);
-
-return;
-}
-
-setTimeout(() => {
-$('intro').classList.add('strike');
-title.classList.add('burn');
-
-const flash = $('lightningFlash');
-
-if(flash) {
-flash.classList.remove('flash');
-void flash.offsetWidth;
-flash.classList.add('flash');
-}
-
-},2250);
-
-setTimeout(() => {
-$('intro').classList.add('done');
-},2920);
-
-setTimeout(() => {
-const intro = $('intro');
-if(intro) intro.remove();
-},3900);
-
-})();
 
 /* =========================
 Thunder sound (generated)
@@ -2340,7 +2088,7 @@ async function processFrames() {
 
 if(!running) return;
 
-const video = $('cameraVideo';
+const video = $('cameraVideo');
 
 const now = performance.now();
 
