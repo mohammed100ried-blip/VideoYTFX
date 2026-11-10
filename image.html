@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
@@ -11,11 +10,10 @@
     --bg:#050505;
     --panel:rgba(12,12,12,.88);
     --panel2:rgba(25,23,15,.92);
-    --text:#ffffff;
+    --text:#fff;
     --muted:#aaa99f;
     --line:rgba(255,215,70,.22);
     --accent:#ffdc43;
-    --accent2:#ffffff;
 }
 
 [data-theme="light"] {
@@ -26,16 +24,9 @@
     --muted:#66645d;
     --line:rgba(160,125,0,.25);
     --accent:#b58b00;
-    --accent2:#ffffff;
 }
 
-* {
-    box-sizing:border-box;
-}
-
-html {
-    scroll-behavior:smooth;
-}
+* { box-sizing:border-box; }
 
 body {
     margin:0;
@@ -47,9 +38,7 @@ body {
     overflow-x:hidden;
 }
 
-/* BACKGROUND EFFECTS */
-
-#cosmicBackground {
+#spaceBackground {
     position:fixed;
     inset:0;
     width:100%;
@@ -58,13 +47,10 @@ body {
     pointer-events:none;
 }
 
-header, main, .toast {
-    position:relative;
-    z-index:2;
-}
+header, main, .toast { position:relative; z-index:2; }
 
 header {
-    min-height:75px;
+    min-height:70px;
     padding:12px 4%;
     display:flex;
     align-items:center;
@@ -75,16 +61,9 @@ header {
     backdrop-filter:blur(15px);
 }
 
-header h2 {
-    margin:0;
-    font-size:23px;
-    letter-spacing:1px;
-    color:var(--accent);
-}
+header h2 { margin:0; font-size:22px; color:var(--accent); }
 
-button,input,select {
-    font:inherit;
-}
+button,input,select { font:inherit; }
 
 button {
     cursor:pointer;
@@ -93,7 +72,7 @@ button {
     border:1px solid var(--line);
     border-radius:10px;
     padding:10px 14px;
-    transition:.2s ease;
+    transition:.2s;
 }
 
 button:hover {
@@ -102,9 +81,7 @@ button:hover {
     transform:translateY(-1px);
 }
 
-button:active {
-    transform:scale(.97);
-}
+button:active { transform:scale(.97); }
 
 .primary {
     background:linear-gradient(120deg,#d5aa00,#ffe66b);
@@ -113,49 +90,26 @@ button:active {
     font-weight:bold;
 }
 
-main {
-    width:min(1450px,95%);
-    margin:28px auto;
-}
+main { width:min(1450px,95%); margin:28px auto; }
 
-.page {
-    display:none;
-}
-
-.page.active {
-    display:block;
-    animation:pageIn .35s ease;
-}
+.page { display:none; }
+.page.active { display:block; animation:pageIn .35s ease; }
 
 @keyframes pageIn {
     from {opacity:0;transform:translateY(10px)}
     to {opacity:1;transform:translateY(0)}
 }
 
-/* HOME */
-
-.hero {
-    text-align:center;
-    padding:65px 15px 35px;
-}
+.hero { text-align:center; padding:60px 15px 30px; }
 
 .hero h1 {
     color:var(--accent);
     font-size:clamp(35px,6vw,65px);
-    margin:0 0 12px;
+    margin:0 0 10px;
     text-shadow:0 0 25px rgba(255,220,65,.25);
-    animation:titleGlow 3s infinite alternate;
 }
 
-@keyframes titleGlow {
-    from {text-shadow:0 0 10px rgba(255,220,65,.2)}
-    to {text-shadow:0 0 30px rgba(255,220,65,.55)}
-}
-
-.hero p {
-    color:var(--muted);
-    font-size:15px;
-}
+.hero p { color:var(--muted); font-size:15px; }
 
 .cards {
     display:grid;
@@ -168,12 +122,12 @@ main {
     background:var(--panel);
     border:1px solid var(--line);
     border-radius:18px;
-    min-height:190px;
+    min-height:170px;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:13px;
+    gap:12px;
     cursor:pointer;
     transition:.3s;
     backdrop-filter:blur(12px);
@@ -185,17 +139,8 @@ main {
     box-shadow:0 12px 35px rgba(255,220,65,.09);
 }
 
-.card .symbol {
-    font-size:38px;
-    color:var(--accent);
-}
-
-.card h2 {
-    font-size:21px;
-    margin:0;
-}
-
-/* GENERAL */
+.card .symbol { font-size:36px; color:var(--accent); }
+.card h2 { font-size:20px; margin:0; }
 
 .heading {
     display:flex;
@@ -206,11 +151,7 @@ main {
     margin-bottom:17px;
 }
 
-.heading h1 {
-    font-size:25px;
-    margin:0;
-    color:var(--accent);
-}
+.heading h1 { font-size:24px; margin:0; color:var(--accent); }
 
 .layout {
     display:grid;
@@ -251,12 +192,7 @@ main {
     background-position:0 0,0 10px,10px -10px,-10px 0;
 }
 
-canvas {
-    display:block;
-    max-width:100%;
-    height:auto;
-    touch-action:none;
-}
+canvas { display:block; max-width:100%; height:auto; touch-action:none; }
 
 #editCanvas,#retouchCanvas {
     display:none;
@@ -272,27 +208,13 @@ canvas {
     text-align:center;
     cursor:pointer;
     max-width:420px;
-    transition:.2s;
 }
 
-.drop:hover {
-    background:rgba(255,220,65,.06);
-}
+.drop:hover { background:rgba(255,220,65,.06); }
+.drop h2 { font-size:19px; }
 
-.drop h2 {
-    font-size:20px;
-}
-
-.sidebar {
-    padding:17px;
-    max-height:850px;
-    overflow:auto;
-}
-
-.sidebar h3 {
-    margin:0 0 13px;
-    color:var(--accent);
-}
+.sidebar { padding:17px; max-height:880px; overflow:auto; }
+.sidebar h3 { margin:0 0 13px; color:var(--accent); }
 
 .control {
     padding:13px 0;
@@ -307,10 +229,7 @@ canvas {
     font-size:14px;
 }
 
-input[type=range] {
-    width:100%;
-    accent-color:var(--accent);
-}
+input[type=range] { width:100%; accent-color:var(--accent); }
 
 input[type=color] {
     width:48px;
@@ -320,7 +239,7 @@ input[type=color] {
     cursor:pointer;
 }
 
-input[type=text],select,input[type=number] {
+select {
     width:100%;
     padding:10px;
     background:var(--panel2);
@@ -329,27 +248,14 @@ input[type=text],select,input[type=number] {
     border-radius:9px;
 }
 
-.row {
-    display:flex;
-    gap:8px;
-    align-items:center;
-    flex-wrap:wrap;
-}
+.row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.full { width:100%; margin-top:9px; }
+.value { color:var(--accent); }
 
-.full {
-    width:100%;
-    margin-top:9px;
-}
+.presets { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.presets button { padding:9px 6px; font-size:13px; }
 
-.value {
-    color:var(--accent);
-}
-
-.hint {
-    font-size:12px;
-    color:var(--muted);
-    line-height:1.7;
-}
+.hint { font-size:12px; color:var(--muted); line-height:1.7; }
 
 .toast {
     position:fixed;
@@ -365,51 +271,27 @@ input[type=text],select,input[type=number] {
     z-index:20;
 }
 
-.toast.show {
-    display:block;
-    animation:pageIn .2s ease;
-}
+.toast.show { display:block; animation:pageIn .2s ease; }
 
 @media(max-width:850px) {
-    .layout {
-        grid-template-columns:1fr;
-    }
-
-    .sidebar {
-        max-height:none;
-    }
-
-    .stage {
-        min-height:330px;
-    }
-
-    .cards {
-        grid-template-columns:1fr;
-    }
-
-    .card {
-        min-height:140px;
-    }
-
-    #editCanvas,#retouchCanvas {
-        max-height:420px;
-    }
-
-    header h2 {
-        font-size:18px;
-    }
+    .layout { grid-template-columns:1fr; }
+    .sidebar { max-height:none; }
+    .stage { min-height:330px; }
+    .cards { grid-template-columns:1fr; }
+    #editCanvas,#retouchCanvas { max-height:420px; }
+    header h2 { font-size:18px; }
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="cosmicBackground"></canvas>
+<canvas id="spaceBackground"></canvas>
 
 <header>
     <h2>image-001</h2>
     <div class="row">
-        <button id="themeBtn">تغيير المظهر</button>
+        <button id="themeBtn">المظهر</button>
         <button id="homeBtn">الرئيسية</button>
     </div>
 </header>
@@ -420,104 +302,113 @@ input[type=text],select,input[type=number] {
 
 <section id="home" class="page active">
 
-    <div class="hero">
+<div class="hero">
         <h1>image-001</h1>
         <p>Creative Image Editor</p>
     </div>
 
-    <div class="cards">
-
+<div class="cards">
         <article class="card" data-page="editor">
             <span class="symbol">01</span>
             <h2>تحرير الصور</h2>
         </article>
 
-        <article class="card" data-page="retouch">
+<article class="card" data-page="retouch">
             <span class="symbol">02</span>
-            <h2>تنظيف الصور</h2>
+            <h2>حذف العلامات المائية</h2>
         </article>
 
-        <article class="card" data-page="drawing">
+<article class="card" data-page="drawing">
             <span class="symbol">03</span>
             <h2>الرسم</h2>
         </article>
-
     </div>
 </section>
 
-<!-- IMAGE EDITOR -->
+<!-- EDITOR -->
 
 <section id="editor" class="page">
 
-    <div class="heading">
+<div class="heading">
         <h1>تحرير الصور</h1>
-
         <div class="row">
+            <button id="undoEdit">تراجع</button>
             <button id="rotateBtn">تدوير</button>
             <button id="flipBtn">عكس</button>
-            <button id="resetEdit">إعادة ضبط</button>
-            <button class="primary" id="exportEdit">تنزيل الصورة</button>
+            <button id="resetEdit">ضبط</button>
+            <button class="primary" id="exportEdit">تنزيل</button>
         </div>
     </div>
 
-    <div class="layout">
-
+<div class="layout">
         <div class="panel">
-
             <div class="toolbar">
                 <button class="primary" id="chooseEdit">اختيار صورة</button>
                 <input id="editFile" type="file" accept="image/*" hidden>
-                <span id="editInfo" class="hint">لم يتم اختيار صورة</span>
+                <span id="editInfo" class="hint"></span>
             </div>
 
-            <div class="stage" id="editStage">
-
-                <div class="drop" id="editDrop">
-                    <h2>اختر صورة للتعديل</h2>
-                </div>
-
+<div class="stage">
+                <div class="drop" id="editDrop"><h2>اختر صورة</h2></div>
                 <canvas id="editCanvas"></canvas>
-
             </div>
         </div>
 
-        <aside class="panel sidebar">
+<aside class="panel sidebar">
+            <h3>التعديل</h3>
 
-            <h3>أدوات التعديل</h3>
-
-            <div class="control">
+<div class="control">
                 <label>الإضاءة <span id="brightVal" class="value">100%</span></label>
                 <input id="bright" type="range" min="0" max="200" value="100">
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>التباين <span id="contrastVal" class="value">100%</span></label>
                 <input id="contrast" type="range" min="0" max="200" value="100">
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>التشبع <span id="saturationVal" class="value">100%</span></label>
                 <input id="saturation" type="range" min="0" max="200" value="100">
             </div>
 
-            <div class="control">
+<div class="control">
+                <label>الألوان <span id="hueVal" class="value">0°</span></label>
+                <input id="hue" type="range" min="-180" max="180" value="0">
+            </div>
+
+<div class="control">
                 <label>التمويه <span id="blurVal" class="value">0px</span></label>
                 <input id="blur" type="range" min="0" max="10" value="0">
             </div>
 
-            <div class="control">
-                <label>الفلاتر</label>
+<div class="control">
+                <label>فينيت <span id="vignetteVal" class="value">0%</span></label>
+                <input id="vignette" type="range" min="0" max="100" value="0">
+            </div>
+
+<div class="control">
+                <label>فلتر</label>
                 <select id="filter">
-                    <option value="none">بدون فلتر</option>
+                    <option value="none">بدون</option>
                     <option value="grayscale(1)">أبيض وأسود</option>
                     <option value="sepia(1)">بني</option>
-                    <option value="saturate(1.8) contrast(1.1)">ألوان قوية</option>
+                    <option value="saturate(1.8) contrast(1.1)">قوي</option>
                     <option value="contrast(1.15) saturate(.8)">سينمائي</option>
                     <option value="sepia(.2) saturate(1.3)">دافئ</option>
-                    <option value="hue-rotate(35deg)">تغيير الألوان</option>
+                    <option value="invert(1)">سلبيات</option>
                 </select>
             </div>
 
+<div class="control">
+                <label>جاهزة</label>
+                <div class="presets">
+                    <button data-preset="auto">تحسين</button>
+                    <button data-preset="bw">كلاسيك</button>
+                    <button data-preset="cold">بارد</button>
+                    <button data-preset="vivid">صاخب</button>
+                </div>
+            </div>
         </aside>
     </div>
 </section>
@@ -526,51 +417,56 @@ input[type=text],select,input[type=number] {
 
 <section id="retouch" class="page">
 
-    <div class="heading">
-        <h1>تنظيف الصور</h1>
-
+<div class="heading">
+        <h1>حذف العلامات المائية</h1>
         <div class="row">
+            <button id="pickSourceBtn">نقطة النسخ</button>
             <button id="undoRetouch">تراجع</button>
-            <button class="primary" id="exportRetouch">تنزيل الصورة</button>
+            <button class="primary" id="exportRetouch">تنزيل</button>
         </div>
     </div>
 
-    <div class="layout">
-
+<div class="layout">
         <div class="panel">
-
             <div class="toolbar">
                 <button class="primary" id="chooseRetouch">اختيار صورة</button>
                 <input id="retouchFile" type="file" accept="image/*" hidden>
+                <span class="hint" id="retouchMode">الشفاء</span>
             </div>
 
-            <div class="stage">
-
-                <div class="drop" id="retouchDrop">
-                    <h2>اختر صورة لتنظيفها</h2>
-                </div>
-
+<div class="stage">
+                <div class="drop" id="retouchDrop"><h2>اختر صورة</h2></div>
                 <canvas id="retouchCanvas"></canvas>
-
             </div>
         </div>
 
-        <aside class="panel sidebar">
+<aside class="panel sidebar">
+            <h3>الأدوات</h3>
 
-            <h3>أدوات التنظيف</h3>
-
-            <div class="control">
+<div class="control">
                 <label>الأداة</label>
                 <select id="retouchTool">
+                    <option value="heal">شفاء</option>
+                    <option value="clone">استنساخ</option>
                     <option value="blur">تمويه</option>
+                    <option value="rect">مستطيل</option>
                 </select>
             </div>
 
-            <div class="control">
-                <label>حجم الفرشاة <span id="retouchSizeVal" class="value">30px</span></label>
-                <input id="retouchSize" type="range" min="5" max="100" value="30">
+<div class="control" id="sizeControl">
+                <label>الحجم <span id="retouchSizeVal" class="value">30px</span></label>
+                <input id="retouchSize" type="range" min="5" max="120" value="30">
             </div>
 
+<div class="control">
+                <label>النعومة <span id="retouchSoftVal" class="value">60%</span></label>
+                <input id="retouchSoft" type="range" min="0" max="100" value="60">
+            </div>
+
+<div class="control hint">
+                الشفاء والمستطيل تعمل مباشرة فوق العلامة.
+                الاستنساخ يحتاج «نقطة النسخ» أو Alt+نقر.
+            </div>
         </aside>
     </div>
 </section>
@@ -579,47 +475,38 @@ input[type=text],select,input[type=number] {
 
 <section id="drawing" class="page">
 
-    <div class="heading">
+<div class="heading">
         <h1>الرسم</h1>
-
         <div class="row">
             <button id="undoDrawing">تراجع</button>
-            <button id="clearDrawing">مسح الرسم</button>
-            <button class="primary" id="exportDrawing">تنزيل الرسم</button>
+            <button id="clearDrawing">مسح</button>
+            <button class="primary" id="exportDrawing">تنزيل</button>
         </div>
     </div>
 
-    <div class="layout">
-
+<div class="layout">
         <div class="panel">
-
-            <div class="toolbar">
-                <span>لوحة الرسم</span>
-            </div>
-
+            <div class="toolbar"><span>لوحة الرسم</span></div>
             <div class="stage">
                 <canvas id="drawingCanvas" width="1200" height="800"></canvas>
             </div>
-
         </div>
 
-        <aside class="panel sidebar">
+<aside class="panel sidebar">
+            <h3>الفرشاة</h3>
 
-            <h3>أدوات الرسم</h3>
-
-            <div class="control">
-                <label>نوع الفرشاة</label>
-
+<div class="control">
+                <label>النوع</label>
                 <select id="brushType">
                     <option value="pencil">قلم رصاص</option>
                     <option value="ink">حبر</option>
-                    <option value="soft">قلم ناعم</option>
+                    <option value="soft">ناعم</option>
                     <option value="marker">ماركر</option>
-                    <option value="highlighter">قلم تمييز</option>
+                    <option value="highlighter">تمييز</option>
                     <option value="airbrush">بخاخ</option>
-                    <option value="watercolor">ألوان مائية</option>
-                    <option value="oil">فرشاة زيتية</option>
-                    <option value="crayon">قلم شمع</option>
+                    <option value="watercolor">مائي</option>
+                    <option value="oil">زيتية</option>
+                    <option value="crayon">شمع</option>
                     <option value="neon">نيون</option>
                     <option value="calligraphy">خط عريض</option>
                     <option value="pixel">بكسل</option>
@@ -628,28 +515,28 @@ input[type=text],select,input[type=number] {
                 </select>
             </div>
 
-            <div class="control">
-                <label>لون الفرشاة</label>
+<div class="control">
+                <label>اللون</label>
                 <input id="brushColor" type="color" value="#111111">
             </div>
 
-            <div class="control">
-                <label>حجم الفرشاة <span id="brushSizeVal" class="value">8px</span></label>
+<div class="control">
+                <label>الحجم <span id="brushSizeVal" class="value">8px</span></label>
                 <input id="brushSize" type="range" min="1" max="100" value="8">
             </div>
 
-            <div class="control">
+<div class="control">
                 <label>الشفافية <span id="opacityVal" class="value">100%</span></label>
                 <input id="opacity" type="range" min="5" max="100" value="100">
             </div>
 
-            <div class="control">
-                <label>تنعيم الخط <span id="smoothVal" class="value">50%</span></label>
+<div class="control">
+                <label>التنعيم <span id="smoothVal" class="value">50%</span></label>
                 <input id="smooth" type="range" min="0" max="100" value="50">
             </div>
 
-            <div class="control">
-                <label>شكل الفرشاة</label>
+<div class="control">
+                <label>الشكل</label>
                 <select id="brushShape">
                     <option value="round">دائري</option>
                     <option value="square">مربع</option>
@@ -657,12 +544,21 @@ input[type=text],select,input[type=number] {
                 </select>
             </div>
 
-            <div class="control">
-                <label>خلفية اللوحة</label>
-                <input id="backgroundColor" type="color" value="#ffffff">
-                <button class="full" id="applyBackground">تغيير الخلفية</button>
+<div class="control">
+                <label>التناظر</label>
+                <select id="symmetry">
+                    <option value="none">بدون</option>
+                    <option value="x">مرآة أفقي</option>
+                    <option value="y">مرآة رأسي</option>
+                    <option value="xy">مزدوج</option>
+                </select>
             </div>
 
+<div class="control">
+                <label>الخلفية</label>
+                <input id="backgroundColor" type="color" value="#ffffff">
+                <button class="full" id="applyBackground">تغيير</button>
+            </div>
         </aside>
     </div>
 </section>
@@ -672,21 +568,17 @@ input[type=text],select,input[type=number] {
 <div class="toast" id="toast"></div>
 
 <script>
+"use strict";
+
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
-
-/* GENERAL */
 
 function message(text) {
     const t = $("#toast");
     t.textContent = text;
     t.classList.add("show");
-
     clearTimeout(message.timer);
-
-    message.timer = setTimeout(() => {
-        t.classList.remove("show");
-    }, 2200);
+    message.timer = setTimeout(() => t.classList.remove("show"), 2200);
 }
 
 $$("[data-page]").forEach(card => {
@@ -703,11 +595,8 @@ $("#homeBtn").onclick = () => showPage("home");
 
 $("#themeBtn").onclick = () => {
     const root = document.documentElement;
-    root.dataset.theme =
-        root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
 };
-
-/* IMAGE LOADING */
 
 function loadImage(file, callback) {
     if (!file || !file.type.startsWith("image/")) {
@@ -715,36 +604,30 @@ function loadImage(file, callback) {
         return;
     }
 
-    const url = URL.createObjectURL(file);
+const url = URL.createObjectURL(file);
     const img = new Image();
 
-    img.onload = () => {
+img.onload = () => {
         callback(img, file.name);
         URL.revokeObjectURL(url);
     };
 
-    img.onerror = () => {
+img.onerror = () => {
         URL.revokeObjectURL(url);
         message("تعذر فتح الصورة");
     };
 
-    img.src = url;
+img.src = url;
 }
 
 function downloadCanvas(canvas, name) {
     canvas.toBlob(blob => {
-        if (!blob) {
-            message("تعذر تنزيل الصورة");
-            return;
-        }
-
+        if (!blob) return message("تعذر التنزيل");
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
-
         a.href = url;
         a.download = name;
         a.click();
-
         setTimeout(() => URL.revokeObjectURL(url), 1500);
     }, "image/png");
 }
@@ -752,27 +635,24 @@ function downloadCanvas(canvas, name) {
 function attachDrop(zone, callback) {
     zone.addEventListener("dragover", e => {
         e.preventDefault();
-        zone.style.borderColor = "#ffffff";
+        zone.style.borderColor = "#fff";
     });
 
-    zone.addEventListener("dragleave", () => {
-        zone.style.borderColor = "";
-    });
+zone.addEventListener("dragleave", () => zone.style.borderColor = "");
 
-    zone.addEventListener("drop", e => {
+zone.addEventListener("drop", e => {
         e.preventDefault();
-
         const file = e.dataTransfer.files[0];
         if (file) loadImage(file, callback);
     });
 
-    zone.onclick = () => {
+zone.onclick = () => {
         const input = zone.parentElement.querySelector('input[type="file"]');
         if (input) input.click();
     };
 }
 
-/* IMAGE EDITOR */
+/* ================= EDITOR ================= */
 
 const editCanvas = $("#editCanvas");
 const editCtx = editCanvas.getContext("2d");
@@ -781,58 +661,105 @@ let editImage = null;
 let editName = "image";
 let editRotation = 0;
 let editFlip = false;
+let editHistory = [];
+
+function editState() {
+    return {
+        rotation:editRotation,
+        flip:editFlip,
+        bright:$("#bright").value,
+        contrast:$("#contrast").value,
+        saturation:$("#saturation").value,
+        hue:$("#hue").value,
+        blur:$("#blur").value,
+        vignette:$("#vignette").value,
+        filter:$("#filter").value
+    };
+}
+
+function pushEditHistory() {
+    if (!editImage) return;
+    editHistory.push(editState());
+    if (editHistory.length > 20) editHistory.shift();
+}
+
+function applyState(st) {
+    editRotation = st.rotation;
+    editFlip = st.flip;
+
+$("#bright").value = st.bright;
+    $("#contrast").value = st.contrast;
+    $("#saturation").value = st.saturation;
+    $("#hue").value = st.hue;
+    $("#blur").value = st.blur;
+    $("#vignette").value = st.vignette;
+    $("#filter").value = st.filter;
+
+updateEditValues();
+    renderEdit();
+}
 
 function renderEdit() {
     if (!editImage) return;
 
-    const rotated = Math.abs(editRotation % 180) === 90;
+const rotated = Math.abs(editRotation % 180) === 90;
     const w = editImage.naturalWidth;
     const h = editImage.naturalHeight;
 
-    editCanvas.width = rotated ? h : w;
+editCanvas.width = rotated ? h : w;
     editCanvas.height = rotated ? w : h;
 
-    editCtx.clearRect(0,0,editCanvas.width,editCanvas.height);
-
+editCtx.clearRect(0,0,editCanvas.width,editCanvas.height);
     editCtx.save();
 
-    editCtx.filter =
+editCtx.filter =
         `brightness(${$("#bright").value}%)
          contrast(${$("#contrast").value}%)
          saturate(${$("#saturation").value}%)
+         hue-rotate(${$("#hue").value}deg)
          blur(${$("#blur").value}px)
          ${$("#filter").value === "none" ? "" : $("#filter").value}`;
 
-    editCtx.translate(editCanvas.width/2,editCanvas.height/2);
+editCtx.translate(editCanvas.width/2,editCanvas.height/2);
     editCtx.rotate(editRotation * Math.PI / 180);
     editCtx.scale(editFlip ? -1 : 1,1);
-
     editCtx.drawImage(editImage,-w/2,-h/2,w,h);
-
     editCtx.restore();
+
+const v = Number($("#vignette").value);
+    if (v > 0) {
+        const r = Math.hypot(editCanvas.width,editCanvas.height)/2;
+        const vg = editCtx.createRadialGradient(
+            editCanvas.width/2,editCanvas.height/2,r*.45,
+            editCanvas.width/2,editCanvas.height/2,r
+        );
+        vg.addColorStop(0,"rgba(0,0,0,0)");
+        vg.addColorStop(1,`rgba(0,0,0,${v/100})`);
+
+editCtx.fillStyle = vg;
+        editCtx.fillRect(0,0,editCanvas.width,editCanvas.height);
+    }
 }
 
 function loadEdit(img,name) {
     editImage = img;
-    editName = name.replace(/\.[^.]+$/,"") || "image";
+    editName = (name || "image").replace(/\.[^.]+$/,"") || "image";
 
-    editRotation = 0;
+editRotation = 0;
     editFlip = false;
+    editHistory = [];
 
-    $("#editDrop").style.display = "none";
+$("#editDrop").style.display = "none";
     editCanvas.style.display = "block";
+    $("#editInfo").textContent = `${img.naturalWidth} × ${img.naturalHeight}`;
 
-    $("#editInfo").textContent =
-        `${img.naturalWidth} × ${img.naturalHeight}`;
-
-    ["bright","contrast","saturation"].forEach(id => {
-        $("#" + id).value = 100;
-    });
-
+["bright","contrast","saturation"].forEach(id => $("#" + id).value = 100);
+    $("#hue").value = 0;
     $("#blur").value = 0;
+    $("#vignette").value = 0;
     $("#filter").value = "none";
 
-    updateEditValues();
+updateEditValues();
     renderEdit();
 }
 
@@ -840,10 +767,12 @@ function updateEditValues() {
     $("#brightVal").textContent = $("#bright").value + "%";
     $("#contrastVal").textContent = $("#contrast").value + "%";
     $("#saturationVal").textContent = $("#saturation").value + "%";
+    $("#hueVal").textContent = $("#hue").value + "°";
     $("#blurVal").textContent = $("#blur").value + "px";
+    $("#vignetteVal").textContent = $("#vignette").value + "%";
 }
 
-["bright","contrast","saturation","blur"].forEach(id => {
+["bright","contrast","saturation","hue","blur","vignette"].forEach(id => {
     $("#" + id).oninput = () => {
         updateEditValues();
         renderEdit();
@@ -852,53 +781,60 @@ function updateEditValues() {
 
 $("#filter").onchange = renderEdit;
 
-$("#chooseEdit").onclick = () => $("#editFile").click();
+$$("[data-preset]").forEach(btn => {
+    btn.onclick = () => {
+        if (!editImage) return message("اختر صورة أولًا");
 
-$("#editFile").onchange = () => {
-    loadImage($("#editFile").files[0],loadEdit);
-};
+pushEditHistory();
+
+const presets = {
+            auto:{bright:112,contrast:112,saturation:115,hue:0,blur:0,vignette:0,filter:"none"},
+            bw:{bright:105,contrast:130,saturation:0,hue:0,blur:0,vignette:25,filter:"none"},
+            cold:{bright:102,contrast:108,saturation:105,hue:15,blur:0,vignette:10,filter:"none"},
+            vivid:{bright:105,contrast:120,saturation:170,hue:0,blur:0,vignette:0,filter:"saturate(1.4) contrast(1.1)"}
+        };
+
+applyState({...presets[btn.dataset.preset],rotation:editRotation,flip:editFlip});
+    };
+});
+
+$("#chooseEdit").onclick = () => $("#editFile").click();
+$("#editFile").onchange = () => loadImage($("#editFile").files[0],loadEdit);
 
 $("#rotateBtn").onclick = () => {
     if (!editImage) return message("اختر صورة أولًا");
-
+    pushEditHistory();
     editRotation = (editRotation + 90) % 360;
     renderEdit();
 };
 
 $("#flipBtn").onclick = () => {
     if (!editImage) return message("اختر صورة أولًا");
-
+    pushEditHistory();
     editFlip = !editFlip;
     renderEdit();
 };
 
 $("#resetEdit").onclick = () => {
     if (!editImage) return;
+    pushEditHistory();
+    applyState({rotation:0,flip:false,bright:100,contrast:100,saturation:100,hue:0,blur:0,vignette:0,filter:"none"});
+};
 
-    editRotation = 0;
-    editFlip = false;
-
-    ["bright","contrast","saturation"].forEach(id => {
-        $("#" + id).value = 100;
-    });
-
-    $("#blur").value = 0;
-    $("#filter").value = "none";
-
-    updateEditValues();
-    renderEdit();
+$("#undoEdit").onclick = () => {
+    if (!editHistory.length) return message("لا شيء للتراجع");
+    applyState(editHistory.pop());
 };
 
 $("#exportEdit").onclick = () => {
     if (!editImage) return message("اختر صورة أولًا");
-
     renderEdit();
     downloadCanvas(editCanvas,editName + "-edited.png");
 };
 
 attachDrop($("#editDrop"),loadEdit);
 
-/* RETOUCH */
+/* ================= WATERMARK REMOVAL ================= */
 
 const retouchCanvas = $("#retouchCanvas");
 const retouchCtx = retouchCanvas.getContext("2d");
@@ -907,32 +843,51 @@ let retouchImage = null;
 let retouchHistory = [];
 let retouchDown = false;
 let retouchLast = null;
+let pickMode = false;
+let cloneSrc = null;
+let cloneOffset = null;
+let rectStart = null;
+let rectSnapshot = null;
+
+const toolNames = {
+    heal:"الشفاء",
+    clone:"الاستنساخ",
+    blur:"التمويه",
+    rect:"المستطيل"
+};
 
 function loadRetouch(img) {
     retouchImage = img;
 
-    retouchCanvas.width = img.naturalWidth;
+retouchCanvas.width = img.naturalWidth;
     retouchCanvas.height = img.naturalHeight;
-
     retouchCtx.drawImage(img,0,0);
 
-    $("#retouchDrop").style.display = "none";
+$("#retouchDrop").style.display = "none";
     retouchCanvas.style.display = "block";
 
-    retouchHistory = [];
+retouchHistory = [];
+    cloneSrc = null;
+    cloneOffset = null;
 }
 
 $("#chooseRetouch").onclick = () => $("#retouchFile").click();
+$("#retouchFile").onchange = () => loadImage($("#retouchFile").files[0],loadRetouch);
+attachDrop($("#retouchDrop"),loadRetouch);
 
-$("#retouchFile").onchange = () => {
-    loadImage($("#retouchFile").files[0],loadRetouch);
+$("#pickSourceBtn").onclick = () => {
+    if (!retouchImage) return message("اختر صورة أولًا");
+    pickMode = true;
+    message("انقر على منطقة نظيفة");
 };
 
-attachDrop($("#retouchDrop"),loadRetouch);
+$("#retouchTool").onchange = () => {
+    $("#retouchMode").textContent = toolNames[$("#retouchTool").value] || "";
+    $("#sizeControl").style.display = $("#retouchTool").value === "rect" ? "none" : "";
+};
 
 function retouchPoint(e) {
     const r = retouchCanvas.getBoundingClientRect();
-
     return {
         x:(e.clientX-r.left)*retouchCanvas.width/r.width,
         y:(e.clientY-r.top)*retouchCanvas.height/r.height
@@ -943,99 +898,423 @@ function saveRetouch() {
     retouchHistory.push(
         retouchCtx.getImageData(0,0,retouchCanvas.width,retouchCanvas.height)
     );
-
-    if (retouchHistory.length > 12) retouchHistory.shift();
+    if (retouchHistory.length > 15) retouchHistory.shift();
 }
 
-function retouchAt(p) {
-    const size = Number($("#retouchSize").value);
+function softDisc(size,softness) {
+    const m = document.createElement("canvas");
+    m.width = m.height = size*2;
 
-    const x = Math.max(0,Math.floor(p.x-size));
+const mc = m.getContext("2d");
+    const g = mc.createRadialGradient(size,size,size*(1-softness/130),size,size,size);
+    g.addColorStop(0,"rgba(0,0,0,1)");
+    g.addColorStop(1,"rgba(0,0,0,0)");
+
+mc.fillStyle = g;
+    mc.beginPath();
+    mc.arc(size,size,size,0,Math.PI*2);
+    mc.fill();
+
+return m;
+}
+
+/* دمج رقعة مع القناع الناعم ورسمها */
+function stampPatch(patch,x,y,p,size,soft) {
+    const w = patch.width;
+    const h = patch.height;
+
+const apply = document.createElement("canvas");
+    apply.width = w;
+    apply.height = h;
+
+const ac = apply.getContext("2d");
+    ac.drawImage(patch,0,0);
+
+ac.globalCompositeOperation = "destination-in";
+    ac.drawImage(softDisc(size,soft), p.x-x, p.y-y);
+
+retouchCtx.drawImage(apply,x,y);
+}
+
+/* الشفاء الجديد: متوسط رقع من كل الاتجاهات حول الهدف
+   — يعمل بدون نقطة نسخ ويحافظ على النسيج */
+function healPatch(p,size,soft) {
+    const W = retouchCanvas.width;
+    const H = retouchCanvas.height;
+
+const radius = size*2.2;
+
+const dirs = [
+        {x:0,y:-radius},
+        {x:0,y:radius},
+        {x:-radius,y:0},
+        {x:radius,y:0},
+        {x:-radius*.7,y:-radius*.7},
+        {x:radius*.7,y:-radius*.7},
+        {x:-radius*.7,y:radius*.7},
+        {x:radius*.7,y:radius*.7}
+    ];
+
+const x = Math.max(0,Math.floor(p.x-size));
     const y = Math.max(0,Math.floor(p.y-size));
+    const w = Math.min(W-x,size*2);
+    const h = Math.min(H-y,size*2);
 
-    const w = Math.min(retouchCanvas.width-x,size*2);
-    const h = Math.min(retouchCanvas.height-y,size*2);
+if (w < 1 || h < 1) return;
 
-    if (w < 1 || h < 1) return;
+// رقع صالحة فقط (داخل حدود الصورة)
+    const valid = dirs.filter(d => {
+        const sx = p.x + d.x, sy = p.y + d.y;
+        return sx-size >= 0 && sy-size >= 0 &&
+               sx+size <= W && sy+size <= H;
+    });
 
-    const temp = document.createElement("canvas");
+if (!valid.length) {
+        // قرب الحافة: تمويه بسيط
+        blurPatch(p,size,soft);
+        return;
+    }
+
+const avg = document.createElement("canvas");
+    avg.width = w;
+    avg.height = h;
+    const ac = avg.getContext("2d");
+
+// متوسط البكسلات من كل الرقع
+    const acc = new Float32Array(w*h*4);
+
+valid.forEach(d => {
+        const sx = Math.floor(p.x + d.x - size);
+        const sy = Math.floor(p.y + d.y - size);
+
+const tmp = document.createElement("canvas");
+        tmp.width = w;
+        tmp.height = h;
+
+const tc = tmp.getContext("2d");
+        tc.drawImage(retouchCanvas,sx,sy,w,h,0,0,w,h);
+
+const data = tc.getImageData(0,0,w,h).data;
+
+for (let i=0;i<data.length;i++) acc[i] += data[i];
+    });
+
+const out = ac.createImageData(w,h);
+
+for (let i=0;i<acc.length;i++) out.data[i] = acc[i]/valid.length;
+
+// 100% معتم — القناع يتحكم بالحافة
+    for (let i=3;i<out.data.length;i+=4) out.data[i] = 255;
+
+ac.putImageData(out,0,0);
+
+// دمج طفيف مع الأصل لضمان انتقال طبيعي
+    const blend = document.createElement("canvas");
+    blend.width = w;
+    blend.height = h;
+    const bc = blend.getContext("2d");
+
+bc.drawImage(retouchCanvas,x,y,w,h,0,0,w,h);
+    bc.globalAlpha = .35;
+    bc.drawImage(avg,0,0);
+
+stampPatch(blend,x,y,p,size,soft);
+}
+
+function blurPatch(p,size,soft) {
+    const W = retouchCanvas.width;
+    const H = retouchCanvas.height;
+
+const x = Math.max(0,Math.floor(p.x-size));
+    const y = Math.max(0,Math.floor(p.y-size));
+    const w = Math.min(W-x,size*2);
+    const h = Math.min(H-y,size*2);
+
+if (w < 1 || h < 1) return;
+
+const temp = document.createElement("canvas");
     temp.width = w;
     temp.height = h;
 
-    const tc = temp.getContext("2d");
-
-    tc.filter = `blur(${Math.max(2,size/5)}px)`;
+const tc = temp.getContext("2d");
+    tc.filter = `blur(${Math.max(2,size/4)}px)`;
     tc.drawImage(retouchCanvas,x,y,w,h,0,0,w,h);
 
-    retouchCtx.save();
-    retouchCtx.beginPath();
-    retouchCtx.arc(p.x,p.y,size,0,Math.PI*2);
-    retouchCtx.clip();
-    retouchCtx.drawImage(temp,x,y,w,h);
-    retouchCtx.restore();
+stampPatch(temp,x,y,p,size,soft);
 }
 
-$("#retouchSize").oninput = () => {
-    $("#retouchSizeVal").textContent = $("#retouchSize").value + "px";
-};
+function clonePatch(p,size,soft) {
+    if (!cloneSrc) {
+        pickMode = true;
+        message("حدد نقطة النسخ أولًا");
+        return;
+    }
+
+const W = retouchCanvas.width;
+    const H = retouchCanvas.height;
+
+const src = {x:p.x-cloneOffset.x, y:p.y-cloneOffset.y};
+
+const x = Math.max(0,Math.floor(p.x-size));
+    const y = Math.max(0,Math.floor(p.y-size));
+    const w = Math.min(W-x,size*2);
+    const h = Math.min(H-y,size*2);
+
+const sx = Math.floor(src.x-size);
+    const sy = Math.floor(src.y-size);
+
+if (x<0 || y<0 || sx<0 || sy<0 ||
+        sx+size*2 > W || sy+size*2 > H) return;
+
+const patch = document.createElement("canvas");
+    patch.width = w;
+    patch.height = h;
+
+const pc = patch.getContext("2d");
+    pc.drawImage(retouchCanvas,sx,sy,w,h,0,0,w,h);
+
+stampPatch(patch,x,y,p,size,soft);
+}
+
+function retouchAt(p) {
+    const tool = $("#retouchTool").value;
+    const size = Number($("#retouchSize").value);
+    const soft = Number($("#retouchSoft").value);
+
+if (tool === "heal")   return healPatch(p,size,soft);
+    if (tool === "blur")   return blurPatch(p,size,soft);
+    if (tool === "clone")  return clonePatch(p,size,soft);
+}
+
+/* حذف مستطيل كامل بدمج النسيج المحيط (inpainting) */
+function inpaintRect(x0,y0,x1,y1) {
+    const W = retouchCanvas.width;
+    const H = retouchCanvas.height;
+
+const rx = Math.max(0,Math.floor(Math.min(x0,x1)));
+    const ry = Math.max(0,Math.floor(Math.min(y0,y1)));
+    const rw = Math.min(W-rx,Math.abs(Math.ceil(x1-x0)));
+    const rh = Math.min(H-ry,Math.abs(Math.ceil(y1-y0)));
+
+if (rw < 2 || rh < 2) return;
+
+saveRetouch();
+
+const img = retouchCtx.getImageData(0,0,W,H);
+    const d = img.data;
+
+const inside = new Uint8Array(W*H);
+    for (let y=ry;y<ry+rh;y++)
+        for (let x=rx;x<rx+rw;x++)
+            inside[y*W+x] = 1;
+
+// تعبئة البصلة: كل بكسل غير معبأ له جار معبأ يأخذ متوسط الجيران
+    const filled = new Uint8Array(W*H);
+    for (let i=0;i<W*H;i++) filled[i] = inside[i] ? 0 : 1;
+
+let remaining = rw*rh;
+    const idx = (x,y) => (y*W+x)*4;
+
+while (remaining > 0) {
+        const newly = [];
+
+for (let y=ry;y<ry+rh;y++) {
+            for (let x=rx;x<rx+rw;x++) {
+                const i = y*W+x;
+                if (filled[i]) continue;
+
+let r=0,g=0,b=0,a=0,n=0;
+
+const nb = [
+                    [x-1,y],[x+1,y],[x,y-1],[x,y+1]
+                ];
+
+for (const [nx,ny] of nb) {
+                    const ni = ny*W+nx;
+                    if (nx<0||ny<0||nx>=W||ny>=H) continue;
+                    if (!filled[ni]) continue;
+
+r += d[idx(nx,ny)];
+                    g += d[idx(nx,ny)+1];
+                    b += d[idx(nx,ny)+2];
+                    a += d[idx(nx,ny)+3];
+                    n++;
+                }
+
+if (n > 0) newly.push({x,y,r:r/n,g:g/n,b:b/n,a:a/n});
+            }
+        }
+
+if (!newly.length) break;
+
+newly.forEach(q => {
+            const i = idx(q.x,q.y);
+            d[i]   = q.r;
+            d[i+1] = q.g;
+            d[i+2] = q.b;
+            d[i+3] = q.a;
+            filled[q.y*W+q.x] = 1;
+            remaining--;
+        });
+    }
+
+// تنعيم: ثلاث تمريرات داخل المستطيل
+    for (let pass=0;pass<3;pass++) {
+        const copy = new Uint8ClampedArray(d);
+
+for (let y=ry+1;y<ry+rh-1;y++) {
+            for (let x=rx+1;x<rx+rw-1;x++) {
+                const i = idx(x,y);
+
+for (let c=0;c<4;c++) {
+                    d[i+c] = (
+                        copy[i+c] +
+                        copy[i-4+c] + copy[i+4+c] +
+                        copy[i-W*4+c] + copy[i+W*4+c]
+                    ) / 5;
+                }
+            }
+        }
+    }
+
+// حافة ناعمة: دمج تدريجي على شريط الحد
+    const feather = Math.max(2,Math.round(Math.min(rw,rh)*.12));
+    const snapshot = retouchCtx.getImageData(0,0,W,H).data;
+
+for (let y=ry;y<ry+rh;y++) {
+        for (let x=rx;x<rx+rw;x++) {
+            const edge = Math.min(
+                x-rx, rx+rw-1-x, y-ry, ry+rh-1-y
+            );
+
+if (edge >= feather) continue;
+
+const t = edge/feather;
+            const i = idx(x,y);
+
+for (let c=0;c<4;c++) {
+                d[i+c] = d[i+c]*t + snapshot[i+c]*(1-t);
+            }
+        }
+    }
+
+retouchCtx.putImageData(img,0,0);
+    message("تم حذف المنطقة ودمج الخلفية");
+}
+
+["retouchSize","retouchSoft"].forEach(id => {
+    $("#" + id).oninput = () => {
+        $("#retouchSizeVal").textContent = $("#retouchSize").value + "px";
+        $("#retouchSoftVal").textContent = $("#retouchSoft").value + "%";
+    };
+});
 
 retouchCanvas.addEventListener("pointerdown",e => {
     if (!retouchImage) return;
 
-    retouchDown = true;
+const p = retouchPoint(e);
+
+if (pickMode || e.altKey) {
+        cloneSrc = p;
+        pickMode = false;
+        message("تم تحديد نقطة النسخ");
+        return;
+    }
+
+const tool = $("#retouchTool").value;
+
+if (tool === "rect") {
+        saveRetouch();
+        rectStart = p;
+        rectSnapshot = retouchCtx.getImageData(0,0,retouchCanvas.width,retouchCanvas.height);
+        retouchDown = true;
+        retouchCanvas.setPointerCapture(e.pointerId);
+        return;
+    }
+
+if (tool === "clone" && !cloneSrc) {
+        cloneSrc = p;
+        message("نقطة النسخ محددة — ابدأ المسح");
+    }
+
+if (tool === "clone") {
+        cloneOffset = {x:p.x-cloneSrc.x, y:p.y-cloneSrc.y};
+    }
+
+retouchDown = true;
     retouchCanvas.setPointerCapture(e.pointerId);
 
-    saveRetouch();
-
-    retouchLast = retouchPoint(e);
-    retouchAt(retouchLast);
+saveRetouch();
+    retouchLast = p;
+    retouchAt(p);
 });
 
 retouchCanvas.addEventListener("pointermove",e => {
     if (!retouchDown) return;
 
-    const p = retouchPoint(e);
+const p = retouchPoint(e);
 
-    const distance = Math.hypot(
-        p.x-retouchLast.x,
-        p.y-retouchLast.y
-    );
+if ($("#retouchTool").value === "rect") {
+        // استعادة اللقطة + رسم معاينة المستطيل
+        retouchCtx.putImageData(rectSnapshot,0,0);
+        retouchCtx.save();
+        retouchCtx.strokeStyle = "rgba(255,220,67,.9)";
+        retouchCtx.lineWidth = 2;
+        retouchCtx.setLineDash([6,4]);
+        retouchCtx.strokeRect(
+            Math.min(rectStart.x,p.x),
+            Math.min(rectStart.y,p.y),
+            Math.abs(p.x-rectStart.x),
+            Math.abs(p.y-rectStart.y)
+        );
+        retouchCtx.restore();
+        return;
+    }
 
-    const step = Math.max(2,Number($("#retouchSize").value)/4);
+const distance = Math.hypot(p.x-retouchLast.x,p.y-retouchLast.y);
+    const step = Math.max(2,Number($("#retouchSize").value)/5);
     const count = Math.max(1,Math.ceil(distance/step));
 
-    const old = {...retouchLast};
+const old = {...retouchLast};
 
-    for (let i=1;i<=count;i++) {
+for (let i=1;i<=count;i++) {
         retouchAt({
             x:old.x+(p.x-old.x)*i/count,
             y:old.y+(p.y-old.y)*i/count
         });
     }
 
-    retouchLast = p;
+retouchLast = p;
 });
 
 ["pointerup","pointercancel","lostpointercapture"].forEach(ev => {
-    retouchCanvas.addEventListener(ev,() => {
-        retouchDown = false;
+    retouchCanvas.addEventListener(ev,e => {
+        if (!retouchDown) return;
+
+if ($("#retouchTool").value === "rect") {
+            const p = retouchPoint(e);
+            retouchCtx.putImageData(rectSnapshot,0,0);
+            inpaintRect(rectStart.x,rectStart.y,p.x,p.y);
+            rectStart = null;
+            rectSnapshot = null;
+        }
+
+retouchDown = false;
         retouchLast = null;
     });
 });
 
 $("#undoRetouch").onclick = () => {
-    if (!retouchHistory.length) return;
-
+    if (!retouchHistory.length) return message("لا شيء للتراجع");
     retouchCtx.putImageData(retouchHistory.pop(),0,0);
 };
 
 $("#exportRetouch").onclick = () => {
     if (!retouchImage) return message("اختر صورة أولًا");
-
-    downloadCanvas(retouchCanvas,"image-001-retouched.png");
+    downloadCanvas(retouchCanvas,"image-001-clean.png");
 };
 
-/* DRAWING */
+/* ================= DRAWING ================= */
 
 const drawCanvas = $("#drawingCanvas");
 const drawCtx = drawCanvas.getContext("2d");
@@ -1045,15 +1324,14 @@ let drawLast = null;
 let drawHistory = [];
 let drawBackground = "#ffffff";
 let rainbowHue = 0;
+let strokePressure = 1;
 
 function resetDrawing() {
     drawCtx.save();
-
     drawCtx.globalAlpha = 1;
     drawCtx.globalCompositeOperation = "source-over";
     drawCtx.fillStyle = drawBackground;
     drawCtx.fillRect(0,0,drawCanvas.width,drawCanvas.height);
-
     drawCtx.restore();
 }
 
@@ -1061,13 +1339,11 @@ function saveDrawing() {
     drawHistory.push(
         drawCtx.getImageData(0,0,drawCanvas.width,drawCanvas.height)
     );
-
     if (drawHistory.length > 25) drawHistory.shift();
 }
 
 function drawPoint(e) {
     const r = drawCanvas.getBoundingClientRect();
-
     return {
         x:(e.clientX-r.left)*drawCanvas.width/r.width,
         y:(e.clientY-r.top)*drawCanvas.height/r.height
@@ -1080,101 +1356,102 @@ function currentBrush() {
         size:Number($("#brushSize").value),
         color:$("#brushColor").value,
         opacity:Number($("#opacity").value)/100,
-        shape:$("#brushShape").value
+        shape:$("#brushShape").value,
+        sym:$("#symmetry").value
     };
 }
 
-function paintPoint(p,b) {
+function paintSingle(p,from,b) {
     const c = drawCtx;
 
-    c.save();
+c.save();
 
-    c.globalAlpha = b.opacity;
+c.globalAlpha = b.opacity * (strokePressure || 1);
     c.globalCompositeOperation = "source-over";
     c.lineCap = b.shape === "square" ? "square" : "round";
     c.lineJoin = "round";
-    c.lineWidth = b.size;
+    c.lineWidth = b.size * (.5 + (strokePressure || 1)*.5);
     c.strokeStyle = b.color;
     c.fillStyle = b.color;
     c.shadowBlur = 0;
     c.setLineDash([]);
 
-    switch (b.type) {
+switch (b.type) {
         case "eraser":
             c.globalCompositeOperation = "destination-out";
             break;
 
-        case "pencil":
+case "pencil":
             c.globalAlpha *= .65;
             c.lineWidth = Math.max(1,b.size*.55);
             break;
 
-        case "ink":
+case "ink":
             c.lineWidth = Math.max(1,b.size*.72);
             break;
 
-        case "soft":
+case "soft":
             c.globalAlpha *= .5;
             c.shadowColor = b.color;
             c.shadowBlur = 5;
             break;
 
-        case "marker":
+case "marker":
             c.globalAlpha *= .78;
             c.lineWidth = b.size*1.3;
             break;
 
-        case "highlighter":
+case "highlighter":
             c.globalAlpha *= .25;
             c.lineWidth = b.size*2.2;
             c.lineCap = "square";
             break;
 
-        case "watercolor":
+case "watercolor":
             c.globalAlpha *= .2;
             c.lineWidth = b.size*1.8;
             break;
 
-        case "oil":
+case "oil":
             c.globalAlpha *= .9;
             c.lineWidth = b.size*.85;
             break;
 
-        case "crayon":
+case "crayon":
             c.globalAlpha *= .7;
             break;
 
-        case "neon":
+case "neon":
             c.shadowColor = b.color;
             c.shadowBlur = Math.max(8,b.size*2);
             c.lineWidth = Math.max(1,b.size*.7);
             break;
 
-        case "calligraphy":
+case "calligraphy":
             c.lineCap = "butt";
             c.lineWidth = b.size*1.2;
             break;
 
-        case "pixel":
+case "pixel":
             c.lineCap = "square";
             c.lineWidth = Math.max(4,Math.round(b.size/3)*3);
             break;
 
-        case "rainbow":
+case "rainbow":
             c.strokeStyle = `hsl(${rainbowHue%360} 100% 50%)`;
             c.fillStyle = c.strokeStyle;
             rainbowHue += 5;
             break;
 
-        case "airbrush":
+case "airbrush":
             c.globalAlpha *= .12;
 
-            for (let i=0;i<Math.max(20,b.size*2);i++) {
+for (let i=0;i<Math.max(20,b.size*2);i++) {
                 const angle = Math.random()*Math.PI*2;
                 const radius = Math.random()*b.size;
                 const dot = Math.random()*Math.max(1,b.size/10);
 
-                c.beginPath();
+c.beginPath();
                 c.arc(
                     p.x+Math.cos(angle)*radius,
                     p.y+Math.sin(angle)*radius,
@@ -1183,45 +1460,69 @@ function paintPoint(p,b) {
                 c.fill();
             }
 
-            c.restore();
+c.restore();
             return;
     }
 
-    if (b.shape === "flat" && b.type !== "eraser") {
-        c.lineCap = "butt";
-    }
+if (b.shape === "flat" && b.type !== "eraser") c.lineCap = "butt";
 
-    if (!drawLast) {
+if (!from) {
         c.beginPath();
         c.arc(p.x,p.y,Math.max(1,c.lineWidth/2),0,Math.PI*2);
         c.fill();
     } else {
         c.beginPath();
-        c.moveTo(drawLast.x,drawLast.y);
+        c.moveTo(from.x,from.y);
         c.lineTo(p.x,p.y);
         c.stroke();
 
-        if (b.type === "watercolor") {
+if (b.type === "watercolor") {
             c.globalAlpha *= .4;
             c.lineWidth = b.size*2.2;
             c.beginPath();
-            c.moveTo(drawLast.x,drawLast.y);
+            c.moveTo(from.x,from.y);
             c.lineTo(p.x,p.y);
             c.stroke();
         }
 
-        if (b.type === "crayon") {
+if (b.type === "crayon") {
             c.globalAlpha *= .3;
             c.lineWidth = Math.max(1,b.size*.3);
             c.setLineDash([1,3]);
             c.beginPath();
-            c.moveTo(drawLast.x,drawLast.y);
+            c.moveTo(from.x,from.y);
             c.lineTo(p.x,p.y);
             c.stroke();
         }
     }
 
-    c.restore();
+c.restore();
+}
+
+function paintPoint(p,b) {
+    const W = drawCanvas.width;
+    const H = drawCanvas.height;
+
+const mirrors = [p];
+    if (b.sym === "x" || b.sym === "xy") mirrors.push({x:W-p.x,y:p.y});
+    if (b.sym === "y" || b.sym === "xy") mirrors.push({x:p.x,y:H-p.y});
+    if (b.sym === "xy") mirrors.push({x:W-p.x,y:H-p.y});
+
+const reflected = drawLast ? {
+        x: b.sym.includes("x") ? W-drawLast.x : drawLast.x,
+        y: b.sym.includes("y") ? H-drawLast.y : drawLast.y
+    } : null;
+
+mirrors.forEach(mp => {
+        const rl = mp === p
+            ? drawLast
+            : (reflected
+                ? {x: b.sym.includes("x") ? W-reflected.x : reflected.x,
+                   y: b.sym.includes("y") ? H-reflected.y : reflected.y}
+                : null);
+
+paintSingle(mp,rl,b);
+    });
 }
 
 resetDrawing();
@@ -1230,36 +1531,36 @@ drawCanvas.addEventListener("pointerdown",e => {
     drawing = true;
     drawCanvas.setPointerCapture(e.pointerId);
 
-    saveDrawing();
+strokePressure = e.pointerType === "pen" && e.pressure > 0 ? e.pressure : 1;
 
-    drawLast = drawPoint(e);
+saveDrawing();
+
+drawLast = drawPoint(e);
     paintPoint(drawLast,currentBrush());
 });
 
 drawCanvas.addEventListener("pointermove",e => {
     if (!drawing) return;
 
-    const p = drawPoint(e);
+if (e.pointerType === "pen" && e.pressure > 0) strokePressure = e.pressure;
+
+const p = drawPoint(e);
     const b = currentBrush();
 
-    const distance = Math.hypot(
-        p.x-drawLast.x,
-        p.y-drawLast.y
-    );
-
+const distance = Math.hypot(p.x-drawLast.x,p.y-drawLast.y);
     const smooth = Number($("#smooth").value);
     const spacing = Math.max(1,b.size*(1-smooth/130));
     const count = Math.max(1,Math.ceil(distance/spacing));
 
-    const previous = {...drawLast};
+const previous = {...drawLast};
 
-    for (let i=1;i<=count;i++) {
+for (let i=1;i<=count;i++) {
         const next = {
             x:previous.x+(p.x-previous.x)*i/count,
             y:previous.y+(p.y-previous.y)*i/count
         };
 
-        paintPoint(next,b);
+paintPoint(next,b);
         drawLast = next;
     }
 });
@@ -1268,25 +1569,21 @@ drawCanvas.addEventListener("pointermove",e => {
     drawCanvas.addEventListener(ev,() => {
         drawing = false;
         drawLast = null;
+        strokePressure = 1;
         drawCtx.beginPath();
     });
 });
 
-$("#brushSize").oninput = () => {
-    $("#brushSizeVal").textContent = $("#brushSize").value + "px";
-};
-
-$("#opacity").oninput = () => {
-    $("#opacityVal").textContent = $("#opacity").value + "%";
-};
-
-$("#smooth").oninput = () => {
-    $("#smoothVal").textContent = $("#smooth").value + "%";
-};
+["brushSize","opacity","smooth"].forEach(id => {
+    $("#" + id).oninput = () => {
+        $("#brushSizeVal").textContent = $("#brushSize").value + "px";
+        $("#opacityVal").textContent = $("#opacity").value + "%";
+        $("#smoothVal").textContent = $("#smooth").value + "%";
+    };
+});
 
 $("#undoDrawing").onclick = () => {
-    if (!drawHistory.length) return;
-
+    if (!drawHistory.length) return message("لا شيء للتراجع");
     drawCtx.putImageData(drawHistory.pop(),0,0);
 };
 
@@ -1305,294 +1602,183 @@ $("#exportDrawing").onclick = () => {
     downloadCanvas(drawCanvas,"image-001-drawing.png");
 };
 
-/* COSMIC BACKGROUND ENGINE */
+/* ================= BLACK HOLE BACKGROUND ================= */
 
 (() => {
-    const canvas = $("#cosmicBackground");
+    const canvas = $("#spaceBackground");
     const ctx = canvas.getContext("2d");
 
-    let W = 0;
-    let H = 0;
-    let dpr = 1;
-    let time = 0;
-    let particles = [];
+let W = 0, H = 0, dpr = 1, time = 0;
     let stars = [];
+    let ring = [];
 
-    const mouse = {
-        x:innerWidth/2,
-        y:innerHeight/2,
-        active:false
-    };
+const hole = {x:innerWidth*.72, y:innerHeight*.52, radius:46};
+    const mouse = {x:innerWidth/2, y:innerHeight/2, active:false};
 
-    const hole = {
-        x:innerWidth*.72,
-        y:innerHeight*.52,
-        radius:43
-    };
+function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
-    function resize() {
-        dpr = Math.min(window.devicePixelRatio || 1,1.5);
-
-        W = window.innerWidth;
+W = window.innerWidth;
         H = window.innerHeight;
 
-        canvas.width = Math.floor(W*dpr);
+canvas.width = Math.floor(W*dpr);
         canvas.height = Math.floor(H*dpr);
-
         canvas.style.width = W+"px";
         canvas.style.height = H+"px";
 
-        ctx.setTransform(dpr,0,0,dpr,0,0);
+ctx.setTransform(dpr,0,0,dpr,0,0);
 
-        createParticles();
-    }
+stars = [];
+        ring = [];
 
-    function createParticles() {
-        particles = [];
-        stars = [];
-
-        const amount = Math.min(450,Math.floor(W*H/3000));
-
-        for (let i=0;i<amount;i++) {
-            particles.push({
-                angle:Math.random()*Math.PI*2,
-                distance:60+Math.random()*270,
-                speed:.002+Math.random()*.006,
-                size:.5+Math.random()*1.8,
-                alpha:.15+Math.random()*.65
-            });
-        }
-
-        for (let i=0;i<100;i++) {
+for (let i=0;i<130;i++) {
             stars.push({
                 x:Math.random()*W,
                 y:Math.random()*H,
-                size:.5+Math.random()*1.3,
-                alpha:.15+Math.random()*.5
+                size:.4+Math.random()*1.4,
+                alpha:.15+Math.random()*.5,
+                spin:.15+Math.random()*.85
+            });
+        }
+
+for (let i=0;i<380;i++) {
+            ring.push({
+                angle:Math.random()*Math.PI*2,
+                dist:55+Math.random()*190,
+                speed:.004+Math.random()*.02,
+                size:.5+Math.random()*2,
+                alpha:.2+Math.random()*.7
             });
         }
     }
 
-    function drawStars() {
+function drawStars() {
         stars.forEach(s => {
-            const flicker = .7+Math.sin(time*2+s.x)*.3;
+            const dx = hole.x-s.x;
+            const dy = hole.y-s.y;
+            const d = Math.hypot(dx,dy) || 1;
 
-            ctx.beginPath();
+if (d < hole.radius*3) {
+                s.x += dx/d * s.spin;
+                s.y += dy/d * s.spin;
+
+if (d < hole.radius) {
+                    s.x = Math.random()*W;
+                    s.y = Math.random()*H;
+                }
+            }
+
+const flicker = .7 + Math.sin(time*2 + s.x)*.3;
+
+ctx.beginPath();
             ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
             ctx.fillStyle = `rgba(255,255,255,${s.alpha*flicker})`;
             ctx.fill();
         });
     }
 
-    /* TORNADO */
+function drawDisk() {
+        const x = hole.x, y = hole.y, r = hole.radius;
 
-    function drawTornado() {
-        const cx = W*.22;
-        const cy = H*.57;
+ctx.save();
 
-        ctx.save();
-
-        for (let i=0;i<11;i++) {
-            const progress = i/11;
-            const y = cy-220+progress*440;
-            const width = 12+progress*115;
-            const rotation = time*(1.1+progress)+i*.7;
-
-            ctx.beginPath();
-
-            for (let j=0;j<=120;j++) {
-                const t = j/120;
-                const angle = rotation+t*Math.PI*5;
-                const r = width*t;
-
-                const px = cx+Math.cos(angle)*r;
-                const py = y+Math.sin(angle)*r*.24;
-
-                if (j===0) ctx.moveTo(px,py);
-                else ctx.lineTo(px,py);
-            }
-
-            ctx.strokeStyle = i%2===0
-                ? "rgba(255,255,255,.23)"
-                : "rgba(255,220,90,.30)";
-
-            ctx.lineWidth = 1.5+progress*2;
-            ctx.shadowColor = "#ffe17a";
-            ctx.shadowBlur = 10;
-            ctx.stroke();
-        }
-
-        // دوامة مركزية
-        for (let i=0;i<75;i++) {
-            const angle = time*2+i*.4;
-            const progress = i/75;
-            const r = 5+progress*125;
-
-            const x = cx+Math.cos(angle)*r;
-            const y = cy+Math.sin(angle)*r*1.8;
-
-            ctx.beginPath();
-            ctx.arc(x,y,1+progress,0,Math.PI*2);
-            ctx.fillStyle = "rgba(255,255,255,.5)";
-            ctx.fill();
-        }
-
-        ctx.restore();
-    }
-
-    /* BLACK HOLE */
-
-    function drawBlackHole(x,y,radius) {
-        ctx.save();
-
-        // الهالة الخارجية
-        const glow = ctx.createRadialGradient(
-            x,y,radius*.3,
-            x,y,radius*3.8
-        );
-
-        glow.addColorStop(0,"rgba(255,255,255,.13)");
-        glow.addColorStop(.3,"rgba(255,220,80,.12)");
+const glow = ctx.createRadialGradient(x,y,r*.2,x,y,r*5);
+        glow.addColorStop(0,"rgba(255,240,200,.20)");
+        glow.addColorStop(.25,"rgba(255,200,80,.14)");
         glow.addColorStop(1,"rgba(0,0,0,0)");
 
-        ctx.fillStyle = glow;
+ctx.fillStyle = glow;
         ctx.beginPath();
-        ctx.arc(x,y,radius*3.8,0,Math.PI*2);
+        ctx.arc(x,y,r*5,0,Math.PI*2);
         ctx.fill();
 
-        // حلقات الضوء
-        for (let i=0;i<4;i++) {
-            ctx.beginPath();
+ring.forEach(p => {
+            p.angle += p.speed * (1 + 60/(p.dist+10));
 
-            ctx.ellipse(
-                x,y,
-                radius*(1.25+i*.25),
-                radius*(.35+i*.08),
-                time*.35+i,
-                0,Math.PI*2
-            );
+const px = x + Math.cos(p.angle)*p.dist;
+            const py = y + Math.sin(p.angle)*p.dist*.42;
 
-            ctx.strokeStyle = i%2===0
-                ? "rgba(255,255,255,.65)"
-                : "rgba(255,220,70,.6)";
+const heat = 1 - (p.dist-55)/190;
 
-            ctx.lineWidth = 2;
-            ctx.shadowColor = "#ffe36a";
-            ctx.shadowBlur = 17;
-            ctx.stroke();
-        }
-
-        // القرص المضيء
-        ctx.beginPath();
-
-        ctx.ellipse(
-            x,y,
-            radius*1.9,
-            radius*.45,
-            time*.12,
-            0,Math.PI*2
-        );
-
-        ctx.strokeStyle = "rgba(255,255,255,.85)";
-        ctx.lineWidth = 4;
-        ctx.shadowColor = "#ffe36a";
-        ctx.shadowBlur = 22;
-        ctx.stroke();
-
-        // مركز الثقب الأسود
-        ctx.shadowBlur = 0;
-
-        const center = ctx.createRadialGradient(
-            x-radius*.2,y-radius*.2,1,
-            x,y,radius
-        );
-
-        center.addColorStop(0,"#000000");
-        center.addColorStop(.7,"#000000");
-        center.addColorStop(1,"#17130a");
-
-        ctx.fillStyle = center;
-        ctx.beginPath();
-        ctx.arc(x,y,radius,0,Math.PI*2);
-        ctx.fill();
-
-        ctx.restore();
-    }
-
-    /* PARTICLES */
-
-    function drawParticles(x,y) {
-        particles.forEach(p => {
-            p.angle += p.speed;
-
-            const px = x+Math.cos(p.angle)*p.distance;
-            const py = y+Math.sin(p.angle)*p.distance*.55;
-
-            ctx.beginPath();
+ctx.beginPath();
             ctx.arc(px,py,p.size,0,Math.PI*2);
 
-            ctx.fillStyle =
-                `rgba(255,225,150,${p.alpha})`;
+ctx.fillStyle =
+                `rgba(255,${Math.round(180+heat*70)},${Math.round(50+heat*100)},${p.alpha})`;
 
-            ctx.shadowColor = "#ffe58a";
-            ctx.shadowBlur = 8;
+ctx.shadowColor = "rgba(255,190,90,.8)";
+            ctx.shadowBlur = 6;
             ctx.fill();
             ctx.shadowBlur = 0;
         });
-    }
 
-    function animate() {
-        time += .012;
-
-        ctx.clearRect(0,0,W,H);
-
-        // الخلفية
-        const bg = ctx.createRadialGradient(
-            W*.5,H*.5,10,
-            W*.5,H*.5,Math.max(W,H)*.8
-        );
-
-        bg.addColorStop(0,"#17140b");
-        bg.addColorStop(.45,"#090909");
-        bg.addColorStop(1,"#020202");
-
-        ctx.fillStyle = bg;
-        ctx.fillRect(0,0,W,H);
-
-        drawStars();
-        drawTornado();
-
-        // متابعة الماوس
-        if (mouse.active) {
-            hole.x += (mouse.x-hole.x)*.035;
-            hole.y += (mouse.y-hole.y)*.035;
-        } else {
-            hole.x += (W*.72-hole.x)*.009;
-            hole.y += (H*.52-hole.y)*.009;
+for (let i=0;i<3;i++) {
+            ctx.beginPath();
+            ctx.arc(x,y,r*(1.28+i*.16),0,Math.PI*2);
+            ctx.strokeStyle = i%2===0
+                ? "rgba(255,235,180,.55)"
+                : "rgba(255,205,90,.45)";
+            ctx.lineWidth = 1.5;
+            ctx.shadowColor = "#ffe07a";
+            ctx.shadowBlur = 12;
+            ctx.stroke();
         }
 
-        drawParticles(hole.x,hole.y);
-        drawBlackHole(hole.x,hole.y,hole.radius);
+ctx.shadowBlur = 0;
+        const center = ctx.createRadialGradient(x,y,r*.1,x,y,r);
+        center.addColorStop(0,"#000");
+        center.addColorStop(.85,"#000");
+        center.addColorStop(1,"#151208");
 
-        requestAnimationFrame(animate);
+ctx.fillStyle = center;
+        ctx.beginPath();
+        ctx.arc(x,y,r,0,Math.PI*2);
+        ctx.fill();
+
+ctx.restore();
     }
 
-    window.addEventListener("mousemove",e => {
+function animate() {
+        time += .01;
+
+ctx.clearRect(0,0,W,H);
+
+const bg = ctx.createRadialGradient(
+            W*.5,H*.5,10,W*.5,H*.5,Math.max(W,H)*.8
+        );
+        bg.addColorStop(0,"#14100a");
+        bg.addColorStop(.5,"#070707");
+        bg.addColorStop(1,"#020202");
+
+ctx.fillStyle = bg;
+        ctx.fillRect(0,0,W,H);
+
+if (mouse.active) {
+            hole.x += (mouse.x-hole.x)*.03;
+            hole.y += (mouse.y-hole.y)*.03;
+        } else {
+            hole.x += (W*.72-hole.x)*.008;
+            hole.y += (H*.52-hole.y)*.008;
+        }
+
+drawStars();
+        drawDisk();
+
+requestAnimationFrame(animate);
+    }
+
+window.addEventListener("mousemove",e => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
         mouse.active = true;
     });
 
-    window.addEventListener("mouseleave",() => {
-        mouse.active = false;
-    });
-
+window.addEventListener("mouseleave",() => mouse.active = false);
     window.addEventListener("resize",resize);
 
-    resize();
+resize();
     animate();
 })();
-
 </script>
 
 </body>
